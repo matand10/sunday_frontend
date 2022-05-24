@@ -14,7 +14,6 @@ export const GroupList = ({ group }) => {
             </thead>
 
             {group.tasks.map(task => {
-                console.log(task);
                 return <tbody key={task.id}>
                     <tr>
                         <td>{task.title}</td>
