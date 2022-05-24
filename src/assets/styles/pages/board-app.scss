@@ -1,8 +1,19 @@
 .task-main-container {
-    background-color: beige;
-    display: flex;
+    background-color: $primary-background-color;
+    display: grid;
+    grid-template-columns: 66px 1fr;
+    grid-template-areas:
+        "nav content";
+
+
 }
 
-.board-container-left {}
+.board-container-left {
+    grid-area: nav;
+    height: 100vh;
+    background-color: $nav-background-color;
+}
 
-.board-container-right {}
+.board-container-right {
+    grid-area: content;
+}
