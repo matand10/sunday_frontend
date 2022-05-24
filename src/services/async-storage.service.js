@@ -18,7 +18,7 @@ function get(entityType, entityId) {
         .then(entities => entities.find(entity => entity._id === entityId))
 }
 function post(entityType, newEntity) {
-    newEntity._id = utilService.makeId()
+    // newEntity._id = utilService.makeId()
     return query(entityType)
         .then(entities => {
             entities.push(newEntity)

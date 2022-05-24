@@ -1,23 +1,23 @@
 const initialState = {
-    boards: []
+    groups: []
 }
 
-export function boardReducer(state = initialState, action) {
-    var boards
+export function groupReducer(state = initialState, action) {
+    var groups
 
     switch (action.type) {
-        case 'SET_BOARDS':
-            return { ...state, boards: action.boards }
-        case 'REMOVE_BOARD':
-            boards = state.boards.filter(board => board._id !== action.boardId)
-            return { ...state, boards: boards }
-        case 'ADD_BOARD':
-            boards = [action.board, ...state.boards]
-            return { ...state, boards: boards }
-        case 'UPDATE_BOARD':
-            boards = state.boards.map(currBoard =>
-                (currBoard._id === action.board._id) ? action.board : currBoard)
-            return { ...state, boards: boards }
+        case 'SET_GROUPS':
+            return { ...state, groups: action.groups }
+        case 'REMOVE_GROUP':
+            groups = state.groups.filter(group => group._id !== action.groupId)
+            return { ...state, groups: groups }
+        case 'ADD_GROUP':
+            groups = [action.group, ...state.groups]
+            return { ...state, groups: groups }
+        case 'UPDATE_GROUP':
+            groups = state.groups.map(currGroup =>
+                (currGroup._id === action.group._id) ? action.group : currGroup)
+            return { ...state, groups: groups }
         default:
             return state
     }

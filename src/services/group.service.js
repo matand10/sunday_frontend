@@ -5,12 +5,12 @@ import { utilService } from './util.service'
 const STORAGE_KEY = 'group_db'
 
 
-export const boardService = {
+export const groupService = {
     query,
     getById,
     save,
     remove,
-    getEmptyBoard,
+    getEmptyGroup,
 }
 
 async function query() {
@@ -23,45 +23,42 @@ async function query() {
     }
 }
 
-async function getById(boardId) {
+async function getById(groupId) {
     try {
-        const res = await storageService.get(STORAGE_KEY + boardId)
+        const res = await storageService.get(STORAGE_KEY + groupId)
         return res.data
     } catch (err) {
         console.log('err', err)
     }
 }
 
-async function remove(boardId) {
-    await storageService.remove(STORAGE_KEY, boardId)
+async function remove(groupId) {
+    await storageService.remove(STORAGE_KEY, groupId)
 }
 
-async function save(board) {
-    var savedBoard
+async function save(group) {
+    var savedGroup
     try {
-        if (board._id) {
-            savedBoard = await storageService.put(STORAGE_KEY, board)
+        if (group._id) {
+            savedGroup = await storageService.put(STORAGE_KEY, group)
         } else {
             // task.owner = userService.getLoggedinUser();
-            savedBoard = await storageService.post(STORAGE_KEY, board)
+            savedGroup = await storageService.post(STORAGE_KEY, group)
         }
-        return savedBoard
+        return savedGroup
     } catch (err) {
         console.log('err', err)
     }
 }
 
-function getEmptyBoard() {
+function getEmptyGroup() {
     return {
-        _id:utilService.makeId(),
+        id:utilService.makeId(),
+        style: {},
         title: '',
         archivedAt: '',
-        createdAt: Date.now(),
-        createdBy: {},
-        members: [],
-        groups: [],
-        style: {}
-    }
+        tasks: []     
+}
 }
 
 // Test Data

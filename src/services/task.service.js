@@ -2,15 +2,15 @@ import { storageService } from './async-storage.service'
 import { utilService } from './util.service'
 
 
-const STORAGE_KEY = 'group_db'
+const STORAGE_KEY = 'task_db'
 
 
-export const boardService = {
+export const taskService = {
     query,
     getById,
     save,
     remove,
-    getEmptyBoard,
+    getEmptyTask,
 }
 
 async function query() {
@@ -23,44 +23,42 @@ async function query() {
     }
 }
 
-async function getById(boardId) {
+async function getById(taskId) {
     try {
-        const res = await storageService.get(STORAGE_KEY + boardId)
+        const res = await storageService.get(STORAGE_KEY + taskId)
         return res.data
     } catch (err) {
         console.log('err', err)
     }
 }
 
-async function remove(boardId) {
-    await storageService.remove(STORAGE_KEY, boardId)
+async function remove(taskId) {
+    await storageService.remove(STORAGE_KEY, taskId)
 }
 
-async function save(board) {
-    var savedBoard
+async function save(task) {
+    var savedTask
     try {
-        if (board._id) {
-            savedBoard = await storageService.put(STORAGE_KEY, board)
+        if (task._id) {
+            savedTask = await storageService.put(STORAGE_KEY, task)
         } else {
             // task.owner = userService.getLoggedinUser();
-            savedBoard = await storageService.post(STORAGE_KEY, board)
+            savedTask = await storageService.post(STORAGE_KEY, task)
         }
-        return savedBoard
+        return savedTask
     } catch (err) {
         console.log('err', err)
     }
 }
 
-function getEmptyBoard() {
+function getEmptyTask() {
     return {
-        _id:utilService.makeId(),
+        id: utilService.makeId(),
         title: '',
-        archivedAt: '',
-        createdAt: Date.now(),
-        createdBy: {},
-        members: [],
-        groups: [],
-        style: {}
+        assignedTo: [],
+        comments: [],
+        status: '',
+        archivedAt: ''
     }
 }
 
@@ -96,11 +94,11 @@ function getEmptyBoard() {
 //             imgUrl: "https://www.google.com"
 //         }
 //     ],
-//     groups: [
+//     Tasks: [
 //         {
 //             style: {},
 //             id: "g101",
-//             title: "Group 1",
+//             title: "Task 1",
 //             archivedAt: 1589983468418,
 //             tasks: [
 //                 {
@@ -136,7 +134,7 @@ function getEmptyBoard() {
 //         },
 //         {
 //             id: "g102",
-//             title: "Group 2",
+//             title: "Task 2",
 //             tasks: [
 //                 {
 //                     id: "c103",

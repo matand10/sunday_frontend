@@ -1,26 +1,26 @@
-import { boardService } from '../../services/board.service'
+import { groupService } from '../../services/group.service'
 
 
-export function loadBoards() {
+export function loadGroups() {
     return dispatch => {
-        return boardService.query()
-            .then(boards => {
+        return groupService.query()
+            .then(groups => {
                 const action = {
-                    type: 'SET_BOARDS',
-                    boards
+                    type: 'SET_GROUPS',
+                    groups
                 }
                 dispatch(action)
             })
     }
 }
 
-export function removeBoard(boardId) {
+export function removeGroup(groupId) {
     return dispatch => {
-        boardService.remove(boardId)
+        groupService.remove(groupId)
             .then(() => {
                 dispatch({
-                    type: 'REMOVE_BOARD',
-                    boardId
+                    type: 'REMOVE_GROUP',
+                    groupId
                 })
             })
             .catch(err => {
@@ -29,14 +29,14 @@ export function removeBoard(boardId) {
     }
 }
 
-export function saveBoard(board) {
+export function saveGroup(group) {
     return dispatch => {
-        const actionType = (board._id) ? 'UPDATE_BOARD' : 'ADD_BOARD'
-        boardService.save(board)
-            .then(savedBoard => {
+        const actionType = (group._id) ? 'UPDATE_GROUP' : 'ADD_GROUP'
+        groupService.save(group)
+            .then(savedGroup => {
                 dispatch({
                     type: actionType,
-                    task: savedBoard
+                    group: savedGroup
                 })
             })
             .catch(err => {
