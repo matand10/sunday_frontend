@@ -20,7 +20,7 @@ html {
 
 body {
     margin: 0;
-    background-color: $clr3;
+    background-color: $primary-background-color;
 
     @include for-normal-layout {
         &.sidebar-open {

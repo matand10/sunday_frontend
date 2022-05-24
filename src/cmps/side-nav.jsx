@@ -5,7 +5,7 @@ export const SideNav = () => {
 
 
 
-    return <section>
+    return <section className="main-side-nav">
         Hello from side nav
     </section>
 }
