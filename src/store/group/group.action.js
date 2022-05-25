@@ -30,8 +30,9 @@ export function removeGroup(groupId) {
 }
 
 export function saveGroup(group) {
+    console.log('group',group)
     return dispatch => {
-        const actionType = (group._id) ? 'UPDATE_GROUP' : 'ADD_GROUP'
+        const actionType = (group.id) ? 'UPDATE_GROUP' : 'ADD_GROUP'
         groupService.save(group)
             .then(savedGroup => {
                 dispatch({
