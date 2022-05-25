@@ -29,6 +29,7 @@
         cursor: pointer;
         width: 29px;
         transform: rotateZ(0deg);
+        transition: width 200ms ease-in-out;
 
         & .home-controller-content {
             display: none;
@@ -43,25 +44,77 @@
             position: absolute;
             right: -13px;
             top: 1rem;
-            transition: transform 0.1s ease-in-out;
+            transition: transform 200ms ease-in-out;
         }
     }
 }
 
 .home-controller-content {
-    background-color: aqua;
     padding: 16px;
 }
 
 .home-control-header {
-    background-color: antiquewhite;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
-
+    & .home-control-title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #878896;
+    }
 
     & .ds-menu-button {
         width: 33px;
+        width: 26px;
+        height: 26px;
+        border-radius: 4px;
         cursor: pointer;
+        transition: .1s;
+
+        &:hover {
+            background-color: #dcdfec;
+        }
     }
+}
+
+.home-control-sub-header {
+    padding-bottom: 16px;
+}
+
+.home-control-button {
+    all: unset;
+    cursor: pointer;
+    height: 34px;
+    font-weight: 400;
+    font-size: 1.142rem;
+    width: 100%;
+    border-radius: 4px;
+
+    &:hover {
+        background-color: #dcdfec;
+    }
+
+    & .home-control-button-span {
+        padding: 0 6px;
+    }
+}
+
+.divider {
+    background-color: #d0d4e4;
+    height: 1px;
+}
+
+.home-control-button-span {
+    font-weight: 500;
+}
+
+.user-projects-main-container {
+    margin-top: 16px;
+}
+
+.board-link {
+    all: unset;
+    width: 100%;
 }
