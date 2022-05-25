@@ -57,6 +57,7 @@ export const TasksApp = () => {
         </div>
         <div className="board-container-right">
             {/* <ExtendedSideNav onAddBoard={onAddBoard} boards={boards}/> */}
+            {/* <ExtendedSideNav onAddBoard={onAddBoard} /> */}
             {/* <ExtendedSideNav boards={boards} /> */}
             {/* Header */}
             {/* <BoardNav onAddTask={onAddTask} onAddGroup={onAddGroup} /> */}
@@ -65,8 +66,8 @@ export const TasksApp = () => {
             <ExtendedSideNav boards={boards} />
             <div className="main-app flex-column">
                 <BoardHeader onAddTask={onAddTask} onAddGroup={onAddGroup} board={boards[0]} />
-                <MainBoard board={boards[0]} onAddTask={onAddTask} />
                 {/* <BoardNav onAddTask={onAddTask} onAddGroup={onAddGroup} /> */}
+                <MainBoard board={boards[0]} onAddTask={onAddTask} />
                 {/* <MainBoard board={boards[0]} /> */}
             </div>
         </div>

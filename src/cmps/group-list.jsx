@@ -7,7 +7,7 @@ export const GroupList = ({ group, onAddTask }) => {
 
     const addTask = (ev) => {
         ev.preventDefault()
-        onAddTask(task,group.id)
+        onAddTask(task, group.id)
     }
 
     const onHandleCange = ({ target }) => {
