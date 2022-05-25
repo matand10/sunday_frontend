@@ -12,7 +12,7 @@ export const SidePanel = () => {
 
     return <section>
         <button className="side-panel-btn" onClick={toggleModal}>Open Modal</button>
-        <div className="side-panel-modal" style={{ left: isModalOpen ? '0px' : '1000px' }}>
+        <div className="side-panel-modal" style={{ left: isModalOpen ? '0px' : '3000px' }}>
             <div className="modal-content">
                 <div className="side-panel-title">
                     <div className="close-action-wrapper">

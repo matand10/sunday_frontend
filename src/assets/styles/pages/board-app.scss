@@ -15,5 +15,9 @@
 .board-container-right {
     grid-area: content;
     display: flex;
-    flex-flow: column;
+    // flex-flow: column;
+}
+
+.main-app{
+    width: 100%;
 }
