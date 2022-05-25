@@ -6,13 +6,13 @@ import { PanelInput } from '../cmps/panel-input.jsx'
 export class SidePanel extends React.Component {
 
     state = {
-        isModalOpen: false,
+        isModalOpen: true,
         isInputClicked: false
     }
 
     toggleModal = () => {
-        const { isModalOpen } = this.state
-        this.setState({ isModalOpen: !isModalOpen })
+        console.log(this.props)
+        this.props.onOpenModal({})
     }
 
     toggleInput = (value) => {
@@ -21,10 +21,11 @@ export class SidePanel extends React.Component {
 
     render() {
         const { isModalOpen, isInputClicked } = this.state
+        const { boardId, groupId, task } = this.props.modal
 
 
         return <section onClick={() => this.toggleInput(false)}>
-            <button className="side-panel-btn" onClick={this.toggleModal}>Open Modal</button>
+            {/* <button className="side-panel-btn" onClick={this.toggleModal}>Open Modal</button> */}
             <div className="side-panel-modal" style={{ left: isModalOpen ? '0px' : '3000px' }}>
                 <div className="modal-content">
                     <div className="side-panel-title">
@@ -33,7 +34,7 @@ export class SidePanel extends React.Component {
                         </div>
                         <div className="side-panel-header-container">
                             <div className="side-panel-title-wrapper">
-                                <h1>Task name here</h1>
+                                <h1>{task.title}</h1>
                             </div>
                             <div className="panel-subscribers-wrapper">
                                 <span>Members icon</span>

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { utilService } from "../services/util.service";
+import { SidePanel } from "./side-panel"
 
-
-export const GroupList = ({ group, onAddTask }) => {
+export const GroupList = ({ group, onAddTask, board }) => {
     const [task, setTask] = useState({ title: '' })
+    const [modal, setModal] = useState({})
 
     const addTask = (ev) => {
         ev.preventDefault()
@@ -16,8 +17,13 @@ export const GroupList = ({ group, onAddTask }) => {
         setTask((prevTask) => ({ ...prevTask, [field]: value }))
     }
 
+    const onOpenModal = (params) => {
+        setModal(params)
+    }
+
+    console.log(modal.boardId);
+
     return <div className="group">
-        {/* <h1>{group.title}</h1> */}
         <div className="head">
             <div>{group.title}</div>
             <div>Person</div>
@@ -25,48 +31,20 @@ export const GroupList = ({ group, onAddTask }) => {
             <div>Date</div>
         </div>
         {group.tasks.map((task, idx) => {
-            return <section key={idx} className="group-row">
-                    <div>{task.title}</div>
-                    <div>{task.assignedTo.map(member => member.fullname + ' ')}</div>
-                    <div>{task.status}</div>
-                    <div>{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</div>
-            </section>
+            return <div onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })} key={idx} className="group-row">
+                <div>{task.title}</div>
+                <div>{task.assignedTo.map(member => member.fullname + ' ')}</div>
+                <div>{task.status}</div>
+                <div>{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</div>
+            </div>
         })}
         <div>
             <form onSubmit={addTask}>
                 <input type="text" placeholder="+Add Item" onChange={onHandleCange} name="title" />
-                <button>Add</button>
+                {task.title && <button>Add</button>}
             </form>
         </div>
+        {modal.boardId && <SidePanel modal={modal} onOpenModal={onOpenModal} />}
     </div>
-    // return <section className="group">
-    //     {/* <h1>{group.title}</h1> */}
-    //     <table>
-    //         <thead>
-    //             <tr>
-    //                 <th>{group.title}</th>
-    //                 <th>Person</th>
-    //                 <th>Status</th>
-    //                 <th>Date</th>
-    //             </tr>
-    //         </thead>
-    //         <tbody>
-    //             {group.tasks.map((task, idx) => {
-    //                 return <tr key={idx}>
-    //                     <td>{task.title}</td>
-    //                     <td>{task.assignedTo.map(member => member.fullname + ' ')}</td>
-    //                     <td>{task.status}</td>
-    //                     <td>{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</td>
-    //                 </tr>
-    //             })}
-    //         </tbody>
-    //     </table>
-    //     <div>
-    //         <form onSubmit={addTask}>
-    //             <input type="text" placeholder="+Add Item" onChange={onHandleCange} name="title" />
-    //             <button>Add</button>
-    //         </form>
-    //     </div>
-    // </section>
 }
 
