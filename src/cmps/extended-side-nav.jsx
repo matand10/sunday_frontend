@@ -6,7 +6,7 @@ import { boardService } from '../services/board.service'
 import { CreatBoard } from './create-board'
 
 
-export const ExtendedSideNav = ({ boards }) => {
+export const ExtendedSideNav = ({ boards, onAddBoard }) => {
     const [isNavOpen, setIsNavOpen] = useState(false)
     const [isClick, setIsClick] = useState(false)
 
@@ -37,7 +37,7 @@ export const ExtendedSideNav = ({ boards }) => {
                     <button className="home-control-button" onClick={() => setIsClick(!isClick)}><span className="home-control-button-span">Add</span></button>
                 </div>
                 <div>
-                    {isClick && <CreatBoard />}
+                    {isClick && <CreatBoard setIsClick={setIsClick} isClick={isClick} onAddBoard={onAddBoard} />}
                 </div>
                 <div className="sub-header-button-container">
                     <button className="home-control-button"><span className="home-control-button-span">Search</span></button>

@@ -16,11 +16,6 @@ export const GroupList = ({ group, onAddTask }) => {
         setTask((prevTask) => ({ ...prevTask, [field]: value }))
     }
 
-
-
-
-
-
     return <section>
         <table>
             <thead>
@@ -31,17 +26,16 @@ export const GroupList = ({ group, onAddTask }) => {
                     <th>Date</th>
                 </tr>
             </thead>
-
-            {group.tasks.map(task => {
-                return <tbody key={task.id}>
-                    <tr>
+            <tbody>
+                {group.tasks.map((task, idx) => {
+                    return <tr key={idx}>
                         <td>{task.title}</td>
                         <td>{task.assignedTo.map(member => member.fullname + ' ')}</td>
                         <td>{task.status}</td>
                         <td>{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</td>
                     </tr>
-                </tbody>
-            })}
+                })}
+            </tbody>
         </table>
         <div>
             <form onSubmit={addTask}>

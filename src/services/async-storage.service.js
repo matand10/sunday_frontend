@@ -14,13 +14,10 @@ function query(entityType = 'group_db') {
 }
 
 function get(entityType, entityId) { // entitytype= 'group' 
-    console.log('entityId', entityId)
     if (entityType === 'group') {
         return query()
             .then(entities => {
-                console.log(entities[0].groups);
                 return entities[0].groups.find(entity => {
-                    console.log(entity);
                     return entity.id === entityId
                 })
             })
@@ -32,7 +29,6 @@ function get(entityType, entityId) { // entitytype= 'group'
     //             group.
     //             entities.groups.tasks.find(entity => entity._id === entityId))
     // }
-
 
     return query(entityType)
         .then(entities => entities.find(entity => entity._id === entityId))

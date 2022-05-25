@@ -25,8 +25,9 @@ async function query() {
 
 async function getById(boardId) {
     try {
-        const res = await storageService.get(STORAGE_KEY + boardId)
-        return res.data
+        const res = await storageService.get(STORAGE_KEY, boardId)
+        console.log(res);
+        return res
     } catch (err) {
         console.log('err', err)
     }
@@ -54,7 +55,7 @@ async function save(board) {
 
 function getEmptyBoard() {
     return {
-        _id: utilService.makeId(),
+        // _id:utilService.makeId(),
         title: '',
         archivedAt: '',
         createdAt: Date.now(),

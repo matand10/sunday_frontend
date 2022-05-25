@@ -24,10 +24,8 @@ async function query() {
 }
 
 async function getById(groupId) {
-    console.log('id',groupId)
     try {
         const res = await storageService.get('group' , groupId)
-        console.log('res',res)
         return res
     } catch (err) {
         console.log('err', err)
