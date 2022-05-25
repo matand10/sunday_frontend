@@ -26,7 +26,7 @@ export const TasksApp = () => {
             <ExtendedSideNav />
             {/* Header */}
             {/* filter */}
-            {/* <MainBoard board={boards[0]} /> */}
+            <MainBoard board={boards[0]} />
         </div>
     </section>
 }
