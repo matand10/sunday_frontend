@@ -2,7 +2,7 @@ import { utilService } from "../services/util.service";
 
 
 export const GroupList = ({ group }) => {
-    return <section className="groups-main-container">
+    return <section>
         <table>
             <thead>
                 <tr>

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { loadBoards } from "../store/board/board.action"
 import { MainBoard } from '../cmps/main-board.jsx'
 import { SideNav } from '../cmps/side-nav.jsx'
+import { ExtendedSideNav } from '../cmps/extended-side-nav.jsx'
 
 
 
@@ -22,9 +23,10 @@ export const TasksApp = () => {
             <SideNav />
         </div>
         <div className="board-container-right">
+            <ExtendedSideNav />
             {/* Header */}
             {/* filter */}
-            <MainBoard board={boards[0]} />
+            {/* <MainBoard board={boards[0]} /> */}
         </div>
     </section>
 }
