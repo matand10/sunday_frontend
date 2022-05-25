@@ -25,8 +25,9 @@ async function query() {
 
 async function getById(boardId) {
     try {
-        const res = await storageService.get(STORAGE_KEY + boardId)
-        return res.data
+        const res = await storageService.get(STORAGE_KEY, boardId)
+        console.log(res);
+        return res
     } catch (err) {
         console.log('err', err)
     }
@@ -80,29 +81,29 @@ function getEmptyBoard() {
                         status: '',
                         archivedAt: ''
                     }
-                ]     
-        },
-        {
-            style: {},
-            title: 'Group Title',
-            archivedAt: '',
-            tasks: [
-                {
-                    title: 'Item 3',
-                    assignedTo: [],
-                    comments: [],
-                    status: '',
-                    archivedAt: ''
-                },
-                {
-                    title: 'Item 4',
-                    assignedTo: [],
-                    comments: [],
-                    status: '',
-                    archivedAt: ''
-                }
-            ]     
-    }
+                ]
+            },
+            {
+                style: {},
+                title: 'Group Title',
+                archivedAt: '',
+                tasks: [
+                    {
+                        title: 'Item 3',
+                        assignedTo: [],
+                        comments: [],
+                        status: '',
+                        archivedAt: ''
+                    },
+                    {
+                        title: 'Item 4',
+                        assignedTo: [],
+                        comments: [],
+                        status: '',
+                        archivedAt: ''
+                    }
+                ]
+            }
         ],
         style: {}
     }

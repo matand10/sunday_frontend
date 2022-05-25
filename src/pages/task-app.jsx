@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { loadBoards } from "../store/board/board.action"
 import { MainBoard } from '../cmps/main-board.jsx'
@@ -12,33 +12,63 @@ import { saveBoard } from '../store/board/board.action'
 
 import { ExtendedSideNav } from '../cmps/extended-side-nav.jsx'
 import { taskService } from "../services/task.service"
+<<<<<<< HEAD
 import { boardService } from "../services/board.service"
 
+=======
+import { useNavigate, useParams } from "react-router-dom"
+import { boardService } from "../services/board.service"
+>>>>>>> 341d7fb74328fe25b4119aa35841c00297db6ba5
 
 
 export const TasksApp = () => {
+    const params = useParams()
+    const [board, setBoard] = useState(null)
+
     const { boards } = useSelector((storeState) => storeState.boardModule)
     const dispatch = useDispatch()
+    const navigate = useNavigate();
+
+    let { boardId } = useParams()
+    if (!boardId && boards.length) {
+        boardId = boards[0]._id
+        navigate(boardId)
+    }
 
     useEffect(() => {
+        loadBoard()
         dispatch(loadBoards())
-    }, [])
+
+    }, [params.boardId])
+
+
+    const loadBoard = async () => {
+        const board = await boardService.getById(params.boardId)
+        setBoard(board)
+    }
 
     const onAddTask = async (task, groupId) => {
         const newTask = taskService.getEmptyTask()
         newTask.title = task.title
         let currGroup = await groupService.getById(groupId)
-        boards[0].groups.forEach(group => {
+        console.log('curr', currGroup)
+        // boards[0].groups.forEach(group => {
+        board.groups.forEach(group => {
+            console.log('group', group)
+            // boards[0].groups.forEach(group => {
             if (group.id === currGroup.id) {
                 group.tasks.push(newTask)
             }
         })
-        dispatch(saveBoard(boards[0]))
+        // dispatch(saveBoard(boards[0]))
+        dispatch(saveBoard(board))
     }
 
     const onAddGroup = (group) => {
-        boards[0].groups.push(group)
-        dispatch(saveBoard(boards[0]))
+        board.groups.push(group)
+        // boards[0].groups.push(group)
+        dispatch(saveBoard(board))
+        // dispatch(saveBoard(boards[0]))
     }
 
     const onAddBoard = (board) => {
@@ -48,8 +78,11 @@ export const TasksApp = () => {
         dispatch(saveBoard(newBoard))
     }
 
+    if (!board) return <h1>Loading...</h1>
+    // if (!boards.length) return <h1>Loading...</h1>
 
-    if (!boards.length) return <h1>Loading...</h1>
+
+
 
     return <section className="task-main-container">
         <div className="board-container-left">
@@ -58,8 +91,10 @@ export const TasksApp = () => {
         <div className="board-container-right">
             <ExtendedSideNav boards={boards} onAddBoard={onAddBoard} />
             <div className="main-app flex-column">
-                <BoardHeader onAddTask={onAddTask} onAddGroup={onAddGroup} board={boards[0]} />
-                <MainBoard board={boards[0]} onAddTask={onAddTask} />
+                <BoardHeader onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
+                {/* <BoardHeader onAddTask={onAddTask} onAddGroup={onAddGroup} board={boards[0]} /> */}
+                <MainBoard board={board} onAddTask={onAddTask} />
+                {/* <MainBoard board={boards[0]} onAddTask={onAddTask} /> */}
             </div>
         </div>
     </section>
