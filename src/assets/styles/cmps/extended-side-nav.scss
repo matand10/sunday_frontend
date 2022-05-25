@@ -1,0 +1,67 @@
+.home-control-component {
+    background-color: #f6f7fb;
+    height: 100vh;
+    border-right: 1px solid #d5d8e7;
+    box-shadow: 0px 0px 10px rgba($color: #000000, $alpha: 0.5);
+    position: relative;
+    width: 270px;
+    transition: width .1s linear;
+
+    & .control-nav-expend {
+        background-color: $primary-background-color;
+        border: 1px solid #d5d8e7;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        position: absolute;
+        right: -13px;
+        top: 1rem;
+        z-index: 99;
+        cursor: pointer;
+        transform: rotateZ(-180deg);
+        transition: transform 200ms ease-in-out;
+
+    }
+
+    &-closed {
+        border-right: 1px solid #d5d8e7;
+        box-shadow: unset;
+        cursor: pointer;
+        width: 29px;
+        transform: rotateZ(0deg);
+
+        & .home-controller-content {
+            display: none;
+        }
+
+        & .control-nav-expend {
+            background-color: $primary-background-color;
+            border: 1px solid #d5d8e7;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            position: absolute;
+            right: -13px;
+            top: 1rem;
+            transition: transform 0.1s ease-in-out;
+        }
+    }
+}
+
+.home-controller-content {
+    background-color: aqua;
+    padding: 16px;
+}
+
+.home-control-header {
+    background-color: antiquewhite;
+    display: flex;
+    justify-content: space-between;
+
+
+
+    & .ds-menu-button {
+        width: 33px;
+        cursor: pointer;
+    }
+}

@@ -4,8 +4,6 @@
     grid-template-columns: 66px 1fr;
     grid-template-areas:
         "nav content";
-
-
 }
 
 .board-container-left {
@@ -16,4 +14,5 @@
 
 .board-container-right {
     grid-area: content;
+    display: flex;
 }

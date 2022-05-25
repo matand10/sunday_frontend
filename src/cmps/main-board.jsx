@@ -3,7 +3,7 @@ import { GroupList } from '../cmps/group-list.jsx'
 
 
 export const MainBoard = ({ board }) => {
-    return <section>
+    return <section className="group-main-container">
         {board.groups.map(group => <GroupList key={group.id} group={group} />)}
     </section>
 }

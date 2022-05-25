@@ -8,6 +8,7 @@ import { saveTask } from '../store/task/task.action'
 import { saveGroup } from "../store/group/group.action"
 import { groupService } from "../services/group.service"
 
+import { ExtendedSideNav } from '../cmps/extended-side-nav.jsx'
 
 
 
@@ -37,10 +38,11 @@ export const TasksApp = () => {
             <SideNav />
         </div>
         <div className="board-container-right">
+            <ExtendedSideNav />
             {/* Header */}
             <BoardNav onAddTask={onAddTask} onAddGroup={onAddGroup} />
             {/* filter */}
-            <MainBoard board={boards[0]} />
+            {/* <MainBoard board={boards[0]} /> */}
         </div>
     </section>
 }
