@@ -4,6 +4,7 @@ import { userService } from '../../services/user.service'
 const initialState = {
     user: userService.getLoggedinUser(),
     users: [],
+    isScreenOn: false
 }
 
 export function userReducer(state = initialState, action) {
