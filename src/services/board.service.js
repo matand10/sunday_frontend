@@ -26,7 +26,6 @@ async function query() {
 async function getById(boardId) {
     try {
         const res = await storageService.get(STORAGE_KEY, boardId)
-        console.log(res);
         return res
     } catch (err) {
         console.log('err', err)
