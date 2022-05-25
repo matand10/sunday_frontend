@@ -1,9 +1,25 @@
 import { Link } from "react-router-dom"
 import workspaceImg from "../assets/img/side-nav/surface-workspace-logo.png"
 import productSwtich from "../assets/img/side-nav/product-switcher-logo.png"
+import { useEffect, useRef, useState } from "react"
 
 
 export const SideNav = () => {
+    const [isDialogOpen, setIsDialogOpen] = useState(false)
+    let menuRef = useRef()
+
+
+    useEffect(() => {
+        document.addEventListener("mousedown", (event) => {
+            if (!menuRef.current?.contains(event.target)) {
+                setIsDialogOpen(false)
+            }
+        })
+    })
+
+    const toggleDialog = (value) => {
+        setIsDialogOpen(value)
+    }
 
 
 
@@ -21,13 +37,31 @@ export const SideNav = () => {
                 </div>
             </div>
         </div>
+
+        <div className="arrow-left"></div>
+
         <div className="side-nav-lower">
             <div className="surfice-divider"></div>
             <div className="footer-navigation-items-area">
                 <div className="product-switcher">
-                    <img src={productSwtich} alt="dots-logo" />
+                    <img onClick={() => toggleDialog(true)} src={productSwtich} alt="dots-logo" />
                 </div>
             </div>
         </div>
+
+        {isDialogOpen && <div ref={menuRef} className="dialog-content-container">
+            <div className="dialog-upper-content">
+                <div className="dialog-upper-title">
+                    <h1>Your products</h1>
+                </div>
+                <div className="divider"></div>
+                <div className="dialog-content">
+                    <div className="dialog-logo">
+                        <img src={workspaceImg} alt="workspace img" />
+                    </div>
+                    <span>Work management</span>
+                </div>
+            </div>
+        </div>}
     </section>
 }

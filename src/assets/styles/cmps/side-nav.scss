@@ -27,12 +27,6 @@
     }
 }
 
-// .surface-homepage-button {}
-
-// .surface-homepage-navigation-button {}
-
-// .surface-item-image {}
-
 .surfice-divider {
     background-color: #44475f;
     width: 50px;
@@ -46,8 +40,6 @@
     border-radius: 7px;
 }
 
-// .footer-navigation-items-area {}
-
 .product-switcher {
     margin: 5px 14px;
     border-radius: 7px;
@@ -56,4 +48,16 @@
     &:hover {
         background-color: $nav-hover-background-color;
     }
+}
+
+.arrow-left {
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 70px;
+    left: 48px;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 20px solid #f6f7fb;
+    transform: rotateZ(-90deg)
 }
