@@ -40,7 +40,7 @@ h4,
 h5,
 h6 {
     font-weight: 500;
-    line-height: lh(20px, 29px);
+    // line-height: lh(20px, 29px);
 }
 
 h1 {
@@ -101,6 +101,11 @@ p {
     }
 }
 
+button {
+    all: unset;
+    cursor: pointer;
+}
+
 .btn {
     @include btn;
 
@@ -111,6 +116,11 @@ p {
     &-light {
         @include btn($type: light);
     }
+}
+
+span {
+    font-weight: 500;
+    font-size: 1.12rem;
 }
 
 

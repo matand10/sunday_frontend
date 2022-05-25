@@ -4,13 +4,14 @@ import dotsMenu from '../assets/img/side-nav/ds-menu.svg'
 import { NavLink } from 'react-router-dom'
 
 
-export const ExtendedSideNav = () => {
+export const ExtendedSideNav = ({ boards }) => {
     const [isNavOpen, setIsNavOpen] = useState(false)
 
 
     const toggleNav = () => {
         setIsNavOpen(!isNavOpen)
     }
+
 
 
     return <section className={`home-control-component${isNavOpen ? "-closed" : ''}`}>
@@ -37,17 +38,15 @@ export const ExtendedSideNav = () => {
             </div>
             <div className="divider"></div>
             <div className="user-projects-main-container">
-
-                {/* {Here you can render the User Projects} */}
-                {/* {Example} */}
                 <div className="user-projects-container">
                     <div className="project-side-link">
-                        <NavLink className="board-link" to='/board'>
-                            <button className="home-control-button"><span className="home-control-button-span">Sunday</span></button>
-                        </NavLink>
+                        {boards.length && boards.map(board => {
+                            return <NavLink key={board._id} className="board-link" to={`/board/${board._id}`}>
+                                <button className="home-control-button"><span className="home-control-button-span">{board.title}</span></button>
+                            </NavLink>
+                        })}
                     </div>
                 </div>
-                {/* {Example} */}
             </div>
         </div>
     </section>

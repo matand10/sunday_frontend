@@ -25,8 +25,8 @@ export const TasksApp = () => {
     }
 
     const onAddGroup = (group) => {
-        
-        console.log('from front',group)
+
+        console.log('from front', group)
         dispatch(saveGroup(group))
     }
 
@@ -38,11 +38,13 @@ export const TasksApp = () => {
             <SideNav />
         </div>
         <div className="board-container-right">
-            <ExtendedSideNav />
-            {/* Header */}
-            <BoardNav onAddTask={onAddTask} onAddGroup={onAddGroup} />
-            {/* filter */}
-            <MainBoard board={boards[0]} />
+            <ExtendedSideNav boards={boards} />
+            <div>
+                <BoardNav onAddTask={onAddTask} onAddGroup={onAddGroup} />
+            </div>
+            <div>
+                <MainBoard board={boards[0]} />
+            </div>
         </div>
     </section>
 }
