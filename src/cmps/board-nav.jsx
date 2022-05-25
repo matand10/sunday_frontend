@@ -13,7 +13,7 @@ import { groupService } from '../services/group.service';
 const options = ['New group of Tasks', 'import Tasks'];
 
 
-export const BoardNav = ({onAddTask,onAddGroup}) => {
+export const BoardNav = ({ onAddTask, onAddGroup }) => {
 
 
 
@@ -27,10 +27,10 @@ export const BoardNav = ({onAddTask,onAddGroup}) => {
     };
 
     const handleMenuItemClick = (event, index) => {
-        if(event.target.innerText==='New group of Tasks'){
-            const group=groupService.getEmptyGroup()
+        if (event.target.innerText === 'New group of Tasks') {
+            const group = groupService.getEmptyGroup()
             onAddGroup(group)
-        } 
+        }
         setSelectedIndex(index);
         setOpen(false);
     };
@@ -48,8 +48,8 @@ export const BoardNav = ({onAddTask,onAddGroup}) => {
     };
 
     return (
-        <React.Fragment>
-            <ButtonGroup variant="contained" ref={anchorRef} aria-label="split button">
+        <React.Fragment >
+            <ButtonGroup className="board-nav" variant="contained" ref={anchorRef} aria-label="split button">
                 <Button onClick={handleClick}>New Task</Button>
                 <Button
                     size="small"

@@ -1,0 +1,39 @@
+.board-header {
+    & .header {
+        width: 100%;
+        display: flex;
+    }
+
+    & h1 {
+        align-self: center;
+        margin: 4px;
+    }
+
+    & .board-actions {
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+        padding: 16px 0px;
+        justify-content: flex-start;
+
+        :first {
+            margin-right: 4px;
+        }
+    }
+
+    & .panel-button {
+        margin-right: 6px;
+        justify-self: center;
+        height: 100%;
+        padding: 0px 10px;
+
+        &:hover {
+            border-radius: 4px;
+            background-color: #dcdfec;
+        }
+    }
+
+    & .board-nav {
+        box-shadow: unset;
+    }
+}

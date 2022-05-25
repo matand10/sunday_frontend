@@ -3,6 +3,11 @@
     display: flex;
 }
 
+.flex-column {
+    display: flex;
+    flex-flow: column;
+}
+
 .inline-flex {
     display: inline-flex;
 }
@@ -42,4 +47,8 @@
 
 .ratio-poster {
     @include aspect-ratio(100, 150);
+}
+
+.space-between {
+    justify-content: space-between;
 }

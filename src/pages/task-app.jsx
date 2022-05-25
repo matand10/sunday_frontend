@@ -7,6 +7,7 @@ import { BoardNav } from "../cmps/board-nav"
 import { saveTask } from '../store/task/task.action'
 import { saveGroup } from "../store/group/group.action"
 import { groupService } from "../services/group.service"
+import { BoardHeader } from "../cmps/board-header"
 import { saveBoard } from '../store/board/board.action'
 
 import { ExtendedSideNav } from '../cmps/extended-side-nav.jsx'
@@ -38,11 +39,15 @@ export const TasksApp = () => {
             <SideNav />
         </div>
         <div className="board-container-right">
+            {/* <ExtendedSideNav boards={boards} /> */}
+            {/* Header */}
+            {/* <BoardNav onAddTask={onAddTask} onAddGroup={onAddGroup} /> */}
+            {/* filter */}
+            {/* <MainBoard board={boards[0]} /> */}
             <ExtendedSideNav boards={boards} />
-            <div>
-                <BoardNav onAddTask={onAddTask} onAddGroup={onAddGroup} />
-            </div>
-            <div>
+            <div className="main-app flex-column">
+                <BoardHeader onAddTask={onAddTask} onAddGroup={onAddGroup} board={boards[0]} />
+                {/* <BoardNav onAddTask={onAddTask} onAddGroup={onAddGroup} /> */}
                 <MainBoard board={boards[0]} />
             </div>
         </div>
