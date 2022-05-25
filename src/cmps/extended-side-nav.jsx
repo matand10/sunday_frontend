@@ -6,7 +6,11 @@ import { boardService } from '../services/board.service'
 import { CreatBoard } from './create-board'
 
 
+<<<<<<< HEAD
 export const ExtendedSideNav = ({ onAddBoard }) => {
+=======
+export const ExtendedSideNav = ({ boards }) => {
+>>>>>>> 01c272eacc5af9440ed923a499b033adb47b8ecf
     const [isNavOpen, setIsNavOpen] = useState(false)
     const [isClick, setIsClick] = useState(false)
 
@@ -17,7 +21,10 @@ export const ExtendedSideNav = ({ onAddBoard }) => {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 01c272eacc5af9440ed923a499b033adb47b8ecf
     return <section className={`home-control-component${isNavOpen ? "-closed" : ''}`}>
         <div className="control-nav-expend">
             <img className="arrow" src={arrow} alt="right-arrow-icon" onClick={toggleNav} />
@@ -45,17 +52,15 @@ export const ExtendedSideNav = ({ onAddBoard }) => {
             </div>
             <div className="divider"></div>
             <div className="user-projects-main-container">
-
-                {/* {Here you can render the User Projects} */}
-                {/* {Example} */}
                 <div className="user-projects-container">
                     <div className="project-side-link">
-                        <NavLink className="board-link" to='/board'>
-                            <button className="home-control-button"><span className="home-control-button-span">Sunday</span></button>
-                        </NavLink>
+                        {boards.length && boards.map(board => {
+                            return <NavLink key={board._id} className="board-link" to={`/board/${board._id}`}>
+                                <button className="home-control-button"><span className="home-control-button-span">{board.title}</span></button>
+                            </NavLink>
+                        })}
                     </div>
                 </div>
-                {/* {Example} */}
             </div>
         </div>
     </section>

@@ -40,7 +40,7 @@ h4,
 h5,
 h6 {
     font-weight: 500;
-    line-height: lh(20px, 29px);
+    // line-height: lh(20px, 29px);
 }
 
 h1 {
@@ -101,6 +101,11 @@ p {
     }
 }
 
+button {
+    all: unset;
+    cursor: pointer;
+}
+
 .btn {
     @include btn;
 
@@ -113,15 +118,20 @@ p {
     }
 }
 
+span {
+    font-weight: 500;
+    font-size: 1.12rem;
+}
+
 
 // links
 a {
     color: $clr1;
 
-    &.active {
-        // background-color: $clr1;
-        // color: $clr2;
-    }
+    // &.active {
+    //     // background-color: $clr1;
+    //     // color: $clr2;
+    // }
 }
 
 mark {
