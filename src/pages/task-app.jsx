@@ -12,6 +12,7 @@ import { saveBoard } from '../store/board/board.action'
 
 import { ExtendedSideNav } from '../cmps/extended-side-nav.jsx'
 import { taskService } from "../services/task.service"
+import { boardService } from "../services/board.service"
 
 
 
@@ -42,8 +43,9 @@ export const TasksApp = () => {
 
     const onAddBoard = (board) => {
         console.log(board)
-        // const newBoa
-        // dispatch(saveBoard(board))
+        const newBoard=boardService.getEmptyBoard()
+        newBoard.title=board.title
+        dispatch(saveBoard(newBoard))
     }
 
 
@@ -54,12 +56,7 @@ export const TasksApp = () => {
             <SideNav />
         </div>
         <div className="board-container-right">
-
-
-
             <ExtendedSideNav boards={boards} onAddBoard={onAddBoard} />
-
-
             <div className="main-app flex-column">
                 <BoardHeader onAddTask={onAddTask} onAddGroup={onAddGroup} board={boards[0]} />
                 <MainBoard board={boards[0]} onAddTask={onAddTask} />

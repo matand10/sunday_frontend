@@ -54,7 +54,7 @@ async function save(board) {
 
 function getEmptyBoard() {
     return {
-        _id:utilService.makeId(),
+        // _id:utilService.makeId(),
         title: '',
         archivedAt: '',
         createdAt: Date.now(),
