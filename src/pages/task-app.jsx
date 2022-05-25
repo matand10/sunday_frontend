@@ -7,6 +7,7 @@ import { BoardNav } from "../cmps/board-nav"
 import { saveTask } from '../store/task/task.action'
 import { saveGroup } from "../store/group/group.action"
 import { groupService } from "../services/group.service"
+import { saveBoard } from '../store/board/board.action'
 
 import { ExtendedSideNav } from '../cmps/extended-side-nav.jsx'
 
@@ -25,9 +26,8 @@ export const TasksApp = () => {
     }
 
     const onAddGroup = (group) => {
-
-        console.log('from front', group)
-        dispatch(saveGroup(group))
+        boards[0].groups.push(group)
+        dispatch(saveBoard(boards[0]))
     }
 
 
