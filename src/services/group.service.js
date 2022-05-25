@@ -37,11 +37,13 @@ async function remove(groupId) {
 }
 
 async function save(group) {
+    console.log('group from service',group)
     var savedGroup
     try {
-        if (group._id) {
+        if (group.id) {
             savedGroup = await storageService.put(STORAGE_KEY, group)
         } else {
+            group.id=utilService.makeId()
             // task.owner = userService.getLoggedinUser();
             savedGroup = await storageService.post(STORAGE_KEY, group)
         }
@@ -53,7 +55,6 @@ async function save(group) {
 
 function getEmptyGroup() {
     return {
-        id:utilService.makeId(),
         style: {},
         title: '',
         archivedAt: '',

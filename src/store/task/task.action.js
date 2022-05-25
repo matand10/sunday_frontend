@@ -31,7 +31,7 @@ export function removeTask(taskId) {
 
 export function saveTask(task) {
     return dispatch => {
-        const actionType = (board._id) ? 'UPDATE_TASK' : 'ADD_TASK'
+        const actionType = (task.id) ? 'UPDATE_TASK' : 'ADD_TASK'
         taskService.save(task)
             .then(savedTask => {
                 dispatch({

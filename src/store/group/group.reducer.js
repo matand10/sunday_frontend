@@ -13,6 +13,7 @@ export function groupReducer(state = initialState, action) {
             return { ...state, groups: groups }
         case 'ADD_GROUP':
             groups = [action.group, ...state.groups]
+            console.log(groups)
             return { ...state, groups: groups }
         case 'UPDATE_GROUP':
             groups = state.groups.map(currGroup =>
