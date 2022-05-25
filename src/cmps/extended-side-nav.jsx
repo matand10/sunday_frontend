@@ -18,7 +18,7 @@ export const ExtendedSideNav = ({ boards, onAddBoard }) => {
 
 
 
-    return <section className={`home-control-component${isNavOpen ? "-closed" : ''}`}>
+    return <section className={`home-control-component${isNavOpen ? "" : '-closed'}`}>
         <div className="control-nav-expend">
             <img className="arrow" src={arrow} alt="right-arrow-icon" onClick={toggleNav} />
         </div>
@@ -47,7 +47,7 @@ export const ExtendedSideNav = ({ boards, onAddBoard }) => {
             <div className="user-projects-main-container">
                 <div className="user-projects-container">
                     <div className="project-side-link">
-                        {boards.length && boards.map((board,idx) => {
+                        {boards.length && boards.map((board, idx) => {
                             return <NavLink key={idx} className="board-link" to={`/board/${board._id}`}>
                                 <button className="home-control-button"><span className="home-control-button-span">{board.title}</span></button>
                             </NavLink>
