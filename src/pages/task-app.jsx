@@ -73,12 +73,9 @@ export const TasksApp = () => {
         dispatch(saveBoard(newBoard))
     }
 
-    if (!board) return <h1>Loading...</h1>
-    // if (!boards.length) return <h1>Loading...</h1>
-
-
-
+    console.log(boards);
     if (!boards.length) return <h1>Loading...</h1>
+
     return <section className="task-main-container">
         <div className="board-container-left">
             <SideNav />
@@ -87,9 +84,7 @@ export const TasksApp = () => {
             <ExtendedSideNav boards={boards} onAddBoard={onAddBoard} />
             <div className="main-app flex-column">
                 <BoardHeader onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
-                {/* <BoardHeader onAddTask={onAddTask} onAddGroup={onAddGroup} board={boards[0]} /> */}
                 <MainBoard board={board} onAddTask={onAddTask} />
-                {/* <MainBoard board={boards[0]} onAddTask={onAddTask} /> */}
             </div>
         </div>
     </section>

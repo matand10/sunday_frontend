@@ -36,6 +36,23 @@
                 display: flex;
                 align-items: center;
             }
+
+            & .group-arrow-div {
+                flex-basis: 0px;
+
+                & .group-arrow {
+                    color: aqua;
+                    width: 16px;
+                    height: 16px;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: white;
+                        background-color: aqua;
+                        border-radius: 50%;
+                    }
+                }
+            }
         }
 
         & .group-row {
@@ -49,6 +66,7 @@
                 background-color: #e6e9ef;
                 cursor: pointer;
             }
+
 
             :first-child {
                 flex-basis: 400px;
@@ -92,6 +110,21 @@
 
             &:hover {
                 background-color: #1565c0;
+            }
+
+            & .task-arrow-div {
+                width: 10px;
+                height: 20px;
+                flex-basis: 27px;
+                color: white;
+                text-align: center;
+                margin:5px;
+                border-radius: 15%;
+
+                &:hover {
+                    color: black;
+                    background-color: rgb(177, 173, 173);
+                }
             }
         }
     }

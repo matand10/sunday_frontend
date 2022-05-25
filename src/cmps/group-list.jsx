@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { utilService } from "../services/util.service";
 import { SidePanel } from "./side-panel"
+import { FaChevronCircleDown, FaCaretDown } from 'react-icons/fa'
 
 export const GroupList = ({ group, onAddTask, board }) => {
     const [task, setTask] = useState({ title: '' })
@@ -25,6 +26,7 @@ export const GroupList = ({ group, onAddTask, board }) => {
 
     return <div className="group">
         <div className="head">
+            <div className="group-arrow-div"><FaChevronCircleDown className="group-arrow"/></div>
             <div>{group.title}</div>
             <div>Person</div>
             <div>Status</div>
@@ -32,6 +34,8 @@ export const GroupList = ({ group, onAddTask, board }) => {
         </div>
         {group.tasks.map((task, idx) => {
             return <div onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })} key={idx} className="group-row">
+            {/* return <section key={idx} className="group-row"> */}
+                <div className="task-arrow-div"><FaCaretDown className="task-arrow"/></div>
                 <div>{task.title}</div>
                 <div>{task.assignedTo.map(member => member.fullname + ' ')}</div>
                 <div>{task.status}</div>

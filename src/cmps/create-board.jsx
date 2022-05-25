@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 
-export function CreatBoard({ setIsClick, isClick,onAddBoard }) {
-    const [board,setBoard]=useState({title:''})
+export function CreatBoard({ setIsClick, isClick, onAddBoard }) {
+    const [board, setBoard] = useState({ title: '' })
     const navigate = useNavigate()
 
     const handleChange = ({ target }) => {
@@ -16,17 +16,27 @@ export function CreatBoard({ setIsClick, isClick,onAddBoard }) {
         onAddBoard(board)
     }
 
-    return <section className="add-modal-container">
-        <div onClick={() => setIsClick(!isClick)}>X</div>
-        <h2>Create board</h2>
-        <div className='new-board-input'>
-            <label>Board name</label>
-            <input type="text" onChange={handleChange} defaultValue="New Board" />
-        </div>
-        <div className='create-board-button'>
-            <button onClick={() => setIsClick(!isClick)}>Cancel</button>
-            <button onClick={addBoard}>Create Board</button>
-        </div>
+    return <div id="myModal" className="create-board-modal-container">
+            <div className="create-board-modal-content">
+                <span className="close" onClick={() => setIsClick(!isClick)}>&times;</span>
+                <div className='add-modal-content'>
+                    <h2>Create board</h2>
+                    <div className='new-board-input'>
+                        <label>Board name</label>
+                        <input type="text" onChange={handleChange} defaultValue="New Board" />
+                    </div>
+                    <div className='create-board-button'>
+                        <div>
+                        <button onClick={() => setIsClick(!isClick)}>Cancel</button>
+                        </div>
+                        <div className='create-btn'>
+                        <button onClick={addBoard}>Create Board</button>
+                        </div>
+                    </div>
+                </div>
 
-    </section>
+            </div>
+
+        </div>
+  
 }

@@ -1,0 +1,30 @@
+.ds-main-menu-inner {
+    background-color: #ffffff;
+    position: fixed;
+    top: 75px;
+    right: 20px;
+    z-index: 100;
+    border-radius: 7px;
+    box-shadow: 1px 1px 5px rgba($color: #000000, $alpha: 0.2);
+    width: 264px;
+    // height: 355px;
+    padding: 8px;
+}
+
+.ds-menu-item {
+    line-height: 24px;
+}
+
+.ds-content-wrapper {
+    display: flex;
+    gap: 10px;
+    padding: 4px 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: 400;
+
+    &:hover {
+        background-color: #dcdfec;
+    }
+}
