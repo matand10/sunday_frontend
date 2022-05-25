@@ -1,5 +1,7 @@
+import { storageService } from "../../services/async-storage.service"
+
 const initialState = {
-    boards: []
+    boards: storageService.query()
 }
 
 export function boardReducer(state = initialState, action) {
@@ -29,10 +31,10 @@ export function boardReducer(state = initialState, action) {
         //     console.log(state)
         //     groups = [action.group, ...state.boards.groups]
         //     return { ...state, boards:{...boards,groups: action.groups} }
-        // case 'UPDATE_GROUP':
-        //     groups = state.boards.groups.map(currGroup =>
-        //         (currGroup._id === action.group._id) ? action.group : currGroup)
-        //     return { ...state, boards:{...boards,groups: action.groups} }
+        case 'UPDATE_GROUP':
+            groups = state.boards.groups.map(currGroup =>
+                (currGroup.id === action.group.id) ? action.group : currGroup)
+            return { ...state, boards:{...boards,groups: action.groups} }
         //     case 'SET_TASKS':
         //         // const gropdIdx=boards.groups.findIndex(currGroup=>currGroup.id===)
         //     return { ...state,boards:{...boards.groups,tasks: action.tasks}  }

@@ -24,9 +24,11 @@ async function query() {
 }
 
 async function getById(groupId) {
+    console.log('id',groupId)
     try {
-        const res = await storageService.get(STORAGE_KEY + groupId)
-        return res.data
+        const res = await storageService.get('group' , groupId)
+        console.log('res',res)
+        return res
     } catch (err) {
         console.log('err', err)
     }
@@ -42,8 +44,7 @@ async function save(group) {
         if (group.id) {
             savedGroup = await storageService.put(STORAGE_KEY, group)
         } else {
-            console.log('group from service',group)
-            group.id=utilService.makeId()
+            group.id = utilService.makeId()
             // task.owner = userService.getLoggedinUser();
             savedGroup = await storageService.post(STORAGE_KEY, group)
         }
@@ -55,11 +56,27 @@ async function save(group) {
 
 function getEmptyGroup() {
     return {
+        id: utilService.makeId(),
         style: {},
-        title: '',
+        title: 'Group Title',
         archivedAt: '',
-        tasks: []     
-}
+        tasks: [
+            {
+                title: 'Item 1',
+                assignedTo: [],
+                comments: [],
+                status: '',
+                archivedAt: ''
+            },
+            {
+                title: 'Item 2',
+                assignedTo: [],
+                comments: [],
+                status: '',
+                archivedAt: ''
+            }
+        ]
+    }
 }
 
 // Test Data

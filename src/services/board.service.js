@@ -42,6 +42,7 @@ async function save(board) {
         if (board._id) {
             savedBoard = await storageService.put(STORAGE_KEY, board)
         } else {
+
             // task.owner = userService.getLoggedinUser();
             savedBoard = await storageService.post(STORAGE_KEY, board)
         }
@@ -59,7 +60,50 @@ function getEmptyBoard() {
         createdAt: Date.now(),
         createdBy: {},
         members: [],
-        groups: [],
+        groups: [
+            {
+                style: {},
+                title: 'Group Title',
+                archivedAt: '',
+                tasks: [
+                    {
+                        title: 'Item 1',
+                        assignedTo: [],
+                        comments: [],
+                        status: '',
+                        archivedAt: ''
+                    },
+                    {
+                        title: 'Item 2',
+                        assignedTo: [],
+                        comments: [],
+                        status: '',
+                        archivedAt: ''
+                    }
+                ]     
+        },
+        {
+            style: {},
+            title: 'Group Title',
+            archivedAt: '',
+            tasks: [
+                {
+                    title: 'Item 3',
+                    assignedTo: [],
+                    comments: [],
+                    status: '',
+                    archivedAt: ''
+                },
+                {
+                    title: 'Item 4',
+                    assignedTo: [],
+                    comments: [],
+                    status: '',
+                    archivedAt: ''
+                }
+            ]     
+    }
+        ],
         style: {}
     }
 }

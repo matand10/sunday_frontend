@@ -2,15 +2,20 @@ import { useState } from 'react'
 import arrow from '../assets/img/side-nav/right-arrow.svg'
 import dotsMenu from '../assets/img/side-nav/ds-menu.svg'
 import { NavLink } from 'react-router-dom'
+import { boardService } from '../services/board.service'
+import { CreatBoard } from './create-board'
 
 
-export const ExtendedSideNav = () => {
+export const ExtendedSideNav = ({ onAddBoard }) => {
     const [isNavOpen, setIsNavOpen] = useState(false)
+    const [isClick, setIsClick] = useState(false)
 
 
     const toggleNav = () => {
         setIsNavOpen(!isNavOpen)
     }
+
+
 
 
     return <section className={`home-control-component${isNavOpen ? "-closed" : ''}`}>
@@ -29,7 +34,10 @@ export const ExtendedSideNav = () => {
 
             <div className="home-control-sub-header">
                 <div className="sub-header-button-container">
-                    <button className="home-control-button"><span className="home-control-button-span">Add</span></button>
+                    <button className="home-control-button" onClick={() => setIsClick(!isClick)}><span className="home-control-button-span">Add</span></button>
+                </div>
+                <div>
+                    {isClick && <CreatBoard />}
                 </div>
                 <div className="sub-header-button-container">
                     <button className="home-control-button"><span className="home-control-button-span">Search</span></button>

@@ -7,9 +7,10 @@ import { BoardNav } from "../cmps/board-nav"
 import { saveTask } from '../store/task/task.action'
 import { saveGroup } from "../store/group/group.action"
 import { groupService } from "../services/group.service"
-import {saveBoard} from '../store/board/board.action'
+import { saveBoard } from '../store/board/board.action'
 
 import { ExtendedSideNav } from '../cmps/extended-side-nav.jsx'
+import { taskService } from "../services/task.service"
 
 
 
@@ -21,13 +22,29 @@ export const TasksApp = () => {
         dispatch(loadBoards())
     }, [])
 
-    const onAddTask = () => {
-        dispatch(saveTask())
+    const onAddTask = async (task, groupId) => {
+        const newTask=taskService.getEmptyTask()
+        newTask.title=task.title
+        console.log('groupId', groupId)
+        let currGroup = await groupService.getById(groupId)
+        console.log('curr', currGroup)
+        boards[0].groups.forEach(group => {
+            console.log('group',group)
+            if (group.id === currGroup.id) {
+                currGroup.tasks.push(newTask)
+            }
+            
+        })
+        dispatch(saveBoard(boards[0]))
     }
 
     const onAddGroup = (group) => {
         boards[0].groups.push(group)
         dispatch(saveBoard(boards[0]))
+    }
+
+    const onAddBoard = (board) => {
+        dispatch(saveBoard(board))
     }
 
 
@@ -38,11 +55,11 @@ export const TasksApp = () => {
             <SideNav />
         </div>
         <div className="board-container-right">
-            <ExtendedSideNav />
+            <ExtendedSideNav onAddBoard={onAddBoard} />
             {/* Header */}
             <BoardNav onAddTask={onAddTask} onAddGroup={onAddGroup} />
             {/* filter */}
-            <MainBoard board={boards[0]} />
+            <MainBoard board={boards[0]} onAddTask={onAddTask} />
         </div>
     </section>
 }

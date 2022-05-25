@@ -25,7 +25,7 @@ async function query() {
 
 async function getById(taskId) {
     try {
-        const res = await storageService.get(STORAGE_KEY + taskId)
+        const res = await storageService.get('task', taskId)
         return res.data
     } catch (err) {
         console.log('err', err)

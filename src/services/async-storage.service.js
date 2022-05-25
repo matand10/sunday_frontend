@@ -8,15 +8,38 @@ export const storageService = {
     postMany
 }
 
-function query(entityType) {
+function query(entityType = 'group_db') {
     var entities = JSON.parse(localStorage.getItem(entityType)) || []
     return Promise.resolve(entities)
 }
 
-function get(entityType, entityId) {
+function get(entityType, entityId) { // entitytype= 'group' 
+    console.log('entityId', entityId)
+    if (entityType === 'group') {
+        return query()
+            .then(entities => {
+                console.log(entities[0].groups);
+                return entities[0].groups.find(entity => {
+                    console.log(entity);
+                    return entity.id === entityId
+                })
+            })
+
+    }
+    // if (entityType === 'task') {
+    //     return query()
+    //         .then(entities => {
+    //             group.
+    //             entities.groups.tasks.find(entity => entity._id === entityId))
+    // }
+
+
     return query(entityType)
         .then(entities => entities.find(entity => entity._id === entityId))
 }
+
+
+
 function post(entityType, newEntity) {
     // newEntity._id = utilService.makeId()
     return query(entityType)
