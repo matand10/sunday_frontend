@@ -2,7 +2,6 @@ import { useState } from "react";
 import { utilService } from "../services/util.service";
 
 
-<<<<<<< HEAD
 export const GroupList = ({ group, onAddTask }) => {
     const [task, setTask] = useState({ title: '' })
 
@@ -17,13 +16,6 @@ export const GroupList = ({ group, onAddTask }) => {
         setTask((prevTask) => ({ ...prevTask, [field]: value }))
     }
 
-=======
-
-
-
-
-export const GroupList = ({ group }) => {
->>>>>>> 01c272eacc5af9440ed923a499b033adb47b8ecf
     return <section>
         <table>
             <thead>
@@ -34,17 +26,17 @@ export const GroupList = ({ group }) => {
                     <th>Date</th>
                 </tr>
             </thead>
-
-            {group.tasks.map(task => {
-                return <tbody key={task.id}>
-                    <tr>
+            <tbody>
+            {group.tasks.map((task,idx) => {
+                return <tr key={idx}>
+                    
                         <td>{task.title}</td>
                         <td>{task.assignedTo.map(member => member.fullname + ' ')}</td>
                         <td>{task.status}</td>
                         <td>{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</td>
                     </tr>
-                </tbody>
             })}
+            </tbody>
         </table>
         <div>
             <form onSubmit={addTask}>
