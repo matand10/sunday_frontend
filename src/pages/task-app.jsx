@@ -12,13 +12,10 @@ import { saveBoard } from '../store/board/board.action'
 
 import { ExtendedSideNav } from '../cmps/extended-side-nav.jsx'
 import { taskService } from "../services/task.service"
-<<<<<<< HEAD
 import { boardService } from "../services/board.service"
 
-=======
 import { useNavigate, useParams } from "react-router-dom"
-import { boardService } from "../services/board.service"
->>>>>>> 341d7fb74328fe25b4119aa35841c00297db6ba5
+
 
 
 export const TasksApp = () => {
