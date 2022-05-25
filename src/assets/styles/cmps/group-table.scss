@@ -1,4 +1,64 @@
 .group-main-container {
-    background-color: bisque;
+    // background-color: bisque;
     // position:;
+    box-sizing: content-box;
+    padding-bottom: 40px;
+    padding-top: 18px;
+    font-size: 100%;
+    border-radius: 8px;
+    outline: none;
+    width: 100%;
+    position: relative;
+
+    & .group {
+        display: flex;
+        flex-flow: column;
+
+        & .head {
+            height: 40px;
+            display: flex;
+            width: 100%;
+
+            :first-child {
+                flex-basis: 400px;
+                // width: 400px;
+            }
+
+            :not(:first-child) {
+                width: 140px;
+                text-align: center;
+            }
+
+            >* {
+                position: relative;
+            }
+        }
+
+        & .group-row {
+            height: 40px;
+            display: flex;
+            width: 100%;
+            background-color: #f5f6f8;
+
+
+
+            :first-child {
+                flex-basis: 400px;
+            }
+
+            :not(:first-child) {
+                width: 140px;
+            }
+
+            >* {
+                position: relative;
+                border-bottom: 1px solid #e6e9ef;
+            }
+
+            :hover {
+                background-color: #e6e9ef;
+                cursor: pointer;
+            }
+        }
+    }
 }
