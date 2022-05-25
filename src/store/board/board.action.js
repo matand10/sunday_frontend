@@ -33,7 +33,7 @@ export function removeBoard(boardId) {
 export function saveBoard(board) {
     return dispatch => {
         const actionType = (board._id) ? 'UPDATE_BOARD' : 'ADD_BOARD'
-        groupService.save(board)
+        boardService.save(board)
             .then(savedBoard => {
                 dispatch({
                     type: actionType,
