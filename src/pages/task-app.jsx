@@ -50,14 +50,14 @@ export const TasksApp = () => {
         // boards[0].groups.forEach(group => {
         board.groups.forEach(group => {
             console.log('group', group)
-        // boards[0].groups.forEach(group => {
-        //     if (group.id === currGroup.id) {
-        //         group.tasks.push(newTask)
-        //     }
-        // })
+            // boards[0].groups.forEach(group => {
+            if (group.id === currGroup.id) {
+                group.tasks.push(newTask)
+            }
+        })
         // dispatch(saveBoard(boards[0]))
         dispatch(saveBoard(board))
-    })}
+    }
 
     const onAddGroup = (group) => {
         board.groups.push(group)
