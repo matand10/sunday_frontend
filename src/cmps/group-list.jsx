@@ -2,13 +2,12 @@ import { useState } from "react";
 import { utilService } from "../services/util.service";
 
 
-<<<<<<< HEAD
 export const GroupList = ({ group, onAddTask }) => {
     const [task, setTask] = useState({ title: '' })
 
     const addTask = (ev) => {
         ev.preventDefault()
-        onAddTask(task,group.id)
+        onAddTask(task, group.id)
     }
 
     const onHandleCange = ({ target }) => {
@@ -17,13 +16,11 @@ export const GroupList = ({ group, onAddTask }) => {
         setTask((prevTask) => ({ ...prevTask, [field]: value }))
     }
 
-=======
 
 
 
 
-export const GroupList = ({ group }) => {
->>>>>>> 01c272eacc5af9440ed923a499b033adb47b8ecf
+    // export const GroupList = ({ group }) => {
     return <section>
         <table>
             <thead>

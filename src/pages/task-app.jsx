@@ -24,17 +24,17 @@ export const TasksApp = () => {
     }, [])
 
     const onAddTask = async (task, groupId) => {
-        const newTask=taskService.getEmptyTask()
-        newTask.title=task.title
+        const newTask = taskService.getEmptyTask()
+        newTask.title = task.title
         console.log('groupId', groupId)
         let currGroup = await groupService.getById(groupId)
         console.log('curr', currGroup)
         boards[0].groups.forEach(group => {
-            console.log('group',group)
+            console.log('group', group)
             if (group.id === currGroup.id) {
                 currGroup.tasks.push(newTask)
             }
-            
+
         })
         dispatch(saveBoard(boards[0]))
     }
@@ -56,18 +56,18 @@ export const TasksApp = () => {
             <SideNav />
         </div>
         <div className="board-container-right">
-            <ExtendedSideNav onAddBoard={onAddBoard} />
+            {/* <ExtendedSideNav onAddBoard={onAddBoard} /> */}
             {/* <ExtendedSideNav boards={boards} /> */}
             {/* Header */}
             {/* <BoardNav onAddTask={onAddTask} onAddGroup={onAddGroup} /> */}
             {/* filter */}
-            <MainBoard board={boards[0]} onAddTask={onAddTask} />
             {/* <MainBoard board={boards[0]} /> */}
             <ExtendedSideNav boards={boards} />
             <div className="main-app flex-column">
                 <BoardHeader onAddTask={onAddTask} onAddGroup={onAddGroup} board={boards[0]} />
                 {/* <BoardNav onAddTask={onAddTask} onAddGroup={onAddGroup} /> */}
-                <MainBoard board={boards[0]} />
+                <MainBoard board={boards[0]} onAddTask={onAddTask} />
+                {/* <MainBoard board={boards[0]} /> */}
             </div>
         </div>
     </section>
