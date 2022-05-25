@@ -1,0 +1,35 @@
+.dialog-content-container {
+    background-color: #ffffff;
+    position: absolute;
+    left: 55px;
+    bottom: 5px;
+    z-index: 100;
+    border-radius: 7px;
+    box-shadow: 1px 1px 5px rgba($color: #000000, $alpha: 0.2);
+    width: 298px;
+    height: 135px;
+    padding: 8px;
+}
+
+.dialog-upper-title h1 {
+    font-size: 1.5rem;
+}
+
+.dialog-upper-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 14px;
+}
+
+.dialog-content {
+    border-radius: 7px;
+    background-color: #f1f1ff;
+    display: flex;
+    align-items: center;
+}
+
+.dialog-logo {
+    width: 45px;
+}

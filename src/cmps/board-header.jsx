@@ -4,10 +4,27 @@ import { BsPinAngle, BsTable } from 'react-icons/bs';
 import { FiFilter } from 'react-icons/fi';
 import { BiSort } from 'react-icons/bi';
 import { IoIosSearch } from 'react-icons/io';
+import { DsMenu } from '../modal/ds-menu';
 import dotsMenu from '../assets/img/side-nav/ds-menu.svg'
+import { useState, useRef, useEffect } from "react"
+import React from "react"
 
 export const BoardHeader = ({ board, onAddTask, onAddGroup }) => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
+    let menuRef = useRef()
 
+
+    useEffect(() => {
+        document.addEventListener("mousedown", (event) => {
+            if (!menuRef.current?.contains(event.target)) {
+                setIsMenuOpen(false)
+            }
+        })
+    })
+
+    const toggleMenu = (value) => {
+        setIsMenuOpen(value)
+    }
 
 
 
@@ -29,7 +46,7 @@ export const BoardHeader = ({ board, onAddTask, onAddGroup }) => {
                         <button className="panel-button">Invite</button>
                         <button className="panel-button">Activity</button>
                         <button className="panel-button board-add"><span>+</span> Add to board</button>
-                        <div className="ds-menu-side-panel-header"><img src={dotsMenu} alt='dots-menu' /></div>
+                        <div onClick={() => toggleMenu(true)} className="ds-menu-side-panel-header"><img src={dotsMenu} alt='dots-menu' /></div>
                     </div>
                 </div>
             </div>
@@ -56,5 +73,7 @@ export const BoardHeader = ({ board, onAddTask, onAddGroup }) => {
             <button className="panel-button-v2"><BiSort /> <span>Sort</span></button>
             <button className="panel-button-v2"><BsPinAngle /> <span>Pin</span></button>
         </div>
+
+        <DsMenu isMenuOpen={isMenuOpen} menuRef={menuRef} />
     </div>
 }
