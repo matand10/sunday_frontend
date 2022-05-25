@@ -26,11 +26,28 @@
 
             :not(:first-child) {
                 width: 140px;
-                text-align: center;
+                margin-left: 10px;
             }
 
             >* {
                 position: relative;
+            }
+
+            & .group-arrow-div {
+                flex-basis: 0px;
+
+                & .group-arrow {
+                    color: aqua;
+                    width: 16px;
+                    height: 16px;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: white;
+                        background-color: aqua;
+                        border-radius: 50%;
+                    }
+                }
             }
         }
 
@@ -39,6 +56,7 @@
             display: flex;
             width: 100%;
             background-color: #f5f6f8;
+
 
 
 
@@ -58,6 +76,21 @@
             :hover {
                 background-color: #e6e9ef;
                 cursor: pointer;
+            }
+
+            & .task-arrow-div {
+                width: 10px;
+                height: 20px;
+                flex-basis: 27px;
+                color: white;
+                text-align: center;
+                margin:5px;
+                border-radius: 15%;
+
+                &:hover {
+                    color: black;
+                    background-color: rgb(177, 173, 173);
+                }
             }
         }
     }
