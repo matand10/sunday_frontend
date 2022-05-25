@@ -10,6 +10,10 @@ const routes = [
         component: <HomePage />,
     },
     {
+        path: '/board/:boardId',
+        component: <TasksApp />
+    },
+    {
         path: '/board',
         component: <TasksApp />
     }

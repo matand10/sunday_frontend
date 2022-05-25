@@ -33,7 +33,6 @@ function get(entityType, entityId) { // entitytype= 'group'
     //             entities.groups.tasks.find(entity => entity._id === entityId))
     // }
 
-
     return query(entityType)
         .then(entities => entities.find(entity => entity._id === entityId))
 }
