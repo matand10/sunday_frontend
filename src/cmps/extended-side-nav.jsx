@@ -6,11 +6,7 @@ import { boardService } from '../services/board.service'
 import { CreatBoard } from './create-board'
 
 
-<<<<<<< HEAD
-export const ExtendedSideNav = ({ onAddBoard }) => {
-=======
 export const ExtendedSideNav = ({ boards }) => {
->>>>>>> 01c272eacc5af9440ed923a499b033adb47b8ecf
     const [isNavOpen, setIsNavOpen] = useState(false)
     const [isClick, setIsClick] = useState(false)
 
@@ -21,10 +17,7 @@ export const ExtendedSideNav = ({ boards }) => {
 
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 01c272eacc5af9440ed923a499b033adb47b8ecf
     return <section className={`home-control-component${isNavOpen ? "-closed" : ''}`}>
         <div className="control-nav-expend">
             <img className="arrow" src={arrow} alt="right-arrow-icon" onClick={toggleNav} />
