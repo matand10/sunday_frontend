@@ -15,4 +15,5 @@
 .board-container-right {
     grid-area: content;
     display: flex;
+    flex-flow: column;
 }
