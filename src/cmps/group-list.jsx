@@ -29,7 +29,6 @@ export const GroupList = ({ group, onAddTask }) => {
             <tbody>
             {group.tasks.map((task,idx) => {
                 return <tr key={idx}>
-                    
                         <td>{task.title}</td>
                         <td>{task.assignedTo.map(member => member.fullname + ' ')}</td>
                         <td>{task.status}</td>

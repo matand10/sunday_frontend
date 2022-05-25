@@ -50,14 +50,14 @@ export const TasksApp = () => {
         // boards[0].groups.forEach(group => {
         board.groups.forEach(group => {
             console.log('group', group)
-            if (group.id === currGroup.id) {
-                currGroup.tasks.push(newTask)
-            }
-
-        })
+        // boards[0].groups.forEach(group => {
+        //     if (group.id === currGroup.id) {
+        //         group.tasks.push(newTask)
+        //     }
+        // })
         // dispatch(saveBoard(boards[0]))
         dispatch(saveBoard(board))
-    }
+    })}
 
     const onAddGroup = (group) => {
         board.groups.push(group)
@@ -67,7 +67,9 @@ export const TasksApp = () => {
     }
 
     const onAddBoard = (board) => {
-        dispatch(saveBoard(board))
+        console.log(board)
+        // const newBoa
+        // dispatch(saveBoard(board))
     }
 
     if (!board) return <h1>Loading...</h1>
@@ -81,7 +83,12 @@ export const TasksApp = () => {
             <SideNav />
         </div>
         <div className="board-container-right">
-            <ExtendedSideNav boards={boards} />
+
+
+
+            <ExtendedSideNav boards={boards} onAddBoard={onAddBoard} />
+
+
             <div className="main-app flex-column">
                 <BoardHeader onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
                 {/* <BoardHeader onAddTask={onAddTask} onAddGroup={onAddGroup} board={boards[0]} /> */}
