@@ -4,6 +4,8 @@ const initialState = {
 
 export function boardReducer(state = initialState, action) {
     var boards
+    var groups
+    var tasks
 
     switch (action.type) {
         case 'SET_BOARDS':
@@ -18,6 +20,32 @@ export function boardReducer(state = initialState, action) {
             boards = state.boards.map(currBoard =>
                 (currBoard._id === action.board._id) ? action.board : currBoard)
             return { ...state, boards: boards }
+        // case 'SET_GROUPS':
+        //     return { ...state, boards:{...boards,groups: action.groups} }
+        // case 'REMOVE_GROUP':
+        //     groups = state.boards.groups.filter(group => group._id !== action.groupId)
+        //     return { ...state, boards:{...boards,groups: action.groups} }
+        // case 'ADD_GROUP':
+        //     console.log(state)
+        //     groups = [action.group, ...state.boards.groups]
+        //     return { ...state, boards:{...boards,groups: action.groups} }
+        // case 'UPDATE_GROUP':
+        //     groups = state.boards.groups.map(currGroup =>
+        //         (currGroup._id === action.group._id) ? action.group : currGroup)
+        //     return { ...state, boards:{...boards,groups: action.groups} }
+        //     case 'SET_TASKS':
+        //         // const gropdIdx=boards.groups.findIndex(currGroup=>currGroup.id===)
+        //     return { ...state,boards:{...boards.groups,tasks: action.tasks}  }
+        // case 'REMOVE_TASK':
+        //     tasks = state.tasks.filter(task => task._id !== action.taskId)
+        //     return { ...state, tasks: tasks }
+        // case 'ADD_TASK':
+        //     tasks = [action.task, ...state.tasks]
+        //     return { ...state, tasks: tasks }
+        // case 'UPDATE_TASK':
+        //     tasks = state.tasks.map(currTask =>
+        //         (currTask._id === action.task._id) ? action.task : currTask)
+        //     return { ...state, tasks: tasks }
         default:
             return state
     }

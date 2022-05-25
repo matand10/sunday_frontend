@@ -6,14 +6,14 @@ import thunk from 'redux-thunk'
 
 import { userReducer } from './user/user.reducer'
 import { boardReducer } from './board/board.reducer'
-import {groupReducer} from './group/group.reducer'
-import {taskReducer} from './task/task.reducer'
+// import {groupReducer} from './group/group.reducer'
+// import {taskReducer} from './task/task.reducer'
 
 const rootReducer = combineReducers({
     userModule: userReducer,
     boardModule: boardReducer,
-    groupModule: groupReducer,
-    taskModule: taskReducer
+    // groupModule: groupReducer,
+    // taskModule: taskReducer
 })
 
 
