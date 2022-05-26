@@ -2,7 +2,7 @@
 import { utilService } from "../services/util.service";
 import { Menu } from '../hooks/right-click-menu'
 import { RightClickMenu } from '../modal/right-click-menu'
-import { useRef, useEffect,useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { SidePanel } from "./side-panel"
 import { FaChevronCircleDown, FaCaretDown } from 'react-icons/fa'
 import { GroupMenu } from './group-menu'
@@ -61,12 +61,12 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
         </div>
         {group.tasks.map((task, idx) => {
             // return <section key={idx} className="group-row" ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task, true)}>
-            return <div  key={idx} className="group-row"
+            return <div key={idx} className="group-row"
                 ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task, true)}>
                 <div className="task-arrow-div"><FaCaretDown className="task-arrow" /></div>
                 <div onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })}>{task.title}</div>
                 <div>{task.assignedTo.map(member => member.fullname + ' ')}</div>
-                <div>{task.status}</div>
+                <div style={{ backgroundColor: task.status.color }}>{task.status.title}</div>
                 <div>{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</div>
             </div>
         })}
