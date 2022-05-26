@@ -1,6 +1,4 @@
 .group-main-container {
-    // background-color: bisque;
-    // position:;
     box-sizing: content-box;
     padding-bottom: 40px;
     padding-top: 18px;
@@ -21,11 +19,16 @@
             align-items: center;
 
             :first-child {
-                flex-basis: 400px;
-                font-size: 18px;
+                width: 30px;
             }
 
-            :not(:first-child) {
+            :nth-child(2) {
+                flex-basis: 400px;
+                font-size: 18px;
+                text-align: left;
+            }
+
+            :nth-child(n+3) {
                 width: 140px;
                 justify-content: center;
             }
@@ -38,7 +41,7 @@
             }
 
             & .group-arrow-div {
-                flex-basis: 0px;
+                justify-content: center;
 
                 & .group-arrow {
                     color: aqua;
@@ -69,10 +72,14 @@
 
 
             :first-child {
+                width: 30px;
+            }
+
+            :nth-child(2) {
                 flex-basis: 400px;
             }
 
-            :not(:first-child) {
+            :nth-child(n+2) {
                 width: 140px;
                 justify-content: center;
             }
@@ -113,12 +120,12 @@
             }
 
             & .task-arrow-div {
-                width: 10px;
+                width: 30px;
                 height: 20px;
                 flex-basis: 27px;
                 color: white;
                 text-align: center;
-                margin:5px;
+                margin: 5px;
                 border-radius: 15%;
 
                 &:hover {
@@ -128,5 +135,4 @@
             }
         }
     }
-
 }
