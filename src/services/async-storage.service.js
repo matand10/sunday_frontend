@@ -59,8 +59,8 @@ function put(entityType, updatedEntity) {
 function remove(entityType, entityId) {
     return query(entityType)
         .then(entities => {
-            const idx = entities.findIndex(entity => entity._id === entityId)
-            entities.splice(idx, 1)
+            const idx = entities[0].groups.findIndex(entity => entity.id === entityId)
+            entities[0].groups.splice(idx, 1)
             _save(entityType, entities)
         })
 }

@@ -92,6 +92,30 @@
                 align-items: center;
             }
 
+            & .status {
+                color: whitesmoke;
+                font-weight: 400;
+                position: relative;
+                overflow: hidden;
+                transition: border-radius 0s;
+            }
+
+            & .status:before {
+                content: "";
+                position: absolute;
+                top: 0;
+                right: 0;
+                border-width: 0px;
+                border-style: solid;
+                width: 0;
+                border-color: #e6e9ef #e6e9ef rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.3);
+                transition: border-width .2s;
+            }
+
+            & .status:hover:before {
+                border-width: 5px;
+                box-shadow: -5px 5px 10px -6px #000;
+            }
         }
     }
 

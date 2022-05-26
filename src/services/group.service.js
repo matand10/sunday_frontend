@@ -63,14 +63,14 @@ function getEmptyGroup() {
                 title: 'Item 1',
                 assignedTo: [],
                 comments: [],
-                status: '',
+                status: utilService.getLabel(),
                 archivedAt: ''
             },
             {
                 title: 'Item 2',
                 assignedTo: [],
                 comments: [],
-                status: '',
+                status: utilService.getLabel(),
                 archivedAt: ''
             }
         ]

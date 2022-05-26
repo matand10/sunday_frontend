@@ -5,7 +5,6 @@ import { MainBoard } from '../cmps/main-board.jsx'
 import { SideNav } from '../cmps/side-nav.jsx'
 import { BoardNav } from "../cmps/board-nav"
 import { saveTask } from '../store/task/task.action'
-import { saveGroup } from "../store/group/group.action"
 import { groupService } from "../services/group.service"
 import { BoardHeader } from "../cmps/board-header"
 import { saveBoard } from '../store/board/board.action'
@@ -13,6 +12,7 @@ import { ExtendedSideNav } from '../cmps/extended-side-nav.jsx'
 import { taskService } from "../services/task.service"
 import { boardService } from "../services/board.service"
 import { useNavigate, useParams } from "react-router-dom"
+import {removeGroup}from '../store/group/group.action'
 
 
 export const TasksApp = () => {
@@ -67,12 +67,17 @@ export const TasksApp = () => {
     }
 
     const onAddBoard = (board) => {
-        console.log(board)
         const newBoard = boardService.getEmptyBoard()
         newBoard.title = board.title
         dispatch(saveBoard(newBoard))
     }
 
+    const onRemoveGroup=(groupId)=>{
+        dispatch(removeGroup(groupId))
+    }
+
+    console.log(boards);
+    if (!boards.length) return <h1>Loading...</h1>
 
     if (!boards.length) return <h1>Loading...</h1>
     return <section className="task-main-container">
@@ -83,7 +88,7 @@ export const TasksApp = () => {
             <ExtendedSideNav boards={boards} onAddBoard={onAddBoard} />
             <div className="main-app flex-column">
                 <BoardHeader onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
-                <MainBoard board={board} onAddTask={onAddTask} />
+                <MainBoard board={board} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup}/>
             </div>
         </div>
     </section>
