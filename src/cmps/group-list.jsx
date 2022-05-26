@@ -66,7 +66,7 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
                 <div className="task-arrow-div"><FaCaretDown className="task-arrow" /></div>
                 <div onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })}>{task.title}</div>
                 <div>{task.assignedTo.map(member => member.fullname + ' ')}</div>
-                <div style={{ backgroundColor: task.status.color }}>{task.status.title}</div>
+                <div className="status" style={{ backgroundColor: task.status.color }}>{task.status.title}</div>
                 <div>{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</div>
             </div>
         })}
