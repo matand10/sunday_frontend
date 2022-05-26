@@ -65,7 +65,6 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
 
     }
 
-    console.log('click', arrowTask)
 
     return <div className="group">
         <div className="head">

@@ -1,5 +1,5 @@
 import { boardService } from '../../services/board.service'
-import {groupService} from '../../services/group.service'
+import { groupService } from '../../services/group.service'
 
 
 export function loadBoards() {
@@ -12,6 +12,15 @@ export function loadBoards() {
                 }
                 dispatch(action)
             })
+    }
+}
+
+export function setFilter(filterBy) {
+    return (dispatch) => {
+        return dispatch({
+            type: 'SET_FILTERBY',
+            filterBy,
+        })
     }
 }
 
