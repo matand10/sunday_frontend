@@ -9,14 +9,14 @@ import { TaskMenu } from './task-menu'
 import { TasksList } from './tasks-list.jsx'
 
 
-export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
+export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup }) => {
     const [task, setTask] = useState({ title: '' })
     const [isClickGroup, setIsClickGroup] = useState(false)
     const [arrowTask, setArrowTask] = useState({})
     const [clickTask, setClickTask] = useState({ task: '', isOpen: false })
     const [modal, setModal] = useState({})
     const [showMenu, setShowMenu] = useState(false)
-    const [updateIsClick, setUpdateIsClick] = useState(false)
+    const [updateIsClick, setUpdateIsClick] = useState({})
     const { x, y, handleContextMenu } = Menu()
     let menuRef = useRef()
 
@@ -53,25 +53,23 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
     const onOpenMenu = (params) => {
         setArrowTask(params)
     }
-    // const onOpenMenu = (taskId, ev) => {
-    //     ev.stopPropagation()
-    //     clickTask.task = taskId
-    //     clickTask.isOpen = true
-    //     setClickTask(clickTask)
-    // }
 
-    const onUpdateTask = () => {
-        setUpdateIsClick(!updateIsClick)
+
+
+    const onUpdateTask = (ev, params) => {
+        ev.stopPropagation()
+        setUpdateIsClick(params)
     }
 
-    const handleChange = () => {
+    const handleChange = ({ target }) => {
         document.addEventListener("keydown", (event) => {
             if (event.key === "Enter") {
                 event.preventDefault()
-                setUpdateIsClick(!updateIsClick)
+                const value = target.value
+                updateTask(value, updateIsClick.task, updateIsClick.groupId, updateIsClick.boardId)
+                setUpdateIsClick({})
             }
         })
-
     }
 
     return <div className="board-content-wrapper">
@@ -89,29 +87,27 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
                         <div>Date</div>
                     </div>
                 </div>
-            </div>
 
-
-            {group.tasks.map((task, idx) => {
-                return <TasksList key={idx} task={task} menuRef={menuRef} backgroundColor={group.style.color}
-                    onHandleRightClick={onHandleRightClick} />
+                {group.tasks.map((task, idx) => {
+                    return <TasksList key={idx} task={task} menuRef={menuRef} backgroundColor={group.style.color}
+                        onHandleRightClick={onHandleRightClick} />
 
 
 
 
-                // return <section key={idx} className="group-row" ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task, true)}>
-                // return <div key={idx} className="group-row"
-                //     ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task)}>
+                    // return <section key={idx} className="group-row" ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task, true)}>
+                    // return <div key={idx} className="group-row"
+                    //     ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task)}>
 
 
-                {/* <div className="name-cell-component">
+                    {/* <div className="name-cell-component">
             <div className="pulse-left-indicator">
             </div>
             <div className="name-cell-text"><span>{task.title}</span></div>
         </div> */}
 
-                {/* <div className="task-arrow-div" onClick={(event) => onOpenMenu(task.id, event)} ><FaCaretDown className="task-arrow" /></div> */ }
-                {/* {(updateIsClick) ?
+                    {/* <div className="task-arrow-div" onClick={(event) => onOpenMenu(task.id, event)} ><FaCaretDown className="task-arrow" /></div> */ }
+                    {/* {(updateIsClick) ?
                 <div className="title-update-input">
                 <input type="text" defaultValue={task.title} onChange={handleChange} />
                 </div>
@@ -124,60 +120,25 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
                 </div>
             } */}
 
-                {/* <div>{task.assignedTo.map(member => member.fullname + ' ')}</div>
+                    {/* <div>{task.assignedTo.map(member => member.fullname + ' ')}</div>
             <div className="status" style={{ backgroundColor: task.status.color }}>{task.status.title}</div>
             <div>{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</div>
         {arrowTask.boardId && arrowTask.groupId === group.id && arrowTask.task.id === task.id && <TaskMenu arrowTask={arrowTask} onOpenMenu={onOpenMenu} />} */}
-                // </div>
-            })}
+                    // </div>
+                })}
 
 
 
-            <div>
-                <form onSubmit={addTask}>
-                    <input type="text" placeholder="+Add Item" onChange={onHandleCange} name="title" />
-                    {task.title && <button>Add</button>}
-                </form>
+                <div>
+                    <form onSubmit={addTask}>
+                        <input type="text" placeholder="+Add Item" onChange={onHandleCange} name="title" />
+                        {task.title && <button>Add</button>}
+                    </form>
+                </div>
+                {clickTask.isOpen && <TaskMenu clickTask={clickTask} />}
+                <RightClickMenu x={x} y={y} showMenu={showMenu} />
+                {modal.boardId && <SidePanel modal={modal} onOpenModal={onOpenModal} />}
             </div>
-            {clickTask.isOpen && <TaskMenu clickTask={clickTask} />}
-            <RightClickMenu x={x} y={y} showMenu={showMenu} />
-            {modal.boardId && <SidePanel modal={modal} onOpenModal={onOpenModal} />}
-        </div>
-    </div >
+        </div >
+    </div>
 }
-
-
-
-
-
-
-
-// return <section className="group">
-//     {/* <h1>{group.title}</h1> */}
-//     <table>
-//         <thead>
-//             <tr>
-//                 <th>{group.title}</th>
-//                 <th>Person</th>
-//                 <th>Status</th>
-//                 <th>Date</th>
-//             </tr>
-//         </thead>
-//         <tbody>
-//             {group.tasks.map((task, idx) => {
-//                 return <tr key={idx}>
-//                     <td>{task.title}</td>
-//                     <td>{task.assignedTo.map(member => member.fullname + ' ')}</td>
-//                     <td>{task.status}</td>
-//                     <td>{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</td>
-//                 </tr>
-//             })}
-//         </tbody>
-//     </table>
-//     <div>
-//         <form onSubmit={addTask}>
-//             <input type="text" placeholder="+Add Item" onChange={onHandleCange} name="title" />
-//             <button>Add</button>
-//         </form>
-//     </div>
-// </section>

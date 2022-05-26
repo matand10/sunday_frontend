@@ -42,28 +42,17 @@ export const TasksApp = () => {
     }
 
     const onAddTask = async (task, groupId) => {
+        const newBoard = { ...board }
+        const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
         const newTask = taskService.getEmptyTask()
         newTask.title = task.title
-        let currGroup = await groupService.getById(groupId)
-        console.log('curr', currGroup)
-        // boards[0].groups.forEach(group => {
-        board.groups.forEach(group => {
-            console.log('group', group)
-            // boards[0].groups.forEach(group => {
-            if (group.id === currGroup.id) {
-                group.tasks.push(newTask)
-            }
-
-        })
-        // dispatch(saveBoard(boards[0]))
-        dispatch(saveBoard(board))
+        newBoard.groups[groupIdx].tasks.push(newTask)
+        dispatch(saveBoard(newBoard))
     }
 
     const onAddGroup = (group) => {
         board.groups.push(group)
-        // boards[0].groups.push(group)
         dispatch(saveBoard(board))
-        // dispatch(saveBoard(boards[0]))
     }
 
     const onAddBoard = (board) => {
@@ -73,7 +62,14 @@ export const TasksApp = () => {
     }
 
     const onRemoveGroup = (groupId) => {
-        dispatch(removeGroup(groupId))
+        const groupIdx = board.groups.findIndex(group => group.id === groupId)
+        board.groups.splice(groupIdx,1)
+        dispatch(saveBoard(board))
+    }
+
+    const updateTask = (value, task, groupId, boardId) => {
+        task.title = value
+        dispatch(saveTask(task, groupId, boardId))
     }
 
     const onFilter = (filterBy) => {
@@ -89,8 +85,9 @@ export const TasksApp = () => {
             <ExtendedSideNav boards={boards} onAddBoard={onAddBoard} />
             <div className="main-app flex-column">
                 <BoardHeader onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
-                <MainBoard board={board} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} />
+                <MainBoard board={board} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} />
             </div>
         </div>
     </section>
+    
 }

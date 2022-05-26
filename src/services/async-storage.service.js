@@ -20,15 +20,14 @@ function query(entityType = 'group_db') {
 }
 
 function get(entityType, entityId) { // entitytype= 'group' 
-    if (entityType === 'group') {
-        return query()
-            .then(entities => {
-                return entities[0].groups.find(entity => {
-                    return entity.id === entityId
-                })
-            })
+    //     return query()
+    //         .then(entities => {
+    //             return entities.find(entity => {
+    //                 return entity.id === entityId
+    //             })
+    //         })
 
-    }
+    // }
     // if (entityType === 'task') {
     //     return query()
     //         .then(entities => {
@@ -40,7 +39,65 @@ function get(entityType, entityId) { // entitytype= 'group'
         .then(entities => entities.find(entity => entity._id === entityId))
 }
 
+function remove(entityType, entityId) {
+    return query(entityType)
+        .then(entities => {
+            const idx = entities.findIndex(entity => entity._id === entityId)
+            entities.splice(idx, 1)
+            _save(entityType, entities)
+        })
+}
+// function remove(entityType, entityId) {
+//     return query(entityType)
+//         .then(entities => {
+//             const idx = entities[0].groups.findIndex(entity => entity.id === entityId)
+//             entities[0].groups.splice(idx, 1)
+//             _save(entityType, entities)
+//         })
+// }
 
+function put(entityType, updatedEntity) {
+
+    return query(entityType)
+        .then(entities => {
+            const idx = entities.findIndex(entity => entity._id === updatedEntity._id)
+            entities.splice(idx, 1, updatedEntity)
+            _save(entityType, entities)
+            return updatedEntity
+        })
+
+}
+// function put(entityType = 'group_db', updatedEntity, groupId, boardId) {
+//     if (entityType === 'task') {
+//         return query(entityType)
+//             .then(entities => {
+//                 const boardIdx = getBoardIdx(boardId)
+//                 const groupIdx = getGroupIdx(groupId)
+//                 const idx = entities[boardIdx].groups[groupIdx].findIndex(entity => entity._id === updatedEntity._id)
+//                 entities.splice(idx, 1, updatedEntity)
+//                 _save(entityType, entities)
+//                 return updatedEntity
+//             })
+//     } else if (entityType === 'group') {
+//         return query(entityType)
+//             .then(entities => {
+//                 const boardIdx = getBoardIdx(boardId)
+//                 const idx = entities[boardIdx].findIndex(entity => entity._id === updatedEntity._id)
+//                 entities.splice(idx, 1, updatedEntity)
+//                 _save(entityType, entities)
+//                 return updatedEntity
+//             })
+
+//     } else if (entityType === 'board') {
+//         return query(entityType)
+//             .then(entities => {
+//                 const idx = entities.findIndex(entity => entity._id === updatedEntity._id)
+//                 entities.splice(idx, 1, updatedEntity)
+//                 _save(entityType, entities)
+//                 return updatedEntity
+//             })
+//     }
+// }
 
 function post(entityType, newEntity) {
     // newEntity._id = utilService.makeId()
@@ -54,24 +111,7 @@ function post(entityType, newEntity) {
         })
 }
 
-function put(entityType, updatedEntity) {
-    return query(entityType)
-        .then(entities => {
-            const idx = entities.findIndex(entity => entity._id === updatedEntity._id)
-            entities.splice(idx, 1, updatedEntity)
-            _save(entityType, entities)
-            return updatedEntity
-        })
-}
 
-function remove(entityType, entityId) {
-    return query(entityType)
-        .then(entities => {
-            const idx = entities[0].groups.findIndex(entity => entity.id === entityId)
-            entities[0].groups.splice(idx, 1)
-            _save(entityType, entities)
-        })
-}
 
 function _save(entityType, entities) {
     localStorage.setItem(entityType, JSON.stringify(entities))
@@ -84,5 +124,30 @@ function postMany(entityType, newEntities) {
             entities.push(...newEntities)
             _save(entityType, entities)
             return entities
+        })
+}
+
+function getBoardIdx(entityType, boardId) {
+    return query(entityType)
+        .then(entities => {
+            const boardIdx = entities.findIndex(entity => entity._id === boardId)
+            return boardIdx
+        })
+}
+function getGroupIdx(entityType, groupId, boardId) {
+    return query(entityType)
+        .then(entities => {
+            const boardIdx = getBoardIdx(boardId)
+            const groupIdx = entities[boardIdx].groups.findIndex(entity => entity._id === groupId)
+            return groupIdx
+        })
+}
+function getTaskIdx(entityType, taskId, groupId, boardId) {
+    return query(entityType)
+        .then(entities => {
+            const boardIdx = getBoardIdx(boardId)
+            const groupIdx = getGroupIdx(groupId)
+            const taskIdx = entities[boardIdx].groups[groupIdx].tasks.findIndex(entity => entity._id === taskId)
+            return taskIdx
         })
 }
