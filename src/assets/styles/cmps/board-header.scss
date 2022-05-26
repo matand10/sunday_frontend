@@ -162,3 +162,16 @@
         color: #575757;
     }
 }
+
+.board-filter-search {
+    height: 28px;
+    padding-left: 10px;
+    border-radius: 4px;
+    font-size: 1.142rem;
+    border: 1px solid black;
+
+    &:active,
+    &:focus {
+        border: 1px solid $active-objects-color;
+    }
+}

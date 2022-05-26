@@ -55,6 +55,7 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
 
     }
 
+
     return <div className="group">
         <div className="head">
             <div className="group-arrow-div"><FaChevronCircleDown className="group-arrow" onClick={() => setIsClickGroup(!isClickGroup)} /></div>

@@ -1,7 +1,10 @@
 import { storageService } from "../../services/async-storage.service"
 
 const initialState = {
-    boards: storageService.query()
+    boards: storageService.query(),
+    filterBy: {
+        search: ''
+    }
 }
 
 export function boardReducer(state = initialState, action) {
@@ -26,9 +29,9 @@ export function boardReducer(state = initialState, action) {
         //     return { ...state, boards:{...boards,groups: action.groups} }
         case 'REMOVE_GROUP':
             groups = state.boards[0].groups.filter(group => group.id !== action.groupId)
-            let newBoards= state.boards
-            newBoards[0].groups=groups
-            return { ...state,boards:newBoards } 
+            let newBoards = state.boards
+            newBoards[0].groups = groups
+            return { ...state, boards: newBoards }
         // case 'ADD_GROUP':
         //     console.log(state)
         //     groups = [action.group, ...state.boards.groups]
@@ -36,7 +39,7 @@ export function boardReducer(state = initialState, action) {
         case 'UPDATE_GROUP':
             groups = state.boards.groups.map(currGroup =>
                 (currGroup.id === action.group.id) ? action.group : currGroup)
-            return { ...state, boards:{...boards,groups: action.groups} }
+            return { ...state, boards: { ...boards, groups: action.groups } }
         //     case 'SET_TASKS':
         //         // const gropdIdx=boards.groups.findIndex(currGroup=>currGroup.id===)
         //     return { ...state,boards:{...boards.groups,tasks: action.tasks}  }
@@ -50,6 +53,8 @@ export function boardReducer(state = initialState, action) {
         //     tasks = state.tasks.map(currTask =>
         //         (currTask._id === action.task._id) ? action.task : currTask)
         //     return { ...state, tasks: tasks }
+        case 'SET_FILTERBY':
+            return { ...state, filterBy: action.filterBy }
         default:
             return state
     }

@@ -10,6 +10,12 @@ export const storageService = {
 
 function query(entityType = 'group_db') {
     var entities = JSON.parse(localStorage.getItem(entityType)) || []
+    // if (filterBy.search) {
+    //     const regex = new RegExp(filterBy.search, 'i')
+    //     entities = entities.filter(board => {
+    //         return board.groups.filter(group)
+    //     })
+    // }
     return Promise.resolve(entities)
 }
 
