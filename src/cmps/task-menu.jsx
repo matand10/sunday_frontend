@@ -2,10 +2,12 @@ import { AiOutlineUserAdd } from "react-icons/ai";
 import { BsGraphUp, BsTrash } from "react-icons/bs";
 import React from "react"
 
-export const TaskMenu = ({  task, menuRef }) => {
+// export const TaskMenu = ({  task, menuRef }) => {
+export const TaskMenu = ({ arrowTask, menuRef, onOpenMenu }) => {
 
-    const deleteTask = (taskId) => {
-
+    // const deleteTask = (taskId) => {
+    const deleteTask = () => {
+        console.log(arrowTask);
     }
 
 
@@ -17,7 +19,8 @@ export const TaskMenu = ({  task, menuRef }) => {
                         <div className="task-icon"><AiOutlineUserAdd /></div>
                         <div className="task-title">Rename item</div>
                     </div>
-                    <div className="group-content-wrapper" onClick={() => deleteTask(task.id)}>
+                    {/* <div className="group-content-wrapper" onClick={() => deleteTask(task.id)}> */}
+                    <div className="group-content-wrapper" onClick={() => deleteTask()}>
                         <div className="group-icon"><BsTrash /></div>
                         <div className="group-title">Delete</div>
                     </div>
