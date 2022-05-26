@@ -3,7 +3,8 @@ export const utilService = {
     makeLorem,
     getRandomIntInclusive,
     getCurrTime,
-    getLabel
+    getLabel,
+    getRandomColor
 }
 
 function makeId(length = 6) {
@@ -71,4 +72,13 @@ function getLabel(status) {
                 color: '#c4c4c4'
             }
     }
+}
+
+function getRandomColor() {
+    const letters = '0123456789ABCDEF'
+    var color = '#'
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)]
+    }
+    return color
 }
