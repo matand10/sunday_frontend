@@ -6,10 +6,7 @@ import './assets/styles/main.scss';
 
 
 
-
-
 export class RootCmp extends React.Component {
-
   render() {
     return (
       <main>
