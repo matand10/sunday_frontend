@@ -70,14 +70,14 @@ function getEmptyBoard() {
                         title: 'Item 1',
                         assignedTo: [],
                         comments: [],
-                        status: '',
+                        status: utilService.getLabel(),
                         archivedAt: ''
                     },
                     {
                         title: 'Item 2',
                         assignedTo: [],
                         comments: [],
-                        status: '',
+                        status: utilService.getLabel(),
                         archivedAt: ''
                     }
                 ]
@@ -110,6 +110,8 @@ function getEmptyBoard() {
 
 // Test Data
 // storageService.post(STORAGE_KEY, { vendor: 'Subali Rahok 2', price: 980 }).then(x => console.log(x))
+
+
 
 // storageService.post(STORAGE_KEY, {
 //     _id: "b102",
@@ -152,7 +154,7 @@ function getEmptyBoard() {
 //                     title: "Replace logo",
 //                     assignedTo: [],
 //                     comments: [],
-//                     status: 'working on it',
+//                     status: utilService.getLabel('working'),
 //                     archivedAt: 1589983468418
 
 //                 },
@@ -172,7 +174,7 @@ function getEmptyBoard() {
 //                         }
 //                     ],
 //                     comments: [],
-//                     status: 'working on it',
+//                     status: utilService.getLabel('done'),
 //                     archivedAt: 1589983468418,
 //                 }
 //             ],
@@ -185,14 +187,14 @@ function getEmptyBoard() {
 //                 {
 //                     id: "c103",
 //                     title: "Do that",
-//                     status: 'Done',
+//                     status: utilService.getLabel('done'),
 //                     archivedAt: 1589983468418,
 //                     assignedTo: []
 //                 },
 //                 {
 //                     id: "c104",
 //                     title: "Help me",
-//                     status: "working on it",
+//                     status: utilService.getLabel("stuck"),
 //                     archivedAt: 1589983468418,
 //                     assignedTo: [],
 //                     description: "description",

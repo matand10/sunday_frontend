@@ -46,8 +46,7 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
         setShowMenu(value)
     }
 
-    const onOpenModal = (params,ev) => {
-        ev.stopPropagation()
+    const onOpenModal = (params) => {
         setModal(params)
     }
 
@@ -56,6 +55,10 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
         clickTask.task = taskId
         clickTask.isOpen = true
         setClickTask(clickTask)
+    }
+
+    const onUpdateTask=()=>{
+
     }
 
     console.log('click', clickTask)
@@ -73,14 +76,15 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
             return <div key={idx} className="group-row"
                 ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task)}>
                 <div className="task-arrow-div" onClick={(event) => onOpenMenu(task.id,event)} ><FaCaretDown className="task-arrow" /></div>
-                <div onClick={(event) => onOpenModal({ boardId: board._id, groupId: group.id, task: task },event)}>
+                <div onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })}>
                     {task.title}
                     <div>
-                        <button>Edit</button>
+                        <button onClick={onUpdateTask}>Edit</button>
                     </div>
                     </div>
+              
                 <div>{task.assignedTo.map(member => member.fullname + ' ')}</div>
-                <div>{task.status}</div>
+                <div className="status" style={{ backgroundColor: task.status.color }}>{task.status.title}</div>
                 <div>{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</div>
             </div>
         })}

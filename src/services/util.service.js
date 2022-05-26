@@ -2,7 +2,8 @@ export const utilService = {
     makeId,
     makeLorem,
     getRandomIntInclusive,
-    getCurrTime
+    getCurrTime,
+    getLabel
 }
 
 function makeId(length = 6) {
@@ -41,4 +42,33 @@ function getCurrTime(time) {
         " " + date.getHours() +
         ":" + date.getMinutes() +
         ":" + seconds;
+}
+
+function getLabel(status) {
+    switch (status) {
+        case 'done':
+            return {
+                id: 'l101',
+                title: 'Done',
+                color: '#00c875'
+            }
+        case 'working':
+            return {
+                id: 'l102',
+                title: 'Working on it',
+                color: '#fdab3d'
+            }
+        case 'stuck':
+            return {
+                id: 'l103',
+                title: 'Stuck',
+                color: '#e2445c'
+            }
+        default:
+            return {
+                id: 'l104',
+                title: '',
+                color: '#c4c4c4'
+            }
+    }
 }

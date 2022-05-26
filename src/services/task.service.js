@@ -57,7 +57,7 @@ function getEmptyTask() {
         title: '',
         assignedTo: [],
         comments: [],
-        status: '',
+        status: utilService.getLabel(),
         archivedAt: ''
     }
 }
