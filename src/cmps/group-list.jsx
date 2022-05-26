@@ -15,6 +15,7 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
     const [clickTask, setClickTask] = useState({ task: '', isOpen: false })
     const [modal, setModal] = useState({})
     const [showMenu, setShowMenu] = useState(false)
+    const [updateIsClick, setUpdateIsClick] = useState(false)
     const { x, y, handleContextMenu } = Menu()
     let menuRef = useRef()
 
@@ -50,14 +51,24 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
         setModal(params)
     }
 
-    const onOpenMenu = (taskId,ev) => {
+    const onOpenMenu = (taskId, ev) => {
         ev.stopPropagation()
         clickTask.task = taskId
         clickTask.isOpen = true
         setClickTask(clickTask)
     }
 
-    const onUpdateTask=()=>{
+    const onUpdateTask = () => {
+        setUpdateIsClick(!updateIsClick)
+    }
+    
+    const handleChange=()=>{
+        document.addEventListener("keydown",(event)=>{
+           if(event.key==="Enter") {
+               event.preventDefault()
+               setUpdateIsClick(!updateIsClick)
+           }
+        })
 
     }
 
@@ -75,14 +86,20 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
             // return <section key={idx} className="group-row" ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task, true)}>
             return <div key={idx} className="group-row"
                 ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task)}>
-                <div className="task-arrow-div" onClick={(event) => onOpenMenu(task.id,event)} ><FaCaretDown className="task-arrow" /></div>
-                <div onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })}>
-                    {task.title}
-                    <div>
-                        <button onClick={onUpdateTask}>Edit</button>
+                <div className="task-arrow-div" onClick={(event) => onOpenMenu(task.id, event)} ><FaCaretDown className="task-arrow" /></div>
+                {(updateIsClick) ?
+                    <div className="title-update-input">
+                        <input type="text" defaultValue={task.title} onChange={handleChange}/>
                     </div>
+                    :
+                    <div onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })}>
+                        {task.title}
+                        <div>
+                            <button onClick={onUpdateTask} className="edit-button">Edit</button>
+                        </div>
                     </div>
-              
+                }
+
                 <div>{task.assignedTo.map(member => member.fullname + ' ')}</div>
                 <div className="status" style={{ backgroundColor: task.status.color }}>{task.status.title}</div>
                 <div>{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</div>
