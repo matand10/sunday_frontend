@@ -4,27 +4,28 @@ import dotsMenu from '../assets/img/side-nav/ds-menu.svg'
 import { NavLink } from 'react-router-dom'
 import { boardService } from '../services/board.service'
 import { CreatBoard } from './create-board'
-import { Menu } from '../hooks/right-click-menu'
+// import { Menu } from '../hooks/right-click-menu'
 import { OnClickMenuBoard } from '../modal/right-click-modal-board'
 
 export const ExtendedSideNav = ({ boards, onAddBoard, openBoard }) => {
-    const { x, y, handleContextMenu } = Menu()
+    // const { x, y, handleContextMenu } = Menu()
     const [showMenu, setShowMenu] = useState('')
-    let menuRef = useRef()
+    // let menuRef = useRef()
     const [isNavOpen, setIsNavOpen] = useState(false)
     const [isClick, setIsClick] = useState(false)
 
-    useEffect(() => {
-        document.addEventListener("mousedown", (event) => {
-            if (!menuRef.current?.contains(event.target)) {
-                document.removeEventListener('contextmenu', handleContextMenu)
-                setShowMenu({})
-            }
-        })
-    })
+    // useEffect(() => {
+    //     document.addEventListener("mousedown", (event) => {
+    //         if (!menuRef.current?.contains(event.target)) {
+    //             document.removeEventListener('contextmenu', handleContextMenu)
+    //             setShowMenu({})
+    //         }
+    //     })
+    // })
 
     const onHandleRightClick = (ev, board) => {
         // If you want to use taskId or more manipulation...
+        ev.preventDefault()
         setShowMenu(board)
     }
 
@@ -66,10 +67,11 @@ export const ExtendedSideNav = ({ boards, onAddBoard, openBoard }) => {
                     <div className="project-side-link">
                         {boards.length && boards.map((board, idx) => {
                             return <NavLink key={idx} className="board-link" to={`/board/${board._id}`}>
-                                <button onContextMenu={(ev) => onHandleRightClick(ev, board, true)} className="home-control-button"><span className="home-control-button-span">{board.title}</span></button>
-                                {showMenu._id === board._id && <div className='right-click-menu-board' >
+                                <button className="home-control-button"><span className="home-control-button-span">{board.title}</span></button>
+                                {/* <button onContextMenu={(ev) => onHandleRightClick(ev, board, true)} className="home-control-button"><span className="home-control-button-span">{board.title}</span></button> */}
+                                {/* {showMenu._id === board._id && <div className='right-click-menu-board' >
                                     <OnClickMenuBoard openBoard={openBoard} board={showMenu} />
-                                </div>}
+                                </div>} */}
                             </NavLink>
                         })}
                     </div>

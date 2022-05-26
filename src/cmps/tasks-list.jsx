@@ -8,6 +8,7 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef }
     return <section className="task-row-component" onContextMenu={(ev) => onHandleRightClick(ev, task, true)} ref={menuRef}>
         <div className="task-row-wrapper">
             <div className="task-row-title">
+                {/* <div className="task-arrow-div" onClick={(event) => onOpenMenu(task.id, event)} ><FaCaretDown className="task-arrow" /></div> */}
                 <div className="task-title-cell-component">
                     <div className="left-indicator-cell" style={{ backgroundColor }}></div>
                     <div className="task-title-cell">{task.title}</div>
