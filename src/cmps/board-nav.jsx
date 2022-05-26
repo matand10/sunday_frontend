@@ -79,7 +79,7 @@ export const BoardNav = ({ onAddTask, onAddGroup }) => {
                     >
                         <Paper>
                             <ClickAwayListener onClickAway={handleClose}>
-                                <MenuList id="split-button-menu" autoFocusItem>
+                                <MenuList id="split-button-menu" autoFocusItem className='split-button-menu'>
                                     {options.map((option, index) => (
                                         <MenuItem
                                             key={option}

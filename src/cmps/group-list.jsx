@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { utilService } from "../services/util.service";
 import { FaChevronCircleDown, FaCaretDown } from 'react-icons/fa'
+import { GroupMenu } from './group-menu'
 
 
-export const GroupList = ({ group, onAddTask }) => {
+export const GroupList = ({ group, onAddTask, onRemoveGroup }) => {
     const [task, setTask] = useState({ title: '' })
+    const [isClickGroup, setIsClickGroup] = useState(false)
+    let menuRef = useRef()
+
 
     const addTask = (ev) => {
         ev.preventDefault()
@@ -20,7 +24,8 @@ export const GroupList = ({ group, onAddTask }) => {
     return <div className="group">
         {/* <h1>{group.title}</h1> */}
         <div className="head">
-            <div className="group-arrow-div"><FaChevronCircleDown className="group-arrow"/></div>
+            <div className="group-arrow-div"><FaChevronCircleDown className="group-arrow" onClick={() => setIsClickGroup(!isClickGroup)} /></div>
+            {isClickGroup && <GroupMenu menuRef={menuRef} group={group} onRemoveGroup={onRemoveGroup} />}
             <div>{group.title}</div>
             <div>Person</div>
             <div>Status</div>
@@ -28,7 +33,7 @@ export const GroupList = ({ group, onAddTask }) => {
         </div>
         {group.tasks.map((task, idx) => {
             return <section key={idx} className="group-row">
-                <div className="task-arrow-div"><FaCaretDown className="task-arrow"/></div>
+                <div className="task-arrow-div"><FaCaretDown className="task-arrow" /></div>
                 <div>{task.title}</div>
                 <div>{task.assignedTo.map(member => member.fullname + ' ')}</div>
                 <div>{task.status}</div>
