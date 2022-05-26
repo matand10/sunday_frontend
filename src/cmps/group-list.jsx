@@ -1,8 +1,7 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { utilService } from "../services/util.service";
 import { Menu } from '../hooks/right-click-menu'
 import { RightClickMenu } from '../modal/right-click-menu'
-import { useRef, useEffect } from 'react';
 import { SidePanel } from "./side-panel"
 import { FaChevronCircleDown, FaCaretDown } from 'react-icons/fa'
 import { GroupMenu } from './group-menu'
