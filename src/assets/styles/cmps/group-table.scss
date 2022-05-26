@@ -165,3 +165,17 @@
         }
     }
 }
+
+.edit-button {
+    display: none;
+}
+
+.task-arrow-div:hover {
+    
+        & .edit-button {
+            display: block;
+        }
+    
+
+   
+}

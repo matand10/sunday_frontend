@@ -92,39 +92,3 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
         {modal.boardId && <SidePanel modal={modal} onOpenModal={onOpenModal} />}
     </div>
 }
-
-
-
-
-
-
-
-// return <section className="group">
-//     {/* <h1>{group.title}</h1> */}
-//     <table>
-//         <thead>
-//             <tr>
-//                 <th>{group.title}</th>
-//                 <th>Person</th>
-//                 <th>Status</th>
-//                 <th>Date</th>
-//             </tr>
-//         </thead>
-//         <tbody>
-//             {group.tasks.map((task, idx) => {
-//                 return <tr key={idx}>
-//                     <td>{task.title}</td>
-//                     <td>{task.assignedTo.map(member => member.fullname + ' ')}</td>
-//                     <td>{task.status}</td>
-//                     <td>{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</td>
-//                 </tr>
-//             })}
-//         </tbody>
-//     </table>
-//     <div>
-//         <form onSubmit={addTask}>
-//             <input type="text" placeholder="+Add Item" onChange={onHandleCange} name="title" />
-//             <button>Add</button>
-//         </form>
-//     </div>
-// </section>
