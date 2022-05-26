@@ -18,19 +18,40 @@
             height: 40px;
             display: flex;
             width: 100%;
+            align-items: center;
 
             :first-child {
                 flex-basis: 400px;
-                // width: 400px;
+                font-size: 18px;
             }
 
             :not(:first-child) {
                 width: 140px;
-                text-align: center;
+                justify-content: center;
             }
 
             >* {
                 position: relative;
+                height: 100%;
+                display: flex;
+                align-items: center;
+            }
+
+            & .group-arrow-div {
+                flex-basis: 0px;
+
+                & .group-arrow {
+                    color: aqua;
+                    width: 16px;
+                    height: 16px;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: white;
+                        background-color: aqua;
+                        border-radius: 50%;
+                    }
+                }
             }
         }
 
@@ -39,7 +60,12 @@
             display: flex;
             width: 100%;
             background-color: #f5f6f8;
+            text-decoration: unset;
 
+            &:hover {
+                background-color: #e6e9ef;
+                cursor: pointer;
+            }
 
 
             :first-child {
@@ -48,17 +74,59 @@
 
             :not(:first-child) {
                 width: 140px;
+                justify-content: center;
             }
 
             >* {
                 position: relative;
                 border-bottom: 1px solid #e6e9ef;
+                height: 100%;
+                display: flex;
+                align-items: center;
             }
 
-            :hover {
-                background-color: #e6e9ef;
-                cursor: pointer;
+        }
+    }
+
+    & form {
+        height: 35px;
+
+        & input {
+            width: 100%;
+        }
+
+        >* {
+            height: 100%;
+        }
+
+        & button {
+            height: inherit;
+            border-radius: 4px;
+            background-color: #1976d2;
+            color: #fff;
+            padding: 0px 10px;
+            position: absolute;
+            right: 0;
+
+            &:hover {
+                background-color: #1565c0;
+            }
+
+            & .task-arrow-div {
+                width: 10px;
+                height: 20px;
+                flex-basis: 27px;
+                color: white;
+                text-align: center;
+                margin:5px;
+                border-radius: 15%;
+
+                &:hover {
+                    color: black;
+                    background-color: rgb(177, 173, 173);
+                }
             }
         }
     }
+
 }
