@@ -12,7 +12,7 @@ export const TaskMenu = ({ arrowTask, menuRef, onOpenMenu }) => {
 
 
     return <React.Fragment>
-        <section style={{ width: '100%' }} ref={menuRef} className="task-main-menu-inner">
+        <section ref={menuRef} className="task-main-menu-inner">
             <div className="task-main-section">
                 <div className="task-menu-item">
                     <div className="task-content-wrapper">
@@ -20,9 +20,9 @@ export const TaskMenu = ({ arrowTask, menuRef, onOpenMenu }) => {
                         <div className="task-title">Rename item</div>
                     </div>
                     {/* <div className="group-content-wrapper" onClick={() => deleteTask(task.id)}> */}
-                    <div className="group-content-wrapper" onClick={() => deleteTask()}>
-                        <div className="group-icon"><BsTrash /></div>
-                        <div className="group-title">Delete</div>
+                    <div className="task-content-wrapper" onClick={() => deleteTask()}>
+                        <div className="task-icon"><BsTrash /></div>
+                        <div className="task-title">Delete</div>
                     </div>
                 </div>
             </div>

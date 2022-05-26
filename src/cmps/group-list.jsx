@@ -13,14 +13,10 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
     const [task, setTask] = useState({ title: '' })
     const [isClickGroup, setIsClickGroup] = useState(false)
     const [arrowTask, setArrowTask] = useState({})
-    // const [clickTask, setClickTask] = useState({ task: '', isOpen: false })
     const [modal, setModal] = useState({})
     const [showMenu, setShowMenu] = useState(false)
     const { x, y, handleContextMenu } = Menu()
     let menuRef = useRef()
-
-
-
 
     const addTask = (ev) => {
         ev.preventDefault()
@@ -54,18 +50,10 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
     const onOpenMenu = (params) => {
         setArrowTask(params)
     }
-    // const onOpenMenu = (taskId, ev) => {
-    //     ev.stopPropagation()
-    //     clickTask.task = taskId
-    //     clickTask.isOpen = true
-    //     setClickTask(clickTask)
-    // }
 
     const onUpdateTask = () => {
 
     }
-
-    console.log('click', arrowTask)
 
     return <div className="group">
         <div className="head">
@@ -77,11 +65,9 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
             <div>Date</div>
         </div>
         {group.tasks.map((task, idx) => {
-            // return <section key={idx} className="group-row" ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task, true)}>
             return <div key={idx} className="group-row"
                 ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task)}>
                 <div className="task-arrow-div" onClick={(event) => onOpenMenu({ boardId: board._id, groupId: group.id, task: task })} ><FaCaretDown className="task-arrow" /></div>
-                {/* <div className="task-arrow-div" onClick={(event) => onOpenMenu(task.id, event)} ><FaCaretDown className="task-arrow" /></div> */}
                 <div onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })}>
                     {task.title}
                     <div>
@@ -96,15 +82,12 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
             </div>
         })}
 
-
-
         <div>
             <form onSubmit={addTask}>
                 <input type="text" placeholder="+Add Item" onChange={onHandleCange} name="title" />
                 {task.title && <button>Add</button>}
             </form>
         </div>
-        {/* {clickTask.isOpen && <TaskMenu clickTask={clickTask} />} */}
         <RightClickMenu x={x} y={y} showMenu={showMenu} />
         {modal.boardId && <SidePanel modal={modal} onOpenModal={onOpenModal} />}
     </div>
