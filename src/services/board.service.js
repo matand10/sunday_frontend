@@ -11,6 +11,7 @@ export const boardService = {
     save,
     remove,
     getEmptyBoard,
+    filterBoard
 }
 
 async function query() {
@@ -21,6 +22,21 @@ async function query() {
     } catch (err) {
         console.log('err', err)
     }
+}
+
+function filterBoard(board, filterBy) {
+    let newGroups
+    if (filterBy.search) {
+        newGroups = board.groups.filter(group => {
+            return group.tasks = group.tasks.filter(task => {
+                const regex = new RegExp(filterBy.search, 'i')
+                return regex.test(task.title)
+            })
+        })
+    } else {
+        return board
+    }
+    return { ...board, groups: newGroups }
 }
 
 async function getById(boardId) {

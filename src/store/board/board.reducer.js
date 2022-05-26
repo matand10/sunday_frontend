@@ -1,7 +1,10 @@
 import { storageService } from "../../services/async-storage.service"
 
 const initialState = {
-    boards: storageService.query()
+    boards: storageService.query(),
+    filterBy: {
+        search: ''
+    }
 }
 
 export function boardReducer(state = initialState, action) {
@@ -46,10 +49,12 @@ export function boardReducer(state = initialState, action) {
         // case 'ADD_TASK':
         //     tasks = [action.task, ...state.tasks]
         //     return { ...state, tasks: tasks }
-        case 'UPDATE_TASK':
-            tasks = state.tasks.map(currTask =>
-                (currTask.id === action.task.id) ? action.task : currTask)
-            return { ...state, tasks: tasks }
+        // case 'UPDATE_TASK':
+        //     tasks = state.tasks.map(currTask =>
+        //         (currTask._id === action.task._id) ? action.task : currTask)
+        //     return { ...state, tasks: tasks }
+        case 'SET_FILTERBY':
+            return { ...state, filterBy: action.filterBy }
         default:
             return state
     }

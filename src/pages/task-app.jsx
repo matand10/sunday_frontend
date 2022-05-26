@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { loadBoards } from "../store/board/board.action"
+import { loadBoards, setFilter } from "../store/board/board.action"
 import { MainBoard } from '../cmps/main-board.jsx'
 import { SideNav } from '../cmps/side-nav.jsx'
 import { BoardNav } from "../cmps/board-nav"
@@ -20,6 +20,7 @@ export const TasksApp = () => {
     const [board, setBoard] = useState(null)
 
     const { boards } = useSelector((storeState) => storeState.boardModule)
+    const { filterBy } = useSelector((storeState) => storeState.boardModule)
     const dispatch = useDispatch()
     const navigate = useNavigate();
 
@@ -32,13 +33,12 @@ export const TasksApp = () => {
     useEffect(() => {
         loadBoard()
         dispatch(loadBoards())
-
-    }, [params.boardId])
-
+    }, [params.boardId, filterBy])
 
     const loadBoard = async () => {
         const board = await boardService.getById(params.boardId)
-        setBoard(board)
+        const filteredBoard = boardService.filterBoard(board, filterBy)
+        setBoard(filteredBoard)
     }
 
     const onAddTask = async (task, groupId) => {
@@ -72,7 +72,9 @@ export const TasksApp = () => {
         dispatch(saveTask(task, groupId, boardId))
     }
 
-    console.log(boards);
+    const onFilter = (filterBy) => {
+        dispatch(setFilter(filterBy))
+    }
 
     if (!boards.length) return <h1>Loading...</h1>
     return <section className="task-main-container">
@@ -82,9 +84,10 @@ export const TasksApp = () => {
         <div className="board-container-right">
             <ExtendedSideNav boards={boards} onAddBoard={onAddBoard} />
             <div className="main-app flex-column">
-                <BoardHeader onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
+                <BoardHeader onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
                 <MainBoard board={board} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} />
             </div>
         </div>
     </section>
+    
 }
