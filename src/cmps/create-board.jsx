@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+// import {LoadingButtons} from './loading-button'
 
 
 export function CreatBoard({ setIsClick, isClick, onAddBoard }) {
     const [board, setBoard] = useState({ title: '' })
+    // const [createClick,setCreateClick]=useState(false)
     const navigate = useNavigate()
 
     const handleChange = ({ target }) => {
@@ -13,7 +15,9 @@ export function CreatBoard({ setIsClick, isClick, onAddBoard }) {
     }
 
     const addBoard = () => {
+        // setCreateClick(!createClick)
         onAddBoard(board)
+        setIsClick(!isClick)
     }
 
     return <div id="myModal" className="create-board-modal-container">

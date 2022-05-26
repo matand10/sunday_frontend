@@ -15,10 +15,7 @@ export const GroupList = ({ updateTask,board, group, onAddTask, onRemoveGroup })
     const [arrowTask, setArrowTask] = useState({})
     const [modal, setModal] = useState({})
     const [showMenu, setShowMenu] = useState(false)
-<<<<<<< HEAD
     const [updateIsClick, setUpdateIsClick] = useState({})
-=======
->>>>>>> 98c8aa2bad69b9108c501d7ed3d66bf70a0042ba
     const { x, y, handleContextMenu } = Menu()
     let menuRef = useRef()
 
@@ -55,7 +52,6 @@ export const GroupList = ({ updateTask,board, group, onAddTask, onRemoveGroup })
         setArrowTask(params)
     }
 
-<<<<<<< HEAD
 
     const onUpdateTask = (ev,params) => {
         ev.stopPropagation()
@@ -71,9 +67,6 @@ export const GroupList = ({ updateTask,board, group, onAddTask, onRemoveGroup })
                setUpdateIsClick({})
            }
         })
-=======
-    const onUpdateTask = () => {
->>>>>>> 98c8aa2bad69b9108c501d7ed3d66bf70a0042ba
 
     }
 
@@ -88,7 +81,6 @@ export const GroupList = ({ updateTask,board, group, onAddTask, onRemoveGroup })
             <div>Date</div>
         </div>
         {group.tasks.map((task, idx) => {
-<<<<<<< HEAD
             // return <section key={idx} className="group-row" ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task, true)}>
             return <div key={task.title} className="group-row"
                 ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task)}>
@@ -105,17 +97,6 @@ export const GroupList = ({ updateTask,board, group, onAddTask, onRemoveGroup })
                         </div>
                     </div>
                 }
-=======
-            return <div key={idx} className="group-row"
-                ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task)}>
-                <div className="task-arrow-div" onClick={(event) => onOpenMenu({ boardId: board._id, groupId: group.id, task: task })} ><FaCaretDown className="task-arrow" /></div>
-                <div onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })}>
-                    {task.title}
-                    <div>
-                        <button onClick={onUpdateTask}>Edit</button>
-                    </div>
-                </div>
->>>>>>> 98c8aa2bad69b9108c501d7ed3d66bf70a0042ba
 
                 <div>{task.assignedTo.map(member => member.fullname + ' ')}</div>
                 <div className="status" style={{ backgroundColor: task.status.color }}>{task.status.title}</div>

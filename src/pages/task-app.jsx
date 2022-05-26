@@ -59,6 +59,7 @@ export const TasksApp = () => {
         const newBoard = boardService.getEmptyBoard()
         newBoard.title = board.title
         dispatch(saveBoard(newBoard))
+        navigate(`/board/${newBoard._id}`)
     }
 
     const onRemoveGroup = (groupId) => {
