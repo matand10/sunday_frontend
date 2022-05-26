@@ -42,7 +42,7 @@ async function save(board) {
         if (board._id) {
             savedBoard = await storageService.put(STORAGE_KEY, board)
         } else {
-
+            board._id = utilService.makeId()
             // task.owner = userService.getLoggedinUser();
             savedBoard = await storageService.post(STORAGE_KEY, board)
         }

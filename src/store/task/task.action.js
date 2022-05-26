@@ -1,26 +1,26 @@
 import { taskService } from '../../services/task.service'
 
 
-export function loadTasks() {
-    return dispatch => {
-        return taskService.query()
-            .then(tasks => {
-                const action = {
-                    type: 'SET_TASKS',
-                    tasks
-                }
-                dispatch(action)
-            })
-    }
-}
+// export function loadTasks() {
+//     return dispatch => {
+//         return taskService.query()
+//             .then(tasks => {
+//                 const action = {
+//                     type: 'SET_TASKS',
+//                     tasks
+//                 }
+//                 dispatch(action)
+//             })
+//     }
+// }
 
-export function removeTask(taskId) {
+export function removeTask(taskId,groupId,boardId) {
     return dispatch => {
-        taskService.remove(taskId)
-            .then(() => {
+        taskService.remove(taskId,groupId,boardId)
+            .then(savedBoard => {
                 dispatch({
-                    type: 'REMOVE_TASK',
-                    taskId
+                    type: 'UPDATE_BOARD',
+                    board:savedBoard
                 })
             })
             .catch(err => {
@@ -29,14 +29,14 @@ export function removeTask(taskId) {
     }
 }
 
-export function saveTask(task) {
+export function saveTask(task, groupId, boardId) {
     return dispatch => {
-        const actionType = (task.id) ? 'UPDATE_TASK' : 'ADD_TASK'
-        taskService.save(task)
-            .then(savedTask => {
+        taskService.save(task, groupId, boardId)
+            .then(savedBoard => {
+                console.log('save',savedBoard)
                 dispatch({
-                    type: actionType,
-                    task: savedTask
+                    type: 'UPDATE_BOARD',
+                    board: savedBoard
                 })
             })
             .catch(err => {

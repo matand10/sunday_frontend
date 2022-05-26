@@ -20,23 +20,23 @@ export function boardReducer(state = initialState, action) {
             return { ...state, boards: boards }
         case 'UPDATE_BOARD':
             boards = state.boards.map(currBoard =>
-                (currBoard._id === action.board._id) ? action.board : currBoard)
+                (currBoard._id === action.board._id) ? {...action.board} : currBoard)
             return { ...state, boards: boards }
         // case 'SET_GROUPS':
         //     return { ...state, boards:{...boards,groups: action.groups} }
-        case 'REMOVE_GROUP':
-            groups = state.boards[0].groups.filter(group => group.id !== action.groupId)
-            let newBoards= state.boards
-            newBoards[0].groups=groups
-            return { ...state,boards:newBoards } 
+        // case 'REMOVE_GROUP':
+        //     groups = state.boards[0].groups.filter(group => group.id !== action.groupId)
+        //     let newBoards= state.boards
+        //     newBoards[0].groups=groups
+        //     return { ...state,boards:newBoards } 
         // case 'ADD_GROUP':
         //     console.log(state)
         //     groups = [action.group, ...state.boards.groups]
         //     return { ...state, boards:{...boards,groups: action.groups} }
-        case 'UPDATE_GROUP':
-            groups = state.boards.groups.map(currGroup =>
-                (currGroup.id === action.group.id) ? action.group : currGroup)
-            return { ...state, boards:{...boards,groups: action.groups} }
+        // case 'UPDATE_GROUP':
+        //     groups = state.boards.groups.map(currGroup =>
+        //         (currGroup.id === action.group.id) ? action.group : currGroup)
+        //     return { ...state, boards:{...boards,groups: action.groups} }
         //     case 'SET_TASKS':
         //         // const gropdIdx=boards.groups.findIndex(currGroup=>currGroup.id===)
         //     return { ...state,boards:{...boards.groups,tasks: action.tasks}  }
@@ -46,10 +46,10 @@ export function boardReducer(state = initialState, action) {
         // case 'ADD_TASK':
         //     tasks = [action.task, ...state.tasks]
         //     return { ...state, tasks: tasks }
-        // case 'UPDATE_TASK':
-        //     tasks = state.tasks.map(currTask =>
-        //         (currTask._id === action.task._id) ? action.task : currTask)
-        //     return { ...state, tasks: tasks }
+        case 'UPDATE_TASK':
+            tasks = state.tasks.map(currTask =>
+                (currTask.id === action.task.id) ? action.task : currTask)
+            return { ...state, tasks: tasks }
         default:
             return state
     }

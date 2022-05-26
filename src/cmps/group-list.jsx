@@ -9,14 +9,14 @@ import { GroupMenu } from './group-menu'
 import { TaskMenu } from './task-menu'
 
 
-export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
+export const GroupList = ({ updateTask,board, group, onAddTask, onRemoveGroup }) => {
     const [task, setTask] = useState({ title: '' })
     const [isClickGroup, setIsClickGroup] = useState(false)
     const [arrowTask, setArrowTask] = useState({})
     // const [clickTask, setClickTask] = useState({ task: '', isOpen: false })
     const [modal, setModal] = useState({})
     const [showMenu, setShowMenu] = useState(false)
-    const [updateIsClick, setUpdateIsClick] = useState(false)
+    const [updateIsClick, setUpdateIsClick] = useState({})
     const { x, y, handleContextMenu } = Menu()
     let menuRef = useRef()
 
@@ -55,33 +55,30 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
     const onOpenMenu = (params) => {
         setArrowTask(params)
     }
-    // const onOpenMenu = (taskId, ev) => {
-    //     ev.stopPropagation()
-    //     clickTask.task = taskId
-    //     clickTask.isOpen = true
-    //     setClickTask(clickTask)
-    // }
 
-    const onUpdateTask = () => {
-        setUpdateIsClick(!updateIsClick)
+
+    const onUpdateTask = (ev,params) => {
+        ev.stopPropagation()
+        setUpdateIsClick(params)
     }
     
-    const handleChange=()=>{
+    const handleChange=({target})=>{
         document.addEventListener("keydown",(event)=>{
            if(event.key==="Enter") {
                event.preventDefault()
-               setUpdateIsClick(!updateIsClick)
+               const value=target.value
+               updateTask(value,updateIsClick.task,updateIsClick.groupId,updateIsClick.boardId)
+               setUpdateIsClick({})
            }
         })
 
     }
 
-    console.log('click', arrowTask)
 
     return <div className="group">
         <div className="head">
             <div className="group-arrow-div"><FaChevronCircleDown className="group-arrow" onClick={() => setIsClickGroup(!isClickGroup)} /></div>
-            {isClickGroup && <GroupMenu menuRef={menuRef} group={group} onRemoveGroup={onRemoveGroup} />}
+            {isClickGroup && <GroupMenu menuRef={menuRef} group={group} onRemoveGroup={onRemoveGroup} boardId={board._id}/>}
             <div>{group.title}</div>
             <div>Person</div>
             <div>Status</div>
@@ -89,18 +86,18 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
         </div>
         {group.tasks.map((task, idx) => {
             // return <section key={idx} className="group-row" ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task, true)}>
-            return <div key={idx} className="group-row"
+            return <div key={task.title} className="group-row"
                 ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task)}>
                 <div className="task-arrow-div" onClick={(event) => onOpenMenu(task.id, event)} ><FaCaretDown className="task-arrow" /></div>
-                {(updateIsClick) ?
+                {(updateIsClick.boardId && updateIsClick.groupId === group.id && updateIsClick.task.id === task.id ) ?
                     <div className="title-update-input">
                         <input type="text" defaultValue={task.title} onChange={handleChange}/>
                     </div>
                     :
-                    <div onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })}>
+                    <div onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })} className="task-title-content">
                         {task.title}
                         <div>
-                            <button onClick={onUpdateTask} className="edit-button">Edit</button>
+                            <button onClick={(event)=>onUpdateTask(event,{ boardId: board._id, groupId: group.id, task: task })} className="edit-button">Edit</button>
                         </div>
                     </div>
                 }
