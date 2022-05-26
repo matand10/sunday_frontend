@@ -6,11 +6,13 @@ import { useRef, useEffect, useState } from 'react';
 import { SidePanel } from "./side-panel"
 import { FaChevronCircleDown, FaCaretDown } from 'react-icons/fa'
 import { GroupMenu } from './group-menu'
+import { TaskMenu } from './task-menu'
 
 
 export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
     const [task, setTask] = useState({ title: '' })
     const [isClickGroup, setIsClickGroup] = useState(false)
+    const [clickTask, setClickTask] = useState({ task: '', isOpen: false })
     const [modal, setModal] = useState({})
     const [showMenu, setShowMenu] = useState(false)
     const { x, y, handleContextMenu } = Menu()
@@ -48,8 +50,18 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
         setModal(params)
     }
 
-    console.log(board);
+    const onOpenMenu = (taskId,ev) => {
+        ev.stopPropagation()
+        clickTask.task = taskId
+        clickTask.isOpen = true
+        setClickTask(clickTask)
+    }
 
+    const onUpdateTask=()=>{
+
+    }
+
+    console.log('click', clickTask)
     return <div className="group">
         <div className="head">
             <div className="group-arrow-div"><FaChevronCircleDown className="group-arrow" onClick={() => setIsClickGroup(!isClickGroup)} /></div>
@@ -62,9 +74,15 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
         {group.tasks.map((task, idx) => {
             // return <section key={idx} className="group-row" ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task, true)}>
             return <div key={idx} className="group-row"
-                ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task, true)}>
-                <div className="task-arrow-div"><FaCaretDown className="task-arrow" /></div>
-                <div onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })}>{task.title}</div>
+                ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task)}>
+                <div className="task-arrow-div" onClick={(event) => onOpenMenu(task.id,event)} ><FaCaretDown className="task-arrow" /></div>
+                <div onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })}>
+                    {task.title}
+                    <div>
+                        <button onClick={onUpdateTask}>Edit</button>
+                    </div>
+                    </div>
+              
                 <div>{task.assignedTo.map(member => member.fullname + ' ')}</div>
                 <div className="status" style={{ backgroundColor: task.status.color }}>{task.status.title}</div>
                 <div>{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</div>
@@ -76,6 +94,7 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
                 {task.title && <button>Add</button>}
             </form>
         </div>
+        {clickTask.isOpen && <TaskMenu clickTask={clickTask} />}
         <RightClickMenu x={x} y={y} showMenu={showMenu} />
         {modal.boardId && <SidePanel modal={modal} onOpenModal={onOpenModal} />}
     </div>
