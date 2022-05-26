@@ -46,6 +46,7 @@ export function onSignup(credentials) {
                 type: 'SET_USER',
                 user
             })
+            window.location.href = '/board'
         } catch (err) {
             console.log('Cannot signup', err)
         }
