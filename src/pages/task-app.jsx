@@ -80,13 +80,19 @@ export const TasksApp = () => {
         dispatch(setFilter(filterBy))
     }
 
+    const openBoard = (board) => {
+        console.log(board);
+        setBoard(board)
+        navigate(board._id)
+    }
+
     if (!boards.length) return <h1>Loading...</h1>
     return <section className="task-main-container">
         <div className="board-container-left">
             <SideNav />
         </div>
         <div className="board-container-right">
-            <ExtendedSideNav boards={boards} onAddBoard={onAddBoard} />
+            <ExtendedSideNav openBoard={openBoard} boards={boards} onAddBoard={onAddBoard} />
             <div className="main-app flex-column">
                 <BoardHeader onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
                 <MainBoard board={board} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} />
