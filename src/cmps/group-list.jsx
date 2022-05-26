@@ -1,15 +1,8 @@
-<<<<<<< HEAD
-import { useState, useRef, useEffect } from "react";
-import { utilService } from "../services/util.service";
-import { Menu } from '../hooks/right-click-menu'
-import { RightClickMenu } from '../modal/right-click-menu'
-=======
 
 import { utilService } from "../services/util.service";
 import { Menu } from '../hooks/right-click-menu'
 import { RightClickMenu } from '../modal/right-click-menu'
 import { useRef, useEffect,useState } from 'react';
->>>>>>> 918aaff5f845bef18644d8b153131119ebf341a3
 import { SidePanel } from "./side-panel"
 import { FaChevronCircleDown, FaCaretDown } from 'react-icons/fa'
 import { GroupMenu } from './group-menu'
@@ -55,7 +48,7 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
         setModal(params)
     }
 
-    console.log(modal.boardId);
+    console.log(board);
 
     return <div className="group">
         <div className="head">
@@ -68,11 +61,10 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
         </div>
         {group.tasks.map((task, idx) => {
             // return <section key={idx} className="group-row" ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task, true)}>
-            return <div onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })} key={idx} className="group-row"
+            return <div  key={idx} className="group-row"
                 ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task, true)}>
-                {/* return <section key={idx} className="group-row"> */}
                 <div className="task-arrow-div"><FaCaretDown className="task-arrow" /></div>
-                <div>{task.title}</div>
+                <div onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })}>{task.title}</div>
                 <div>{task.assignedTo.map(member => member.fullname + ' ')}</div>
                 <div>{task.status}</div>
                 <div>{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</div>
