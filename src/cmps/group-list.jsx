@@ -12,7 +12,8 @@ import { TaskMenu } from './task-menu'
 export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
     const [task, setTask] = useState({ title: '' })
     const [isClickGroup, setIsClickGroup] = useState(false)
-    const [clickTask, setClickTask] = useState({ task: '', isOpen: false })
+    const [arrowTask, setArrowTask] = useState({})
+    // const [clickTask, setClickTask] = useState({ task: '', isOpen: false })
     const [modal, setModal] = useState({})
     const [showMenu, setShowMenu] = useState(false)
     const [updateIsClick, setUpdateIsClick] = useState(false)
@@ -51,12 +52,15 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
         setModal(params)
     }
 
-    const onOpenMenu = (taskId, ev) => {
-        ev.stopPropagation()
-        clickTask.task = taskId
-        clickTask.isOpen = true
-        setClickTask(clickTask)
+    const onOpenMenu = (params) => {
+        setArrowTask(params)
     }
+    // const onOpenMenu = (taskId, ev) => {
+    //     ev.stopPropagation()
+    //     clickTask.task = taskId
+    //     clickTask.isOpen = true
+    //     setClickTask(clickTask)
+    // }
 
     const onUpdateTask = () => {
         setUpdateIsClick(!updateIsClick)
@@ -72,7 +76,8 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
 
     }
 
-    console.log('click', clickTask)
+    console.log('click', arrowTask)
+
     return <div className="group">
         <div className="head">
             <div className="group-arrow-div"><FaChevronCircleDown className="group-arrow" onClick={() => setIsClickGroup(!isClickGroup)} /></div>
@@ -103,15 +108,19 @@ export const GroupList = ({ board, group, onAddTask, onRemoveGroup }) => {
                 <div>{task.assignedTo.map(member => member.fullname + ' ')}</div>
                 <div className="status" style={{ backgroundColor: task.status.color }}>{task.status.title}</div>
                 <div>{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</div>
+                {arrowTask.boardId && arrowTask.groupId === group.id && arrowTask.task.id === task.id && <TaskMenu arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
             </div>
         })}
+
+
+
         <div>
             <form onSubmit={addTask}>
                 <input type="text" placeholder="+Add Item" onChange={onHandleCange} name="title" />
                 {task.title && <button>Add</button>}
             </form>
         </div>
-        {clickTask.isOpen && <TaskMenu clickTask={clickTask} />}
+        {/* {clickTask.isOpen && <TaskMenu clickTask={clickTask} />} */}
         <RightClickMenu x={x} y={y} showMenu={showMenu} />
         {modal.boardId && <SidePanel modal={modal} onOpenModal={onOpenModal} />}
     </div>

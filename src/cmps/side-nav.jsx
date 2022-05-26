@@ -46,6 +46,9 @@ export const SideNav = () => {
                 <div className="product-switcher">
                     <img onClick={() => toggleDialog(true)} src={productSwtich} alt="dots-logo" />
                 </div>
+                <div className="user-img">
+                    <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="workspace img" />
+                </div>
             </div>
         </div>
 

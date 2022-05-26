@@ -1,13 +1,23 @@
 // Routes accesible from the main navigation (in AppHeader)
+import { Route } from 'react-router-dom'
 import { HomePage } from './pages/home-page.jsx'
 import { TasksApp } from './pages/task-app.jsx'
 import { SidePanel } from './cmps/side-panel.jsx'
-import { Route } from 'react-router-dom'
+import { Login } from './user/login.jsx'
+import { Signup } from './user/signup.jsx'
 
 const routes = [
     {
         path: '/',
         component: <HomePage />,
+    },
+    {
+        path: '/login',
+        component: <Login />
+    },
+    {
+        path: '/signup',
+        component: <Signup />
     },
     // {
     //     path: '/board/:boardId/:groupId/:taskId',

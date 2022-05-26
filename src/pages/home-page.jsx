@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link, NavLink } from 'react-router-dom'
-
+import { Header } from '../cmps/header.jsx'
 
 class _HomePage extends React.Component {
     state = {}
@@ -9,6 +9,7 @@ class _HomePage extends React.Component {
     render() {
         return (
             <section>
+                <Header />
                 <h1>Hello from homepage</h1>
                 <NavLink to="/board">Sunday</NavLink>
             </section >
