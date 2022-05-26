@@ -12,7 +12,7 @@ export const TaskMenu = ({ arrowTask, menuRef, onOpenMenu }) => {
 
 
     return <React.Fragment>
-        <section ref={menuRef} className="task-main-menu-inner">
+        <section style={{ width: '100%' }} ref={menuRef} className="task-main-menu-inner">
             <div className="task-main-section">
                 <div className="task-menu-item">
                     <div className="task-content-wrapper">
