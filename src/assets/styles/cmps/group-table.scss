@@ -241,10 +241,15 @@
 
 
 
+.board-content-wrapper:first-child {
+    margin-top: 20px;
+
+}
 
 .board-content-wrapper {
     padding: 18px 20px 25px 16px;
     background-color: $primary-background-color;
+    margin-bottom: 40px;
     border-radius: 8px;
     color: $table-text-main-color;
 
