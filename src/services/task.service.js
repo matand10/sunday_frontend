@@ -1,27 +1,30 @@
+import { getOptionUnstyledUtilityClass } from '@mui/base'
 import { storageService } from './async-storage.service'
+import { boardService } from './board.service'
 import { utilService } from './util.service'
+import { groupService } from './group.service'
 
 
-const STORAGE_KEY = 'task_db'
+const STORAGE_KEY = 'group_db'
 
 
 export const taskService = {
-    query,
+    // query,
     getById,
     save,
     remove,
     getEmptyTask,
 }
 
-async function query() {
-    try {
-        // const res = await storageService.get(STORAGE_KEY)
-        const res = await storageService.query(STORAGE_KEY)
-        return res
-    } catch (err) {
-        console.log('err', err)
-    }
-}
+// async function query() {
+//     try {
+//         // const res = await storageService.get(STORAGE_KEY)
+//         const res = await storageService.query(STORAGE_KEY)
+//         return res
+//     } catch (err) {
+//         console.log('err', err)
+//     }
+// }
 
 async function getById(taskId) {
     try {
@@ -32,20 +35,33 @@ async function getById(taskId) {
     }
 }
 
-async function remove(taskId) {
-    await storageService.remove(STORAGE_KEY, taskId)
+async function remove(taskId, groupId, boardId) {
+    let currBoard = await boardService.getById(boardId)
+    const currGroup = groupService.getById(groupId, currBoard)
+    const groupIdx = currBoard.groups.findIndex(group => group.id === groupId)
+    const taskIdx = currGroup.tasks.findIndex(task => task.id === taskId)
+    currBoard.groups[groupIdx].tasks.splice(taskIdx, 1)
+    await storageService.put(STORAGE_KEY, currBoard)
+    return currBoard
 }
 
-async function save(task) {
-    var savedTask
+async function save(task, groupId, boardId) {
+    let currBoard = await boardService.getById(boardId)
+    const currGroup = groupService.getById(groupId, currBoard)
+    const groupIdx = currBoard.groups.findIndex(group => group.id === groupId)
+    const taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === task.id)
     try {
+        let groups=[...currBoard.groups]
+        currBoard.groups=groups
         if (task._id) {
-            savedTask = await storageService.put(STORAGE_KEY, task)
+            currBoard.groups[groupIdx].tasks.splice(taskIdx, 1, task)
         } else {
             // task.owner = userService.getLoggedinUser();
-            savedTask = await storageService.post(STORAGE_KEY, task)
+            currBoard.groups[groupIdx].tasks.push(task)
+
         }
-        return savedTask
+        await storageService.put(STORAGE_KEY, currBoard)
+        return currBoard
     } catch (err) {
         console.log('err', err)
     }

@@ -1,48 +1,55 @@
 import { storageService } from './async-storage.service'
 import { utilService } from './util.service'
+import { boardService } from './board.service'
 
 
 const STORAGE_KEY = 'group_db'
 
 
 export const groupService = {
-    query,
+    // query,
     getById,
     save,
     remove,
     getEmptyGroup,
 }
 
-async function query() {
-    try {
-        // const res = await storageService.get(STORAGE_KEY)
-        const res = await storageService.query(STORAGE_KEY)
-        return res
-    } catch (err) {
-        console.log('err', err)
-    }
+// async function query() {
+//     try {
+//         // const res = await storageService.get(STORAGE_KEY)
+//         const res = await storageService.query(STORAGE_KEY)
+//         return res
+//     } catch (err) {
+//         console.log('err', err)
+//     }
+// }
+
+async function remove(groupId, boardId) {
+    let currBoard = await boardService.getById(boardId)
+    let currGroup = currBoard.groups.filter(group => group.id !== groupId)
+    currBoard.groups=currGroup
+    console.log('cuurBoard',currBoard)
+    await storageService.put(STORAGE_KEY, currBoard)
+    return currBoard
 }
 
-async function getById(groupId) {
-    try {
-        const res = await storageService.get('group' , groupId)
-        return res
-    } catch (err) {
-        console.log('err', err)
-    }
+function getById(groupId, board) {
+    console.log('froum service',board)
+    return board.groups.find(group => group.id === groupId)
 }
 
-async function remove(groupId) {
-    await storageService.remove(STORAGE_KEY, groupId)
-}
 
-async function save(group) {
+async function save(group, boardId) {
     var savedGroup
+    let currBoard = boardService.getById(boardId)
     try {
         if (group.id) {
-            savedGroup = await storageService.put(STORAGE_KEY, group)
+            let groupIdx = currBoard.groups.findIndex(group => group.id === group.id)
+            currBoard.groups.splice(groupIdx, 1, group)
+            savedGroup = await storageService.put(STORAGE_KEY, currBoard)
         } else {
             group.id = utilService.makeId()
+            currBoard.groups.push(group)
             // task.owner = userService.getLoggedinUser();
             savedGroup = await storageService.post(STORAGE_KEY, group)
         }

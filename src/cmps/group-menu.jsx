@@ -3,10 +3,10 @@ import { BsGraphUp, BsTrash } from "react-icons/bs";
 import { useState } from "react"
 import React from "react"
 
-export const GroupMenu= ({ group,menuRef,onRemoveGroup }) => {
+export const GroupMenu= ({ group,menuRef,onRemoveGroup,boardId }) => {
 
 const deleteGroup=(groupId)=>{
-    onRemoveGroup(groupId)
+    onRemoveGroup(groupId,boardId)
 }
 
 

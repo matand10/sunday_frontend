@@ -3,8 +3,8 @@ import { OnClickMenu } from '../modal/right-click-modal';
 export const RightClickMenu = ({ x, y, showMenu }) => {
     const style = () => {
         return {
-            top: y - 230,
-            left: x - 364,
+            top: y,
+            left: x - 260,
             position: 'absolute',
         }
     }
