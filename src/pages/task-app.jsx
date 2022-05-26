@@ -73,9 +73,6 @@ export const TasksApp = () => {
     }
 
     const onRemoveGroup=(groupId)=>{
-        console.log('id',groupId)
-        // const currGroupIdx=board.groups.findIndex(group=>group.id===groupId)
-        // board.groups(spl)
         dispatch(removeGroup(groupId))
     }
 

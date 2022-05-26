@@ -25,9 +25,10 @@ export function boardReducer(state = initialState, action) {
         // case 'SET_GROUPS':
         //     return { ...state, boards:{...boards,groups: action.groups} }
         case 'REMOVE_GROUP':
-            console.log('from reducer',state.boards.groups)
-            groups = state.boards.groups.filter(group => group.id !== action.groupId)
-            return { ...state, boards:{...boards,groups: action.groups} }
+            groups = state.boards[0].groups.filter(group => group.id !== action.groupId)
+            let newBoards= state.boards
+            newBoards[0].groups=groups
+            return { ...state,boards:newBoards } 
         // case 'ADD_GROUP':
         //     console.log(state)
         //     groups = [action.group, ...state.boards.groups]
