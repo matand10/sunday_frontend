@@ -1,0 +1,33 @@
+.main-header {
+    background-color: $secondary-background-color;
+    border-bottom: 1px solid black;
+}
+
+.main-header-container {
+    padding-left: 32px;
+    padding-right: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.left-header {}
+
+.right-header {}
+
+.main-header-nav {}
+
+.main-nav {
+    display: flex;
+
+    &>*:not(:last-child) {
+        margin-inline-end: 25px;
+    }
+}
+
+.header-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 72px;
+}

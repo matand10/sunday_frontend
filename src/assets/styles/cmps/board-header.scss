@@ -1,5 +1,7 @@
 .board-header {
     padding: 16px 30px 0 30px;
+    position: relative;
+    z-index: 2000;
 }
 
 .board-header-main {}

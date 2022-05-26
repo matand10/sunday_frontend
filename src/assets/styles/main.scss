@@ -9,9 +9,14 @@
 @import "basics/layout";
 @import "basics/base";
 
+// Homepage cmps
+@import "homepage/header.scss";
+
 
 // Pages
 @import "pages/board-app.scss";
+@import "pages/login.scss";
+@import "pages/signup.scss";
 
 
 // Components

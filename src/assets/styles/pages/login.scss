@@ -1,0 +1,138 @@
+.login-router-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    flex-grow: 1;
+    padding: 40px;
+}
+
+.email-first-component {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 16px;
+    width: 100%;
+    text-align: center;
+
+    & .login-header {
+        font-size: 2.5rem;
+        font-weight: 100;
+        margin-bottom: 8px;
+    }
+
+    & .email-page {
+        margin-top: 28px;
+    }
+
+    & .email-input-and-button-wrapper {
+        width: 360px;
+        margin-bottom: 32px;
+    }
+}
+
+.enter-work-email {
+    height: 20px;
+    margin-bottom: 4px;
+    font-weight: 500;
+    font-size: 1rem;
+    display: inline-block;
+
+    & .enter-work-email {
+        margin-top: 10px;
+        width: 100%;
+        height: 40px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        padding: 6px 12px;
+        font-size: 1rem;
+        color: #555;
+        outline: none;
+
+        &:active,
+        &:focus {
+            border: 1px solid #0085ff;
+        }
+    }
+}
+
+.next-button-component {
+    margin-top: 20px;
+    padding: 16px 0px;
+    height: 75px;
+    width: 100%;
+
+    & .next-button {
+        min-width: 100%;
+        height: 100%;
+        cursor: pointer;
+        outline: none;
+        display: flex;
+        justify-content: center;
+        border-radius: 4px;
+        align-items: center;
+        border: none;
+        font-size: 1.125rem;
+        color: #fff;
+        background-color: #0085ff;
+
+        &:hover {
+            background-color: #0073df;
+        }
+
+        & .button-values {
+            margin: 5px;
+        }
+    }
+}
+
+.login-seperator-component {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & .seperator-line {
+        width: 200px;
+        border: 0.5px solid #c5c7d0;
+        margin: 16px;
+    }
+
+    & h2 {
+        color: #636363;
+        font-size: 1.2rem;
+        font-weight: 200;
+    }
+}
+
+.social-login-component {
+    margin: 28px;
+
+    & .social-login-provider {
+        padding: 12px 16px;
+        border-radius: 4px;
+        border: 1px solid $divider-backgroud-color;
+    }
+
+    & .google-link {
+        margin: 1px;
+    }
+}
+
+.suggest-signup-wrapper {
+    margin: 14px;
+
+    & .suggest-signup-prefix {
+        padding-right: 5px;
+        font-weight: 300;
+    }
+
+    & .open-signup-modal {
+        color: #0fa2e2;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
