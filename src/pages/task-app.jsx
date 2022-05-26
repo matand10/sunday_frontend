@@ -82,6 +82,7 @@ export const TasksApp = () => {
     console.log(boards);
     if (!boards.length) return <h1>Loading...</h1>
 
+    if (!boards.length) return <h1>Loading...</h1>
     return <section className="task-main-container">
         <div className="board-container-left">
             <SideNav />

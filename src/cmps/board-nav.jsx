@@ -8,6 +8,8 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
+import { zIndex } from '@mui/system';
+
 import { groupService } from '../services/group.service';
 
 const options = ['New group of Tasks', 'import Tasks'];

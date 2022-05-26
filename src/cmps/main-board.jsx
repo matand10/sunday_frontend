@@ -7,8 +7,6 @@ export const MainBoard = ({ board, onAddTask,onRemoveGroup }) => {
     return <section className="group-main-container">
         {board.groups.map(group => <GroupList key={group.id} group={group} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup}/>)}
         {/* {board.groups.map(group => <GroupList key={group.id} group={group} />)} */}
-
-
-        <SidePanel />
+        {/* <SidePanel /> */}
     </section>
 }
