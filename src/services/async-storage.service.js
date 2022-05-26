@@ -44,6 +44,8 @@ function get(entityType, entityId) { // entitytype= 'group'
 
 function post(entityType, newEntity) {
     // newEntity._id = utilService.makeId()
+    console.log(newEntity);
+    // group.style = { color: utilService.getRandomColor() }
     return query(entityType)
         .then(entities => {
             entities.push(newEntity)
