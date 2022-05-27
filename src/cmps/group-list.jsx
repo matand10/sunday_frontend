@@ -16,7 +16,6 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup }
     const [clickTask, setClickTask] = useState({ task: '', isOpen: false })
     const [modal, setModal] = useState({})
     const [showMenu, setShowMenu] = useState(false)
-    const [updateIsClick, setUpdateIsClick] = useState({})
     const { x, y, handleContextMenu } = Menu()
     let menuRef = useRef()
 
@@ -56,21 +55,9 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup }
 
 
 
-    const onUpdateTask = (ev, params) => {
-        ev.stopPropagation()
-        setUpdateIsClick(params)
-    }
     
-    const handleChange=({target})=>{
-        document.addEventListener("keydown",(event)=>{
-           if(event.key==="Enter") {
-               event.preventDefault()
-               const value=target.value
-               updateTask(value,updateIsClick.task,updateIsClick.groupId,updateIsClick.boardId)
-               setUpdateIsClick({})
-           }
-        })
-    }
+    
+    
 
   
 
@@ -119,7 +106,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup }
 
                 {group.tasks.map((task, idx) => {
                     return <TasksList key={idx} task={task} menuRef={menuRef} backgroundColor={group.style.color}
-                        onHandleRightClick={onHandleRightClick} />
+                        onHandleRightClick={onHandleRightClick} onOpenModal={onOpenModal} updateTask={updateTask} group={group} board={board}/>
 
 
 

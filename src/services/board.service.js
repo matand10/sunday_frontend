@@ -11,7 +11,8 @@ export const boardService = {
     save,
     remove,
     getEmptyBoard,
-    filterBoard
+    filterBoard,
+    taskUpdate
 }
 
 async function query() {
@@ -68,9 +69,16 @@ async function save(board) {
     }
 }
 
+function taskUpdate(updateTask,groupId,board){
+    const newBoard = { ...board }
+    const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
+    const taskIdx=newBoard.groups[groupIdx].tasks.findIndex(task=>task.id===updateTask.id)
+    newBoard.groups[groupIdx].tasks.splice(taskIdx,1,updateTask)
+    return newBoard
+}
+
 function getEmptyBoard() {
     return {
-        // _id:utilService.makeId(),
         title: '',
         archivedAt: '',
         createdAt: Date.now(),
