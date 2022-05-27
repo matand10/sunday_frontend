@@ -1,11 +1,13 @@
-
 import { utilService } from "../services/util.service";
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { StatusModal } from '../modal/status-modal'
 
 export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, onOpenModal, updateTask, group, board }) => {
     const [updateIsClick, setUpdateIsClick] = useState({})
     const [taskUpdate, setTaskUpdate] = useState(task)
-
+    const [modalPos, setModalPos] = useState({ x: null, y: null })
+    const [isStatusActive, setIsStatusActive] = useState(false)
+    let statusRef = useRef()
     useEffect(() => {
         updateTask(taskUpdate, group.id, board)
         setUpdateIsClick({})
@@ -23,11 +25,25 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
         })
     }
 
+    useEffect(() => {
+        document.addEventListener("mousedown", (event) => {
+            if (!statusRef.current?.contains(event.target)) {
+                setIsStatusActive(false)
+            }
+        })
+    })
+
     const toggleStatus = (ev, value) => {
         const x = ev.pageX
         const y = ev.pageY
         setModalPos({ x: x, y: y })
         setIsStatusActive(value)
+    }
+
+    const changeStatus = (status) => {
+        task.status = status
+        updateTask(task, group.id, board)
+        setIsStatusActive(false)
     }
 
     const onUpdateTask = (ev, params) => {

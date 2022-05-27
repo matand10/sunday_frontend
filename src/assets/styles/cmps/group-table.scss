@@ -242,7 +242,7 @@
 
 
 .board-content-wrapper:first-child {
-    margin-top: 20px;
+    margin-top: 50px;
 }
 
 .board-content-wrapper {
@@ -403,7 +403,7 @@
 }
 
 .task-title-cell-component {
-    &:hover{
+    &:hover {
         & .edit-button {
             display: block;
             margin-left: 8px;
@@ -422,13 +422,13 @@
             top: 7px;
         }
     }
-    & input{
-        width:200px;
-        height: 24px;
-        margin-left:8px;
-        padding:2px;
-        border:1px solid rgb(171, 171, 171)
 
+    & input {
+        width: 200px;
+        height: 24px;
+        margin-left: 8px;
+        padding: 2px;
+        border: 1px solid rgb(171, 171, 171)
     }
 
 
