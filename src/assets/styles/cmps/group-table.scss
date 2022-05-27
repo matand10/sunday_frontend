@@ -334,9 +334,10 @@
 
 .group-arrow-div {
     position: absolute;
-    left: -5%;
+    left: -30px;
     top: 12px;
     font-size: 1.15rem;
+    width: 30px;
 }
 
 .group-header-items {
@@ -440,4 +441,14 @@
 
 .task-title-cell {
     padding-left: 10px;
+}
+
+.task-arrow-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: -30px;
+    width: 30px;
+    height: 100%;
 }

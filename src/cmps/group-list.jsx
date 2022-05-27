@@ -9,7 +9,7 @@ import { TaskMenu } from './task-menu'
 import { TasksList } from './tasks-list.jsx'
 
 
-export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup }) => {
+export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, removeTask }) => {
     const [task, setTask] = useState({ title: '' })
     const [isClickGroup, setIsClickGroup] = useState(false)
     const [arrowTask, setArrowTask] = useState({})
@@ -90,7 +90,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup }
 
                 {group.tasks.map((task, idx) => {
                     return <TasksList key={idx} task={task} menuRef={menuRef} backgroundColor={group.style.color}
-                        onHandleRightClick={onHandleRightClick} />
+                        onHandleRightClick={onHandleRightClick} onOpenMenu={onOpenMenu} group={group} board={board} removeTask={removeTask} />
 
 
 
@@ -106,7 +106,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup }
             <div className="name-cell-text"><span>{task.title}</span></div>
         </div> */}
 
-                    {/* <div className="task-arrow-div" onClick={(event) => onOpenMenu(task.id, event)} ><FaCaretDown className="task-arrow" /></div> */ }
+                    // <div className="task-arrow-div" onClick={(event) => onOpenMenu(task.id, event)} ><FaCaretDown className="task-arrow" /></div>
                     {/* {(updateIsClick) ?
                 <div className="title-update-input">
                 <input type="text" defaultValue={task.title} onChange={handleChange} />
