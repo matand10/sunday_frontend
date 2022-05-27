@@ -242,8 +242,7 @@
 
 
 .board-content-wrapper:first-child {
-    margin-top: 20px;
-
+    margin-top: 50px;
 }
 
 .board-content-wrapper {
@@ -400,6 +399,48 @@
     align-items: center;
     flex-basis: 400px;
     position: relative;
+}
+
+.task-title-cell {
+    display: flex;
+
+
+}
+
+.task-title-cell-component {
+    &:hover {
+        & .edit-button {
+            display: block;
+            margin-left: 8px;
+            // margin-bottom: 5px;
+            cursor: pointer;
+            height: 24px;
+            padding-left: 8px;
+            padding-right: 8px;
+            // padding-top: 2px;
+            // padding-bottom:3px;
+            border-radius: 4px;
+            line-height: 22px;
+            background-color: #f6f7fb;
+            text-align: center;
+            position: absolute;
+            top: 7px;
+        }
+    }
+
+    & input {
+        width: 200px;
+        height: 24px;
+        margin-left: 8px;
+        padding: 2px;
+        border: 1px solid rgb(171, 171, 171)
+    }
+
+
+}
+
+.edit-button {
+    display: none;
 }
 
 .status {

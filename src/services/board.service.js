@@ -11,7 +11,9 @@ export const boardService = {
     save,
     remove,
     getEmptyBoard,
-    filterBoard
+    filterBoard,
+    getLabels,
+    taskUpdate
 }
 
 async function query() {
@@ -68,9 +70,16 @@ async function save(board) {
     }
 }
 
+function taskUpdate(updateTask, groupId, board) {
+    const newBoard = { ...board }
+    const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
+    const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(task => task.id === updateTask.id)
+    newBoard.groups[groupIdx].tasks.splice(taskIdx, 1, updateTask)
+    return newBoard
+}
+
 function getEmptyBoard() {
     return {
-        // _id:utilService.makeId(),
         title: '',
         archivedAt: '',
         createdAt: Date.now(),
@@ -122,6 +131,32 @@ function getEmptyBoard() {
         ],
         style: {}
     }
+}
+
+
+function getLabels() {
+    return [
+        {
+            id: 'l101',
+            title: 'Done',
+            color: '#00c875'
+        },
+        {
+            id: 'l102',
+            title: 'Working on it',
+            color: '#fdab3d'
+        },
+        {
+            id: 'l103',
+            title: 'Stuck',
+            color: '#e2445c'
+        },
+        {
+            id: 'l104',
+            title: '',
+            color: '#c4c4c4'
+        }
+    ]
 }
 
 // Test Data

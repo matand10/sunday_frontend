@@ -56,6 +56,7 @@ export const TasksApp = () => {
         const newBoard = boardService.getEmptyBoard()
         newBoard.title = board.title
         dispatch(saveBoard(newBoard))
+        navigate(`/board/${newBoard._id}`)
     }
 
     const onRemoveGroup = (groupId) => {
@@ -64,9 +65,13 @@ export const TasksApp = () => {
         dispatch(saveBoard(board))
     }
 
-    const updateTask = (value, task, groupId, boardId) => {
-        task.title = value
-        dispatch(saveTask(task, groupId, boardId))
+    const updateTask = (updateTask, groupId,board) => {
+        // const newBoard = { ...board }
+        // const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
+        // const taskIdx=newBoard.groups[groupIdx].tasks.findIndex(task=>task.id===updateTask.id)
+        // newBoard.groups[groupIdx].tasks.splice(taskIdx,1,updateTask)
+        const newBoard=boardService.taskUpdate(updateTask, groupId,board)
+        dispatch(saveBoard(newBoard))
     }
 
     const onFilter = (filterBy) => {
