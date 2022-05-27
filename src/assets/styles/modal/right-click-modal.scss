@@ -25,3 +25,23 @@
         background-color: #dcdfec;
     }
 }
+
+.right-click-menu-board {
+    width: 100%;
+    position: absolute;
+    padding-right: 16px;
+}
+
+.rc-main-menu-inner-board {
+    background-color: #ffffff;
+    z-index: 2000;
+    border-radius: 7px;
+    box-shadow: 1px 1px 5px rgba($color: #000000, $alpha: 0.2);
+    width: 100%;
+    padding: 8px;
+}
+
+.rc-content-wrapper-link {
+    text-decoration: unset;
+    color: unset;
+}
