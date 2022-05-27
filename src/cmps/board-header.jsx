@@ -5,14 +5,21 @@ import { FiFilter } from 'react-icons/fi';
 import { BiSort } from 'react-icons/bi';
 import { IoIosSearch } from 'react-icons/io';
 import { DsMenu } from '../modal/ds-menu';
+import { SortMenu } from '../filters/sort-by';
 import dotsMenu from '../assets/img/side-nav/ds-menu.svg'
 import { useState, useRef, useEffect } from "react"
 import React from "react"
+import { useDispatch, useSelector } from "react-redux";
+import { setFilter } from '../store/board/board.action'
 
 export const BoardHeader = ({ board, onAddTask, onAddGroup, onFilter }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isSearchActive, setIsSearchActive] = useState(false)
+    const [isSortMenuOpen, setIsSortMenu] = useState(false)
     const [handleSearch, setHandleSearch] = useState({ search: '' })
+    const { filterBy } = useSelector((storeState) => storeState.boardModule)
+    const dispatch = useDispatch()
+
     let menuRef = useRef()
 
 
@@ -21,6 +28,7 @@ export const BoardHeader = ({ board, onAddTask, onAddGroup, onFilter }) => {
             if (!menuRef.current?.contains(event.target)) {
                 setIsMenuOpen(false)
                 setIsSearchActive(false)
+                setIsSortMenu(false)
             }
         })
     })
@@ -33,6 +41,10 @@ export const BoardHeader = ({ board, onAddTask, onAddGroup, onFilter }) => {
         setIsMenuOpen(value)
     }
 
+    const toggleSort = (value) => {
+        setIsSortMenu(value)
+    }
+
     const toggleSearchActive = (value) => {
         setIsSearchActive(value)
     }
@@ -40,6 +52,11 @@ export const BoardHeader = ({ board, onAddTask, onAddGroup, onFilter }) => {
     const onHandleSearch = ({ target }) => {
         const value = target.value
         setHandleSearch({ search: value })
+    }
+
+    const onSetFilter = (label) => {
+        const newFilterBy = { ...filterBy, sortBy: label }
+        dispatch(setFilter(newFilterBy))
     }
 
 
@@ -86,10 +103,11 @@ export const BoardHeader = ({ board, onAddTask, onAddGroup, onFilter }) => {
             {isSearchActive && <div ref={menuRef}><input onChange={(ev) => onHandleSearch(ev)} className="board-filter-search" autoFocus type="text" placeholder='Search' /></div>}
             <button className="panel-button-v2"><FaRegUserCircle /> <span>Person</span></button>
             <button className="panel-button-v2"><FiFilter /> <span>Filter</span></button>
-            <button className="panel-button-v2"><BiSort /> <span>Sort</span></button>
+            <button className="panel-button-v2" onClick={() => toggleSort(true)}><BiSort /> <span>Sort</span></button>
             <button className="panel-button-v2"><BsPinAngle /> <span>Pin</span></button>
         </div>
 
         <DsMenu isMenuOpen={isMenuOpen} menuRef={menuRef} />
+        <SortMenu onSetFilter={onSetFilter} isSortMenuOpen={isSortMenuOpen} menuRef={menuRef} />
     </div>
 }

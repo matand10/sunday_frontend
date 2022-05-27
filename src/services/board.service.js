@@ -13,7 +13,9 @@ export const boardService = {
     getEmptyBoard,
     filterBoard,
     taskUpdate,
-    groupUpdate
+    groupUpdate,
+    getLabels,
+    taskUpdate,
 }
 
 async function query() {
@@ -36,10 +38,23 @@ function filterBoard(board, filterBy) {
                 return regex.test(task.title)
             })
         })
+        return { ...board, groups: newGroups }
+
+    } else if (filterBy.sortBy) {
+        newGroups = board.groups.filter(group => {
+            switch (filterBy.sortBy) {
+                case 'title':
+                    return group.tasks.sort((a, b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
+                case 'status':
+                // return group.tasks.filter(task => )
+                default:
+                    return group
+            }
+        })
+        return { ...board, groups: newGroups }
     } else {
         return board
     }
-    return { ...board, groups: newGroups }
 }
 
 async function getById(boardId) {
@@ -141,9 +156,31 @@ function getEmptyBoard() {
     }
 }
 
-// Test Data
-// storageService.post(STORAGE_KEY, { vendor: 'Subali Rahok 2', price: 980 }).then(x => console.log(x))
 
+function getLabels() {
+    return [
+        {
+            id: 'l101',
+            title: 'Done',
+            color: '#00c875'
+        },
+        {
+            id: 'l102',
+            title: 'Working on it',
+            color: '#fdab3d'
+        },
+        {
+            id: 'l103',
+            title: 'Stuck',
+            color: '#e2445c'
+        },
+        {
+            id: 'l104',
+            title: '',
+            color: '#c4c4c4'
+        }
+    ]
+}
 
 
 // storageService.post(STORAGE_KEY, {

@@ -242,8 +242,7 @@
 
 
 .board-content-wrapper:first-child {
-    margin-top: 20px;
-
+    margin-top: 50px;
 }
 
 .board-content-wrapper {
@@ -345,9 +344,10 @@
 
 .group-arrow-div {
     position: absolute;
-    left: -5%;
+    left: -30px;
     top: 12px;
     font-size: 1.15rem;
+    width: 30px;
 }
 
 .group-header-items {
@@ -373,6 +373,10 @@
     &:hover {
         background-color: #e6e9ef;
         cursor: pointer;
+
+        .task-arrow-div {
+            display: flex;
+        }
     }
 }
 
@@ -394,11 +398,17 @@
 }
 
 .task-row-wrapper {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     font-weight: 500;
     width: 100%;
+
+    & .task-main-menu-inner {
+        top: 34px;
+        left: -30px;
+    }
 }
 
 .task-title-cell-component {
@@ -415,7 +425,7 @@
 }
 
 .task-title-cell-component {
-    &:hover{
+    &:hover {
         & .edit-button {
             display: block;
             margin-left: 8px;
@@ -437,13 +447,13 @@
             }
         }
     }
-    & input{
-        width:200px;
-        height: 24px;
-        margin-left:8px;
-        padding:2px;
-        border:1px solid rgb(171, 171, 171)
 
+    & input {
+        width: 200px;
+        height: 24px;
+        margin-left: 8px;
+        padding: 2px;
+        border: 1px solid rgb(171, 171, 171)
     }
 
 
@@ -496,4 +506,14 @@
 
 .task-title-cell {
     padding-left: 10px;
+}
+
+.task-arrow-div {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: -30px;
+    width: 30px;
+    height: 100%;
 }

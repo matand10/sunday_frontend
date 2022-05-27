@@ -74,6 +74,7 @@ function getLabel(status) {
     }
 }
 
+
 function getRandomColor() {
     const letters = '0123456789ABCDEF'
     var color = '#'
