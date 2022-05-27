@@ -10,9 +10,9 @@ export class SidePanel extends React.Component {
         isInputClicked: false
     }
 
-    toggleModal = () => {
-        console.log(this.props)
-        this.props.onOpenModal({})
+
+    closeModal = () => {
+        this.props.onCloseModal()
     }
 
     toggleInput = (value) => {
@@ -30,7 +30,7 @@ export class SidePanel extends React.Component {
                 <div className="modal-content">
                     <div className="side-panel-title">
                         <div className="close-action-wrapper">
-                            <span className="close-side-panel" onClick={this.toggleModal}>&times;</span>
+                            <span className="close-side-panel" onClick={() => this.closeModal()}>&times;</span>
                         </div>
                         <div className="side-panel-header-container">
                             <div className="side-panel-title-wrapper">

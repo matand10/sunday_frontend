@@ -2,11 +2,11 @@ import { utilService } from "../services/util.service";
 import { Menu } from '../hooks/right-click-menu'
 import { RightClickMenu } from '../modal/right-click-menu'
 import { useRef, useEffect, useState } from 'react';
-import { SidePanel } from "./side-panel"
 import { FaChevronCircleDown, FaCaretDown } from 'react-icons/fa'
 import { GroupMenu } from './group-menu'
 import { TaskMenu } from './task-menu'
 import { TasksList } from './tasks-list.jsx'
+import { useParams } from "react-router-dom";
 
 
 export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup }) => {
@@ -18,6 +18,8 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup }
     const [showMenu, setShowMenu] = useState(false)
     const { x, y, handleContextMenu } = Menu()
     let menuRef = useRef()
+    let groupRef = useRef()
+    const { boardId } = useParams()
 
 
     const addTask = (ev) => {
@@ -33,6 +35,9 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup }
 
     useEffect(() => {
         document.addEventListener("mousedown", (event) => {
+            if (!groupRef.current?.contains(event.target)) {
+                setIsClickGroup(false)
+            }
             if (!menuRef.current?.contains(event.target)) {
                 document.removeEventListener('contextmenu', handleContextMenu)
                 setShowMenu(false)
@@ -45,56 +50,18 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup }
         setShowMenu(value)
     }
 
-    const onOpenModal = (params) => {
-        setModal(params)
-    }
-
     const onOpenMenu = (params) => {
         setArrowTask(params)
     }
 
 
-
-
-
-
-
-
-
-
-    // return <div className="group">
-    //     <div className="head">
-    //         <div className="group-arrow-div"><FaChevronCircleDown className="group-arrow" onClick={() => setIsClickGroup(!isClickGroup)} /></div>
-    //         {isClickGroup && <GroupMenu menuRef={menuRef} group={group} onRemoveGroup={onRemoveGroup} boardId={board._id}/>}
-    //         <div>{group.title}</div>
-    //         <div>Person</div>
-    //         <div>Status</div>
-    //         <div>Date</div>
-    //     </div>
-    //     {group.tasks.map((task, idx) => {
-    //         // return <section key={idx} className="group-row" ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task, true)}>
-    //         return <div key={task.title} className="group-row"
-    //             ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task)}>
-    //             <div className="task-arrow-div" onClick={(event) => onOpenMenu(task.id, event)} ><FaCaretDown className="task-arrow" /></div>
-    //             {(updateIsClick.boardId && updateIsClick.groupId === group.id && updateIsClick.task.id === task.id ) ?
-    //                 <div className="title-update-input">
-    //                     <input type="text" defaultValue={task.title} onChange={handleChange}/>
-    //                 </div>
-    //                 :
-    //                 <div onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })} className="task-title-content">
-    //                     {task.title}
-    //                     <div>
-    //                         <button onClick={(event)=>onUpdateTask(event,{ boardId: board._id, groupId: group.id, task: task })} className="edit-button">Edit</button>
-    //                     </div>
-    //                 </div>
-    //             }
     return <div className="board-content-wrapper">
         <div className="board-content-wrapper">
             <div className="group-header-wrapper">
                 <div className="group-header-component">
                     <div className="group-header-title">
-                        <div className="group-arrow-div" style={{ color: group.style.color }}><FaChevronCircleDown className="group-arrow" onClick={() => setIsClickGroup(!isClickGroup)} /></div>
-                        <div>{isClickGroup && <GroupMenu menuRef={menuRef} group={group} onRemoveGroup={onRemoveGroup} />}</div>
+                        <div className="group-arrow-div" style={{ color: group.style.color }} ref={groupRef}><FaChevronCircleDown className="group-arrow" onClick={() => setIsClickGroup(!isClickGroup)} /></div>
+                        <div ref={groupRef}>{isClickGroup && <GroupMenu group={group} onRemoveGroup={onRemoveGroup} />}</div>
                         <div><h3 style={{ color: group.style.color }}>{group.title}</h3></div>
                     </div>
                     <div className="group-header-items">
@@ -105,45 +72,9 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup }
                 </div>
 
                 {group.tasks.map((task, idx) => {
-                    return <TasksList key={idx} task={task} menuRef={menuRef} backgroundColor={group.style.color}
-                        onHandleRightClick={onHandleRightClick} onOpenModal={onOpenModal} updateTask={updateTask} group={group} board={board} />
-
-
-
-
-                    // return <section key={idx} className="group-row" ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task, true)}>
-                    // return <div key={idx} className="group-row"
-                    //     ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task)}>
-
-
-                    {/* <div className="name-cell-component">
-            <div className="pulse-left-indicator">
-            </div>
-            <div className="name-cell-text"><span>{task.title}</span></div>
-        </div> */}
-
-                    {/* <div className="task-arrow-div" onClick={(event) => onOpenMenu(task.id, event)} ><FaCaretDown className="task-arrow" /></div> */ }
-                    {/* {(updateIsClick) ?
-                <div className="title-update-input">
-                <input type="text" defaultValue={task.title} onChange={handleChange} />
-                </div>
-                :
-                <div onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })}>
-                {task.title}
-                <div>
-                <button onClick={onUpdateTask} className="edit-button">Edit</button>
-                </div>
-                </div>
-            } */}
-
-                    {/* <div>{task.assignedTo.map(member => member.fullname + ' ')}</div>
-            <div className="status" style={{ backgroundColor: task.status.color }}>{task.status.title}</div>
-            <div>{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</div>
-        {arrowTask.boardId && arrowTask.groupId === group.id && arrowTask.task.id === task.id && <TaskMenu arrowTask={arrowTask} onOpenMenu={onOpenMenu} />} */}
-                    // </div>
+                    return <TasksList key={idx} boardId={boardId} task={task} menuRef={menuRef} backgroundColor={group.style.color}
+                        onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} />
                 })}
-
-
 
                 <div>
                     <form onSubmit={addTask}>
@@ -153,7 +84,6 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup }
                 </div>
                 {clickTask.isOpen && <TaskMenu clickTask={clickTask} />}
                 <RightClickMenu x={x} y={y} showMenu={showMenu} />
-                {modal.boardId && <SidePanel modal={modal} onOpenModal={onOpenModal} />}
             </div>
         </div >
     </div>

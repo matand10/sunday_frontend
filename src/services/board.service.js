@@ -13,7 +13,7 @@ export const boardService = {
     getEmptyBoard,
     filterBoard,
     getLabels,
-    taskUpdate
+    taskUpdate,
 }
 
 async function query() {
@@ -35,10 +35,23 @@ function filterBoard(board, filterBy) {
                 return regex.test(task.title)
             })
         })
+        return { ...board, groups: newGroups }
+
+    } else if (filterBy.sortBy) {
+        newGroups = board.groups.filter(group => {
+            switch (filterBy.sortBy) {
+                case 'title':
+                    return group.tasks.sort((a, b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
+                case 'status':
+                // return group.tasks.filter(task => )
+                default:
+                    return group
+            }
+        })
+        return { ...board, groups: newGroups }
     } else {
         return board
     }
-    return { ...board, groups: newGroups }
 }
 
 async function getById(boardId) {

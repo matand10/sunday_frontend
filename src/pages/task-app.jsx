@@ -64,16 +64,12 @@ export const TasksApp = () => {
 
     const onRemoveGroup = (groupId) => {
         const groupIdx = board.groups.findIndex(group => group.id === groupId)
-        board.groups.splice(groupIdx,1)
+        board.groups.splice(groupIdx, 1)
         dispatch(saveBoard(board))
     }
 
-    const updateTask = (updateTask, groupId,board) => {
-        // const newBoard = { ...board }
-        // const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
-        // const taskIdx=newBoard.groups[groupIdx].tasks.findIndex(task=>task.id===updateTask.id)
-        // newBoard.groups[groupIdx].tasks.splice(taskIdx,1,updateTask)
-        const newBoard=boardService.taskUpdate(updateTask, groupId,board)
+    const updateTask = (updateTask, groupId, board) => {
+        const newBoard = boardService.taskUpdate(updateTask, groupId, board)
         dispatch(saveBoard(newBoard))
     }
 
@@ -82,7 +78,6 @@ export const TasksApp = () => {
     }
 
     const openBoard = (board) => {
-        console.log(board);
         setBoard(board)
         navigate(board._id)
     }
@@ -100,5 +95,5 @@ export const TasksApp = () => {
             </div>
         </div>
     </section>
-    
+
 }

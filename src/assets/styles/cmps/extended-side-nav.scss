@@ -15,7 +15,7 @@
         position: absolute;
         right: -13px;
         top: 1rem;
-        z-index: 99;
+        z-index: 3001;
         cursor: pointer;
         transform: rotateZ(-180deg);
         transition: transform 200ms ease-in-out;
@@ -29,6 +29,7 @@
         transform: rotateZ(0deg);
         transition: width 200ms ease-in-out;
         background-color: #f6f7fb;
+        z-index: 3001;
 
 
         & .home-controller-content {

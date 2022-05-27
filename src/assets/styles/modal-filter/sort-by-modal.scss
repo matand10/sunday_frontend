@@ -1,0 +1,14 @@
+.group-sort-main-container {
+    background-color: #ffffff;
+    position: absolute;
+    left: 425px;
+    top: 175px;
+    z-index: 100;
+    border-radius: 7px;
+    box-shadow: 1px 1px 5px rgba($color: #000000, $alpha: 0.2);
+    z-index: 3006;
+    width: 400px;
+    height: 162px;
+    padding: 20px 16px;
+    transition: display .1s;
+}

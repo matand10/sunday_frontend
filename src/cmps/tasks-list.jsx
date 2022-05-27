@@ -1,17 +1,19 @@
 import { utilService } from "../services/util.service";
 import { useEffect, useRef, useState } from 'react';
 import { StatusModal } from '../modal/status-modal'
+import { SidePanel } from "./side-panel"
 
-export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, onOpenModal, updateTask, group, board }) => {
+export const TasksList = ({ task, boardId, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board }) => {
+    const [modal, setModal] = useState({})
     const [updateIsClick, setUpdateIsClick] = useState({})
     const [taskUpdate, setTaskUpdate] = useState(task)
     const [modalPos, setModalPos] = useState({ x: null, y: null })
     const [isStatusActive, setIsStatusActive] = useState(false)
     let statusRef = useRef()
+
     useEffect(() => {
         updateTask(taskUpdate, group.id, board)
         setUpdateIsClick({})
-
     }, [taskUpdate])
 
     const handleChange = ({ target }) => {
@@ -51,11 +53,19 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
         setUpdateIsClick(params)
     }
 
+    const onOpenModal = () => {
+        setModal(prevState => ({ ...prevState, boardId: boardId, task: task }))
+    }
+
+    const onCloseModal = () => {
+        setModal({ boardId: null })
+    }
+
+
     return <section className="task-row-component" onContextMenu={(ev) => onHandleRightClick(ev, task, true)} ref={menuRef}>
         <div className="task-row-wrapper">
             <div className="task-row-title">
-                {/* <div className="task-arrow-div" onClick={(event) => onOpenMenu(task.id, event)} ><FaCaretDown className="task-arrow" /></div> */}
-                <div className="task-title-cell-component">
+                <div className="task-title-cell-component" onClick={onOpenModal}>
                     <div className="left-indicator-cell" style={{ backgroundColor }}></div>
                     <div className="task-title-content">
                         {(updateIsClick.boardId && updateIsClick.groupId === group.id && updateIsClick.task.id === task.id) ?
@@ -81,8 +91,8 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
                 </div>
             </div>
         </div>
-
         {isStatusActive && <StatusModal changeStatus={changeStatus} task={task} statusRef={statusRef} modalPos={modalPos} />}
+        {modal.boardId && <SidePanel modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}
     </section>
 }
 

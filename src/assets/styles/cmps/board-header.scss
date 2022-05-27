@@ -134,6 +134,10 @@
         &:hover {
             background-color: #dcdfec;
         }
+
+        &:focus {
+            background-color: $active-button-background-color;
+        }
     }
 }
 
