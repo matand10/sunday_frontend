@@ -3,11 +3,11 @@ import { BsGraphUp, BsTrash } from "react-icons/bs";
 import React from "react"
 
 // export const TaskMenu = ({  task, menuRef }) => {
-export const TaskMenu = ({ arrowTask, menuRef, onOpenMenu }) => {
+export const TaskMenu = ({ arrowTask, menuRef, onOpenMenu, removeTask }) => {
 
     // const deleteTask = (taskId) => {
     const deleteTask = () => {
-        console.log(arrowTask);
+        removeTask(arrowTask.taskId, arrowTask.groupId)
     }
 
 

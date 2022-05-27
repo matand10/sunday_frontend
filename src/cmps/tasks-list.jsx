@@ -1,20 +1,31 @@
 import { utilService } from "../services/util.service";
+import { FaChevronCircleDown, FaCaretDown } from 'react-icons/fa'
+import { TaskMenu } from './task-menu';
+
 import { useEffect, useRef, useState } from 'react';
 import { StatusModal } from '../modal/status-modal'
 import { SidePanel } from "./side-panel"
+import { useParams } from "react-router-dom";
 
-export const TasksList = ({ task, boardId, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board }) => {
+// export const TasksList = ({ task, boardId, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board }) => {
+// export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, group, board, removeTask }) => {
+export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board, removeTask }) => {
     const [modal, setModal] = useState({})
+    const [arrowTask, setArrowTask] = useState({})
     const [updateIsClick, setUpdateIsClick] = useState({})
     const [taskUpdate, setTaskUpdate] = useState(task)
     const [modalPos, setModalPos] = useState({ x: null, y: null })
     const [isStatusActive, setIsStatusActive] = useState(false)
     let statusRef = useRef()
-
+    const { boardId } = useParams()
     useEffect(() => {
         updateTask(taskUpdate, group.id, board)
         setUpdateIsClick({})
     }, [taskUpdate])
+
+    const onOpenMenu = (params) => {
+        setArrowTask(params)
+    }
 
     const handleChange = ({ target }) => {
         document.addEventListener("keydown", (event) => {
@@ -65,15 +76,16 @@ export const TasksList = ({ task, boardId, backgroundColor, onHandleRightClick, 
     return <section className="task-row-component" onContextMenu={(ev) => onHandleRightClick(ev, task, true)} ref={menuRef}>
         <div className="task-row-wrapper">
             <div className="task-row-title">
-                <div className="task-title-cell-component" onClick={onOpenModal}>
+                <div className="task-title-cell-component" onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })}>
+                    <div className="task-arrow-div" onClick={(event) => onOpenMenu({ taskId: task.id, groupId: group.id, board: board })} ><FaCaretDown className="task-arrow" /></div>
                     <div className="left-indicator-cell" style={{ backgroundColor }}></div>
-                    <div className="task-title-content">
+                    <div className="task-title-content" >
                         {(updateIsClick.boardId && updateIsClick.groupId === group.id && updateIsClick.task.id === task.id) ?
                             <div className="title-update-input">
-                                <input type="text" defaultValue={task.title} onChange={handleChange} name="title" />
+                                <input type="text" defaultValue={task.title} onChange={handleChange} name="title" onClick="event.stopPropagation()" />
                             </div>
                             :
-                            <div className="task-title-cell" onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })}>
+                            <div className="task-title-cell">
                                 <div>
                                     {task.title}
                                 </div>
@@ -90,9 +102,10 @@ export const TasksList = ({ task, boardId, backgroundColor, onHandleRightClick, 
                     <div className="flex-row-items">{utilService.getCurrTime(task.archivedAt)}</div>
                 </div>
             </div>
-        </div>
+            {arrowTask.board && arrowTask.groupId === group.id && arrowTask.taskId === task.id && <TaskMenu removeTask={removeTask} arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
+        </div >
         {isStatusActive && <StatusModal changeStatus={changeStatus} task={task} statusRef={statusRef} modalPos={modalPos} />}
         {modal.boardId && <SidePanel modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}
-    </section>
+    </section >
 }
 

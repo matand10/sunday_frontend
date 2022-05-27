@@ -27,7 +27,7 @@
 @import "cmps/board-header.scss";
 @import "cmps/board-nav.scss";
 
-//Side Modal
+//Modal
 @import "modal/side-panel.scss";
 @import "modal/create-board.scss";
 @import "modal/dots-dialog-modal.scss";
@@ -39,3 +39,4 @@
 
 // Modals Filters
 @import "modal-filter/sort-by-modal.scss";
+@import "modal/board-menu-actions.scss"

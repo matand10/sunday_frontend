@@ -81,25 +81,27 @@
 
 .home-control-sub-header {
     padding-bottom: 16px;
+
+    & .home-control-button {
+        all: unset;
+        cursor: pointer;
+        height: 34px;
+        font-weight: 400;
+        font-size: 1.142rem;
+        width: 100%;
+        border-radius: 4px;
+
+        &:hover {
+            background-color: #dcdfec;
+        }
+
+        & .home-control-button-span {
+            padding: 0 6px;
+        }
+    }
 }
 
-.home-control-button {
-    all: unset;
-    cursor: pointer;
-    height: 34px;
-    font-weight: 400;
-    font-size: 1.142rem;
-    width: 100%;
-    border-radius: 4px;
 
-    &:hover {
-        background-color: #dcdfec;
-    }
-
-    & .home-control-button-span {
-        padding: 0 6px;
-    }
-}
 
 .divider {
     background-color: #d0d4e4;
@@ -117,4 +119,37 @@
 .board-link {
     all: unset;
     width: 100%;
+}
+
+.ds-menu-button {
+    width: 26px;
+    height: 26px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: .1s;
+
+    &:hover {
+        background-color: #dcdfec;
+    }
+}
+
+.home-control-all-buttons {
+    height: 34px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+    & .ds-menu-button {
+        display: none;
+    }
+
+    &:hover {
+        background-color: #dcdfec;
+
+        & .ds-menu-button {
+            display: block;
+        }
+    }
+
 }

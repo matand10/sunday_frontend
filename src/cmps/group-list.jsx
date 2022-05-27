@@ -9,7 +9,7 @@ import { TasksList } from './tasks-list.jsx'
 import { useParams } from "react-router-dom";
 
 
-export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup }) => {
+export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, removeTask }) => {
     const [task, setTask] = useState({ title: '' })
     const [isClickGroup, setIsClickGroup] = useState(false)
     const [arrowTask, setArrowTask] = useState({})

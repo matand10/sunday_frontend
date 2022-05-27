@@ -3,16 +3,13 @@ import { useDispatch, useSelector } from "react-redux"
 import { loadBoards, setFilter } from "../store/board/board.action"
 import { MainBoard } from '../cmps/main-board.jsx'
 import { SideNav } from '../cmps/side-nav.jsx'
-import { BoardNav } from "../cmps/board-nav"
 import { saveTask } from '../store/task/task.action'
-import { groupService } from "../services/group.service"
 import { BoardHeader } from "../cmps/board-header"
-import { saveBoard } from '../store/board/board.action'
+import { saveBoard, removeBoard } from '../store/board/board.action'
 import { ExtendedSideNav } from '../cmps/extended-side-nav.jsx'
 import { taskService } from "../services/task.service"
 import { boardService } from "../services/board.service"
 import { useNavigate, useParams } from "react-router-dom"
-import { removeGroup } from '../store/group/group.action'
 
 
 export const TasksApp = () => {
@@ -62,6 +59,15 @@ export const TasksApp = () => {
         navigate(`/board/${newBoard._id}`)
     }
 
+    const onDeleteBoard = (boardId) => {
+        dispatch(removeBoard(boardId))
+        navigate(`/board`)
+    }
+
+    const updateBoard = (board) => {
+        dispatch(saveBoard(board))
+    }
+
     const onRemoveGroup = (groupId) => {
         const groupIdx = board.groups.findIndex(group => group.id === groupId)
         board.groups.splice(groupIdx, 1)
@@ -69,6 +75,10 @@ export const TasksApp = () => {
     }
 
     const updateTask = (updateTask, groupId, board) => {
+        // const newBoard = { ...board }
+        // const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
+        // const taskIdx=newBoard.groups[groupIdx].tasks.findIndex(task=>task.id===updateTask.id)
+        // newBoard.groups[groupIdx].tasks.splice(taskIdx,1,updateTask)
         const newBoard = boardService.taskUpdate(updateTask, groupId, board)
         dispatch(saveBoard(newBoard))
     }
@@ -82,16 +92,26 @@ export const TasksApp = () => {
         navigate(board._id)
     }
 
+    const removeTask = (taskId, groupId) => {
+        const newBoard = { ...board }
+        const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
+        const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(task => task.id === taskId)
+        console.log(taskIdx);
+        newBoard.groups[groupIdx].tasks.splice(taskIdx, 1)
+        console.log(newBoard);
+        dispatch(saveBoard(newBoard))
+    }
+
     if (!boards.length) return <h1>Loading...</h1>
     return <section className="task-main-container">
         <div className="board-container-left">
             <SideNav />
         </div>
         <div className="board-container-right">
-            <ExtendedSideNav openBoard={openBoard} boards={boards} onAddBoard={onAddBoard} />
+            <ExtendedSideNav updateBoard={updateBoard} openBoard={openBoard} boards={boards} onAddBoard={onAddBoard} onDeleteBoard={onDeleteBoard} />
             <div className="main-app flex-column">
                 <BoardHeader onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
-                <MainBoard board={board} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} />
+                <MainBoard removeTask={removeTask} board={board} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} />
             </div>
         </div>
     </section>
