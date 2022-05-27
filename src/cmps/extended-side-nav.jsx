@@ -25,6 +25,7 @@ export const ExtendedSideNav = ({ boards, onAddBoard, openBoard }) => {
 
     const onHandleRightClick = (ev, board) => {
         // If you want to use taskId or more manipulation...
+        ev.preventDefault()
         setShowMenu(board)
     }
 
@@ -66,10 +67,11 @@ export const ExtendedSideNav = ({ boards, onAddBoard, openBoard }) => {
                     <div className="project-side-link">
                         {boards.length && boards.map((board, idx) => {
                             return <NavLink key={idx} className="board-link" to={`/board/${board._id}`}>
-                                <button onContextMenu={(ev) => onHandleRightClick(ev, board, true)} className="home-control-button"><span className="home-control-button-span">{board.title}</span></button>
-                                {showMenu._id === board._id && <div className='right-click-menu-board' >
+                                <button className="home-control-button"><span className="home-control-button-span">{board.title}</span></button>
+                                {/* <button onContextMenu={(ev) => onHandleRightClick(ev, board, true)} className="home-control-button"><span className="home-control-button-span">{board.title}</span></button> */}
+                                {/* {showMenu._id === board._id && <div className='right-click-menu-board' >
                                     <OnClickMenuBoard openBoard={openBoard} board={showMenu} />
-                                </div>}
+                                </div>} */}
                             </NavLink>
                         })}
                     </div>

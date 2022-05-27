@@ -1,37 +1,27 @@
-import { useRef, useState, useEffect } from "react";
+
 import { utilService } from "../services/util.service";
-import { StatusModal } from '../modal/status-modal'
-import { useDispatch, useSelector } from "react-redux"
-import { saveBoard } from "../store/board/board.action"
-import { useParams } from "react-router-dom";
-import { boardService } from "../services/board.service";
+import { useEffect, useState } from 'react';
 
-
-export const TasksList = ({ group, task, backgroundColor, onHandleRightClick, menuRef }) => {
-    const [isStatusActive, setIsStatusActive] = useState(false)
-    const [modalPos, setModalPos] = useState({ x: null, y: null })
-    const dispatch = useDispatch()
-    const { boardId } = useParams()
-    let statusRef = useRef()
+export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, onOpenModal, updateTask, group, board }) => {
+    const [updateIsClick, setUpdateIsClick] = useState({})
+    const [taskUpdate, setTaskUpdate] = useState(task)
 
     useEffect(() => {
-        document.addEventListener("mousedown", (event) => {
-            if (!statusRef.current?.contains(event.target)) {
-                setIsStatusActive(false)
+        updateTask(taskUpdate, group.id, board)
+        setUpdateIsClick({})
+
+    }, [taskUpdate])
+
+    const handleChange = ({ target }) => {
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault()
+                const value = target.value
+                const field = target.name
+                setTaskUpdate((prevTask) => ({ ...prevTask, [field]: value }))
             }
         })
-    }, [])
-
-    const changeStatus = async (status) => {
-        const board = await boardService.getById(boardId)
-        console.log(task);
-        task.status = status
-        console.log(task);
-        dispatch(saveBoard(board))
-        setIsStatusActive(false)
     }
-
-
 
     const toggleStatus = (ev, value) => {
         const x = ev.pageX
@@ -40,12 +30,33 @@ export const TasksList = ({ group, task, backgroundColor, onHandleRightClick, me
         setIsStatusActive(value)
     }
 
+    const onUpdateTask = (ev, params) => {
+        ev.stopPropagation()
+        setUpdateIsClick(params)
+    }
+
     return <section className="task-row-component" onContextMenu={(ev) => onHandleRightClick(ev, task, true)} ref={menuRef}>
         <div className="task-row-wrapper">
             <div className="task-row-title">
+                {/* <div className="task-arrow-div" onClick={(event) => onOpenMenu(task.id, event)} ><FaCaretDown className="task-arrow" /></div> */}
                 <div className="task-title-cell-component">
                     <div className="left-indicator-cell" style={{ backgroundColor }}></div>
-                    <div className="task-title-cell">{task.title}</div>
+                    <div className="task-title-content">
+                        {(updateIsClick.boardId && updateIsClick.groupId === group.id && updateIsClick.task.id === task.id) ?
+                            <div className="title-update-input">
+                                <input type="text" defaultValue={task.title} onChange={handleChange} name="title" />
+                            </div>
+                            :
+                            <div className="task-title-cell" onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })}>
+                                <div>
+                                    {task.title}
+                                </div>
+                                <div>
+                                    <button onClick={(event) => onUpdateTask(event, { boardId: board._id, groupId: group.id, task: task })} className="edit-button">Edit</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
                 <div className="task-row-items">
                     <div className="flex-row-items">{task.assignedTo.map(user => user.fullname)}</div>
@@ -58,3 +69,4 @@ export const TasksList = ({ group, task, backgroundColor, onHandleRightClick, me
         {isStatusActive && <StatusModal changeStatus={changeStatus} task={task} statusRef={statusRef} modalPos={modalPos} />}
     </section>
 }
+
