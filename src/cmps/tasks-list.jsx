@@ -89,8 +89,8 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
                     <div className="flex-row-items">{utilService.getCurrTime(task.archivedAt)}</div>
                 </div>
             </div>
+            {arrowTask.board && arrowTask.groupId === group.id && arrowTask.taskId === task.id && <TaskMenu removeTask={removeTask} arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
         </div>
-        {arrowTask.board && arrowTask.groupId === group.id && arrowTask.taskId === task.id && <TaskMenu removeTask={removeTask} arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
 
         {isStatusActive && <StatusModal changeStatus={changeStatus} task={task} statusRef={statusRef} modalPos={modalPos} />}
     </section >

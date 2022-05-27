@@ -159,10 +159,6 @@ function getLabels() {
     ]
 }
 
-// Test Data
-// storageService.post(STORAGE_KEY, { vendor: 'Subali Rahok 2', price: 980 }).then(x => console.log(x))
-
-
 
 // storageService.post(STORAGE_KEY, {
 //     _id: "b102",

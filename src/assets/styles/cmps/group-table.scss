@@ -387,11 +387,17 @@
 }
 
 .task-row-wrapper {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     font-weight: 500;
     width: 100%;
+
+    & .task-main-menu-inner {
+        top: 34px;
+        left: -30px;
+    }
 }
 
 .task-title-cell-component {

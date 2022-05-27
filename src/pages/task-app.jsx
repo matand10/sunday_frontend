@@ -5,7 +5,7 @@ import { MainBoard } from '../cmps/main-board.jsx'
 import { SideNav } from '../cmps/side-nav.jsx'
 import { saveTask } from '../store/task/task.action'
 import { BoardHeader } from "../cmps/board-header"
-import { saveBoard } from '../store/board/board.action'
+import { saveBoard, removeBoard } from '../store/board/board.action'
 import { ExtendedSideNav } from '../cmps/extended-side-nav.jsx'
 import { taskService } from "../services/task.service"
 import { boardService } from "../services/board.service"
@@ -59,18 +59,27 @@ export const TasksApp = () => {
         navigate(`/board/${newBoard._id}`)
     }
 
+    const onDeleteBoard = (boardId) => {
+        dispatch(removeBoard(boardId))
+        navigate(`/board`)
+    }
+
+    const updateBoard = (board) => {
+        dispatch(saveBoard(board))
+    }
+
     const onRemoveGroup = (groupId) => {
         const groupIdx = board.groups.findIndex(group => group.id === groupId)
         board.groups.splice(groupIdx, 1)
         dispatch(saveBoard(board))
     }
 
-    const updateTask = (updateTask, groupId,board) => {
+    const updateTask = (updateTask, groupId, board) => {
         // const newBoard = { ...board }
         // const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
         // const taskIdx=newBoard.groups[groupIdx].tasks.findIndex(task=>task.id===updateTask.id)
         // newBoard.groups[groupIdx].tasks.splice(taskIdx,1,updateTask)
-        const newBoard=boardService.taskUpdate(updateTask, groupId,board)
+        const newBoard = boardService.taskUpdate(updateTask, groupId, board)
         dispatch(saveBoard(newBoard))
     }
 
@@ -100,7 +109,7 @@ export const TasksApp = () => {
             <SideNav />
         </div>
         <div className="board-container-right">
-            <ExtendedSideNav openBoard={openBoard} boards={boards} onAddBoard={onAddBoard} />
+            <ExtendedSideNav updateBoard={updateBoard} openBoard={openBoard} boards={boards} onAddBoard={onAddBoard} onDeleteBoard={onDeleteBoard} />
             <div className="main-app flex-column">
                 <BoardHeader onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
                 <MainBoard removeTask={removeTask} board={board} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} />
