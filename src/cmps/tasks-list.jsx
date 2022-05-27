@@ -33,7 +33,7 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
             <div className="task-row-title">
                 {/* <div className="task-arrow-div" onClick={(event) => onOpenMenu(task.id, event)} ><FaCaretDown className="task-arrow" /></div> */}
                 <div className="task-title-cell-component">
-                    <div className="left-indicator-cell" style={{ backgroundColor }}></div>
+                    <div className="left-indicator-cell" style={{ backgroundColor:group.style.color }}></div>
                     <div className="task-title-content">
                         {(updateIsClick.boardId && updateIsClick.groupId === group.id && updateIsClick.task.id === task.id) ?
                             <div className="title-update-input">
@@ -54,7 +54,7 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
                 <div className="task-row-items">
                     <div className="flex-row-items">{task.assignedTo.map(user => user.fullname)}</div>
                     <div className="flex-row-items status" style={{ backgroundColor: task.status.color }}>{task.status.title}</div>
-                    <div className="flex-row-items">{utilService.getCurrTime(task.archivedAt)}</div>
+                    <div className="flex-row-items">{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</div>
                 </div>
             </div>
         </div>

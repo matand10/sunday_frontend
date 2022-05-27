@@ -1,5 +1,6 @@
 import { AiOutlineUserAdd } from "react-icons/ai";
-import { BsGraphUp, BsTrash } from "react-icons/bs";
+import { BsTrash } from "react-icons/bs";
+import {FaPencilAlt} from "react-icons/fa"
 import React from "react"
 
 export const OnClickMenu = ({ isMenuOpen, menuRef }) => {
@@ -11,21 +12,14 @@ export const OnClickMenu = ({ isMenuOpen, menuRef }) => {
             <div className="rc-main-section">
                 <div className="rc-menu-item">
                     <div className="rc-content-wrapper">
-                        <div className="rc-icon"><AiOutlineUserAdd /></div>
-                        <div className="rc-title">Board members</div>
-                    </div>
-                    <div className="rc-content-wrapper">
-                        <div className="rc-icon"><AiOutlineUserAdd /></div>
+                        <div className="rc-icon"><FaPencilAlt/></div>
                         <div className="rc-title">Rename task</div>
                     </div>
                     <div className="rc-content-wrapper">
-                        <div className="rc-icon"><AiOutlineUserAdd /></div>
-                        <div className="rc-title">Copy</div>
+                        <div className="rc-icon"><BsTrash  /></div>
+                        <div className="rc-title">Delete</div>
                     </div>
-                    <div className="rc-content-wrapper">
-                        <div className="rc-icon"><AiOutlineUserAdd /></div>
-                        <div className="rc-title">Open task</div>
-                    </div>
+                    
                 </div>
             </div>
         </section>}

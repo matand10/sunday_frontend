@@ -12,13 +12,15 @@ export const boardService = {
     remove,
     getEmptyBoard,
     filterBoard,
-    taskUpdate
+    taskUpdate,
+    groupUpdate
 }
 
 async function query() {
     try {
         // const res = await storageService.get(STORAGE_KEY)
         const res = await storageService.query(STORAGE_KEY)
+        // if (!res.length) res = getEmptyBoard()
         return res
     } catch (err) {
         console.log('err', err)
@@ -69,11 +71,18 @@ async function save(board) {
     }
 }
 
-function taskUpdate(updateTask,groupId,board){
+function taskUpdate(updateTask, groupId, board) {
     const newBoard = { ...board }
     const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
-    const taskIdx=newBoard.groups[groupIdx].tasks.findIndex(task=>task.id===updateTask.id)
-    newBoard.groups[groupIdx].tasks.splice(taskIdx,1,updateTask)
+    const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(task => task.id === updateTask.id)
+    newBoard.groups[groupIdx].tasks.splice(taskIdx, 1, updateTask)
+    return newBoard
+}
+
+function groupUpdate(updateGroup, board) {
+    const newBoard = { ...board }
+    const groupIdx = newBoard.groups.findIndex(group => group.id === updateGroup.id)
+    newBoard.groups.splice(groupIdx, 1, updateGroup)
     return newBoard
 }
 
@@ -86,7 +95,7 @@ function getEmptyBoard() {
         members: [],
         groups: [
             {
-                style: {},
+                style: { color: utilService.getRandomColor() },
                 title: 'Group Title',
                 archivedAt: '',
                 tasks: [
@@ -107,7 +116,7 @@ function getEmptyBoard() {
                 ]
             },
             {
-                style: {},
+                style: { color: utilService.getRandomColor() },
                 title: 'Group Title',
                 archivedAt: '',
                 tasks: [
@@ -168,7 +177,7 @@ function getEmptyBoard() {
 //     ],
 //     groups: [
 //         {
-//             style: {},
+//             style: {color:utilService.getRandomColor()},
 //             id: "g101",
 //             title: "Group 1",
 //             archivedAt: 1589983468418,
@@ -202,11 +211,11 @@ function getEmptyBoard() {
 //                     archivedAt: 1589983468418,
 //                 }
 //             ],
-//             style: {}
 //         },
 //         {
-//             id: "g102",
-//             title: "Group 2",
+//           id: "g102",
+//           title: "Group 2",
+//           style: {color:utilService.getRandomColor()},
 //             tasks: [
 //                 {
 //                     id: "c103",
@@ -262,12 +271,12 @@ function getEmptyBoard() {
 //                         fullname: "Tal Tarablus",
 //                         imgUrl: "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg"
 //                     },
-//                     style: {
-//                         bgColor: "#26de81"
-//                     }
+//                     // style: {
+//                     //     bgColor: "#26de81"
+//                     // }
 //                 }
 //             ],
-//             style: {}
+//             // style: {}
 //         }
 //     ],
 //     activities: [

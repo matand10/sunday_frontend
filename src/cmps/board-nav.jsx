@@ -15,7 +15,7 @@ import { groupService } from '../services/group.service';
 const options = ['New group of Tasks', 'import Tasks'];
 
 
-export const BoardNav = ({ onAddTask, onAddGroup }) => {
+export const BoardNav = ({ onAddTask, onAddGroup,board }) => {
 
 
 
@@ -24,7 +24,7 @@ export const BoardNav = ({ onAddTask, onAddGroup }) => {
     const [selectedIndex, setSelectedIndex] = React.useState(1);
 
     const handleClick = () => {
-        onAddTask()
+        onAddTask(board)
         console.info(`You clicked ${options[selectedIndex]}`);
     };
 

@@ -81,7 +81,7 @@ export const BoardHeader = ({ board, onAddTask, onAddGroup, onFilter }) => {
 
         <div className="divider"></div>
         <div className="board-header-actions-v2">
-            <BoardNav onAddTask={onAddTask} onAddGroup={onAddGroup} />
+            <BoardNav onAddTask={onAddTask} onAddGroup={onAddGroup} board={board}/>
             {!isSearchActive && <button className="panel-button-v2" onClick={() => toggleSearchActive(true)}><IoIosSearch /> <span>Search</span></button>}
             {isSearchActive && <div ref={menuRef}><input onChange={(ev) => onHandleSearch(ev)} className="board-filter-search" autoFocus type="text" placeholder='Search' /></div>}
             <button className="panel-button-v2"><FaRegUserCircle /> <span>Person</span></button>

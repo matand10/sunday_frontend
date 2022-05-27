@@ -41,12 +41,8 @@ export const TasksApp = () => {
         setBoard(filteredBoard)
     }
 
-    const onAddTask = async (task, groupId) => {
-        const newBoard = { ...board }
-        const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
-        const newTask = taskService.getEmptyTask()
-        newTask.title = task.title
-        newBoard.groups[groupIdx].tasks.push(newTask)
+    const onAddTask = async (board,task, groupId) => {
+        const newBoard= await taskService.addTask(board,task, groupId)
         dispatch(saveBoard(newBoard))
     }
 
@@ -64,17 +60,19 @@ export const TasksApp = () => {
 
     const onRemoveGroup = (groupId) => {
         const groupIdx = board.groups.findIndex(group => group.id === groupId)
-        board.groups.splice(groupIdx,1)
+        board.groups.splice(groupIdx, 1)
         dispatch(saveBoard(board))
     }
 
-    const updateTask = (updateTask, groupId,board) => {
-        // const newBoard = { ...board }
-        // const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
-        // const taskIdx=newBoard.groups[groupIdx].tasks.findIndex(task=>task.id===updateTask.id)
-        // newBoard.groups[groupIdx].tasks.splice(taskIdx,1,updateTask)
-        const newBoard=boardService.taskUpdate(updateTask, groupId,board)
+    const updateTask = (updatedTask, groupId, board) => {
+        const newBoard = boardService.taskUpdate(updatedTask, groupId, board)
         dispatch(saveBoard(newBoard))
+    }
+    
+    const updateGroup = (updatedGroup, board) => {
+        const newBoard=boardService.groupUpdate(updatedGroup,board)
+        dispatch(saveBoard(newBoard))
+
     }
 
     const onFilter = (filterBy) => {
@@ -87,7 +85,7 @@ export const TasksApp = () => {
         navigate(board._id)
     }
 
-    if (!boards.length) return <h1>Loading...</h1>
+    if (!boards) return <h1>Loading...</h1>
     return <section className="task-main-container">
         <div className="board-container-left">
             <SideNav />
@@ -96,9 +94,9 @@ export const TasksApp = () => {
             <ExtendedSideNav openBoard={openBoard} boards={boards} onAddBoard={onAddBoard} />
             <div className="main-app flex-column">
                 <BoardHeader onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
-                <MainBoard board={board} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} />
+                <MainBoard board={board} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} updateGroup={updateGroup} />
             </div>
         </div>
     </section>
-    
+
 }

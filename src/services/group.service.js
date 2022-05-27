@@ -62,7 +62,7 @@ async function save(group, boardId) {
 function getEmptyGroup() {
     return {
         id: utilService.makeId(),
-        style: {},
+        style: {color:utilService.getRandomColor()},
         title: 'Group Title',
         archivedAt: '',
         tasks: [

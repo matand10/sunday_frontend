@@ -14,6 +14,7 @@ export const taskService = {
     save,
     remove,
     getEmptyTask,
+    addTask
 }
 
 // async function query() {
@@ -51,8 +52,8 @@ async function save(task, groupId, boardId) {
     const groupIdx = currBoard.groups.findIndex(group => group.id === groupId)
     const taskIdx = currGroup.tasks.findIndex(currTask => currTask.id === task.id)
     try {
-        let groups=[...currBoard.groups]
-        currBoard.groups=groups
+        let groups = [...currBoard.groups]
+        currBoard.groups = groups
         if (task._id) {
             currBoard.groups[groupIdx].tasks.splice(taskIdx, 1, task)
         } else {
@@ -67,10 +68,24 @@ async function save(task, groupId, boardId) {
     }
 }
 
+async function addTask(board, task, groupId) {
+    const newBoard = { ...board }
+    if (task && groupId) {
+        const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
+        const newTask = getEmptyTask()
+        newTask.title = task.title
+        newBoard.groups[groupIdx].tasks.push(newTask)
+    } else {
+        const newTask = getEmptyTask()
+        newBoard.groups[0].tasks.push(newTask)
+    }
+    return Promise.resolve(newBoard)
+}
+
 function getEmptyTask() {
     return {
         id: utilService.makeId(),
-        title: '',
+        title: 'item 1',
         assignedTo: [],
         comments: [],
         status: utilService.getLabel(),
