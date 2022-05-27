@@ -11,7 +11,8 @@ export const boardService = {
     save,
     remove,
     getEmptyBoard,
-    filterBoard
+    filterBoard,
+    getLabels
 }
 
 async function query() {
@@ -122,6 +123,32 @@ function getEmptyBoard() {
         ],
         style: {}
     }
+}
+
+
+function getLabels() {
+    return [
+        {
+            id: 'l101',
+            title: 'Done',
+            color: '#00c875'
+        },
+        {
+            id: 'l102',
+            title: 'Working on it',
+            color: '#fdab3d'
+        },
+        {
+            id: 'l103',
+            title: 'Stuck',
+            color: '#e2445c'
+        },
+        {
+            id: 'l104',
+            title: '',
+            color: '#c4c4c4'
+        }
+    ]
 }
 
 // Test Data

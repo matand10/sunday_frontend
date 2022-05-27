@@ -89,7 +89,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup }
                 </div>
 
                 {group.tasks.map((task, idx) => {
-                    return <TasksList key={idx} task={task} menuRef={menuRef} backgroundColor={group.style.color}
+                    return <TasksList key={idx} group={group} task={task} menuRef={menuRef} backgroundColor={group.style.color}
                         onHandleRightClick={onHandleRightClick} />
 
 

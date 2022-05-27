@@ -4,24 +4,24 @@ import dotsMenu from '../assets/img/side-nav/ds-menu.svg'
 import { NavLink } from 'react-router-dom'
 import { boardService } from '../services/board.service'
 import { CreatBoard } from './create-board'
-import { Menu } from '../hooks/right-click-menu'
+// import { Menu } from '../hooks/right-click-menu'
 import { OnClickMenuBoard } from '../modal/right-click-modal-board'
 
 export const ExtendedSideNav = ({ boards, onAddBoard, openBoard }) => {
-    const { x, y, handleContextMenu } = Menu()
+    // const { x, y, handleContextMenu } = Menu()
     const [showMenu, setShowMenu] = useState('')
-    let menuRef = useRef()
+    // let menuRef = useRef()
     const [isNavOpen, setIsNavOpen] = useState(false)
     const [isClick, setIsClick] = useState(false)
 
-    useEffect(() => {
-        document.addEventListener("mousedown", (event) => {
-            if (!menuRef.current?.contains(event.target)) {
-                document.removeEventListener('contextmenu', handleContextMenu)
-                setShowMenu({})
-            }
-        })
-    })
+    // useEffect(() => {
+    //     document.addEventListener("mousedown", (event) => {
+    //         if (!menuRef.current?.contains(event.target)) {
+    //             document.removeEventListener('contextmenu', handleContextMenu)
+    //             setShowMenu({})
+    //         }
+    //     })
+    // })
 
     const onHandleRightClick = (ev, board) => {
         // If you want to use taskId or more manipulation...
