@@ -38,8 +38,8 @@ export const TasksApp = () => {
         setBoard(filteredBoard)
     }
 
-    const onAddTask = async (board,task, groupId) => {
-        const newBoard= await taskService.addTask(board,task, groupId)
+    const onAddTask = async (board, task, groupId) => {
+        const newBoard = await taskService.addTask(board, task, groupId)
         dispatch(saveBoard(newBoard))
     }
 
@@ -71,16 +71,12 @@ export const TasksApp = () => {
     }
 
     const updateTask = (updateTask, groupId, board) => {
-        // const newBoard = { ...board }
-        // const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
-        // const taskIdx=newBoard.groups[groupIdx].tasks.findIndex(task=>task.id===updateTask.id)
-        // newBoard.groups[groupIdx].tasks.splice(taskIdx,1,updateTask)
         const newBoard = boardService.taskUpdate(updateTask, groupId, board)
         dispatch(saveBoard(newBoard))
     }
-    
+
     const updateGroup = (updatedGroup, board) => {
-        const newBoard=boardService.groupUpdate(updatedGroup,board)
+        const newBoard = boardService.groupUpdate(updatedGroup, board)
         dispatch(saveBoard(newBoard))
 
     }
