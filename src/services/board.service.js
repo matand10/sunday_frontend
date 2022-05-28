@@ -20,6 +20,7 @@ export const boardService = {
     changeTaskPosition,
     groupHeadSort,
     changeTaskPosition,
+    isIdOk,
 }
 
 async function query() {
@@ -146,6 +147,14 @@ function groupHeadSort(sortValue, group, rev, colIdx) {
     let newGroup = group
     newGroup.tasks = newTasks
     return newGroup
+}
+
+async function isIdOk(boardId, boards) {
+    try {
+        return boards.some(board => board._id === boardId)
+    } catch (err) {
+        console.log(err)
+    }
 }
 
 function getEmptyBoard() {
