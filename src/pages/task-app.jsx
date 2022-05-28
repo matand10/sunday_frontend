@@ -11,7 +11,6 @@ import { taskService } from "../services/task.service"
 import { boardService } from "../services/board.service"
 import { useNavigate, useParams } from "react-router-dom"
 
-
 export const TasksApp = () => {
     const params = useParams()
     const [board, setBoard] = useState(null)
@@ -43,6 +42,7 @@ export const TasksApp = () => {
     const makeBoard = async () => {
         let firstBoard
         if (boards.length === 0) firstBoard = await boardService.makeBoard()
+        else if (boards.length === 1) firstBoard = boards[0]
         setBoard(firstBoard)
     }
 
@@ -89,10 +89,10 @@ export const TasksApp = () => {
         dispatch(saveBoard(newBoard))
     }
 
-    const updateGroup = (updatedGroup, board) => {
+    // const updateGroup = (updatedGroup, board) => {
+    const updateGroup = (updatedGroup) => {
         const newBoard = boardService.groupUpdate(updatedGroup, board)
         dispatch(saveBoard(newBoard))
-
     }
 
     const onFilter = (filterBy) => {

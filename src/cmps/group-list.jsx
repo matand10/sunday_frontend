@@ -8,6 +8,7 @@ import { TaskMenu } from './task-menu'
 import { TasksList } from './tasks-list.jsx'
 import { useParams } from "react-router-dom";
 import { EditableColumn } from "../cmps/editable-input";
+import { groupService } from "../services/group.service";
 
 
 export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup }) => {
@@ -25,7 +26,8 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
     const { boardId } = useParams()
 
     useEffect(() => {
-        updateGroup(groupUpdate, board)
+        updateGroup(groupUpdate)
+        // updateGroup(groupUpdate, board)
         setGroupIsClick({})
     }, [groupUpdate])
 
@@ -66,6 +68,11 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
         setGroupIsClick(params)
     }
 
+    const onNewCol = () => {
+        const newGroup = groupService.groupColAdd(group)
+        updateGroup(newGroup)
+    }
+
     const handleGroupCange = ({ target }) => {
         document.addEventListener("keydown", (event) => {
             if (event.key === "Enter") {
@@ -76,7 +83,9 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
             }
         })
     }
-
+    let columns = group.tasks[0].columns
+    columns = columns.sort((a, b) => a.importance - b.importance)
+    // console.log(columns);
     return <div className="board-content-wrapper">
         <div className="board-content-wrapper">
             <div className="group-header-wrapper">
@@ -93,10 +102,15 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                         }
                     </div>
                     <div className="group-header-items">
-                        <div className="column-header"><span className="editable-column-header"><EditableColumn text={'Person'} /></span></div>
+
+                        {columns.map((col, idx) => {
+                            return <div key={idx} className="column-header"><span className="editable-column-header"><EditableColumn colIdx={idx} group={group} updateGroup={updateGroup} text={col.title} /></span></div>
+                        })}
+                        {/* <div className="column-header"><span className="editable-column-header"><EditableColumn text={'Person'} /></span></div>
                         <div className="column-header"><span className="editable-column-header"><EditableColumn text={'Status'} /></span></div>
-                        <div className="column-header"><span className="editable-column-header"><EditableColumn text={'Date'} /></span></div>
+                        <div className="column-header"><span className="editable-column-header"><EditableColumn text={'Date'} /></span></div> */}
                     </div>
+                    <button onClick={() => onNewCol()}>+</button>
                 </div>
 
                 {group.tasks.map((task, idx) => {

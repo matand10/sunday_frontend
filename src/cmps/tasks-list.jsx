@@ -92,6 +92,10 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
     }
 
     if (!task) return <h1>Loading...</h1>
+
+    let columns = task.columns
+    columns = columns.sort((a, b) => a.importance - b.importance)
+
     return <section className="task-row-component" onContextMenu={(ev) => onHandleRightClick(ev, task, true)} ref={menuRef} onDragOver={(ev) => draggingOver(ev)} onDrop={(ev) => dragDropped(ev, task.id)}>
         <div className="task-row-wrapper" draggable onDragStart={(ev) => dragStarted(ev, task.id)}>
             <div className="task-row-title">
@@ -117,13 +121,30 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
                 </div>
 
                 <div className="task-row-items">
-                    {task.assignedTo?.length ? <div className="flex-row-items">{task.assignedTo.map((user, idx) => {
+                    {columns.map((col, idx) => {
+                        switch (col.type) {
+                            case 'person':
+                                return col.value?.length ? <div key={idx} className="flex-row-items">{col.value.map((user, idx) => {
+                                    return <img key={idx} className="user-image-icon-assign" src={user.imgUrl} alt="user image" />
+                                })}</div> : <div key={idx} className="flex-row-items"><img className="user-image-icon-assign" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" /></div>
+                            case 'status':
+                                return <div key={idx} className="flex-row-items status" style={{ backgroundColor: col.value.color }} onClick={(ev) => toggleStatus(ev, true)}>{col.value.title}</div>
+                            case 'date':
+                                return <div key={idx} className="flex-row-items">{col.value ? utilService.getCurrTime(col.value) : ''}</div>
+                            case 'text':
+                                return <div key={idx} className="flex-row-items">{col.value}</div>
+                        }
+                    })
+
+                    }
+
+                    {/* {task.assignedTo?.length ? <div className="flex-row-items">{task.assignedTo.map((user, idx) => {
                         return <img key={idx} className="user-image-icon-assign" src={user.imgUrl} alt="user image" />
-                    })}</div> : <div className="flex-row-items"><img className="user-image-icon-assign" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" /></div>}
+                    })}</div> : <div className="flex-row-items"><img className="user-image-icon-assign" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" /></div>} */}
 
 
-                    <div className="flex-row-items status" style={{ backgroundColor: task.status.color }} onClick={(ev) => toggleStatus(ev, true)}>{task.status.title}</div>
-                    <div className="flex-row-items">{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</div>
+                    {/* <div className="flex-row-items status" style={{ backgroundColor: task.status.color }} onClick={(ev) => toggleStatus(ev, true)}>{task.status.title}</div> */}
+                    {/* <div className="flex-row-items">{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</div> */}
                 </div>
             </div>
 
