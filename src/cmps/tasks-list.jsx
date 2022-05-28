@@ -130,8 +130,8 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
                         switch (col.type) {
                             case 'person':
                                 return col.value?.length ? <div key={idx} className="flex-row-items user-image-container">{col.value.map((user, idx) => {
-                                    return <div className="user-image-wrapper"><img key={idx} style={{ left: `${20 * (idx) + 'px'}`, transform: `translateX(${-80 + '%'})` }} className="user-image-icon-assign" src={user.imgUrl} alt="user image" /></div>
-                                })}</div> : <div className="flex-row-items"><div className="user-image-wrapper"><img className="user-image-icon-assign" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" /></div></div>
+                                    return <div key={idx} className="user-image-wrapper"><img key={idx} style={{ left: `${20 * (idx) + 'px'}`, transform: `translateX(${-80 + '%'})` }} className="user-image-icon-assign" src={user.imgUrl} alt="user image" /></div>
+                                })}</div> : <div key={idx} className="flex-row-items"><div className="user-image-wrapper"><img className="user-image-icon-assign" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" /></div></div>
                             case 'status':
                                 return <div key={idx} className="flex-row-items status" style={{ backgroundColor: col.value.color }} onClick={(ev) => toggleStatus(ev, true)}>{col.value.title}</div>
                             case 'date':

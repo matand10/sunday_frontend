@@ -123,22 +123,29 @@ function _getItemPosition(groupId, board, itemId) {
     return taskIdx
 }
 
-function groupHeadSort(sortValue, board, rev) {
-    let newGroups
-    newGroups = board.groups.filter(group => {
-        switch (sortValue) {
-            case 'person':
-                if (rev) return group.tasks.sort((a, b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0)).reverse()
-                else return group.tasks.sort((a, b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
-            case 'status':
-            // TODO
-            case 'date':
-                return group.tasks.sort((a, b) => {
-                    return new Date(a.archivedAt) - new Date(b.archivedAt)
-                })
-        }
-    })
-    return { ...board, groups: newGroups }
+function groupHeadSort(sortValue, group, rev, colIdx) {
+    let newTasks
+    switch (sortValue) {
+        case 'title':
+            newTasks = group.tasks.sort((a, b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
+            break;
+        case 'status':
+            newTasks = group.tasks.sort((a, b) => (a.columns[colIdx].value.importance) - (b.columns[colIdx].value.importance))
+            break;
+        case 'date':
+            newTasks = group.tasks.sort((a, b) => new Date(a.columns[colIdx].value) - new Date(b.columns[colIdx].value))
+            break;
+        case 'txt':
+            newTasks = group.tasks.sort((a, b) => (a.columns[colIdx].value) > (b.columns[colIdx].value))
+            break;
+        case 'person':
+            newTasks = group.tasks.sort((a, b) => (a.columns[colIdx].value.length) - (b.columns[colIdx].value.length))
+            break;
+    }
+    if (rev) newTasks.reverse()
+    let newGroup = group
+    newGroup.tasks = newTasks
+    return newGroup
 }
 
 function getEmptyBoard() {

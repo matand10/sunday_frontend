@@ -92,7 +92,7 @@ export const TasksApp = () => {
     // const updateGroup = (updatedGroup, board) => {
     const updateGroup = (updatedGroup) => {
         const newBoard = boardService.groupUpdate(updatedGroup, board)
-        dispatch(saveBoard(newBoard))
+        // dispatch(saveBoard(newBoard))
     }
 
     const onFilter = (filterBy) => {

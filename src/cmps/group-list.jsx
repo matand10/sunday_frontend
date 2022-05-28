@@ -89,12 +89,13 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
         })
     }
 
-    const onHeaderSort = (sortValue) => {
+    const onHeaderSort = (sortValue, colIdx) => {
         setIsReversedSort(!isReversedSort)
-        const newBoard = boardService.groupHeadSort(sortValue, board, isReversedSort)
-        dispatch(saveBoard(newBoard))
+        const newGroup = boardService.groupHeadSort(sortValue, group, isReversedSort, colIdx)
+        updateGroup(newGroup)
     }
 
+    // if (!group) return
     let columns = group.tasks[0].columns
     columns = columns.sort((a, b) => a.importance - b.importance)
     // console.log(columns);
@@ -117,7 +118,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
 
                         {columns.map((col, idx) => {
                             return <div key={idx} className="column-header">
-                                <div onClick={() => onHeaderSort(col.type, isReversedSort)} className="sort-header-menu hide-sort">
+                                <div onClick={() => onHeaderSort(col.type, idx)} className="sort-header-menu hide-sort">
                                     <FaSort />
                                 </div>
                                 <span className="editable-column-header">
