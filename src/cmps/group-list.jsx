@@ -7,9 +7,10 @@ import { GroupMenu } from './group-menu'
 import { TaskMenu } from './task-menu'
 import { TasksList } from './tasks-list.jsx'
 import { useParams } from "react-router-dom";
+import { EditableColumn } from "../cmps/editable-input";
 
 
-export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, removeTask,updateGroup }) => {
+export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup }) => {
     const [task, setTask] = useState({ title: '' })
     const [groupIsClick, setGroupIsClick] = useState({})
     const [isClickGroup, setIsClickGroup] = useState(false)
@@ -24,13 +25,13 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
     const { boardId } = useParams()
 
     useEffect(() => {
-        updateGroup(groupUpdate,board)
+        updateGroup(groupUpdate, board)
         setGroupIsClick({})
     }, [groupUpdate])
 
     const addTask = (ev) => {
         ev.preventDefault()
-        onAddTask(board,task, group.id)
+        onAddTask(board, task, group.id)
     }
 
     const onHandleCange = ({ target }) => {
@@ -76,39 +77,6 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
         })
     }
 
-
-
-
-
-
-
-
-    // return <div className="group">
-    //     <div className="head">
-    //         <div className="group-arrow-div"><FaChevronCircleDown className="group-arrow" onClick={() => setIsClickGroup(!isClickGroup)} /></div>
-    //         {isClickGroup && <GroupMenu menuRef={menuRef} group={group} onRemoveGroup={onRemoveGroup} boardId={board._id}/>}
-    //         <div>{group.title}</div>
-    //         <div>Person</div>
-    //         <div>Status</div>
-    //         <div>Date</div>
-    //     </div>
-    //     {group.tasks.map((task, idx) => {
-    //         // return <section key={idx} className="group-row" ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task, true)}>
-    //         return <div key={task.title} className="group-row"
-    //             ref={menuRef} onContextMenu={(ev) => onHandleRightClick(ev, task)}>
-    //             <div className="task-arrow-div" onClick={(event) => onOpenMenu(task.id, event)} ><FaCaretDown className="task-arrow" /></div>
-    //             {(updateIsClick.boardId && updateIsClick.groupId === group.id && updateIsClick.task.id === task.id ) ?
-    //                 <div className="title-update-input">
-    //                     <input type="text" defaultValue={task.title} onChange={handleChange}/>
-    //                 </div>
-    //                 :
-    //                 <div onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })} className="task-title-content">
-    //                     {task.title}
-    //                     <div>
-    //                         <button onClick={(event)=>onUpdateTask(event,{ boardId: board._id, groupId: group.id, task: task })} className="edit-button">Edit</button>
-    //                     </div>
-    //                 </div>
-    //             }
     return <div className="board-content-wrapper">
         <div className="board-content-wrapper">
             <div className="group-header-wrapper">
@@ -118,16 +86,16 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                         <div>{isClickGroup && <GroupMenu menuRef={menuRef} group={group} onRemoveGroup={onRemoveGroup} />}</div>
                         {(groupIsClick.boardId && groupIsClick.groupId === group.id) ?
                             <div>
-                                <input type="text" defaultValue={group.title} onChange={handleGroupCange} name="title" style={{ color: group.style.color }}/>
+                                <input type="text" defaultValue={group.title} onChange={handleGroupCange} name="title" style={{ color: group.style.color }} />
                             </div>
                             :
                             <div><h3 style={{ color: group.style.color }} onClick={(event) => onUpdateGroup(event, { boardId: board._id, groupId: group.id })}>{group.title}</h3></div>
                         }
                     </div>
                     <div className="group-header-items">
-                        <div>Person</div>
-                        <div>Status</div>
-                        <div>Date</div>
+                        <div className="column-header"><span className="editable-column-header"><EditableColumn text={'Person'} /></span></div>
+                        <div className="column-header"><span className="editable-column-header"><EditableColumn text={'Status'} /></span></div>
+                        <div className="column-header"><span className="editable-column-header"><EditableColumn text={'Date'} /></span></div>
                     </div>
                 </div>
 
@@ -135,6 +103,8 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                     return <TasksList key={idx} boardId={boardId} task={task} menuRef={menuRef} backgroundColor={group.style.color}
                         onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} />
                 })}
+
+
 
                 <div>
                     <form onSubmit={addTask}>

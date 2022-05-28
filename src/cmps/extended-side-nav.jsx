@@ -67,6 +67,10 @@ export const ExtendedSideNav = ({ boards, onAddBoard, onDeleteBoard, updateBoard
         setBoardUpdate(board)
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 86d94c5ec7ba87e461819595cf81fa11a0078d9b
     return <section className={`home-control-component${isNavOpen ? "" : '-closed'}`}>
         <div className="control-nav-expend">
             <img className="arrow" src={arrow} alt="right-arrow-icon" onClick={toggleNav} />

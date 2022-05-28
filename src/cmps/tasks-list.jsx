@@ -1,14 +1,16 @@
 import { utilService } from "../services/util.service";
 import { FaChevronCircleDown, FaCaretDown } from 'react-icons/fa'
+import { BsPlusCircleFill } from 'react-icons/bs'
 import { TaskMenu } from './task-menu';
-
+import React from 'react'
 import { useEffect, useRef, useState } from 'react';
 import { StatusModal } from '../modal/status-modal'
 import { SidePanel } from "./side-panel"
 import { useParams } from "react-router-dom";
+import { boardService } from '../services/board.service'
+import { useDispatch } from "react-redux";
+import { saveBoard } from '../store/board/board.action'
 
-// export const TasksList = ({ task, boardId, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board }) => {
-// export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, group, board, removeTask }) => {
 export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board, removeTask }) => {
     const [modal, setModal] = useState({})
     const [arrowTask, setArrowTask] = useState({})
@@ -18,6 +20,8 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
     const [isStatusActive, setIsStatusActive] = useState(false)
     let statusRef = useRef()
     const { boardId } = useParams()
+    const dispatch = useDispatch()
+
     useEffect(() => {
         updateTask(taskUpdate, group.id, board)
         setUpdateIsClick({})
@@ -72,9 +76,24 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
         setModal({ boardId: null })
     }
 
+    const dragStarted = (ev, taskId) => {
+        ev.dataTransfer.setData("taskId", taskId)
+    }
 
-    return <section className="task-row-component" onContextMenu={(ev) => onHandleRightClick(ev, task, true)} ref={menuRef}>
-        <div className="task-row-wrapper">
+    const draggingOver = (ev) => {
+        ev.preventDefault()
+    }
+
+    const dragDropped = (ev, toIndex) => {
+        ev.preventDefault()
+        const transferedTaskId = ev.dataTransfer.getData("taskId")
+        const newBoard = boardService.changeTaskPosition(transferedTaskId, group.id, board, toIndex)
+        dispatch(saveBoard(newBoard))
+    }
+
+    if (!task) return <h1>Loading...</h1>
+    return <section className="task-row-component" onContextMenu={(ev) => onHandleRightClick(ev, task, true)} ref={menuRef} onDragOver={(ev) => draggingOver(ev)} onDrop={(ev) => dragDropped(ev, task.id)}>
+        <div className="task-row-wrapper" draggable onDragStart={(ev) => dragStarted(ev, task.id)}>
             <div className="task-row-title">
                 <div className="task-title-cell-component" onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })}>
                     <div className="task-arrow-div" onClick={(event) => onOpenMenu({ taskId: task.id, groupId: group.id, board: board })} ><FaCaretDown className="task-arrow" /></div>
@@ -96,16 +115,24 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
                         }
                     </div>
                 </div>
+
                 <div className="task-row-items">
-                    <div className="flex-row-items">{task.assignedTo.map(user => user.fullname)}</div>
+                    {task.assignedTo?.length ? <div className="flex-row-items">{task.assignedTo.map((user, idx) => {
+                        return <img key={idx} className="user-image-icon-assign" src={user.imgUrl} alt="user image" />
+                    })}</div> : <div className="flex-row-items"><img className="user-image-icon-assign" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" /></div>}
+
+
                     <div className="flex-row-items status" style={{ backgroundColor: task.status.color }} onClick={(ev) => toggleStatus(ev, true)}>{task.status.title}</div>
                     <div className="flex-row-items">{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</div>
-                    {/* <div className="flex-row-items status" onClick={(ev) => toggleStatus(ev, true)} style={{ backgroundColor: task.status.color }}>{task.status.title}</div>
-                    <div className="flex-row-items">{utilService.getCurrTime(task.archivedAt)}</div> */}
                 </div>
             </div>
+
             {arrowTask.board && arrowTask.groupId === group.id && arrowTask.taskId === task.id && <TaskMenu removeTask={removeTask} arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
         </div >
+
+
+
+
         {isStatusActive && <StatusModal changeStatus={changeStatus} task={task} statusRef={statusRef} modalPos={modalPos} />}
         {modal.boardId && <SidePanel modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}
     </section >

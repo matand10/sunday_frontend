@@ -323,16 +323,18 @@
     flex-basis: 400px;
     position: relative;
     padding-left: 5px;
-    & input{
-        width:500px;
+
+    & input {
+        width: 500px;
         height: 100%;
-        padding:2px;
+        padding: 2px;
         font-size: 18px;
         margin-bottom: 5px;
     }
-    & h3:hover{
-        border:1px black dashed;
-        padding:5px
+
+    & h3:hover {
+        border: 1px black dashed;
+        padding: 5px
     }
 }
 
@@ -441,7 +443,8 @@
             text-align: center;
             position: absolute;
             top: 7px;
-            &:hover{
+
+            &:hover {
                 background-color: #f6f7fb;
 
             }
@@ -513,7 +516,33 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    left: -30px;
+    left: -23px;
+    border-radius: 4px;
+    background-color: #dcdfec;
+    height: 18px;
+    width: 18px;
+    font-size: 15px;
+}
+
+.user-image-icon-assign {
+    border-radius: 50%;
+    height: 30px;
     width: 30px;
-    height: 100%;
+
+}
+
+.column-header {
+
+
+    &:hover {
+        background-color: #f5f6f8;
+    }
+}
+
+.editable-column-header {
+    padding: 3px;
+
+    &:hover {
+        border: 1px dashed rgb(168, 168, 168);
+    }
 }

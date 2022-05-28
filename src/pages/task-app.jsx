@@ -115,7 +115,6 @@ export const TasksApp = () => {
             <div className="main-app flex-column">
                 <BoardHeader onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
                 <MainBoard board={board} removeTask={removeTask} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} updateGroup={updateGroup} />
-                {/* <MainBoard removeTask={removeTask} board={board} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} /> */}
             </div>
         </div>
     </section>
