@@ -23,6 +23,7 @@ export const TasksApp = () => {
     let { boardId } = useParams()
 
     useEffect(() => {
+        console.log(boardId)
         if (!boardId) {
             if (board) {
                 boardId = board._id
