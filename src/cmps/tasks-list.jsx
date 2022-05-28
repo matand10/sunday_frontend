@@ -1,15 +1,14 @@
-import { utilService } from "../services/util.service";
-import { FaChevronCircleDown, FaCaretDown } from 'react-icons/fa'
-import { BsPlusCircleFill } from 'react-icons/bs'
-import { TaskMenu } from './task-menu';
 import React from 'react'
 import { useEffect, useRef, useState } from 'react';
+import { utilService } from "../services/util.service";
+import { saveBoard } from '../store/board/board.action'
+import { TaskMenu } from './task-menu';
 import { StatusModal } from '../modal/status-modal'
 import { SidePanel } from "./side-panel"
 import { useParams } from "react-router-dom";
 import { boardService } from '../services/board.service'
 import { useDispatch } from "react-redux";
-import { saveBoard } from '../store/board/board.action'
+import { FaCaretDown } from 'react-icons/fa'
 
 export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board, removeTask }) => {
     const [modal, setModal] = useState({})
@@ -18,9 +17,9 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
     const [taskUpdate, setTaskUpdate] = useState(task)
     const [modalPos, setModalPos] = useState({ x: null, y: null })
     const [isStatusActive, setIsStatusActive] = useState(false)
-    let statusRef = useRef()
     const { boardId } = useParams()
     const dispatch = useDispatch()
+    let statusRef = useRef()
 
     useEffect(() => {
         updateTask(taskUpdate, group.id, board)
@@ -91,7 +90,6 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
         dispatch(saveBoard(newBoard))
     }
 
-    if (!task) return <h1>Loading...</h1>
     return <section className="task-row-component" onContextMenu={(ev) => onHandleRightClick(ev, task, true)} ref={menuRef} onDragOver={(ev) => draggingOver(ev)} onDrop={(ev) => dragDropped(ev, task.id)}>
         <div className="task-row-wrapper" draggable onDragStart={(ev) => dragStarted(ev, task.id)}>
             <div className="task-row-title">
@@ -117,9 +115,9 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
                 </div>
 
                 <div className="task-row-items">
-                    {task.assignedTo?.length ? <div className="flex-row-items">{task.assignedTo.map((user, idx) => {
-                        return <img key={idx} className="user-image-icon-assign" src={user.imgUrl} alt="user image" />
-                    })}</div> : <div className="flex-row-items"><img className="user-image-icon-assign" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" /></div>}
+                    {task.assignedTo?.length ? <div className="flex-row-items user-image-container">{task.assignedTo.map((user, idx) => {
+                        return <div className="user-image-wrapper"><img key={idx} style={{ left: `${20 * (idx) + 'px'}`, transform: `translateX(${-80 + '%'})` }} className="user-image-icon-assign" src={user.imgUrl} alt="user image" /></div>
+                    })}</div> : <div className="flex-row-items"><div className="user-image-wrapper"><img className="user-image-icon-assign" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" /></div></div>}
 
 
                     <div className="flex-row-items status" style={{ backgroundColor: task.status.color }} onClick={(ev) => toggleStatus(ev, true)}>{task.status.title}</div>

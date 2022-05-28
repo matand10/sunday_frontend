@@ -19,6 +19,13 @@
         cursor: pointer;
         transform: rotateZ(-180deg);
         transition: transform 200ms ease-in-out;
+
+        & .arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
     }
 
     &-closed {
@@ -46,6 +53,13 @@
             right: -13px;
             top: 1rem;
             transition: transform 200ms ease-in-out;
+
+            & .arrow {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+            }
         }
     }
 }

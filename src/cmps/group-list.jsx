@@ -2,12 +2,15 @@ import { utilService } from "../services/util.service";
 import { Menu } from '../hooks/right-click-menu'
 import { RightClickMenu } from '../modal/right-click-menu'
 import { useRef, useEffect, useState } from 'react';
-import { FaChevronCircleDown, FaCaretDown } from 'react-icons/fa'
+import { FaChevronCircleDown, FaCaretDown, FaSort } from 'react-icons/fa'
 import { GroupMenu } from './group-menu'
 import { TaskMenu } from './task-menu'
 import { TasksList } from './tasks-list.jsx'
 import { useParams } from "react-router-dom";
 import { EditableColumn } from "../cmps/editable-input";
+import { boardService } from "../services/board.service";
+import { saveBoard } from '../store/board/board.action'
+import { useDispatch } from "react-redux";
 
 
 export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup }) => {
@@ -19,10 +22,12 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
     const [clickTask, setClickTask] = useState({ task: '', isOpen: false })
     const [modal, setModal] = useState({})
     const [showMenu, setShowMenu] = useState(false)
+    const [isReversedSort, setIsReversedSort] = useState(false)
     const { x, y, handleContextMenu } = Menu()
     let menuRef = useRef()
     let groupRef = useRef()
     const { boardId } = useParams()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         updateGroup(groupUpdate, board)
@@ -77,6 +82,12 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
         })
     }
 
+    const onHeaderSort = (sortValue) => {
+        setIsReversedSort(!isReversedSort)
+        const newBoard = boardService.groupHeadSort(sortValue, board, isReversedSort)
+        dispatch(saveBoard(newBoard))
+    }
+
     return <div className="board-content-wrapper">
         <div className="board-content-wrapper">
             <div className="group-header-wrapper">
@@ -93,9 +104,9 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                         }
                     </div>
                     <div className="group-header-items">
-                        <div className="column-header"><span className="editable-column-header"><EditableColumn text={'Person'} /></span></div>
-                        <div className="column-header"><span className="editable-column-header"><EditableColumn text={'Status'} /></span></div>
-                        <div className="column-header"><span className="editable-column-header"><EditableColumn text={'Date'} /></span></div>
+                        <div className="column-header"><div onClick={() => onHeaderSort('person', isReversedSort)} className="sort-header-menu hide-sort"><FaSort /></div><span className="editable-column-header"><EditableColumn text={'Person'} /></span></div>
+                        <div className="column-header"><div onClick={() => onHeaderSort('status', isReversedSort)} className="sort-header-menu hide-sort"><FaSort /></div><span className="editable-column-header"><EditableColumn text={'Status'} /></span></div>
+                        <div className="column-header"><div onClick={() => onHeaderSort('date', isReversedSort)} className="sort-header-menu hide-sort"><FaSort /></div><span className="editable-column-header"><EditableColumn text={'Date'} /></span></div>
                     </div>
                 </div>
 

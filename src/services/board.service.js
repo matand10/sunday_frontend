@@ -16,7 +16,9 @@ export const boardService = {
     groupUpdate,
     getLabels,
     taskUpdate,
-    makeBoard
+    makeBoard,
+    changeTaskPosition,
+    groupHeadSort
 }
 
 async function query() {
@@ -118,6 +120,24 @@ function _getItemPosition(groupId, board, itemId) {
     const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
     const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(task => task.id === itemId)
     return taskIdx
+}
+
+function groupHeadSort(sortValue, board, rev) {
+    let newGroups
+    newGroups = board.groups.filter(group => {
+        switch (sortValue) {
+            case 'person':
+                if (rev) return group.tasks.sort((a, b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0)).reverse()
+                else return group.tasks.sort((a, b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
+            case 'status':
+            // TODO
+            case 'date':
+                return group.tasks.sort((a, b) => {
+                    return new Date(a.archivedAt) - new Date(b.archivedAt)
+                })
+        }
+    })
+    return { ...board, groups: newGroups }
 }
 
 function getEmptyBoard() {
