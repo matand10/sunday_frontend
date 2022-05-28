@@ -240,7 +240,6 @@
 
 
 
-
 .board-content-wrapper:first-child {
     margin-top: 50px;
 }
@@ -254,6 +253,7 @@
 
     & form {
         height: 35px;
+        padding: 0 20px;
 
         & input {
             width: 100%;
@@ -305,17 +305,20 @@
     font-weight: 500;
     height: 40px;
     width: 100%;
-    margin: 0;
-    padding: 0;
+    margin-bottom: 50px;
     border: 0;
     vertical-align: baseline;
     justify-content: center;
     font-size: 1.2rem;
 }
 
+
+
+
 .group-header-component {
     display: flex;
     justify-content: space-between;
+    padding: 0 20px;
 }
 
 .group-header-title {
@@ -372,6 +375,7 @@
 .task-row-component {
     background-color: #f5f6f8;
     border-bottom: 1px solid lightgray;
+    margin: 0px 20px;
 
     &:hover {
         background-color: #e6e9ef;
@@ -445,7 +449,7 @@
             position: absolute;
             top: 7px;
 
-            &:hover {
+            &:hover~.task-title {
                 background-color: #f6f7fb;
 
             }
@@ -512,12 +516,20 @@
     padding-left: 10px;
 }
 
+.task-arrow-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 30px;
+    position: absolute;
+    left: -30px;
+}
+
 .task-arrow-div {
     display: none;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    left: -23px;
     border-radius: 4px;
     background-color: #dcdfec;
     height: 18px;
@@ -583,8 +595,4 @@
     &:hover {
         border: 1px dashed rgb(168, 168, 168);
     }
-}
-
-.add-colomn-column {
-    width: 38px;
 }

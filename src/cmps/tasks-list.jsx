@@ -26,7 +26,8 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
         setUpdateIsClick({})
     }, [taskUpdate])
 
-    const onOpenMenu = (params) => {
+    const onOpenMenu = (ev, params) => {
+        ev.stopPropagation()
         setArrowTask(params)
     }
 
@@ -42,12 +43,18 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
     }
 
     useEffect(() => {
-        document.addEventListener("mousedown", (event) => {
-            if (!statusRef.current?.contains(event.target)) {
-                setIsStatusActive(false)
-            }
-        })
+        document.addEventListener("mousedown", eventListener)
+        return () => {
+            document.removeEventListener("mousedown", eventListener)
+        }
     })
+
+    const eventListener = (ev) => {
+        if (!statusRef.current?.contains(ev.target)) {
+            setIsStatusActive(false)
+            setArrowTask({})
+        }
+    }
 
     const toggleStatus = (ev, value) => {
         const x = ev.pageX
@@ -57,7 +64,7 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
     }
 
     const changeStatus = (status) => {
-        task.status = status
+        task.columns[1].value = status
         updateTask(task, group.id, board)
         setIsStatusActive(false)
     }
@@ -98,12 +105,14 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
         <div className="task-row-wrapper" draggable onDragStart={(ev) => dragStarted(ev, task.id)}>
             <div className="task-row-title">
                 <div className="task-title-cell-component" onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })}>
-                    <div className="task-arrow-div" onClick={(event) => onOpenMenu({ taskId: task.id, groupId: group.id, board: board })} ><FaCaretDown className="task-arrow" /></div>
                     <div className="left-indicator-cell" style={{ backgroundColor }}></div>
+                    <div className="task-arrow-container">
+                        <div className="task-arrow-div" onClick={(ev) => onOpenMenu(ev, { taskId: task.id, groupId: group.id, board: board })} > <FaCaretDown className="task-arrow" /></div>
+                    </div>
                     <div className="task-title-content" >
                         {(updateIsClick.boardId && updateIsClick.groupId === group.id && updateIsClick.task.id === task.id) ?
                             <div className="title-update-input">
-                                <input type="text" defaultValue={task.title} onChange={handleChange} name="title" onClick="event.stopPropagation()" />
+                                <input type="text" defaultValue={task.title} onChange={handleChange} name="title" onClick={(ev) => ev.stopPropagation()} />
                             </div>
                             :
                             <div className="task-title-cell">
@@ -153,7 +162,7 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
                 <div className="add-colomn-column"></div>
             </div>
 
-            {arrowTask.board && arrowTask.groupId === group.id && arrowTask.taskId === task.id && <TaskMenu removeTask={removeTask} arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
+            {arrowTask.board && arrowTask.groupId === group.id && arrowTask.taskId === task.id && <TaskMenu statusRef={statusRef} removeTask={removeTask} arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
         </div >
 
 

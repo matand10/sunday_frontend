@@ -26,7 +26,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
     const [isReversedSort, setIsReversedSort] = useState(false)
     const { x, y, handleContextMenu } = Menu()
     let menuRef = useRef()
-    let groupRef = useRef()
+    // let groupRef = useRef()
     const { boardId } = useParams()
     const dispatch = useDispatch()
 
@@ -49,11 +49,11 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
 
     useEffect(() => {
         document.addEventListener("mousedown", (event) => {
-            if (!groupRef.current?.contains(event.target)) {
-                setIsClickGroup(false)
-            }
+            // if (!groupRef.current?.contains(event.target)) {
+            // }
             if (!menuRef.current?.contains(event.target)) {
                 document.removeEventListener('contextmenu', handleContextMenu)
+                setIsClickGroup(false)
                 setShowMenu(false)
             }
         })
@@ -100,53 +100,51 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
     columns = columns.sort((a, b) => a.importance - b.importance)
     // console.log(columns);
     return <div className="board-content-wrapper">
-        <div className="board-content-wrapper">
-            <div className="group-header-wrapper">
-                <div className="group-header-component">
-                    <div className="group-header-title">
-                        <div className="group-arrow-div" style={{ color: group.style.color }}><FaChevronCircleDown className="group-arrow" onClick={() => setIsClickGroup(!isClickGroup)} /></div>
-                        <div>{isClickGroup && <GroupMenu menuRef={menuRef} group={group} onRemoveGroup={onRemoveGroup} />}</div>
-                        {(groupIsClick.boardId && groupIsClick.groupId === group.id) ?
-                            <div>
-                                <input type="text" defaultValue={group.title} onChange={handleGroupCange} name="title" style={{ color: group.style.color }} />
-                            </div>
-                            :
-                            <div><h3 style={{ color: group.style.color }} onClick={(event) => onUpdateGroup(event, { boardId: board._id, groupId: group.id })}>{group.title}</h3></div>
-                        }
-                    </div>
-                    <div className="group-header-items">
-
-                        {columns.map((col, idx) => {
-                            return <div key={idx} className="column-header">
-                                <div onClick={() => onHeaderSort(col.type, idx)} className="sort-header-menu hide-sort">
-                                    <FaSort />
-                                </div>
-                                <span className="editable-column-header">
-                                    <EditableColumn colIdx={idx} group={group} updateGroup={updateGroup} text={col.title} />
-                                </span>
-                            </div>
-                        })}
-                    </div>
-                    <button className="add-colomn-column" onClick={() => onNewCol()}>+</button>
+        <div className="group-header-wrapper">
+            <div className="group-header-component">
+                <div className="group-header-title">
+                    <div className="group-arrow-div" style={{ color: group.style.color }}><FaChevronCircleDown className="group-arrow" onClick={() => setIsClickGroup(!isClickGroup)} /></div>
+                    <div>{isClickGroup && <GroupMenu menuRef={menuRef} group={group} onRemoveGroup={onRemoveGroup} />}</div>
+                    {(groupIsClick.boardId && groupIsClick.groupId === group.id) ?
+                        <div>
+                            <input type="text" defaultValue={group.title} onChange={handleGroupCange} name="title" style={{ color: group.style.color }} />
+                        </div>
+                        :
+                        <div><h3 style={{ color: group.style.color }} onClick={(event) => onUpdateGroup(event, { boardId: board._id, groupId: group.id })}>{group.title}</h3></div>
+                    }
                 </div>
+                <div className="group-header-items">
 
-                {group.tasks.map((task, idx) => {
-                    return <TasksList key={idx} boardId={boardId} task={task} menuRef={menuRef} backgroundColor={group.style.color}
-                        onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} />
-                })}
-
-
-
-                <div>
-                    <form onSubmit={addTask}>
-                        <input type="text" placeholder="+Add Item" onChange={onHandleCange} name="title" />
-                        {task.title && <button>Add</button>}
-                    </form>
+                    {columns.map((col, idx) => {
+                        return <div key={idx} className="column-header">
+                            <div onClick={() => onHeaderSort(col.type, idx)} className="sort-header-menu hide-sort">
+                                <FaSort />
+                            </div>
+                            <span className="editable-column-header">
+                                <EditableColumn colIdx={idx} group={group} updateGroup={updateGroup} text={col.title} />
+                            </span>
+                        </div>
+                    })}
                 </div>
-                {clickTask.isOpen && <TaskMenu clickTask={clickTask} />}
-                <RightClickMenu x={x} y={y} showMenu={showMenu} />
+                <button className="add-colomn-column" onClick={() => onNewCol()}>+</button>
             </div>
-        </div >
+
+            {group.tasks.map((task, idx) => {
+                return <TasksList key={idx} boardId={boardId} task={task} menuRef={menuRef} backgroundColor={group.style.color}
+                    onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} />
+            })}
+
+
+
+            <div>
+                <form onSubmit={addTask} className="main-group-input">
+                    <input type="text" placeholder="+Add Item" onChange={onHandleCange} name="title" />
+                    {task.title && <button>Add</button>}
+                </form>
+            </div>
+            {clickTask.isOpen && <TaskMenu clickTask={clickTask} />}
+            <RightClickMenu x={x} y={y} showMenu={showMenu} />
+        </div>
     </div>
 
 }
