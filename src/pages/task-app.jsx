@@ -65,8 +65,8 @@ export const TasksApp = () => {
         dispatch(saveBoard(board))
     }
 
-    const onAddBoard = (board) => {
-        const newBoard = boardService.getEmptyBoard()
+    const onAddBoard = async (board) => {
+        let newBoard = await boardService.makeBoard()
         newBoard.title = board.title
         dispatch(saveBoard(newBoard))
         navigate(`/board/${newBoard._id}`)
