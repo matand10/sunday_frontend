@@ -14,16 +14,23 @@ import { useNavigate, useParams } from "react-router-dom"
 export const TasksApp = () => {
     const params = useParams()
     const [board, setBoard] = useState(null)
-
     const { boards } = useSelector((storeState) => storeState.boardModule)
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
     const dispatch = useDispatch()
     const navigate = useNavigate();
-
     let { boardId } = useParams()
 
+
     useEffect(() => {
-        console.log(boardId)
+        loadBoard()
+        dispatch(loadBoards())
+    }, [params.boardId, filterBy])
+
+    useEffect(() => {
+        if (boardId) if (boardService.isIdOk(boardId, boards)) navigate('/board')
+    }, [])
+
+    useEffect(() => {
         if (!boardId) {
             if (board) {
                 boardId = board._id
@@ -34,11 +41,6 @@ export const TasksApp = () => {
             }
         }
     }, [boards, board])
-
-    useEffect(() => {
-        loadBoard()
-        dispatch(loadBoards())
-    }, [params.boardId, filterBy])
 
     const makeBoard = async () => {
         let firstBoard
