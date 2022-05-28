@@ -23,19 +23,28 @@ export const TasksApp = () => {
 
     let { boardId } = useParams()
 
-
-    if (!boardId) {
-        if (boards.length) boardId = boards[0]._id
-        else {
-            boardId = boardService.makeBoard()._id
+    useEffect(() => {
+        if (!boardId) {
+            if (board) {
+                boardId = board._id
+                navigate(boardId)
+            }
+            else {
+                makeBoard()
+            }
         }
-        navigate(boardId)
-    }
+    }, [boards, board])
 
     useEffect(() => {
         loadBoard()
         dispatch(loadBoards())
     }, [params.boardId, filterBy])
+
+    const makeBoard = async () => {
+        let firstBoard
+        if (boards.length === 0) firstBoard = await boardService.makeBoard()
+        setBoard(firstBoard)
+    }
 
     const loadBoard = async () => {
         const board = await boardService.getById(params.boardId)
