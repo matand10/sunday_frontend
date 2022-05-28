@@ -131,7 +131,7 @@ function groupHeadSort(sortValue, board, rev) {
                 if (rev) return group.tasks.sort((a, b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0)).reverse()
                 else return group.tasks.sort((a, b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
             case 'status':
-            // TODO
+                console.log(group);
             case 'date':
                 return group.tasks.sort((a, b) => {
                     return new Date(a.archivedAt) - new Date(b.archivedAt)
