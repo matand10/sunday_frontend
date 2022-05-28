@@ -126,7 +126,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                             </div>
                         })}
                     </div>
-                    <button onClick={() => onNewCol()}>+</button>
+                    <button className="add-colomn-column" onClick={() => onNewCol()}>+</button>
                 </div>
 
                 {group.tasks.map((task, idx) => {
