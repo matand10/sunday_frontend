@@ -21,6 +21,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
     const { x, y, handleContextMenu } = Menu()
     let menuRef = useRef()
     let groupRef = useRef()
+    let groupUpdateRef = useRef()
     const { boardId } = useParams()
 
     useEffect(() => {
@@ -47,6 +48,10 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
             if (!menuRef.current?.contains(event.target)) {
                 document.removeEventListener('contextmenu', handleContextMenu)
                 setShowMenu(false)
+            }
+            if (!groupUpdateRef.current?.contains(event.target)) {
+                document.removeEventListener('contextmenu', handleContextMenu)
+                setGroupIsClick({})
             }
         })
     })
@@ -118,7 +123,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                         <div>{isClickGroup && <GroupMenu menuRef={menuRef} group={group} onRemoveGroup={onRemoveGroup} />}</div>
                         {(groupIsClick.boardId && groupIsClick.groupId === group.id) ?
                             <div>
-                                <input type="text" defaultValue={group.title} onChange={handleGroupCange} name="title" style={{ color: group.style.color }}/>
+                                <input type="text" defaultValue={group.title} onChange={handleGroupCange} name="title" style={{ color: group.style.color }} groupUpdateRef={groupUpdateRef}/>
                             </div>
                             :
                             <div><h3 style={{ color: group.style.color }} onClick={(event) => onUpdateGroup(event, { boardId: board._id, groupId: group.id })}>{group.title}</h3></div>

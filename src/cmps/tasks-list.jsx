@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { StatusModal } from '../modal/status-modal'
 import { SidePanel } from "./side-panel"
 import { useParams } from "react-router-dom";
+import { Calendar } from '../modal/calendar'
 
 // export const TasksList = ({ task, boardId, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board }) => {
 // export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, group, board, removeTask }) => {
@@ -16,12 +17,15 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
     const [taskUpdate, setTaskUpdate] = useState(task)
     const [modalPos, setModalPos] = useState({ x: null, y: null })
     const [isStatusActive, setIsStatusActive] = useState(false)
+    const [isDateClick, setIsDateClick] = useState({})
     let statusRef = useRef()
     const { boardId } = useParams()
+
     useEffect(() => {
         updateTask(taskUpdate, group.id, board)
         setUpdateIsClick({})
     }, [taskUpdate])
+
 
     const onOpenMenu = (params) => {
         setArrowTask(params)
@@ -42,6 +46,7 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
         document.addEventListener("mousedown", (event) => {
             if (!statusRef.current?.contains(event.target)) {
                 setIsStatusActive(false)
+                setUpdateIsClick({})
             }
         })
     })
@@ -72,6 +77,11 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
         setModal({ boardId: null })
     }
 
+    const onUpdateDate = (params) => {
+
+        setIsDateClick(params)
+    }
+
 
     return <section className="task-row-component" onContextMenu={(ev) => onHandleRightClick(ev, task, true)} ref={menuRef}>
         <div className="task-row-wrapper">
@@ -82,7 +92,7 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
                     <div className="task-title-content" >
                         {(updateIsClick.boardId && updateIsClick.groupId === group.id && updateIsClick.task.id === task.id) ?
                             <div className="title-update-input">
-                                <input type="text" defaultValue={task.title} onChange={handleChange} name="title" onClick="event.stopPropagation()" />
+                                <input type="text" defaultValue={task.title} onChange={handleChange} name="title" onClick={(event) => (event.stopPropagation())} ref={menuRef} />
                             </div>
                             :
                             <div className="task-title-cell">
@@ -99,7 +109,10 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
                 <div className="task-row-items">
                     <div className="flex-row-items">{task.assignedTo.map(user => user.fullname)}</div>
                     <div className="flex-row-items status" style={{ backgroundColor: task.status.color }} onClick={(ev) => toggleStatus(ev, true)}>{task.status.title}</div>
-                    <div className="flex-row-items">{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</div>
+
+
+                    <div className="flex-row-items" onClick={() => onUpdateDate({ boardId: board._id, groupId: group.id, task: task })}>{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</div>
+
                     {/* <div className="flex-row-items status" onClick={(ev) => toggleStatus(ev, true)} style={{ backgroundColor: task.status.color }}>{task.status.title}</div>
                     <div className="flex-row-items">{utilService.getCurrTime(task.archivedAt)}</div> */}
                 </div>
@@ -108,6 +121,7 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
         </div >
         {isStatusActive && <StatusModal changeStatus={changeStatus} task={task} statusRef={statusRef} modalPos={modalPos} />}
         {modal.boardId && <SidePanel modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}
+        {/* {isDateClick && <Calendar />} */}
     </section >
 }
 
