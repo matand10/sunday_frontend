@@ -22,8 +22,13 @@ export const TasksApp = () => {
     const navigate = useNavigate();
 
     let { boardId } = useParams()
-    if (!boardId && boards.length) {
-        boardId = boards[0]._id
+
+
+    if (!boardId) {
+        if (boards.length) boardId = boards[0]._id
+        else {
+            boardId = boardService.makeBoard()._id
+        }
         navigate(boardId)
     }
 
