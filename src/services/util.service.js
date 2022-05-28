@@ -49,24 +49,28 @@ function getLabel(status) {
     switch (status) {
         case 'done':
             return {
+                importence: 4,
                 id: 'l101',
                 title: 'Done',
                 color: '#00c875'
             }
         case 'working':
             return {
+                importence: 1,
                 id: 'l102',
                 title: 'Working on it',
                 color: '#fdab3d'
             }
         case 'stuck':
             return {
+                importance: 2,
                 id: 'l103',
                 title: 'Stuck',
                 color: '#e2445c'
             }
         default:
             return {
+                importance: 3,
                 id: 'l104',
                 title: '',
                 color: '#c4c4c4'

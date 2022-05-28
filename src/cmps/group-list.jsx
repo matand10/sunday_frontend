@@ -1,7 +1,7 @@
 import { utilService } from "../services/util.service";
 import { Menu } from '../hooks/right-click-menu'
 import { RightClickMenu } from '../modal/right-click-menu'
-import { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { FaChevronCircleDown, FaCaretDown, FaSort } from 'react-icons/fa'
 import { GroupMenu } from './group-menu'
 import { TaskMenu } from './task-menu'
@@ -11,6 +11,7 @@ import { EditableColumn } from "../cmps/editable-input";
 import { boardService } from "../services/board.service";
 import { saveBoard } from '../store/board/board.action'
 import { useDispatch } from "react-redux";
+import { groupService } from "../services/group.service";
 
 
 export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup }) => {
@@ -30,7 +31,8 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
     const dispatch = useDispatch()
 
     useEffect(() => {
-        updateGroup(groupUpdate, board)
+        updateGroup(groupUpdate)
+        // updateGroup(groupUpdate, board)
         setGroupIsClick({})
     }, [groupUpdate])
 
@@ -71,6 +73,11 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
         setGroupIsClick(params)
     }
 
+    const onNewCol = () => {
+        const newGroup = groupService.groupColAdd(group)
+        updateGroup(newGroup)
+    }
+
     const handleGroupCange = ({ target }) => {
         document.addEventListener("keydown", (event) => {
             if (event.key === "Enter") {
@@ -88,6 +95,9 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
         dispatch(saveBoard(newBoard))
     }
 
+    let columns = group.tasks[0].columns
+    columns = columns.sort((a, b) => a.importance - b.importance)
+    // console.log(columns);
     return <div className="board-content-wrapper">
         <div className="board-content-wrapper">
             <div className="group-header-wrapper">
@@ -104,10 +114,19 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                         }
                     </div>
                     <div className="group-header-items">
-                        <div className="column-header"><div onClick={() => onHeaderSort('person', isReversedSort)} className="sort-header-menu hide-sort"><FaSort /></div><span className="editable-column-header"><EditableColumn text={'Person'} /></span></div>
-                        <div className="column-header"><div onClick={() => onHeaderSort('status', isReversedSort)} className="sort-header-menu hide-sort"><FaSort /></div><span className="editable-column-header"><EditableColumn text={'Status'} /></span></div>
-                        <div className="column-header"><div onClick={() => onHeaderSort('date', isReversedSort)} className="sort-header-menu hide-sort"><FaSort /></div><span className="editable-column-header"><EditableColumn text={'Date'} /></span></div>
+
+                        {columns.map((col, idx) => {
+                            return <div key={idx} className="column-header">
+                                <div onClick={() => onHeaderSort(col.type, isReversedSort)} className="sort-header-menu hide-sort">
+                                    <FaSort />
+                                </div>
+                                <span className="editable-column-header">
+                                    <EditableColumn colIdx={idx} group={group} updateGroup={updateGroup} text={col.title} />
+                                </span>
+                            </div>
+                        })}
                     </div>
+                    <button onClick={() => onNewCol()}>+</button>
                 </div>
 
                 {group.tasks.map((task, idx) => {

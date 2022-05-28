@@ -1,7 +1,8 @@
 import { useRef, useState, useEffect } from 'react'
+import { groupService } from '../services/group.service'
 
 
-export const EditableColumn = ({ text }) => {
+export const EditableColumn = ({ text, updateGroup, group, colIdx }) => {
     const [value, setValue] = useState(text)
     const [isInEditMode, setIsInEditMode] = useState(false)
     const [inputValue, setInputValue] = useState('')
@@ -41,6 +42,7 @@ export const EditableColumn = ({ text }) => {
     const updateComponentValue = () => {
         setIsInEditMode(false)
         setValue(inputValue)
+        onUpdateGroup()
     }
 
     useEffect(() => {
@@ -51,6 +53,10 @@ export const EditableColumn = ({ text }) => {
         })
     })
 
+    const onUpdateGroup = () => {
+        const newGroup = groupService.groupColUpdate(inputValue, colIdx, group)
+        updateGroup(newGroup)
+    }
 
 
     return isInEditMode ?
