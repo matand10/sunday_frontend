@@ -25,10 +25,11 @@ export const TasksApp = () => {
     useEffect(() => {
         console.log(boardId)
         if (!boardId) {
+            boardId = board._id
             if (board) {
                 boardId = board._id
                 navigate(boardId)
-            }
+            } else if (boards.length) boardId = boards[0]
             else {
                 makeBoard()
             }
@@ -43,7 +44,7 @@ export const TasksApp = () => {
     const makeBoard = async () => {
         let firstBoard
         if (boards.length === 0) firstBoard = await boardService.makeBoard()
-        else if (boards.length === 1) firstBoard = boards[0]
+        else if (boards.length > 0) firstBoard = boards[0]
         setBoard(firstBoard)
     }
 
