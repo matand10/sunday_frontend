@@ -13,7 +13,8 @@ export const groupService = {
     remove,
     getEmptyGroup,
     groupColUpdate,
-    groupColAdd
+    groupColAdd,
+    groupColRemove
 }
 
 // async function query() {
@@ -156,12 +157,26 @@ function groupColUpdate(inputValue, colIdx, group) {
 
 function groupColAdd(group) {
     let newGroup = group
+    newGroup.columns.push({
+        title: 'Text',
+        type: 'text',
+        value: ''
+    })
     group.tasks.forEach((task, idx) => {
         newGroup.tasks[idx].columns.push({
             title: 'Text',
             type: 'text',
             value: ''
         })
+    })
+    return newGroup
+}
+
+function groupColRemove(colIdx, group) {
+    let newGroup = group
+    newGroup.columns.splice(colIdx, 1)
+    group.tasks.forEach((task, idx) => {
+        newGroup.tasks[idx].columns.splice(colIdx, 1)
     })
     return newGroup
 }
