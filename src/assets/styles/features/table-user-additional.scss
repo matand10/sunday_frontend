@@ -1,0 +1,10 @@
+.assinging-component-container {
+
+
+    &:active,
+    &:focus {}
+
+    &:hover {
+        background-color: #cce5ff;
+    }
+}

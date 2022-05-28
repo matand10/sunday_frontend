@@ -22,7 +22,6 @@ export const ExtendedSideNav = ({ boards, onAddBoard, onDeleteBoard, updateBoard
     let navigate = useNavigate();
 
     useEffect(() => {
-        console.log(boardUpdate);
         if (boardUpdate) updateBoard(boardUpdate)
     }, [boardUpdate])
 
@@ -67,8 +66,6 @@ export const ExtendedSideNav = ({ boards, onAddBoard, onDeleteBoard, updateBoard
         setRenameIsClick(board._id)
         setBoardUpdate(board)
     }
-
-    console.log(selectedBoard);
 
 
     return <section className={`home-control-component${isNavOpen ? "" : '-closed'}`}>

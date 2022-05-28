@@ -16,6 +16,7 @@ export const boardService = {
     groupUpdate,
     getLabels,
     taskUpdate,
+    changeTaskPosition
 }
 
 async function query() {
@@ -101,6 +102,24 @@ function groupUpdate(updateGroup, board) {
     return newBoard
 }
 
+function changeTaskPosition(taskId, groupId, board, toTaskId) {
+    const newBoard = { ...board }
+    const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
+    const fromIdx = _getItemPosition(groupId, board, taskId)
+    const toIdx = _getItemPosition(groupId, board, toTaskId)
+    const tasks = newBoard.groups[groupIdx].tasks
+    const task = tasks.splice(fromIdx, 1)[0]
+    tasks.splice(toIdx, 0, task)
+    return newBoard
+}
+
+function _getItemPosition(groupId, board, itemId) {
+    const newBoard = { ...board }
+    const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
+    const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(task => task.id === itemId)
+    return taskIdx
+}
+
 function getEmptyBoard() {
     return {
         title: '',
@@ -182,6 +201,7 @@ function getLabels() {
     ]
 }
 
+//Demo DATA
 
 // storageService.post(STORAGE_KEY, {
 //     _id: "b102",
@@ -214,7 +234,7 @@ function getLabels() {
 //     ],
 //     groups: [
 //         {
-//             style: {color:utilService.getRandomColor()},
+//             style: { color: utilService.getRandomColor() },
 //             id: "g101",
 //             title: "Group 1",
 //             archivedAt: 1589983468418,
@@ -250,9 +270,9 @@ function getLabels() {
 //             ],
 //         },
 //         {
-//           id: "g102",
-//           title: "Group 2",
-//           style: {color:utilService.getRandomColor()},
+//             id: "g102",
+//             title: "Group 2",
+//             style: { color: utilService.getRandomColor() },
 //             tasks: [
 //                 {
 //                     id: "c103",
