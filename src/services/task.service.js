@@ -72,24 +72,24 @@ async function addTask(board, task, groupId) {
     const newBoard = { ...board }
     if (task && groupId) {
         const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
-        const newTask = getEmptyTask()
+        const newTask = await getEmptyTask(board.groups[groupIdx].columns)
         newTask.title = task.title
         newBoard.groups[groupIdx].tasks.push(newTask)
     } else {
-        const newTask = getEmptyTask()
+        const newTask = getEmptyTask(board.groups[0].columns)
         newBoard.groups[0].tasks.push(newTask)
     }
     return Promise.resolve(newBoard)
 }
 
-function getEmptyTask() {
+function getEmptyTask(columns) {
     return {
         id: utilService.makeId(),
         title: 'item 1',
-        assignedTo: [],
         comments: [],
         status: utilService.getLabel(),
-        archivedAt: ''
+        archivedAt: new Date(),
+        columns: columns
     }
 }
 

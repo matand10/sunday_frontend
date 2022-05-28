@@ -265,6 +265,26 @@ function makeBoard() {
                 id: "g101",
                 title: "Group 1",
                 archivedAt: 1589983468418,
+                columns: [
+                    {
+                        title: 'Person',
+                        importance: 1,
+                        value: [],
+                        type: 'person'
+                    },
+                    {
+                        title: 'Status',
+                        importance: 2,
+                        value: utilService.getLabel(''),
+                        type: 'status'
+                    },
+                    {
+                        title: 'Date',
+                        importance: 3,
+                        value: new Date(),
+                        type: 'date'
+                    }
+                ],
                 tasks: [
                     {
                         id: "c101",
@@ -335,6 +355,26 @@ function makeBoard() {
                 id: "g102",
                 title: "Group 2",
                 style: { color: utilService.getRandomColor() },
+                columns: [
+                    {
+                        title: 'Person',
+                        importance: 1,
+                        value: [],
+                        type: 'person'
+                    },
+                    {
+                        title: 'Status',
+                        importance: 2,
+                        value: utilService.getLabel(''),
+                        type: 'status'
+                    },
+                    {
+                        title: 'Date',
+                        importance: 3,
+                        value: new Date(),
+                        type: 'date'
+                    }
+                ],
                 tasks: [
                     {
                         id: "c103",

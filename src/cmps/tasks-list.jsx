@@ -91,7 +91,6 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
     }
 
     if (!task) return <h1>Loading...</h1>
-
     let columns = task.columns
     columns = columns.sort((a, b) => a.importance - b.importance)
 
