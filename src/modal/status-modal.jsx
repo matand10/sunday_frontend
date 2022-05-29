@@ -2,10 +2,10 @@ import { utilService } from '../services/util.service'
 import { boardService } from '../services/board.service'
 
 
-export const StatusModal = ({ statusRef, modalPos, task, changeStatus }) => {
+export const StatusModal = ({ statusRef, modalPos, task, changeStatus, isStatusActive }) => {
 
     const onChangeStatus = (status) => {
-        changeStatus(status)
+        changeStatus(status, isStatusActive.colIdx)
     }
 
 

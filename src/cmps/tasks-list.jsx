@@ -56,15 +56,15 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
         }
     }
 
-    const toggleStatus = (ev, value) => {
+    const toggleStatus = (ev, value, colIdx) => {
         const x = ev.pageX
         const y = ev.pageY
         setModalPos({ x: x, y: y })
-        setIsStatusActive(value)
+        setIsStatusActive({ value, colIdx })
     }
 
-    const changeStatus = (status) => {
-        task.columns[1].value = status
+    const changeStatus = (status, colIdx) => {
+        task.columns[colIdx].value = status
         updateTask(task, group.id, board)
         setIsStatusActive(false)
     }
@@ -140,7 +140,7 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
                                     return <div key={idx} className="user-image-wrapper"><img key={idx} style={{ left: `${20 * (idx) + 'px'}`, transform: `translateX(${-80 + '%'})` }} className="user-image-icon-assign" src={user.imgUrl} alt="user image" /></div>
                                 })}</div> : <div key={idx} className="flex-row-items"><div className="user-image-wrapper"><img className="user-image-icon-assign" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" /></div></div>
                             case 'status':
-                                return <div key={idx} className="flex-row-items status" style={{ backgroundColor: col.value.color }} onClick={(ev) => toggleStatus(ev, true)}>{col.value.title}</div>
+                                return <div key={idx} className="flex-row-items status" style={{ backgroundColor: col.value.color }} onClick={(ev) => toggleStatus(ev, true, idx)}>{col.value.title}</div>
                             case 'date':
                                 return <div key={idx} className="flex-row-items">{col.value ? utilService.getCurrTime(col.value) : ''}</div>
                             case 'text':
@@ -167,7 +167,7 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
 
 
 
-        {isStatusActive && <StatusModal changeStatus={changeStatus} task={task} statusRef={statusRef} modalPos={modalPos} />}
+        {isStatusActive && <StatusModal isStatusActive={isStatusActive} changeStatus={changeStatus} task={task} statusRef={statusRef} modalPos={modalPos} />}
         {modal.boardId && <SidePanel modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}
     </section >
 }

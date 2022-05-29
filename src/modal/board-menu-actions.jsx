@@ -25,7 +25,7 @@ export const BoardMenuActions = ({ board, menuRef, onDeleteBoard, onRenameIsClic
                         <div className="board-menu-icon"><BsTrash /></div>
                         <div className="board-menutitle">Duplicate Board</div>
                     </div>
-                    <div className="board-menu-content-wrapper 4" onClick={() => onDeleteBoard(board._Id)}>
+                    <div className="board-menu-content-wrapper 4" onClick={() => onDeleteBoard(board._id)}>
                         <div className="board-menu-icon"><BsTrash /></div>
                         <div className="board-menu-title">Delete</div>
                     </div>
