@@ -25,7 +25,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
     const [modal, setModal] = useState({})
     const [showMenu, setShowMenu] = useState(false)
     const [isReversedSort, setIsReversedSort] = useState(false)
-    const [colActions, setcolActions] = useState({ colIdx: '', groupId: '' })
+    const [colActions, setColActions] = useState({ colIdx: '', groupId: '' })
 
 
 
@@ -108,6 +108,10 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
         updateGroup(newGroup)
     }
 
+    const onOpenColActions = (colIdx, groupId) => {
+        setColActions({ colIdx: colIdx, groupId: groupId })
+    }
+
     let columns = group.columns
     columns = columns.sort((a, b) => a.importance - b.importance)
 
@@ -142,7 +146,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                             <div className="col-arrow-container">
                                 <div className="col-arrow-div" onClick={() => onOpenColActions(idx, group.id)} > <FaCaretDown className="col-arrow" /></div>
                             </div>
-                            {colActions.colIdx === idx && colActions.groupId === group.id && <ColMenu setGroupIsClick={setGroupIsClick} setcolActions={setcolActions} menuRef={menuRef} removeCol={removeCol} colActions={colActions} />}
+                            {colActions.colIdx === idx && colActions.groupId === group.id && <ColMenu setGroupIsClick={setGroupIsClick} setcolActions={setColActions} menuRef={menuRef} removeCol={removeCol} colActions={colActions} />}
                         </div>
                     })}
                 </div>
