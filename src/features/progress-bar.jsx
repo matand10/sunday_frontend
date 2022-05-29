@@ -36,8 +36,9 @@ export const ProgressBar = ({ group, board }) => {
     }, [])
 
     useEffect(() => {
-        updateGroupProgress(getProgress(), board)
+        // updateGroupProgress(getProgress(), board)
     }, [progress])
+
 
     return <section className="progress-display">
         <div className="progress-bar">

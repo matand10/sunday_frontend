@@ -87,7 +87,8 @@ export const TasksApp = () => {
         dispatch(saveBoard(board))
     }
 
-    const updateTask = (updateTask, groupId, board) => {
+    // const updateTask = (updateTask, groupId, board) => {
+    const updateTask = (updateTask, groupId) => {
         const newBoard = boardService.taskUpdate(updateTask, groupId, board)
         dispatch(saveBoard(newBoard))
     }

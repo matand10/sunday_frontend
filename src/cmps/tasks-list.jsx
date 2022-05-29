@@ -1,13 +1,11 @@
 import React from 'react'
 import { useEffect, useRef, useState } from 'react';
 import { utilService } from "../services/util.service";
-// import { saveBoard } from '../store/board/board.action'
 import { TaskMenu } from './task-menu';
 import { StatusModal } from '../modal/status-modal'
 import { SidePanel } from "./side-panel"
 import { useParams } from "react-router-dom";
 import { boardService } from '../services/board.service'
-import { useDispatch } from "react-redux";
 import { FaCaretDown } from 'react-icons/fa'
 
 export const TasksList = ({ updateBoard, task, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board, removeTask, updateTaskDate }) => {
@@ -17,24 +15,16 @@ export const TasksList = ({ updateBoard, task, backgroundColor, onHandleRightCli
     const [taskUpdate, setTaskUpdate] = useState(task)
     const [modalPos, setModalPos] = useState({ x: null, y: null })
     const [statusActive, setStatusActive] = useState(false)
-    // const [isStatusActive, setIsStatusActive] = useState(false)
-    const [date, setDate] = useState(task)
-    const [isDateClick, setIsDateClick] = useState({})
+    const [editText, setEditText] = useState(false)
+
     let statusRef = useRef()
     let dateRef = useRef()
     const { boardId } = useParams()
-    const dispatch = useDispatch()
-
 
     useEffect(() => {
         updateTask(taskUpdate, group.id, board)
         setUpdateIsClick({})
     }, [taskUpdate])
-
-    useEffect(() => {
-        updateTaskDate(date, group.id, board)
-        setIsDateClick({})
-    }, [date])
 
     const onOpenMenu = (ev, params) => {
         ev.stopPropagation()
@@ -62,7 +52,6 @@ export const TasksList = ({ updateBoard, task, backgroundColor, onHandleRightCli
     const eventListener = (ev) => {
         if (!statusRef.current?.contains(ev.target)) {
             setStatusActive(false)
-            // setIsStatusActive(false)
             setArrowTask({})
         }
     }
@@ -71,15 +60,7 @@ export const TasksList = ({ updateBoard, task, backgroundColor, onHandleRightCli
         const x = ev.pageX
         const y = ev.pageY
         setModalPos({ x: x, y: y })
-        setStatusActive(value)
-        // setIsStatusActive(value)
-    }
-
-    const changeStatus = (status, colIdx) => {
-        task.columns[colIdx].value = status
-        updateTask(task, group.id, board)
-        setStatusActive(false)
-        // setIsStatusActive(false)
+        setStatusActive({ value, colIdx })
     }
 
     const onUpdateTask = (ev, params) => {
@@ -95,11 +76,6 @@ export const TasksList = ({ updateBoard, task, backgroundColor, onHandleRightCli
         setModal({ boardId: null })
     }
 
-    const onUpdateDate = (params) => {
-
-        setIsDateClick(params)
-    }
-
     const dragStarted = (ev, taskId) => {
         ev.dataTransfer.setData("taskId", taskId)
     }
@@ -113,24 +89,36 @@ export const TasksList = ({ updateBoard, task, backgroundColor, onHandleRightCli
         const transferedTaskId = ev.dataTransfer.getData("taskId")
         const newBoard = boardService.changeTaskPosition(transferedTaskId, group.id, board, toIndex)
         updateBoard(newBoard)
-        // dispatch(saveBoard(newBoard))
     }
 
-    const handleDatChange = ({ target }) => {
-        const field = target.name
-        const value = target.value
-        setDate((prevDate) => ({ ...prevDate, [field]: value }))
+    const handleDateChange = ({ target }, colIdx) => {
+        specialUpdateTask(target.value, colIdx)
+    }
+
+    const handleTextChange = ({ target }, colIdx) => {
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault()
+                specialUpdateTask(target.value, colIdx)
+                setEditText(false)
+            }
+        })
     }
 
     const specialUpdateTask = (value, colIdx) => {
         let newTask = task
+        console.log(newTask);
         newTask.columns[colIdx].value = value
+        updateTask(newTask, group.id)
+    }
+
+    const textEdit = (colIdx, value) => {
+        setEditText({ colIdx, value })
     }
 
     if (!task) return <h1>Loading...</h1>
     let columns = task.columns
     columns = columns.sort((a, b) => a.importance - b.importance)
-
     return <section className="task-row-component" onContextMenu={(ev) => onHandleRightClick(ev, task, true)} ref={menuRef} onDragOver={(ev) => draggingOver(ev)} onDrop={(ev) => dragDropped(ev, task.id)}>
         <div className="task-row-wrapper" draggable onDragStart={(ev) => dragStarted(ev, task.id)}>
             <div className="task-row-title">
@@ -156,13 +144,7 @@ export const TasksList = ({ updateBoard, task, backgroundColor, onHandleRightCli
                         }
                     </div>
                 </div>
-
                 <div className="task-row-items">
-                    {/* {task.assignedTo?.length ? <div className="flex-row-items user-image-container">{task.assignedTo.map((user, idx) => {
-                        return <div className="user-image-wrapper"><img key={idx} style={{ left: `${20 * (idx) + 'px'}`, transform: `translateX(${-80 + '%'})` }} className="user-image-icon-assign" src={user.imgUrl} alt="user image" /></div>
-                    })}</div> : <div className="flex-row-items"><div className="user-image-wrapper"><img className="user-image-icon-assign" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" /></div></div>} */}
-
-
                     {columns.map((col, idx) => {
                         switch (col.type) {
                             case 'person':
@@ -180,41 +162,30 @@ export const TasksList = ({ updateBoard, task, backgroundColor, onHandleRightCli
                                         </div>
                                     </div>
                             case 'status':
-                                return <div key={idx} className="flex-row-items status" style={{ backgroundColor: col.value.color }} onClick={(ev) => toggleStatus(ev, idx)}>{col.value.title}</div>
+                                return <div key={idx} className="flex-row-items status" style={{ backgroundColor: col.value.color }} onClick={(ev) => toggleStatus(ev, true, idx)}>{col.value.title}</div>
                             case 'date':
                                 return <div key={idx} className="flex-row-items">
-                                    <label htmlFor="task-date">{col.value ? utilService.getCurrTime(task.archivedAt) : ''}</label>
-                                    <input id="task-date" type="date" name="archivedAt" defaultValue={col.value} key={idx} onClick={() => onUpdateDate({ taskId: task.id, groupId: group.id, board: board })} onChange={handleDatChange} ref={dateRef} />
+                                    <label htmlFor="task-date">{col.value ? utilService.getCurrTime(col.value) : ''}</label>
+                                    <input id="task-date" type="date" name="archivedAt" defaultValue={col.value} key={idx} onChange={(event) => handleDateChange(event, idx)} ref={dateRef} />
                                 </div>
-                            //    return  <div key={idx} className="flex-row-items" onClick={()=>onUpdateDate({ taskId: task.id, groupId: group.id, board: board})} ref={dateRef}>{col.value ? utilService.getCurrTime(col.value) : ''}</div>
                             case 'text':
-                                return <div key={idx} className="flex-row-items">{col.value}</div>
+                                if (editText.value && editText.colIdx) {
+                                    return <div key={idx} className="title-update-input">
+                                        <input type="text" defaultValue={col.value} onChange={(event) => handleTextChange(event, idx)} onClick={(event) => (event.stopPropagation())} /*ref={menuRef}*/ />
+                                    </div>
+                                }
+                                return <div onClick={() => textEdit(idx, true)} key={idx} className="flex-row-items">{col.value}</div>
                         }
                     })
-
                     }
-
-                    {/* {task.assignedTo?.length ? <div className="flex-row-items">{task.assignedTo.map((user, idx) => {
-                        return <img key={idx} className="user-image-icon-assign" src={user.imgUrl} alt="user image" />
-                    })}</div> : <div className="flex-row-items"><img className="user-image-icon-assign" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" /></div>} */}
-
-
-                    {/* <div className="flex-row-items status" style={{ backgroundColor: task.status.color }} onClick={(ev) => toggleStatus(ev, true)}>{task.status.title}</div> */}
-                    {/* <div className="flex-row-items">{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</div> */}
                     <div className="right-indicator-row"></div>
                 </div>
                 <div className="add-colomn-column"></div>
             </div>
             {arrowTask.board && arrowTask.groupId === group.id && arrowTask.taskId === task.id && <TaskMenu statusRef={statusRef} removeTask={removeTask} arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
         </div >
-
-
-
-
-        {statusActive && <StatusModal specialUpdateTask={specialUpdateTask} statusActive={statusActive} statusRef={statusRef} modalPos={modalPos} />}
-        {/* {isStatusActive && <StatusModal changeStatus={changeStatus} statusRef={statusRef} modalPos={modalPos} />} */}
+        {statusActive.value && <StatusModal specialUpdateTask={specialUpdateTask} statusActive={statusActive} statusRef={statusRef} modalPos={modalPos} />}
         {modal.boardId && <SidePanel modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}
-        {/* {isDateClick.board && isDateClick.groupId === group.id && isDateClick.taskId === task.id && <DateCalendar />} */}
     </section >
 }
 
