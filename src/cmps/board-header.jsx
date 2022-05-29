@@ -24,14 +24,19 @@ export const BoardHeader = ({ board, onAddTask, onAddGroup, onFilter }) => {
 
 
     useEffect(() => {
-        document.addEventListener("mousedown", (event) => {
-            if (!menuRef.current?.contains(event.target)) {
-                setIsMenuOpen(false)
-                setIsSearchActive(false)
-                setIsSortMenu(false)
-            }
-        })
+        document.addEventListener("mousedown", eventListeners)
+        return () => {
+            document.addEventListener("mousedown", eventListeners)
+        }
     })
+
+    const eventListeners = (ev) => {
+        if (!menuRef.current?.contains(ev.target)) {
+            setIsMenuOpen(false)
+            setIsSearchActive(false)
+            setIsSortMenu(false)
+        }
+    }
 
     useEffect(() => {
         onFilter(handleSearch)
@@ -98,7 +103,7 @@ export const BoardHeader = ({ board, onAddTask, onAddGroup, onFilter }) => {
 
         <div className="divider"></div>
         <div className="board-header-actions-v2">
-            <BoardNav onAddTask={onAddTask} onAddGroup={onAddGroup} board={board}/>
+            <BoardNav onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
             {!isSearchActive && <button className="panel-button-v2" onClick={() => toggleSearchActive(true)}><IoIosSearch /> <span>Search</span></button>}
             {isSearchActive && <div ref={menuRef}><input onChange={(ev) => onHandleSearch(ev)} className="board-filter-search" autoFocus type="text" placeholder='Search' /></div>}
             <button className="panel-button-v2"><FaRegUserCircle /> <span>Person</span></button>

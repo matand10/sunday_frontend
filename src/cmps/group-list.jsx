@@ -48,19 +48,22 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
     }
 
     useEffect(() => {
-        document.addEventListener("mousedown", (event) => {
-            // if (!groupRef.current?.contains(event.target)) {
-            // }
-            if (!menuRef.current?.contains(event.target)) {
-                document.removeEventListener('contextmenu', handleContextMenu)
-                setIsClickGroup(false)
-                setShowMenu(false)
-            }
-        })
+        document.addEventListener("mousedown", eventListeners)
+        return () => {
+            document.removeEventListener("mousedown", eventListeners)
+        }
     })
 
+    const eventListeners = (ev) => {
+        if (!menuRef.current?.contains(ev.target)) {
+            document.removeEventListener('contextmenu', handleContextMenu)
+            setIsClickGroup(false)
+            setShowMenu(false)
+            // setGroupIsClick({})
+        }
+    }
+
     const onHandleRightClick = (ev, task, value) => {
-        // If you want to use taskId or more manipulation...
         setShowMenu(value)
     }
 
@@ -95,10 +98,9 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
         updateGroup(newGroup)
     }
 
-    // if (!group) return
-    let columns = group.tasks[0].columns
+    let columns = group.columns
     columns = columns.sort((a, b) => a.importance - b.importance)
-    // console.log(columns);
+
     return <div className="board-content-wrapper">
         <div className="group-header-wrapper">
             <div className="group-header-component">
@@ -107,10 +109,13 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                     <div>{isClickGroup && <GroupMenu menuRef={menuRef} group={group} onRemoveGroup={onRemoveGroup} />}</div>
                     {(groupIsClick.boardId && groupIsClick.groupId === group.id) ?
                         <div>
-                            <input type="text" defaultValue={group.title} onChange={handleGroupCange} name="title" style={{ color: group.style.color }} />
+                            <input type="text" ref={menuRef} defaultValue={group.title} onChange={handleGroupCange} name="title" style={{ color: group.style.color }} />
                         </div>
                         :
-                        <div><h3 style={{ color: group.style.color }} onClick={(event) => onUpdateGroup(event, { boardId: board._id, groupId: group.id })}>{group.title}</h3></div>
+                        <div className="column-header column-header-title">
+                            <h3 style={{ color: group.style.color }} onClick={(event) => onUpdateGroup(event, { boardId: board._id, groupId: group.id })}>{group.title}</h3>
+                            <div onClick={() => onHeaderSort('title')} className="sort-header-menu hide-sort"><FaSort /></div>
+                        </div>
                     }
                 </div>
                 <div className="group-header-items">

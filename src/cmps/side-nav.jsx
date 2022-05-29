@@ -8,7 +8,6 @@ export const SideNav = () => {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     let menuRef = useRef()
 
-
     useEffect(() => {
         document.addEventListener("mousedown", (event) => {
             if (!menuRef.current?.contains(event.target)) {
@@ -20,8 +19,6 @@ export const SideNav = () => {
     const toggleDialog = (value) => {
         setIsDialogOpen(value)
     }
-
-
 
     return <section className="main-side-nav-container">
         <div className="side-nav-upper">

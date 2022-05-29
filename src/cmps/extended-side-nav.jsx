@@ -1,19 +1,13 @@
-import { useState, useRef, useEffect } from 'react'
-import arrow from '../assets/img/side-nav/right-arrow.svg'
+import { useState, useEffect } from 'react'
 import dotsMenu from '../assets/img/side-nav/ds-menu.svg'
-import { useNavigate, NavLink } from 'react-router-dom'
-import { boardService } from '../services/board.service'
+import { useNavigate } from 'react-router-dom'
 import { CreatBoard } from './create-board'
-// import { Menu } from '../hooks/right-click-menu'
-// import { OnClickMenuBoard } from '../modal/right-click-modal-board'
 import { BoardMenuActions } from '../modal/board-menu-actions'
 import { MdOutlineArrowForwardIos } from 'react-icons/md'
 
 
 export const ExtendedSideNav = ({ boards, onAddBoard, onDeleteBoard, updateBoard }) => {
-    // const { x, y, handleContextMenu } = Menu()
     const [showMenu, setShowMenu] = useState('')
-    // let menuRef = useRef()
     const [isNavOpen, setIsNavOpen] = useState(false)
     const [isClick, setIsClick] = useState(false)
     const [selectedBoard, setSelectedBoard] = useState({})
@@ -26,20 +20,6 @@ export const ExtendedSideNav = ({ boards, onAddBoard, onDeleteBoard, updateBoard
         if (boardUpdate) updateBoard(boardUpdate)
     }, [boardUpdate])
 
-    // useEffect(() => {
-    //     document.addEventListener("mousedown", (event) => {
-    //         if (!menuRef.current?.contains(event.target)) {
-    //             document.removeEventListener('contextmenu', handleContextMenu)
-    //             setShowMenu({})
-    //         }
-    //     })
-    // })
-
-    // const onHandleRightClick = (ev, board) => {
-    //     // If you want to use taskId or more manipulation...
-    //     ev.preventDefault()
-    //     setShowMenu(board)
-    // }
 
     const toggleNav = () => {
         setIsNavOpen(!isNavOpen)

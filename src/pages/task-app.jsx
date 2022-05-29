@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { loadBoards, setFilter } from "../store/board/board.action"
 import { MainBoard } from '../cmps/main-board.jsx'
 import { SideNav } from '../cmps/side-nav.jsx'
-import { saveTask } from '../store/task/task.action'
 import { BoardHeader } from "../cmps/board-header"
 import { saveBoard, removeBoard } from '../store/board/board.action'
 import { ExtendedSideNav } from '../cmps/extended-side-nav.jsx'
@@ -50,6 +49,7 @@ export const TasksApp = () => {
     }
 
     const loadBoard = async () => {
+        console.log(filterBy)
         const board = await boardService.getById(params.boardId)
         const filteredBoard = boardService.filterBoard(board, filterBy)
         setBoard(filteredBoard)
@@ -92,7 +92,6 @@ export const TasksApp = () => {
         dispatch(saveBoard(newBoard))
     }
 
-    // const updateGroup = (updatedGroup, board) => {
     const updateGroup = (updatedGroup) => {
         const newBoard = boardService.groupUpdate(updatedGroup, board)
         dispatch(saveBoard(newBoard))
@@ -111,9 +110,7 @@ export const TasksApp = () => {
         const newBoard = { ...board }
         const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
         const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(task => task.id === taskId)
-        console.log(taskIdx);
         newBoard.groups[groupIdx].tasks.splice(taskIdx, 1)
-        console.log(newBoard);
         dispatch(saveBoard(newBoard))
     }
 
