@@ -15,7 +15,7 @@ import { groupService } from "../services/group.service";
 import { ColMenu } from "../modal/col-menu";
 
 
-export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup,updateTaskDate }) => {
+export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup, updateTaskDate }) => {
     const [task, setTask] = useState({ title: '' })
     const [groupIsClick, setGroupIsClick] = useState({})
     const [isClickGroup, setIsClickGroup] = useState(false)
@@ -89,6 +89,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
     }
 
     const removeCol = (colIdx) => {
+        console.log(group);
         const newGroup = groupService.groupColRemove(colIdx, group)
         updateGroup(newGroup)
     }
@@ -159,7 +160,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
 
             {group.tasks.map((task, idx) => {
                 return <TasksList key={idx} boardId={boardId} task={task} /*menuRef={menuRef}*/ backgroundColor={group.style.color}
-                    onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate}/>
+                    onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate} />
             })}
 
 
