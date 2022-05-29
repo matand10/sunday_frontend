@@ -52,12 +52,12 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
         })
     }
 
-    // useEffect(() => {
-    //     document.addEventListener("mousedown", eventListener)
-    //     return () => {
-    //         document.removeEventListener("mousedown", eventListener)
-    //     }
-    // })
+    useEffect(() => {
+        document.addEventListener("mousedown", eventListener)
+        return () => {
+            document.removeEventListener("mousedown", eventListener)
+        }
+    })
 
     const eventListener = (ev) => {
         if (!statusRef.current?.contains(ev.target)) {
@@ -119,7 +119,6 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
     }
 
     if (!task) return <h1>Loading...</h1>
-
     let columns = task.columns
     columns = columns.sort((a, b) => a.importance - b.importance)
 

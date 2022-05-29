@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { loadBoards, setFilter } from "../store/board/board.action"
 import { MainBoard } from '../cmps/main-board.jsx'
 import { SideNav } from '../cmps/side-nav.jsx'
-import { saveTask } from '../store/task/task.action'
 import { BoardHeader } from "../cmps/board-header"
 import { saveBoard, removeBoard } from '../store/board/board.action'
 import { ExtendedSideNav } from '../cmps/extended-side-nav.jsx'
@@ -14,20 +13,27 @@ import { useNavigate, useParams } from "react-router-dom"
 export const TasksApp = () => {
     const params = useParams()
     const [board, setBoard] = useState(null)
-
     const { boards } = useSelector((storeState) => storeState.boardModule)
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
     const dispatch = useDispatch()
     const navigate = useNavigate();
-
     let { boardId } = useParams()
 
+
     useEffect(() => {
-        console.log(boardId)
+        loadBoard()
+        dispatch(loadBoards())
+    }, [params.boardId, filterBy])
+
+    useEffect(() => {
+        if (boardId) if (boardService.isIdOk(boardId, boards)) navigate('/board')
+    }, [])
+
+    useEffect(() => {
         if (!boardId) {
             if (board) {
                 boardId = board._id
-                navigate(boardId)
+                navigate(`/board/${boardId}`)
             }
             else {
                 makeBoard()
@@ -35,19 +41,15 @@ export const TasksApp = () => {
         }
     }, [boards, board])
 
-    useEffect(() => {
-        loadBoard()
-        dispatch(loadBoards())
-    }, [params.boardId, filterBy])
-
     const makeBoard = async () => {
         let firstBoard
         if (boards.length === 0) firstBoard = await boardService.makeBoard()
-        else if (boards.length === 1) firstBoard = boards[0]
+        else if (boards.length > 0) firstBoard = boards[0]
         setBoard(firstBoard)
     }
 
     const loadBoard = async () => {
+        console.log(filterBy)
         const board = await boardService.getById(params.boardId)
         const filteredBoard = boardService.filterBoard(board, filterBy)
         setBoard(filteredBoard)
@@ -63,8 +65,8 @@ export const TasksApp = () => {
         dispatch(saveBoard(board))
     }
 
-    const onAddBoard = (board) => {
-        const newBoard = boardService.getEmptyBoard()
+    const onAddBoard = async (board) => {
+        let newBoard = await boardService.makeBoard()
         newBoard.title = board.title
         dispatch(saveBoard(newBoard))
         navigate(`/board/${newBoard._id}`)
@@ -90,7 +92,6 @@ export const TasksApp = () => {
         dispatch(saveBoard(newBoard))
     }
 
-    // const updateGroup = (updatedGroup, board) => {
     const updateGroup = (updatedGroup) => {
         const newBoard = boardService.groupUpdate(updatedGroup, board)
         dispatch(saveBoard(newBoard))
@@ -109,9 +110,7 @@ export const TasksApp = () => {
         const newBoard = { ...board }
         const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
         const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(task => task.id === taskId)
-        console.log(taskIdx);
         newBoard.groups[groupIdx].tasks.splice(taskIdx, 1)
-        console.log(newBoard);
         dispatch(saveBoard(newBoard))
     }
 

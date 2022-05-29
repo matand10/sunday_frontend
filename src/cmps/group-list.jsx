@@ -12,6 +12,7 @@ import { boardService } from "../services/board.service";
 import { saveBoard } from '../store/board/board.action'
 import { useDispatch } from "react-redux";
 import { groupService } from "../services/group.service";
+import { ColMenu } from "../modal/col-menu";
 
 
 export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup,updateTaskDate }) => {
@@ -24,6 +25,10 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
     const [modal, setModal] = useState({})
     const [showMenu, setShowMenu] = useState(false)
     const [isReversedSort, setIsReversedSort] = useState(false)
+    const [colActions, setColActions] = useState({ colIdx: '', groupId: '' })
+
+
+
     const { x, y, handleContextMenu } = Menu()
     let menuRef = useRef()
     let groupUpdateRef = useRef()
@@ -48,24 +53,24 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
         setTask((prevTask) => ({ ...prevTask, [field]: value }))
     }
 
-    // useEffect(() => {
-    //     document.addEventListener("mousedown", (event) => {
-    //         // if (!groupRef.current?.contains(event.target)) {
-    //         // }
-    //         if (!menuRef.current?.contains(event.target)) {
-    //             document.removeEventListener('contextmenu', handleContextMenu)
-    //             setIsClickGroup(false)
-    //             setShowMenu(false)
-    //         }
-    //         if (!groupUpdateRef.current?.contains(event.target)) {
-    //             document.removeEventListener('contextmenu', handleContextMenu)
-    //             setGroupIsClick({})
-    //         }
-    //     })
-    // })
+    useEffect(() => {
+        document.addEventListener("mousedown", eventListeners)
+        return () => {
+            document.removeEventListener("mousedown", eventListeners)
+        }
+    })
+
+    const eventListeners = (ev) => {
+        if (!menuRef.current?.contains(ev.target)) {
+            document.removeEventListener('contextmenu', handleContextMenu)
+            setIsClickGroup(false)
+            setShowMenu(false)
+            // setGroupIsClick({})
+            setColActions({ colIdx: '', groupId: '' })
+        }
+    }
 
     const onHandleRightClick = (ev, task, value) => {
-        // If you want to use taskId or more manipulation...
         setShowMenu(value)
     }
 
@@ -80,6 +85,11 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
 
     const onNewCol = () => {
         const newGroup = groupService.groupColAdd(group)
+        updateGroup(newGroup)
+    }
+
+    const removeCol = (colIdx) => {
+        const newGroup = groupService.groupColRemove(colIdx, group)
         updateGroup(newGroup)
     }
 
@@ -100,10 +110,13 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
         updateGroup(newGroup)
     }
 
-    // if (!group) return
-    let columns = group.tasks[0].columns
+    const onOpenColActions = (colIdx, groupId) => {
+        setColActions({ colIdx: colIdx, groupId: groupId })
+    }
+
+    let columns = group.columns
     columns = columns.sort((a, b) => a.importance - b.importance)
-    // console.log(columns);
+
     return <div className="board-content-wrapper">
         <div className="group-header-wrapper">
             <div className="group-header-component">
@@ -112,10 +125,13 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                     <div>{isClickGroup && <GroupMenu /*menuRef={menuRef}*/ group={group} onRemoveGroup={onRemoveGroup} />}</div>
                     {(groupIsClick.boardId && groupIsClick.groupId === group.id) ?
                         <div>
-                            <input type="text" defaultValue={group.title} onChange={handleGroupCange} name="title" style={{ color: group.style.color }} />
+                            <input type="text" ref={menuRef} defaultValue={group.title} onChange={handleGroupCange} name="title" style={{ color: group.style.color }} />
                         </div>
                         :
-                        <div><h3 style={{ color: group.style.color }} onClick={(event) => onUpdateGroup(event, { boardId: board._id, groupId: group.id })}>{group.title}</h3></div>
+                        <div className="column-header column-header-title">
+                            <h3 style={{ color: group.style.color }} onClick={(event) => onUpdateGroup(event, { boardId: board._id, groupId: group.id })}>{group.title}</h3>
+                            <div onClick={() => onHeaderSort('title')} className="sort-header-menu hide-sort"><FaSort /></div>
+                        </div>
                     }
                 </div>
                 <div className="group-header-items">
@@ -128,6 +144,11 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                             <span className="editable-column-header">
                                 <EditableColumn colIdx={idx} group={group} updateGroup={updateGroup} text={col.title} />
                             </span>
+
+                            <div className="col-arrow-container">
+                                <div className="col-arrow-div" onClick={() => onOpenColActions(idx, group.id)} > <FaCaretDown className="col-arrow" /></div>
+                            </div>
+                            {colActions.colIdx === idx && colActions.groupId === group.id && <ColMenu setGroupIsClick={setGroupIsClick} setcolActions={setColActions} menuRef={menuRef} removeCol={removeCol} colActions={colActions} />}
                         </div>
                     })}
                 </div>

@@ -553,6 +553,7 @@
     align-items: center;
 }
 
+
 .column-header {
     position: relative;
 
@@ -587,6 +588,23 @@
 
 .hide-sort {
     display: none;
+}
+
+.column-header-title {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+
+    &:hover {
+        background-color: unset;
+        border-inline-end: 4px solid #f5f6f8;
+    }
+
+    & .sort-header-menu {
+        position: absolute;
+        right: 50%;
+    }
 }
 
 .editable-column-header {

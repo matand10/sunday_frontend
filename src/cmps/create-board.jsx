@@ -11,7 +11,6 @@ export function CreatBoard({ setIsClick, isClick, onAddBoard }) {
     const handleChange = ({ target }) => {
         const value = target.type === 'number' ? (+target.value || '') : target.value
         setBoard((prevBoard) => ({ ...prevBoard, title: value }))
-
     }
 
     const addBoard = () => {

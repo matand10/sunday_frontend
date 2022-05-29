@@ -13,7 +13,8 @@ export const groupService = {
     remove,
     getEmptyGroup,
     groupColUpdate,
-    groupColAdd
+    groupColAdd,
+    groupColRemove
 }
 
 // async function query() {
@@ -67,20 +68,80 @@ function getEmptyGroup() {
         style: { color: utilService.getRandomColor() },
         title: 'Group Title',
         archivedAt: '',
-        tasks: [
+        columns: [
             {
-                title: 'Item 1',
-                assignedTo: [],
-                comments: [],
-                status: utilService.getLabel(),
-                archivedAt: ''
+                title: 'Person',
+                importance: 1,
+                value: [],
+                type: 'person'
             },
             {
-                title: 'Item 2',
-                assignedTo: [],
+                title: 'Status',
+                importance: 2,
+                value: utilService.getLabel(''),
+                type: 'status'
+            },
+            {
+                title: 'Date',
+                importance: 3,
+                value: new Date(),
+                type: 'date'
+            }
+        ],
+        tasks: [
+            {
+                id: utilService.makeId(),
+                title: 'item 1',
                 comments: [],
                 status: utilService.getLabel(),
-                archivedAt: ''
+                archivedAt: new Date(),
+                columns: [
+                    {
+                        title: 'Person',
+                        importance: 1,
+                        value: [],
+                        type: 'person'
+                    },
+                    {
+                        title: 'Status',
+                        importance: 2,
+                        value: utilService.getLabel(''),
+                        type: 'status'
+                    },
+                    {
+                        title: 'Date',
+                        importance: 3,
+                        value: new Date(),
+                        type: 'date'
+                    }
+                ]
+            },
+            {
+                id: utilService.makeId(),
+                title: 'item 2',
+                comments: [],
+                status: utilService.getLabel(),
+                archivedAt: new Date(),
+                columns: [
+                    {
+                        title: 'Person',
+                        importance: 1,
+                        value: [],
+                        type: 'person'
+                    },
+                    {
+                        title: 'Status',
+                        importance: 2,
+                        value: utilService.getLabel(''),
+                        type: 'status'
+                    },
+                    {
+                        title: 'Date',
+                        importance: 3,
+                        value: new Date(),
+                        type: 'date'
+                    }
+                ]
             }
         ]
     }
@@ -96,12 +157,26 @@ function groupColUpdate(inputValue, colIdx, group) {
 
 function groupColAdd(group) {
     let newGroup = group
+    newGroup.columns.push({
+        title: 'Text',
+        type: 'text',
+        value: ''
+    })
     group.tasks.forEach((task, idx) => {
         newGroup.tasks[idx].columns.push({
             title: 'Text',
             type: 'text',
             value: ''
         })
+    })
+    return newGroup
+}
+
+function groupColRemove(colIdx, group) {
+    let newGroup = group
+    newGroup.columns.splice(colIdx, 1)
+    group.tasks.forEach((task, idx) => {
+        newGroup.tasks[idx].columns.splice(colIdx, 1)
     })
     return newGroup
 }
