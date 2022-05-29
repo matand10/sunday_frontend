@@ -16,7 +16,7 @@ import { ColMenu } from "../modal/col-menu";
 import { ProgressBar } from '../features/progress-bar'
 
 
-export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup }) => {
+export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup, updateTaskDate }) => {
     const [task, setTask] = useState({ title: '' })
     const [groupIsClick, setGroupIsClick] = useState({})
     const [isClickGroup, setIsClickGroup] = useState(false)
@@ -32,6 +32,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
 
     const { x, y, handleContextMenu } = Menu()
     let menuRef = useRef()
+    let groupUpdateRef = useRef()
     // let groupRef = useRef()
     const { boardId } = useParams()
     const dispatch = useDispatch()
@@ -159,8 +160,8 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
             </div>
 
             {group.tasks.map((task, idx) => {
-                return <TasksList key={idx} boardId={boardId} task={task} menuRef={menuRef} backgroundColor={group.style.color}
-                    onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} />
+                return <TasksList key={idx} boardId={boardId} task={task} /*menuRef={menuRef}*/ backgroundColor={group.style.color}
+                    onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate} />
             })}
 
             <div className="group-main-input-container">

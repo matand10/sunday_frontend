@@ -10,21 +10,30 @@ import { boardService } from '../services/board.service'
 import { useDispatch } from "react-redux";
 import { FaCaretDown } from 'react-icons/fa'
 
-export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board, removeTask }) => {
+export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board, removeTask, updateTaskDate }) => {
     const [modal, setModal] = useState({})
     const [arrowTask, setArrowTask] = useState({})
     const [updateIsClick, setUpdateIsClick] = useState({})
     const [taskUpdate, setTaskUpdate] = useState(task)
     const [modalPos, setModalPos] = useState({ x: null, y: null })
     const [isStatusActive, setIsStatusActive] = useState(false)
+    const [date, setDate] = useState(task)
+    const [isDateClick, setIsDateClick] = useState({})
+    let statusRef = useRef()
+    let dateRef = useRef()
     const { boardId } = useParams()
     const dispatch = useDispatch()
-    let statusRef = useRef()
+
 
     useEffect(() => {
         updateTask(taskUpdate, group.id, board)
         setUpdateIsClick({})
     }, [taskUpdate])
+
+    useEffect(() => {
+        updateTaskDate(date, group.id, board)
+        setIsDateClick({})
+    }, [date])
 
     const onOpenMenu = (ev, params) => {
         ev.stopPropagation()
@@ -82,6 +91,11 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
         setModal({ boardId: null })
     }
 
+    const onUpdateDate = (params) => {
+
+        setIsDateClick(params)
+    }
+
     const dragStarted = (ev, taskId) => {
         ev.dataTransfer.setData("taskId", taskId)
     }
@@ -95,6 +109,12 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
         const transferedTaskId = ev.dataTransfer.getData("taskId")
         const newBoard = boardService.changeTaskPosition(transferedTaskId, group.id, board, toIndex)
         dispatch(saveBoard(newBoard))
+    }
+
+    const handleDatChange = ({ target }) => {
+        const field = target.name
+        const value = target.value
+        setDate((prevDate) => ({ ...prevDate, [field]: value }))
     }
 
     if (!task) return <h1>Loading...</h1>
@@ -112,7 +132,7 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
                     <div className="task-title-content" >
                         {(updateIsClick.boardId && updateIsClick.groupId === group.id && updateIsClick.task.id === task.id) ?
                             <div className="title-update-input">
-                                <input type="text" defaultValue={task.title} onChange={handleChange} name="title" onClick={(ev) => ev.stopPropagation()} />
+                                <input type="text" defaultValue={task.title} onChange={handleChange} name="title" onClick={(event) => (event.stopPropagation())} /*ref={menuRef}*/ />
                             </div>
                             :
                             <div className="task-title-cell">
@@ -142,7 +162,11 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
                             case 'status':
                                 return <div key={idx} className="flex-row-items status" style={{ backgroundColor: col.value.color }} onClick={(ev) => toggleStatus(ev, true, idx)}>{col.value.title}</div>
                             case 'date':
-                                return <div key={idx} className="flex-row-items">{col.value ? utilService.getCurrTime(col.value) : ''}</div>
+                                return <div key={idx} className="flex-row-items">
+                                    <label htmlFor="task-date">{col.value ? utilService.getCurrTime(task.archivedAt) : ''}</label>
+                                    <input id="task-date" type="date" name="archivedAt" defaultValue={col.value} key={idx} onClick={() => onUpdateDate({ taskId: task.id, groupId: group.id, board: board })} onChange={handleDatChange} ref={dateRef} />
+                                </div>
+                            //    return  <div key={idx} className="flex-row-items" onClick={()=>onUpdateDate({ taskId: task.id, groupId: group.id, board: board})} ref={dateRef}>{col.value ? utilService.getCurrTime(col.value) : ''}</div>
                             case 'text':
                                 return <div key={idx} className="flex-row-items">{col.value}</div>
                         }
@@ -169,6 +193,7 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
 
         {isStatusActive && <StatusModal isStatusActive={isStatusActive} changeStatus={changeStatus} task={task} statusRef={statusRef} modalPos={modalPos} />}
         {modal.boardId && <SidePanel modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}
+        {/* {isDateClick.board && isDateClick.groupId === group.id && isDateClick.taskId === task.id && <DateCalendar />} */}
     </section >
 }
 

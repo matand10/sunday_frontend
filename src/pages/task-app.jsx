@@ -72,6 +72,7 @@ export const TasksApp = () => {
     }
 
     const onDeleteBoard = (boardId) => {
+        console.log(boardId);
         dispatch(removeBoard(boardId))
         navigate(`/board`)
     }
@@ -113,6 +114,11 @@ export const TasksApp = () => {
         dispatch(saveBoard(newBoard))
     }
 
+    const updateTaskDate = (updateDate, groupId, board) => {
+        const newBoard = boardService.taskUpdate(updateDate, groupId, board)
+        dispatch(saveBoard(newBoard))
+    }
+
     if (!boards.length) return <h1>Loading...</h1>
     return <section className="task-main-container">
         <div className="board-container-left">
@@ -122,7 +128,7 @@ export const TasksApp = () => {
             <ExtendedSideNav updateBoard={updateBoard} openBoard={openBoard} boards={boards} onAddBoard={onAddBoard} onDeleteBoard={onDeleteBoard} />
             <div className="main-app flex-column">
                 <BoardHeader onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
-                <MainBoard board={board} removeTask={removeTask} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} updateGroup={updateGroup} />
+                <MainBoard board={board} removeTask={removeTask} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} updateGroup={updateGroup} updateTaskDate={updateTaskDate} />
             </div>
         </div>
     </section>

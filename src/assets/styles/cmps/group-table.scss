@@ -631,6 +631,25 @@
     }
 }
 
+.flex-row-items {
+    & input {
+        position: absolute;
+        width: 140px;
+        opacity: 0;
+    }
+
+    & input[type="date"]::-webkit-inner-spin-button,
+    input[type="date"]::-webkit-calendar-picker-indicator {
+
+        width: 100%;
+        opacity: 0;
+    }
+
+}
+
+// .flex-row-items:before{
+//     content:
+// }
 .right-indicator-row {
     background-color: #d0d4e4;
     padding-bottom: 10px;
