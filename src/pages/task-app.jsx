@@ -49,7 +49,6 @@ export const TasksApp = () => {
     }
 
     const loadBoard = async () => {
-        console.log(filterBy)
         const board = await boardService.getById(params.boardId)
         const filteredBoard = boardService.filterBoard(board, filterBy)
         setBoard(filteredBoard)

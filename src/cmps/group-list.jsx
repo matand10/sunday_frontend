@@ -66,7 +66,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
             setIsClickGroup(false)
             setShowMenu(false)
             // setGroupIsClick({})
-            setColActions({ colIdx: '', groupId: '' })
+            setColActions(false)
         }
     }
 
@@ -152,7 +152,9 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                         </div>
                     })}
                 </div>
-                <button className="add-colomn-column" onClick={() => onNewCol()}>+</button>
+                <div className="add-colomn-column-button-container">
+                    <button className="add-colomn-column-button" onClick={() => onNewCol()}><span>+</span></button>
+                </div>
             </div>
 
             {group.tasks.map((task, idx) => {
@@ -162,10 +164,12 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
 
 
 
-            <div>
+            <div className="group-main-input-container">
                 <form onSubmit={addTask} className="main-group-input">
-                    <input type="text" placeholder="+Add Item" onChange={onHandleCange} name="title" />
+                    <div className="left-indicator-cell group-input-indicator" style={{ backgroundColor: group.style.color }}></div>
+                    <input className="group-input" type="text" placeholder="+Add Item" onChange={onHandleCange} name="title" />
                     {task.title && <button>Add</button>}
+                    <div className="right-indicator-input"></div>
                 </form>
             </div>
             {clickTask.isOpen && <TaskMenu clickTask={clickTask} />}

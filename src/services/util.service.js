@@ -34,6 +34,8 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
 }
 
+
+
 function getCurrTime(time) {
     const mounthName=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
     const date = new Date(time)
@@ -48,6 +50,7 @@ function getCurrTime(time) {
         // ":" + minutes;
         // ":" + seconds;
 }
+
 
 function getLabel(status) {
     switch (status) {

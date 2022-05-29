@@ -10,5 +10,28 @@
     width: 400px;
     height: 162px;
     padding: 20px 16px;
-    transition: display .1s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
+
+.sort-by-content-header {
+    height: 88px;
+    margin-top: 16px;
+
+    & select {
+        height: 38px;
+        width: 171px;
+        border: 1px solid #d9dbe4;
+        border-radius: 4px;
+        padding-left: 12px;
+
+
+        &:focus {
+            border: 1px solid #4a6bff;
+        }
+    }
+
+}
+
+.sort-by-footer {}

@@ -154,7 +154,6 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
                     })}</div> : <div className="flex-row-items"><div className="user-image-wrapper"><img className="user-image-icon-assign" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" /></div></div>} */}
 
 
-
                     {columns.map((col, idx) => {
                         switch (col.type) {
                             case 'person':
@@ -183,10 +182,10 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
 
                     {/* <div className="flex-row-items status" style={{ backgroundColor: task.status.color }} onClick={(ev) => toggleStatus(ev, true)}>{task.status.title}</div> */}
                     {/* <div className="flex-row-items">{task.archivedAt ? utilService.getCurrTime(task.archivedAt) : ''}</div> */}
+                    <div className="right-indicator-row"></div>
                 </div>
                 <div className="add-colomn-column"></div>
             </div>
-
             {arrowTask.board && arrowTask.groupId === group.id && arrowTask.taskId === task.id && <TaskMenu statusRef={statusRef} removeTask={removeTask} arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
         </div >
 
