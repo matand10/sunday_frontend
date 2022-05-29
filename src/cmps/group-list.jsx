@@ -65,6 +65,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
             setIsClickGroup(false)
             setShowMenu(false)
             // setGroupIsClick({})
+            setColActions({ colIdx: '', groupId: '' })
         }
     }
 
