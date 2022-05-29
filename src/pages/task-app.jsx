@@ -72,6 +72,7 @@ export const TasksApp = () => {
     }
 
     const onDeleteBoard = (boardId) => {
+        console.log(boardId);
         dispatch(removeBoard(boardId))
         navigate(`/board`)
     }
@@ -114,7 +115,6 @@ export const TasksApp = () => {
     }
 
     const updateTaskDate = (updateDate, groupId, board) => {
-        console.log('date', updateDate)
         const newBoard = boardService.taskUpdate(updateDate, groupId, board)
         dispatch(saveBoard(newBoard))
     }

@@ -6,7 +6,6 @@ import { TaskMenu } from './task-menu';
 import { StatusModal } from '../modal/status-modal'
 import { SidePanel } from "./side-panel"
 import { useParams } from "react-router-dom";
-import { DateCalendar } from '../modal/calendar'
 import { boardService } from '../services/board.service'
 import { useDispatch } from "react-redux";
 import { FaCaretDown } from 'react-icons/fa'
@@ -163,7 +162,7 @@ export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, 
                             case 'status':
                                 return <div key={idx} className="flex-row-items status" style={{ backgroundColor: col.value.color }} onClick={(ev) => toggleStatus(ev, true)}>{col.value.title}</div>
                             case 'date':
-                                return <div className="flex-row-items">
+                                return <div key={idx} className="flex-row-items">
                                     <label htmlFor="task-date">{col.value ? utilService.getCurrTime(task.archivedAt) : ''}</label>
                                     <input id="task-date" type="date" name="archivedAt" defaultValue={col.value} key={idx} onClick={() => onUpdateDate({ taskId: task.id, groupId: group.id, board: board })} onChange={handleDatChange} ref={dateRef} />
                                 </div>
