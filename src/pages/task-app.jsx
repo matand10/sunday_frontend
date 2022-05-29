@@ -54,7 +54,7 @@ export const TasksApp = () => {
         setBoard(filteredBoard)
     }
 
-    const onAddTask = async (board, task, groupId) => {
+    const onAddTask = async (task, groupId) => {
         const newBoard = await taskService.addTask(board, task, groupId)
         dispatch(saveBoard(newBoard))
     }

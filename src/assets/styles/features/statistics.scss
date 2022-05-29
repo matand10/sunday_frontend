@@ -1,0 +1,80 @@
+.group-footer-items {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-basis: 623px;
+}
+
+.group-footer-items>* {
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 130px;
+    margin: 0 5px;
+}
+
+.column-footer {
+    position: relative;
+
+    &:hover {
+        background-color: #f5f6f8;
+
+        .hide-sort {
+            display: block;
+        }
+
+        .col-arrow-container {
+            display: block;
+        }
+
+        & .sort-header-menu {
+            position: absolute;
+            top: -25%;
+            background-color: #ffffff;
+            font-size: 1rem;
+            padding: 2px;
+            border-radius: 50%;
+            box-shadow: 0px 0px 5px rgba($color: #000000, $alpha: 0.5);
+
+            &:hover {
+                background-color: #1976d2;
+                color: #ffffff;
+                cursor: pointer;
+            }
+
+            &:focus {
+                background-color: #1976d2;
+            }
+        }
+    }
+}
+
+.progress-display {
+    background-color: #f5f6f8;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 25px;
+    width: 115px;
+    background-color: rgb(158, 158, 158);
+    display: flex;
+}
+
+.progress-indicator {
+    cursor: pointer;
+    transition: height .3s;
+
+    &:hover {
+        height: 28px;
+        position: relative;
+        bottom: 5%;
+        border-radius: 3px;
+    }
+}

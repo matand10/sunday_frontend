@@ -562,6 +562,10 @@
             display: block;
         }
 
+        .col-arrow-container {
+            display: block;
+        }
+
         & .sort-header-menu {
             position: absolute;
             top: -25%;
@@ -586,6 +590,20 @@
 
 .hide-sort {
     display: none;
+}
+
+.col-arrow-container {
+    display: none;
+    float: right;
+    position: absolute;
+    right: 5px;
+    border-radius: 4px;
+    transition: .1s;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #e6e9ef;
+    }
 }
 
 .column-header-title {

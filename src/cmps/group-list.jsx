@@ -13,6 +13,7 @@ import { saveBoard } from '../store/board/board.action'
 import { useDispatch } from "react-redux";
 import { groupService } from "../services/group.service";
 import { ColMenu } from "../modal/col-menu";
+import { ProgressBar } from '../features/progress-bar'
 
 
 export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup, updateTaskDate }) => {
@@ -44,7 +45,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
 
     const addTask = (ev) => {
         ev.preventDefault()
-        onAddTask(board, task, group.id)
+        onAddTask(task, group.id)
     }
 
     const onHandleCange = ({ target }) => {
@@ -122,8 +123,10 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
         <div className="group-header-wrapper">
             <div className="group-header-component">
                 <div className="group-header-title">
-                    <div className="group-arrow-div" style={{ color: group.style.color }}><FaChevronCircleDown className="group-arrow" onClick={() => setIsClickGroup(!isClickGroup)} /></div>
-                    <div>{isClickGroup && <GroupMenu /*menuRef={menuRef}*/ group={group} onRemoveGroup={onRemoveGroup} />}</div>
+                    <div className="group-arrow-div" style={{ color: group.style.color }}>
+                        <FaChevronCircleDown className="group-arrow" onClick={() => setIsClickGroup(!isClickGroup)} />
+                    </div>
+                    <div>{isClickGroup && <GroupMenu menuRef={menuRef} group={group} onRemoveGroup={onRemoveGroup} />}</div>
                     {(groupIsClick.boardId && groupIsClick.groupId === group.id) ?
                         <div>
                             <input type="text" ref={menuRef} defaultValue={group.title} onChange={handleGroupCange} name="title" style={{ color: group.style.color }} />
@@ -135,8 +138,8 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                         </div>
                     }
                 </div>
-                <div className="group-header-items">
 
+                <div className="group-header-items">
                     {columns.map((col, idx) => {
                         return <div key={idx} className="column-header">
                             <div onClick={() => onHeaderSort(col.type, idx)} className="sort-header-menu hide-sort">
@@ -145,7 +148,6 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                             <span className="editable-column-header">
                                 <EditableColumn colIdx={idx} group={group} updateGroup={updateGroup} text={col.title} />
                             </span>
-
                             <div className="col-arrow-container">
                                 <div className="col-arrow-div" onClick={() => onOpenColActions(idx, group.id)} > <FaCaretDown className="col-arrow" /></div>
                             </div>
@@ -163,8 +165,6 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                     onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate} />
             })}
 
-
-
             <div className="group-main-input-container">
                 <form onSubmit={addTask} className="main-group-input">
                     <div className="left-indicator-cell group-input-indicator" style={{ backgroundColor: group.style.color }}></div>
@@ -173,6 +173,32 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                     <div className="right-indicator-input"></div>
                 </form>
             </div>
+
+
+
+
+            <div className="columns-footer-component">
+                <div className="group-header-component">
+                    <div className="group-header-title">
+                        <div className="group-arrow-div" style={{ color: group.style.color }}>
+                        </div>
+                    </div>
+
+                    <div className="group-footer-items">
+                        {columns.map((col, idx) => {
+                            if (col.type === 'status') return <div key={idx} className="column-footer">
+                                <ProgressBar group={group} board={board} />
+                            </div>
+                        })}
+                    </div>
+                    <div className="add-colomn-column-button-container">
+                        {/* <button className="add-colomn-column-button" onClick={() => onNewCol()}><span>+</span></button> */}
+                    </div>
+                </div>
+            </div>
+
+
+
             {clickTask.isOpen && <TaskMenu clickTask={clickTask} />}
             <RightClickMenu x={x} y={y} showMenu={showMenu} />
         </div>

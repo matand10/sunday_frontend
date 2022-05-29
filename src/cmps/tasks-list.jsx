@@ -67,7 +67,7 @@ export const TasksList = ({ updateBoard, task, backgroundColor, onHandleRightCli
         }
     }
 
-    const toggleStatus = (ev, value) => {
+    const toggleStatus = (ev, value, colIdx) => {
         const x = ev.pageX
         const y = ev.pageY
         setModalPos({ x: x, y: y })
@@ -75,8 +75,8 @@ export const TasksList = ({ updateBoard, task, backgroundColor, onHandleRightCli
         // setIsStatusActive(value)
     }
 
-    const changeStatus = (status) => {
-        task.columns[1].value = status
+    const changeStatus = (status, colIdx) => {
+        task.columns[colIdx].value = status
         updateTask(task, group.id, board)
         setStatusActive(false)
         // setIsStatusActive(false)

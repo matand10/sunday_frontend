@@ -87,9 +87,9 @@ function getEmptyTask(columns) {
         id: utilService.makeId(),
         title: 'item 1',
         comments: [],
-        status: utilService.getLabel(),
+        // status: utilService.getLabel(),
         archivedAt: new Date(),
-        columns: columns
+        columns: [...columns] 
     }
 }
 
