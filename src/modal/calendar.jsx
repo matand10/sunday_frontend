@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Calendar from 'react-calendar'
 
+export const DateCalendar = () => {
+    const [date, setDate] = useState(new Date())
 
-export const Calendar=()=>{
+    const onChangeDate=(date)=>{
+        setDate(date)
+    }
 
     return (
         <section>
-            Helooooo
-            </section>
-            
+            <div className="calendar-container">
+                <Calendar onChange={onChangeDate} valu={date}/>
+            </div>
+        </section>
+
     )
 }

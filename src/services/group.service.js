@@ -12,6 +12,8 @@ export const groupService = {
     save,
     remove,
     getEmptyGroup,
+    groupColUpdate,
+    groupColAdd
 }
 
 // async function query() {
@@ -27,14 +29,14 @@ export const groupService = {
 async function remove(groupId, boardId) {
     let currBoard = await boardService.getById(boardId)
     let currGroup = currBoard.groups.filter(group => group.id !== groupId)
-    currBoard.groups=currGroup
-    console.log('cuurBoard',currBoard)
+    currBoard.groups = currGroup
+    console.log('cuurBoard', currBoard)
     await storageService.put(STORAGE_KEY, currBoard)
     return currBoard
 }
 
 function getById(groupId, board) {
-    console.log('froum service',board)
+    console.log('froum service', board)
     return board.groups.find(group => group.id === groupId)
 }
 
@@ -62,7 +64,7 @@ async function save(group, boardId) {
 function getEmptyGroup() {
     return {
         id: utilService.makeId(),
-        style: {color:utilService.getRandomColor()},
+        style: { color: utilService.getRandomColor() },
         title: 'Group Title',
         archivedAt: '',
         tasks: [
@@ -82,6 +84,26 @@ function getEmptyGroup() {
             }
         ]
     }
+}
+
+function groupColUpdate(inputValue, colIdx, group) {
+    let newGroup = group
+    group.tasks.forEach((task, idx) => {
+        newGroup.tasks[idx].columns[colIdx].title = inputValue
+    })
+    return newGroup
+}
+
+function groupColAdd(group) {
+    let newGroup = group
+    group.tasks.forEach((task, idx) => {
+        newGroup.tasks[idx].columns.push({
+            title: 'Text',
+            type: 'text',
+            value: ''
+        })
+    })
+    return newGroup
 }
 
 // Test Data

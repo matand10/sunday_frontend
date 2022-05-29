@@ -7,6 +7,7 @@ import { CreatBoard } from './create-board'
 // import { Menu } from '../hooks/right-click-menu'
 // import { OnClickMenuBoard } from '../modal/right-click-modal-board'
 import { BoardMenuActions } from '../modal/board-menu-actions'
+import { MdOutlineArrowForwardIos } from 'react-icons/md'
 
 
 export const ExtendedSideNav = ({ boards, onAddBoard, onDeleteBoard, updateBoard }) => {
@@ -22,7 +23,6 @@ export const ExtendedSideNav = ({ boards, onAddBoard, onDeleteBoard, updateBoard
     let navigate = useNavigate();
 
     useEffect(() => {
-        console.log(boardUpdate);
         if (boardUpdate) updateBoard(boardUpdate)
     }, [boardUpdate])
 
@@ -68,12 +68,10 @@ export const ExtendedSideNav = ({ boards, onAddBoard, onDeleteBoard, updateBoard
         setBoardUpdate(board)
     }
 
-    console.log(selectedBoard);
-
 
     return <section className={`home-control-component${isNavOpen ? "" : '-closed'}`}>
         <div className="control-nav-expend">
-            <img className="arrow" src={arrow} alt="right-arrow-icon" onClick={toggleNav} />
+            <span className="arrow" onClick={toggleNav}><MdOutlineArrowForwardIos /></span>
         </div>
         <div className="home-controller-content">
             <div className="home-control-header">

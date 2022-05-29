@@ -11,7 +11,6 @@ import { taskService } from "../services/task.service"
 import { boardService } from "../services/board.service"
 import { useNavigate, useParams } from "react-router-dom"
 
-
 export const TasksApp = () => {
     const params = useParams()
     const [board, setBoard] = useState(null)
@@ -22,15 +21,31 @@ export const TasksApp = () => {
     const navigate = useNavigate();
 
     let { boardId } = useParams()
-    if (!boardId && boards.length) {
-        boardId = boards[0]._id
-        navigate(boardId)
-    }
+
+    useEffect(() => {
+        console.log(boardId)
+        if (!boardId) {
+            if (board) {
+                boardId = board._id
+                navigate(boardId)
+            }
+            else {
+                makeBoard()
+            }
+        }
+    }, [boards, board])
 
     useEffect(() => {
         loadBoard()
         dispatch(loadBoards())
     }, [params.boardId, filterBy])
+
+    const makeBoard = async () => {
+        let firstBoard
+        if (boards.length === 0) firstBoard = await boardService.makeBoard()
+        else if (boards.length === 1) firstBoard = boards[0]
+        setBoard(firstBoard)
+    }
 
     const loadBoard = async () => {
         const board = await boardService.getById(params.boardId)
@@ -38,8 +53,8 @@ export const TasksApp = () => {
         setBoard(filteredBoard)
     }
 
-    const onAddTask = async (board,task, groupId) => {
-        const newBoard= await taskService.addTask(board,task, groupId)
+    const onAddTask = async (board, task, groupId) => {
+        const newBoard = await taskService.addTask(board, task, groupId)
         dispatch(saveBoard(newBoard))
     }
 
@@ -71,18 +86,14 @@ export const TasksApp = () => {
     }
 
     const updateTask = (updateTask, groupId, board) => {
-        // const newBoard = { ...board }
-        // const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
-        // const taskIdx=newBoard.groups[groupIdx].tasks.findIndex(task=>task.id===updateTask.id)
-        // newBoard.groups[groupIdx].tasks.splice(taskIdx,1,updateTask)
         const newBoard = boardService.taskUpdate(updateTask, groupId, board)
         dispatch(saveBoard(newBoard))
     }
-    
-    const updateGroup = (updatedGroup, board) => {
-        const newBoard=boardService.groupUpdate(updatedGroup,board)
-        dispatch(saveBoard(newBoard))
 
+    // const updateGroup = (updatedGroup, board) => {
+    const updateGroup = (updatedGroup) => {
+        const newBoard = boardService.groupUpdate(updatedGroup, board)
+        dispatch(saveBoard(newBoard))
     }
 
     const onFilter = (filterBy) => {
@@ -104,6 +115,12 @@ export const TasksApp = () => {
         dispatch(saveBoard(newBoard))
     }
 
+    const updateTaskDate = (updateDate, groupId, board) => {
+        console.log('date', updateDate)
+        const newBoard = boardService.taskUpdate(updateDate, groupId, board)
+        dispatch(saveBoard(newBoard))
+    }
+
     if (!boards.length) return <h1>Loading...</h1>
     return <section className="task-main-container">
         <div className="board-container-left">
@@ -113,8 +130,7 @@ export const TasksApp = () => {
             <ExtendedSideNav updateBoard={updateBoard} openBoard={openBoard} boards={boards} onAddBoard={onAddBoard} onDeleteBoard={onDeleteBoard} />
             <div className="main-app flex-column">
                 <BoardHeader onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
-                <MainBoard board={board} removeTask={removeTask} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} updateGroup={updateGroup} />
-                {/* <MainBoard removeTask={removeTask} board={board} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} /> */}
+                <MainBoard board={board} removeTask={removeTask} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} updateGroup={updateGroup} updateTaskDate={updateTaskDate} />
             </div>
         </div>
     </section>

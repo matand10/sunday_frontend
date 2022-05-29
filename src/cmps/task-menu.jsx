@@ -2,17 +2,15 @@ import { AiOutlineUserAdd } from "react-icons/ai";
 import { BsGraphUp, BsTrash } from "react-icons/bs";
 import React from "react"
 
-// export const TaskMenu = ({  task, menuRef }) => {
-export const TaskMenu = ({ arrowTask, menuRef, onOpenMenu, removeTask }) => {
+export const TaskMenu = ({ arrowTask, statusRef, onOpenMenu, removeTask }) => {
 
-    // const deleteTask = (taskId) => {
     const deleteTask = () => {
         removeTask(arrowTask.taskId, arrowTask.groupId)
     }
 
 
     return <React.Fragment>
-        <section ref={menuRef} className="task-main-menu-inner">
+        <section ref={statusRef} className="task-main-menu-inner">
             <div className="task-main-section">
                 <div className="task-menu-item">
                     <div className="task-content-wrapper">

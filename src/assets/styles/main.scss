@@ -26,6 +26,7 @@
 @import "cmps/panel-input.scss";
 @import "cmps/board-header.scss";
 @import "cmps/board-nav.scss";
+@import "cmps/editable-input.scss";
 
 //Modal
 @import "modal/side-panel.scss";
@@ -36,7 +37,12 @@
 @import "modal/task-menu.scss";
 @import "modal/right-click-modal.scss";
 @import "modal/status-modal.scss";
+@import "modal/calendar-modal";
 
 // Modals Filters
 @import "modal-filter/sort-by-modal.scss";
-@import "modal/board-menu-actions.scss"
+@import "modal/board-menu-actions.scss";
+
+// Features
+@import "features/table-user-additional.scss";
+@import "features/drag-and-drop.scss";

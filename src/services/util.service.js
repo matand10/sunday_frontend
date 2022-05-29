@@ -35,38 +35,46 @@ function getRandomIntInclusive(min, max) {
 }
 
 function getCurrTime(time) {
+    const mounthName=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
     const date = new Date(time)
-    const seconds = date.getSeconds() > 9 ? date.getSeconds() : '0' + date.getSeconds().toString()
+    const mounth=mounthName[date.getMonth()]
+    // const seconds = date.getSeconds() > 9 ? date.getSeconds() : '0' + date.getSeconds().toString()
+    // const minutes = date.getMinutes() > 9 ? date.getMinutes() : '0' + date.getMinutes().toString()
+    // const mounths = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1).toString()
     return date.getDate() +
-        "/" + (date.getMonth() + 1) +
-        "/" + date.getFullYear() +
-        " " + date.getHours() +
-        ":" + date.getMinutes() +
-        ":" + seconds;
+        " " + mounth ;
+        // "/" + date.getFullYear() +
+        // " " + date.getHours() +
+        // ":" + minutes;
+        // ":" + seconds;
 }
 
 function getLabel(status) {
     switch (status) {
         case 'done':
             return {
+                importence: 4,
                 id: 'l101',
                 title: 'Done',
                 color: '#00c875'
             }
         case 'working':
             return {
+                importence: 1,
                 id: 'l102',
                 title: 'Working on it',
                 color: '#fdab3d'
             }
         case 'stuck':
             return {
+                importance: 2,
                 id: 'l103',
                 title: 'Stuck',
                 color: '#e2445c'
             }
         default:
             return {
+                importance: 3,
                 id: 'l104',
                 title: '',
                 color: '#c4c4c4'
