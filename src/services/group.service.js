@@ -149,6 +149,7 @@ function getEmptyGroup() {
 
 function groupColUpdate(inputValue, colIdx, group) {
     let newGroup = group
+    newGroup.columns[colIdx].title = inputValue
     group.tasks.forEach((task, idx) => {
         newGroup.tasks[idx].columns[colIdx].title = inputValue
     })
