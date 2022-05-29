@@ -34,16 +34,32 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
 }
 
+// function getCurrTime(time) {
+//     const date = new Date(time)
+//     const seconds = date.getSeconds() > 9 ? date.getSeconds() : '0' + date.getSeconds().toString()
+//     return date.getDate() +
+//         "/" + (date.getMonth() + 1) +
+//         "/" + date.getFullYear() +
+//         " " + date.getHours() +
+//         ":" + date.getMinutes() +
+//         ":" + seconds;
+// }
+
 function getCurrTime(time) {
+    const mounthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     const date = new Date(time)
-    const seconds = date.getSeconds() > 9 ? date.getSeconds() : '0' + date.getSeconds().toString()
+    const mounth = mounthName[date.getMonth()]
+    // const seconds = date.getSeconds() > 9 ? date.getSeconds() : '0' + date.getSeconds().toString()
+    // const minutes = date.getMinutes() > 9 ? date.getMinutes() : '0' + date.getMinutes().toString()
+    // const mounths = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1).toString()
     return date.getDate() +
-        "/" + (date.getMonth() + 1) +
-        "/" + date.getFullYear() +
-        " " + date.getHours() +
-        ":" + date.getMinutes() +
-        ":" + seconds;
+        " " + mounth;
+    // "/" + date.getFullYear() +
+    // " " + date.getHours() +
+    // ":" + minutes;
+    // ":" + seconds;
 }
+
 
 function getLabel(status) {
     switch (status) {

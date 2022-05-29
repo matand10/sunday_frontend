@@ -46,14 +46,17 @@ function filterBoard(board, filterBy) {
         return { ...board, groups: newGroups }
 
     } else if (filterBy.sortBy) {
+        let colIdx
         newGroups = board.groups.filter(group => {
             switch (filterBy.sortBy) {
                 case 'title':
                     return group.tasks.sort((a, b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
                 case 'status':
-                // return group.tasks.filter(task => )
-                default:
-                    return group
+                    group.tasks.forEach(task => colIdx = task.columns.findIndex(column => column.type === 'status'))
+                    return group.tasks.sort((a, b) => (a.columns[colIdx].value.importance) - (b.columns[colIdx].value.importance))
+                case 'person':
+                    group.tasks.forEach(task => colIdx = task.columns.findIndex(column => column.type === 'person'))
+                    return group.tasks.sort((a, b) => (a.columns[colIdx].value.length) - (b.columns[colIdx].value.length))
             }
         })
         return { ...board, groups: newGroups }
