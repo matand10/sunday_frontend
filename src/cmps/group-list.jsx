@@ -15,7 +15,7 @@ import { groupService } from "../services/group.service";
 import { ColMenu } from "../modal/col-menu";
 
 
-export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup }) => {
+export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup,updateTaskDate }) => {
     const [task, setTask] = useState({ title: '' })
     const [groupIsClick, setGroupIsClick] = useState({})
     const [isClickGroup, setIsClickGroup] = useState(false)
@@ -31,6 +31,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
 
     const { x, y, handleContextMenu } = Menu()
     let menuRef = useRef()
+    let groupUpdateRef = useRef()
     // let groupRef = useRef()
     const { boardId } = useParams()
     const dispatch = useDispatch()
@@ -121,7 +122,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
             <div className="group-header-component">
                 <div className="group-header-title">
                     <div className="group-arrow-div" style={{ color: group.style.color }}><FaChevronCircleDown className="group-arrow" onClick={() => setIsClickGroup(!isClickGroup)} /></div>
-                    <div>{isClickGroup && <GroupMenu menuRef={menuRef} group={group} onRemoveGroup={onRemoveGroup} />}</div>
+                    <div>{isClickGroup && <GroupMenu /*menuRef={menuRef}*/ group={group} onRemoveGroup={onRemoveGroup} />}</div>
                     {(groupIsClick.boardId && groupIsClick.groupId === group.id) ?
                         <div>
                             <input type="text" ref={menuRef} defaultValue={group.title} onChange={handleGroupCange} name="title" style={{ color: group.style.color }} />
@@ -151,20 +152,24 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                         </div>
                     })}
                 </div>
-                <button className="add-colomn-column" onClick={() => onNewCol()}>+</button>
+                <div className="add-colomn-column-button-container">
+                    <button className="add-colomn-column-button" onClick={() => onNewCol()}><span>+</span></button>
+                </div>
             </div>
 
             {group.tasks.map((task, idx) => {
-                return <TasksList key={idx} boardId={boardId} task={task} menuRef={menuRef} backgroundColor={group.style.color}
-                    onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} />
+                return <TasksList key={idx} boardId={boardId} task={task} /*menuRef={menuRef}*/ backgroundColor={group.style.color}
+                    onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate}/>
             })}
 
 
 
-            <div>
+            <div className="group-main-input-container">
                 <form onSubmit={addTask} className="main-group-input">
-                    <input type="text" placeholder="+Add Item" onChange={onHandleCange} name="title" />
+                    <div className="left-indicator-cell group-input-indicator" style={{ backgroundColor: group.style.color }}></div>
+                    <input className="group-input" type="text" placeholder="+Add Item" onChange={onHandleCange} name="title" />
                     {task.title && <button>Add</button>}
+                    <div className="right-indicator-input"></div>
                 </form>
             </div>
             {clickTask.isOpen && <TaskMenu clickTask={clickTask} />}

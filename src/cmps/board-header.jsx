@@ -46,7 +46,7 @@ export const BoardHeader = ({ board, onAddTask, onAddGroup, onFilter }) => {
         setIsMenuOpen(value)
     }
 
-    const toggleSort = (value) => {
+    const toggleSortModal = (value) => {
         setIsSortMenu(value)
     }
 
@@ -108,7 +108,7 @@ export const BoardHeader = ({ board, onAddTask, onAddGroup, onFilter }) => {
             {isSearchActive && <div ref={menuRef}><input onChange={(ev) => onHandleSearch(ev)} className="board-filter-search" autoFocus type="text" placeholder='Search' /></div>}
             <button className="panel-button-v2"><FaRegUserCircle /> <span>Person</span></button>
             <button className="panel-button-v2"><FiFilter /> <span>Filter</span></button>
-            <button className="panel-button-v2" onClick={() => toggleSort(true)}><BiSort /> <span>Sort</span></button>
+            <button className="panel-button-v2" onClick={() => toggleSortModal(true)}><BiSort /> <span>Sort</span></button>
             <button className="panel-button-v2"><BsPinAngle /> <span>Pin</span></button>
         </div>
 
