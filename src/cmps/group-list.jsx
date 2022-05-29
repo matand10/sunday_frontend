@@ -12,6 +12,7 @@ import { boardService } from "../services/board.service";
 import { saveBoard } from '../store/board/board.action'
 import { useDispatch } from "react-redux";
 import { groupService } from "../services/group.service";
+import { ColMenu } from "../modal/col-menu";
 
 
 export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup }) => {
@@ -24,6 +25,10 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
     const [modal, setModal] = useState({})
     const [showMenu, setShowMenu] = useState(false)
     const [isReversedSort, setIsReversedSort] = useState(false)
+    const [colActions, setcolActions] = useState({ colIdx: '', groupId: '' })
+
+
+
     const { x, y, handleContextMenu } = Menu()
     let menuRef = useRef()
     // let groupRef = useRef()
@@ -81,6 +86,11 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
         updateGroup(newGroup)
     }
 
+    const removeCol = (colIdx) => {
+        const newGroup = groupService.groupColRemove(colIdx, group)
+        updateGroup(newGroup)
+    }
+
     const handleGroupCange = ({ target }) => {
         document.addEventListener("keydown", (event) => {
             if (event.key === "Enter") {
@@ -128,6 +138,11 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                             <span className="editable-column-header">
                                 <EditableColumn colIdx={idx} group={group} updateGroup={updateGroup} text={col.title} />
                             </span>
+
+                            <div className="col-arrow-container">
+                                <div className="col-arrow-div" onClick={() => onOpenColActions(idx, group.id)} > <FaCaretDown className="col-arrow" /></div>
+                            </div>
+                            {colActions.colIdx === idx && colActions.groupId === group.id && <ColMenu setGroupIsClick={setGroupIsClick} setcolActions={setcolActions} menuRef={menuRef} removeCol={removeCol} colActions={colActions} />}
                         </div>
                     })}
                 </div>
