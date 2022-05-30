@@ -28,6 +28,7 @@ export const ProgressBar = ({ group, board }) => {
     }
 
 
+
     return <section className="progress-display">
         <div className="progress-bar">
             {progress && progress.Done && <div className="progress-indicator" style={{ backgroundColor: '#00c875', width: (100 * (group?.progress.Done / group.tasks.length) + '%') }}></div>}

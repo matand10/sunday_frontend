@@ -174,11 +174,14 @@ function groupColAdd(group) {
 }
 
 function groupColRemove(colIdx, group) {
-    let newGroup = group
+    let newGroup = { ...group }
     newGroup.columns.splice(colIdx, 1)
     group.tasks.forEach((task, idx) => {
-        newGroup.tasks[idx].columns.splice(colIdx, 1)
+        task.columns.splice(colIdx, 1)
+        newGroup.tasks[idx] = task
     })
+    console.log(group);
+    console.log(newGroup);
     return newGroup
 }
 

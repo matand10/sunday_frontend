@@ -45,7 +45,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
 
     const addTask = (ev) => {
         ev.preventDefault()
-        onAddTask(board, task, group.id)
+        onAddTask(task, group.id)
     }
 
     const onHandleCange = ({ target }) => {
@@ -90,6 +90,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
     }
 
     const removeCol = (colIdx) => {
+        console.log(group);
         const newGroup = groupService.groupColRemove(colIdx, group)
         updateGroup(newGroup)
     }

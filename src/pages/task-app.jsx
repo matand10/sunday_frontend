@@ -63,7 +63,7 @@ export const TasksApp = () => {
         setBoard(filteredBoard)
     }
 
-    const onAddTask = async (board, task, groupId) => {
+    const onAddTask = async (task, groupId) => {
         const newBoard = await taskService.addTask(board, task, groupId)
         dispatch(saveBoard(newBoard))
     }
@@ -95,13 +95,14 @@ export const TasksApp = () => {
         dispatch(saveBoard(board))
     }
 
-    const updateTask = (updateTask, groupId, board) => {
+    // const updateTask = (updateTask, groupId, board) => {
+    const updateTask = (updateTask, groupId) => {
         const newBoard = boardService.taskUpdate(updateTask, groupId, board)
         dispatch(saveBoard(newBoard))
     }
 
-    const updateGroup = (updatedGroup) => {
-        const newBoard = boardService.groupUpdate(updatedGroup, board)
+    const updateGroup = (newdGroup) => {
+        const newBoard = boardService.groupUpdate(newdGroup, board)
         dispatch(saveBoard(newBoard))
     }
 
@@ -137,7 +138,7 @@ export const TasksApp = () => {
             <ExtendedSideNav updateBoard={updateBoard} openBoard={openBoard} boards={boards} onAddBoard={onAddBoard} onDeleteBoard={onDeleteBoard} />
             <div className="main-app flex-column">
                 <BoardHeader onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
-                <MainBoard board={board} removeTask={removeTask} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} updateGroup={updateGroup} updateTaskDate={updateTaskDate} />
+                <MainBoard updateBoard={updateBoard} board={board} removeTask={removeTask} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} updateGroup={updateGroup} updateTaskDate={updateTaskDate} />
             </div>
         </div>
     </section>
