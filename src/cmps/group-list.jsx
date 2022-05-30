@@ -13,7 +13,8 @@ import { saveBoard } from '../store/board/board.action'
 import { useDispatch } from "react-redux";
 import { groupService } from "../services/group.service";
 import { ColMenu } from "../modal/col-menu";
-import { ProgressBar } from '../features/progress-bar'
+import { ProgressBar } from '../features/progress-bar';
+import { ColAddMenu } from "../modal/col-add-menu";
 
 
 export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup, updateTaskDate }) => {
@@ -27,6 +28,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
     const [showMenu, setShowMenu] = useState(false)
     const [isReversedSort, setIsReversedSort] = useState(false)
     const [colActions, setColActions] = useState({ colIdx: '', groupId: '' })
+    const [isAddCol, setIsAddCol] = useState(false)
 
 
 
@@ -68,6 +70,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
             setShowMenu(false)
             // setGroupIsClick({})
             setColActions(false)
+            // setIsAddCol(false)
         }
     }
 
@@ -84,13 +87,13 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
         setGroupIsClick(params)
     }
 
-    const onNewCol = () => {
-        const newGroup = groupService.groupColAdd(group)
+    const onNewCol = (value) => {
+        const newGroup = groupService.groupColAdd(group, value)
         updateGroup(newGroup)
+        setIsAddCol(false)
     }
 
     const removeCol = (colIdx) => {
-        console.log(group);
         const newGroup = groupService.groupColRemove(colIdx, group)
         updateGroup(newGroup)
     }
@@ -156,7 +159,8 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                     })}
                 </div>
                 <div className="add-colomn-column-button-container">
-                    <button className="add-colomn-column-button" onClick={() => onNewCol()}><span>+</span></button>
+                    <button className="add-colomn-column-button" onClick={() => setIsAddCol(!isAddCol)}><span>+</span></button>
+                    {isAddCol && <ColAddMenu onNewCol={onNewCol} />}
                 </div>
             </div>
 

@@ -107,7 +107,6 @@ export const TasksList = ({ updateBoard, task, backgroundColor, onHandleRightCli
 
     const specialUpdateTask = (value, colIdx) => {
         let newTask = task
-        console.log(newTask);
         newTask.columns[colIdx].value = value
         updateTask(newTask, group.id)
     }

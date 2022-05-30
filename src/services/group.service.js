@@ -156,33 +156,53 @@ function groupColUpdate(inputValue, colIdx, group) {
     return newGroup
 }
 
-function groupColAdd(group) {
-    let newGroup = group
-    newGroup.columns.push({
-        title: 'Text',
-        type: 'text',
-        value: ''
-    })
+function _getColumn(value) {
+    switch (value) {
+        case 'text':
+            return {
+                title: 'Text',
+                type: 'text',
+                value: ''
+            }
+        case 'status':
+            return {
+                title: 'Status',
+                value: utilService.getLabel(''),
+                type: 'status'
+            }
+        case 'person':
+            return {
+                title: 'Person',
+                value: [],
+                type: 'person'
+            }
+        case 'date':
+            return {
+                title: 'Date',
+                value: new Date(),
+                type: 'date'
+            }
+    }
+}
+
+function groupColAdd(group, value) {
+    let newGroup = { ...group }
+    let column = _getColumn(value)
+    column.importance = group.columns.length
+    newGroup.columns.push(column)
     group.tasks.forEach((task, idx) => {
-        newGroup.tasks[idx].columns.push({
-            title: 'Text',
-            type: 'text',
-            value: ''
-        })
+        newGroup.tasks[idx].columns.push({ ...column })
     })
     return newGroup
 }
 
 function groupColRemove(colIdx, group) {
-    debugger
     let newGroup = { ...group }
     newGroup.columns.splice(colIdx, 1)
     group.tasks.forEach((task, idx) => {
         task.columns.splice(colIdx, 1)
         newGroup.tasks[idx] = task
     })
-    console.log(group);
-    console.log(newGroup);
     return newGroup
 }
 
