@@ -1,5 +1,5 @@
 import { BoardNav } from "./board-nav";
-import { FaExclamationCircle, FaRegStar, FaSearch, FaRegUserCircle, FaFilter, FaSort } from 'react-icons/fa';
+import { FaExclamationCircle, FaRegStar, FaSearch, FaRegUserCircle, FaFilter, FaSort,FaTrello } from 'react-icons/fa';
 import { BsPinAngle, BsTable } from 'react-icons/bs';
 import { FiFilter } from 'react-icons/fi';
 import { BiSort } from 'react-icons/bi';
@@ -7,10 +7,11 @@ import { IoIosSearch } from 'react-icons/io';
 import { DsMenu } from '../modal/ds-menu';
 import { SortMenu } from '../filters/sort-by';
 import dotsMenu from '../assets/img/side-nav/ds-menu.svg'
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect,useNavigate } from "react"
 import React from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { setFilter } from '../store/board/board.action'
+import { NavLink,Outlet } from "react-router-dom";
 
 export const BoardHeader = ({ board, onAddTask, onAddGroup, onFilter }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -19,6 +20,7 @@ export const BoardHeader = ({ board, onAddTask, onAddGroup, onFilter }) => {
     const [handleSearch, setHandleSearch] = useState({ search: '' })
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
     const dispatch = useDispatch()
+    // const navigate=useNavigate()
 
     let menuRef = useRef()
 
@@ -97,8 +99,17 @@ export const BoardHeader = ({ board, onAddTask, onAddGroup, onFilter }) => {
 
         <div className="board-subsets-toolbar">
             <div className="board-subsets-tabs">
-                <div className="board-subsets-item"><button className="board-subsets-item-button"><span><BsTable /> Main Table</span> </button></div>
+                <div className="board-subsets-item">
+                    <button className="board-subsets-item-button"><NavLink to={`/board/${board._id}`}><span><BsTable /> Main Table</span></NavLink> </button>
+                    <div className="board-subsets-item-line"></div>
+                    </div>
+                <div className="board-kanban-item">
+                    <button className="board-kanban-item-button"><NavLink to={`/board/${board._id}/kanban`}><span><FaTrello/> Kanban</span></NavLink></button>
+                    {/* <button className="board-kanban-item-button" onClick={()=>navigate(`{/board/${board._id}/kanban}`)}><span><FaTrello/> Kanban</span></button> */}
+                    <div className="board-kanban-item-line"></div>
+                    </div>
             </div>
+           
         </div>
 
         <div className="divider"></div>

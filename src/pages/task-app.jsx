@@ -9,6 +9,8 @@ import { ExtendedSideNav } from '../cmps/extended-side-nav.jsx'
 import { taskService } from "../services/task.service"
 import { boardService } from "../services/board.service"
 import { useNavigate, useParams } from "react-router-dom"
+import {KanbanBoard} from '../cmps/kanban-board'
+import { Route, Routes, BrowserRouter,Outlet } from 'react-router-dom'
 
 export const TasksApp = () => {
     const [board, setBoard] = useState(null)
@@ -137,7 +139,13 @@ export const TasksApp = () => {
             <ExtendedSideNav updateBoard={updateBoard} openBoard={openBoard} boards={boards} onAddBoard={onAddBoard} onDeleteBoard={onDeleteBoard} />
             <div className="main-app flex-column">
                 <BoardHeader onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
-                <MainBoard updateBoard={updateBoard} board={board} removeTask={removeTask} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} updateGroup={updateGroup} updateTaskDate={updateTaskDate} />
+                <Outlet context={{board ,removeTask, onAddTask ,onRemoveGroup, updateTask ,updateGroup ,updateTaskDate}} />
+                {/* <MainBoard board={board} removeTask={removeTask} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} updateGroup={updateGroup} updateTaskDate={updateTaskDate} />
+                <KanbanBoard/> */}
+                {/* <Routes>
+                <Route path="Table" component={MainBoard} board={board} removeTask={removeTask} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} updateGroup={updateGroup} updateTaskDate={updateTaskDate} />
+                <Route path="Kanban" component={KanbanBoard} />
+                </Routes> */}
             </div>
         </div>
     </section>

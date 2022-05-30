@@ -2,6 +2,7 @@ import { utilService } from "../services/util.service";
 import { Menu } from '../hooks/right-click-menu'
 import { RightClickMenu } from '../modal/right-click-menu'
 import React, { useRef, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form'
 import { FaChevronCircleDown, FaCaretDown, FaSort } from 'react-icons/fa'
 import { GroupMenu } from './group-menu'
 import { TaskMenu } from './task-menu'
@@ -30,6 +31,8 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
     const [colActions, setColActions] = useState({ colIdx: '', groupId: '' })
     const [isAddCol, setIsAddCol] = useState(false)
 
+    const { register, reset, errors, handleSubmit } = useForm()
+
 
 
     const { x, y, handleContextMenu } = Menu()
@@ -39,6 +42,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
     const { boardId } = useParams()
     const dispatch = useDispatch()
 
+
     useEffect(() => {
         updateGroup(groupUpdate)
         // updateGroup(groupUpdate, board)
@@ -47,7 +51,8 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
 
     const addTask = (ev) => {
         ev.preventDefault()
-        onAddTask(task, group.id)
+        onAddTask( task, group.id)
+        reset()
     }
 
     const onHandleCange = ({ target }) => {
