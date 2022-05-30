@@ -383,6 +383,9 @@
             display: flex;
         }
     }
+    &>*{
+        min-height: 30px;
+    }
 }
 
 .task-row-items {
@@ -507,6 +510,7 @@
 .left-indicator-cell {
     width: 8px;
     height: 100%;
+    min-height: 30px;
     background-color: rgb(17, 65, 222);
 }
 

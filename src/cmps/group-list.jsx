@@ -2,6 +2,7 @@ import { utilService } from "../services/util.service";
 import { Menu } from '../hooks/right-click-menu'
 import { RightClickMenu } from '../modal/right-click-menu'
 import React, { useRef, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form'
 import { FaChevronCircleDown, FaCaretDown, FaSort } from 'react-icons/fa'
 import { GroupMenu } from './group-menu'
 import { TaskMenu } from './task-menu'
@@ -15,7 +16,7 @@ import { groupService } from "../services/group.service";
 import { ColMenu } from "../modal/col-menu";
 
 
-export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup,updateTaskDate }) => {
+export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup, updateTaskDate }) => {
     const [task, setTask] = useState({ title: '' })
     const [groupIsClick, setGroupIsClick] = useState({})
     const [isClickGroup, setIsClickGroup] = useState(false)
@@ -27,6 +28,8 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
     const [isReversedSort, setIsReversedSort] = useState(false)
     const [colActions, setColActions] = useState({ colIdx: '', groupId: '' })
 
+    const { register, reset, errors, handleSubmit } = useForm()
+
 
 
     const { x, y, handleContextMenu } = Menu()
@@ -35,6 +38,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
     // let groupRef = useRef()
     const { boardId } = useParams()
     const dispatch = useDispatch()
+
 
     useEffect(() => {
         updateGroup(groupUpdate)
@@ -45,6 +49,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
     const addTask = (ev) => {
         ev.preventDefault()
         onAddTask(board, task, group.id)
+        reset()
     }
 
     const onHandleCange = ({ target }) => {
@@ -159,7 +164,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
 
             {group.tasks.map((task, idx) => {
                 return <TasksList key={idx} boardId={boardId} task={task} /*menuRef={menuRef}*/ backgroundColor={group.style.color}
-                    onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate}/>
+                    onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate} />
             })}
 
 

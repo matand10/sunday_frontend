@@ -143,10 +143,42 @@
 
 .board-subsets-toolbar {}
 
-.board-subsets-tabs {}
+.board-subsets-tabs {
+    display: flex;
+}
+
+.board-kanban-item {
+    padding-bottom: 4px;
+
+}
+
+.board-kanban-item-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    height: 40px;
+    width: 80.875px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #dcdfec;
+    }
+
+    & span {
+        color: #575757;
+    }
+    &:focus+.board-kanban-item-line{
+        background-color:#1976D2;
+        height: 2.4px;
+        position: relative;
+        top:4px;
+    }
+}
 
 .board-subsets-item {
     padding-bottom: 4px;
+    
 }
 
 .board-subsets-item-button {
@@ -157,13 +189,19 @@
     height: 40px;
     width: 128px;
     cursor: pointer;
-
+    
     &:hover {
         background-color: #dcdfec;
     }
-
+    
     & span {
         color: #575757;
+    }
+    &:focus+.board-subsets-item-line {
+        background-color:#1976D2;
+        height: 2.4px;
+        position: relative;
+        top:4px;
     }
 }
 
