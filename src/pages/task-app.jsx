@@ -11,7 +11,6 @@ import { boardService } from "../services/board.service"
 import { useNavigate, useParams } from "react-router-dom"
 
 export const TasksApp = () => {
-    // const params = useParams()
     const [board, setBoard] = useState(null)
     const { boards } = useSelector((storeState) => storeState.boardModule)
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
