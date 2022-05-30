@@ -10,7 +10,7 @@ import { boardService } from '../services/board.service'
 import { useDispatch } from "react-redux";
 import { FaCaretDown } from 'react-icons/fa'
 
-export const TasksList = ({ task, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board, removeTask, updateTaskDate }) => {
+export const TasksList = ({ task, backgroundColor, changeStatusInProgress, onHandleRightClick, menuRef, updateTask, group, board, removeTask, updateTaskDate }) => {
     const [modal, setModal] = useState({})
     const [arrowTask, setArrowTask] = useState({})
     const [updateIsClick, setUpdateIsClick] = useState({})

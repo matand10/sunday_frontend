@@ -48,6 +48,7 @@ export function saveBoard(board) {
                     type: actionType,
                     board: savedBoard
                 })
+                if (actionType === 'ADD_BOARD') window.location.href = (`/board/${savedBoard}`)
             })
             .catch(err => {
                 console.log(err)

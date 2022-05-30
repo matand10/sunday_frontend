@@ -168,7 +168,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                 <form onSubmit={addTask} className="main-group-input">
                     <div className="left-indicator-cell group-input-indicator" style={{ backgroundColor: group.style.color }}></div>
                     <input className="group-input" type="text" placeholder="+Add Item" onChange={onHandleCange} name="title" />
-                    {task.title && <button>Add</button>}
+                    {task.title && <button className="submit-task-button">Add</button>}
                     <div className="right-indicator-input"></div>
                 </form>
             </div>
@@ -184,10 +184,11 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                     </div>
 
                     <div className="group-footer-items">
-                        {columns.map((col, idx) => {
+                        {group.columns && group.columns.map((col, idx) => {
                             if (col.type === 'status') return <div key={idx} className="column-footer">
                                 <ProgressBar group={group} board={board} />
                             </div>
+                            else return <div key={idx}></div>
                         })}
                     </div>
                     <div className="add-colomn-column-button-container">

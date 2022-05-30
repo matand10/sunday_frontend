@@ -11,29 +11,38 @@ import { boardService } from "../services/board.service"
 import { useNavigate, useParams } from "react-router-dom"
 
 export const TasksApp = () => {
-    const params = useParams()
+    // const params = useParams()
     const [board, setBoard] = useState(null)
     const { boards } = useSelector((storeState) => storeState.boardModule)
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
     const dispatch = useDispatch()
     const navigate = useNavigate();
-    let { boardId } = useParams()
-
+    const { boardId } = useParams()
 
     useEffect(() => {
-        loadBoard()
         dispatch(loadBoards())
-    }, [params.boardId, filterBy])
+        if (boardId) if (boardService.isIdOk(boardId, boards)) {
+            navigate('/board')
+        } else {
+            setBoard(activateBoard())
+        }
+    }, [])
+
+    const activateBoard = async () => {
+        const board = await boardService.getById(boardId)
+        return board
+    }
 
     useEffect(() => {
-        if (boardId) if (boardService.isIdOk(boardId, boards)) navigate('/board')
-    }, [])
+        if (!board) loadBoard()
+    }, [boardId, filterBy])
+
 
     useEffect(() => {
         if (!boardId) {
             if (board) {
-                boardId = board._id
-                navigate(`/board/${boardId}`)
+                // boardId = board._id
+                navigate(`/board/${board._id}`)
             }
             else {
                 makeBoard()
@@ -49,7 +58,7 @@ export const TasksApp = () => {
     }
 
     const loadBoard = async () => {
-        const board = await boardService.getById(params.boardId)
+        const board = await boardService.getById(boardId)
         const filteredBoard = boardService.filterBoard(board, filterBy)
         setBoard(filteredBoard)
     }
@@ -68,11 +77,10 @@ export const TasksApp = () => {
         let newBoard = await boardService.makeBoard()
         newBoard.title = board.title
         dispatch(saveBoard(newBoard))
-        navigate(`/board/${newBoard._id}`)
+        // navigate(`/board/${newBoard._id}`)
     }
 
     const onDeleteBoard = (boardId) => {
-        console.log(boardId);
         dispatch(removeBoard(boardId))
         navigate(`/board`)
     }
@@ -118,6 +126,7 @@ export const TasksApp = () => {
         const newBoard = boardService.taskUpdate(updateDate, groupId, board)
         dispatch(saveBoard(newBoard))
     }
+
 
     if (!boards.length) return <h1>Loading...</h1>
     return <section className="task-main-container">
