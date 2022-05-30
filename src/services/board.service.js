@@ -1,6 +1,6 @@
 import { storageService } from './async-storage.service'
 import { utilService } from './util.service'
-
+import { httpService } from './http.service'
 
 const STORAGE_KEY = 'group_db'
 
@@ -26,9 +26,10 @@ export const boardService = {
 async function query() {
     try {
         // const res = await storageService.get(STORAGE_KEY)
-        const res = await storageService.query(STORAGE_KEY)
+        // const res = await storageService.query(STORAGE_KEY)
         // if (!res.length) res = getEmptyBoard()
-        return res
+        const boards = await httpService.get('board')
+        return boards
     } catch (err) {
         console.log('err', err)
     }
@@ -36,7 +37,9 @@ async function query() {
 
 function filterBoard(board, filterBy) {
     let newGroups
+    // console.log(filterBy);
     if (filterBy.search) {
+        console.log(board)
         newGroups = board.groups.filter(group => {
             return group.tasks = group.tasks.filter(task => {
                 const regex = new RegExp(filterBy.search, 'i')
@@ -67,7 +70,9 @@ function filterBoard(board, filterBy) {
 
 async function getById(boardId) {
     try {
-        const res = await storageService.get(STORAGE_KEY, boardId)
+        // const res = await storageService.get(STORAGE_KEY, boardId)
+        if (!boardId) return
+        const res = await httpService.get(`board/${boardId}`)
         return res
     } catch (err) {
         console.log('err', err)
@@ -75,18 +80,20 @@ async function getById(boardId) {
 }
 
 async function remove(boardId) {
-    await storageService.remove(STORAGE_KEY, boardId)
+    // await storageService.remove(STORAGE_KEY, boardId)
+    await httpService.delete(`board/${boardId}`)
 }
 
 async function save(board) {
     var savedBoard
     try {
         if (board._id) {
-            savedBoard = await storageService.put(STORAGE_KEY, board)
+            // savedBoard = await storageService.put(STORAGE_KEY, board)
+            savedBoard = await httpService.put(`board/${board._id}`, board)
         } else {
-            board._id = utilService.makeId()
             // task.owner = userService.getLoggedinUser();
-            savedBoard = await storageService.post(STORAGE_KEY, board)
+            // savedBoard = await storageService.post(STORAGE_KEY, board)
+            savedBoard = await httpService.post('board', board)
         }
         return savedBoard
     } catch (err) {
@@ -156,7 +163,7 @@ async function isIdOk(boardId, boards) {
     try {
         return boards.some(board => board._id === boardId)
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
 }
 
@@ -242,8 +249,7 @@ function getLabels() {
 }
 
 function makeBoard() {
-    return storageService.post(STORAGE_KEY, {
-        _id: utilService.makeId(),
+    return {
         title: "Robot dev proj",
         archivedAt: 1589983468418,
         createdAt: 1589983468418,
@@ -252,18 +258,6 @@ function makeBoard() {
             fullname: "Abi Abambi",
             imgUrl: "http://some-img"
         },
-        // labels: [
-        //     {
-        //         id: "l101",
-        //         title: "Done",
-        //         color: "#61bd4f"
-        //     },
-        //     {
-        //         id: "l102",
-        //         title: "Progress",
-        //         color: "#61bd33"
-        //     }
-        // ],
         members: [
             {
                 _id: "u101",
@@ -277,6 +271,11 @@ function makeBoard() {
                 id: "g101",
                 title: "Group 1",
                 archivedAt: 1589983468418,
+                progress: {
+                    'Working on it': null,
+                    Done: null,
+                    Stuck: null
+                },
                 columns: [
                     {
                         title: 'Person',
@@ -367,6 +366,11 @@ function makeBoard() {
                 id: "g102",
                 title: "Group 2",
                 style: { color: utilService.getRandomColor() },
+                progress: {
+                    'Working on it': null,
+                    Done: null,
+                    Stuck: null
+                },
                 columns: [
                     {
                         title: 'Person',
@@ -439,7 +443,6 @@ function makeBoard() {
                         ]
                     }
                 ],
-                // style: {}
             }
         ],
         activities: [
@@ -463,164 +466,5 @@ function makeBoard() {
             "member-picker",
             "date-picker"
         ]
-    })
+    }
 }
-// function makeBoard() {
-//     return storageService.post(STORAGE_KEY, {
-//         _id: utilService.makeId(),
-//         title: "Robot dev proj",
-//         archivedAt: 1589983468418,
-//         createdAt: 1589983468418,
-//         createdBy: {
-//             _id: "u101",
-//             fullname: "Abi Abambi",
-//             imgUrl: "http://some-img"
-//         },
-//         // labels: [
-//         //     {
-//         //         id: "l101",
-//         //         title: "Done",
-//         //         color: "#61bd4f"
-//         //     },
-//         //     {
-//         //         id: "l102",
-//         //         title: "Progress",
-//         //         color: "#61bd33"
-//         //     }
-//         // ],
-//         members: [
-//             {
-//                 _id: "u101",
-//                 fullname: "Tal Tarablus",
-//                 imgUrl: "https://www.google.com"
-//             }
-//         ],
-//         groups: [
-//             {
-//                 style: { color: utilService.getRandomColor() },
-//                 id: "g101",
-//                 title: "Group 1",
-//                 archivedAt: 1589983468418,
-//                 tasks: [
-//                     {
-//                         id: "c101",
-//                         title: "Replace logo",
-//                         assignedTo: [],
-//                         comments: [],
-//                         status: utilService.getLabel('working'),
-//                         archivedAt: 1589983468418
-
-//                     },
-//                     {
-//                         id: "c102",
-//                         title: "Add Samples",
-//                         assignedTo: [
-//                             {
-//                                 _id: "u101",
-//                                 fullname: "Tal Tarablus",
-//                                 imgUrl: "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg"
-//                             },
-//                             {
-//                                 _id: "u102",
-//                                 fullname: "Matan Tarif",
-//                                 imgUrl: "https://cdn.monday.com/icons/dapulse-person-column.svg"
-//                             }
-//                         ],
-//                         comments: [],
-//                         status: utilService.getLabel('done'),
-//                         archivedAt: 1589983468418,
-//                     }
-//                 ],
-//             },
-//             {
-//                 id: "g102",
-//                 title: "Group 2",
-//                 style: { color: utilService.getRandomColor() },
-//                 tasks: [
-//                     {
-//                         id: "c103",
-//                         title: "Do that",
-//                         status: utilService.getLabel('done'),
-//                         archivedAt: 1589983468418,
-//                         assignedTo: []
-//                     },
-//                     {
-//                         id: "c104",
-//                         title: "Help me",
-//                         status: utilService.getLabel("stuck"),
-//                         archivedAt: 1589983468418,
-//                         assignedTo: [],
-//                         description: "description",
-//                         comments: [
-//                             {
-//                                 id: "ZdPnm",
-//                                 txt: "also @yaronb please CR this",
-//                                 createdAt: 1590999817436.0,
-//                                 byMember: {
-//                                     _id: "u101",
-//                                     fullname: "Tal Tarablus",
-//                                     imgUrl: "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg"
-//                                 }
-//                             }
-//                         ],
-//                         checklists: [
-//                             {
-//                                 id: "YEhmF",
-//                                 title: "Checklist",
-//                                 todos: [
-//                                     {
-//                                         id: "212jX",
-//                                         title: "To Do 1",
-//                                         isDone: false
-//                                     }
-//                                 ]
-//                             }
-//                         ],
-//                         memberIds: [
-//                             "u101"
-//                         ],
-//                         labelIds: [
-//                             "l101",
-//                             "l102"
-//                         ],
-//                         createdAt: 1590999730348,
-//                         dueDate: 16156215211,
-//                         byMember: {
-//                             _id: "u101",
-//                             username: "Tal",
-//                             fullname: "Tal Tarablus",
-//                             imgUrl: "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg"
-//                         },
-//                         // style: {
-//                         //     bgColor: "#26de81"
-//                         // }
-//                     }
-//                 ],
-//                 // style: {}
-//             }
-//         ],
-//         activities: [
-//             {
-//                 id: "a101",
-//                 txt: "Changed Color",
-//                 createdAt: 154514,
-//                 byMember: {
-//                     _id: "u101",
-//                     fullname: "Abi Abambi",
-//                     imgUrl: "http://some-img"
-//                 },
-//                 task: {
-//                     id: "c101",
-//                     title: "Replace Logo"
-//                 }
-//             }
-//         ],
-//         cmpsOrder: [
-//             "status-picker",
-//             "member-picker",
-//             "date-picker"
-//         ]
-//     })
-// }
-
-

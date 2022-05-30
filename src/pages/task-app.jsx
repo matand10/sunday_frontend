@@ -13,29 +13,38 @@ import {KanbanBoard} from '../cmps/kanban-board'
 import { Route, Routes, BrowserRouter,Outlet } from 'react-router-dom'
 
 export const TasksApp = () => {
-    const params = useParams()
+    // const params = useParams()
     const [board, setBoard] = useState(null)
     const { boards } = useSelector((storeState) => storeState.boardModule)
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
     const dispatch = useDispatch()
     const navigate = useNavigate();
-    let { boardId } = useParams()
-
+    const { boardId } = useParams()
 
     useEffect(() => {
-        loadBoard()
         dispatch(loadBoards())
-    }, [params.boardId, filterBy])
+        if (boardId) if (boardService.isIdOk(boardId, boards)) {
+            navigate('/board')
+        } else {
+            setBoard(activateBoard())
+        }
+    }, [])
+
+    const activateBoard = async () => {
+        const board = await boardService.getById(boardId)
+        return board
+    }
 
     useEffect(() => {
-        if (boardId) if (boardService.isIdOk(boardId, boards)) navigate('/board')
-    }, [])
+        if (!board) loadBoard()
+    }, [boardId, filterBy])
+
 
     useEffect(() => {
         if (!boardId) {
             if (board) {
-                boardId = board._id
-                navigate(`/board/${boardId}`)
+                // boardId = board._id
+                navigate(`/board/${board._id}`)
             }
             else {
                 makeBoard()
@@ -51,12 +60,12 @@ export const TasksApp = () => {
     }
 
     const loadBoard = async () => {
-        const board = await boardService.getById(params.boardId)
+        const board = await boardService.getById(boardId)
         const filteredBoard = boardService.filterBoard(board, filterBy)
         setBoard(filteredBoard)
     }
 
-    const onAddTask = async (board, task, groupId) => {
+    const onAddTask = async (task, groupId) => {
         const newBoard = await taskService.addTask(board, task, groupId)
         dispatch(saveBoard(newBoard))
     }
@@ -70,7 +79,7 @@ export const TasksApp = () => {
         let newBoard = await boardService.makeBoard()
         newBoard.title = board.title
         dispatch(saveBoard(newBoard))
-        navigate(`/board/${newBoard._id}`)
+        // navigate(`/board/${newBoard._id}`)
     }
 
     const onDeleteBoard = (boardId) => {
@@ -88,13 +97,14 @@ export const TasksApp = () => {
         dispatch(saveBoard(board))
     }
 
-    const updateTask = (updateTask, groupId, board) => {
+    // const updateTask = (updateTask, groupId, board) => {
+    const updateTask = (updateTask, groupId) => {
         const newBoard = boardService.taskUpdate(updateTask, groupId, board)
         dispatch(saveBoard(newBoard))
     }
 
-    const updateGroup = (updatedGroup) => {
-        const newBoard = boardService.groupUpdate(updatedGroup, board)
+    const updateGroup = (newdGroup) => {
+        const newBoard = boardService.groupUpdate(newdGroup, board)
         dispatch(saveBoard(newBoard))
     }
 
@@ -116,11 +126,11 @@ export const TasksApp = () => {
     }
 
     const updateTaskDate = (updateDate, groupId, board) => {
-        console.log('date', updateDate)
         const newBoard = boardService.taskUpdate(updateDate, groupId, board)
         dispatch(saveBoard(newBoard))
     }
-console.log('boards',boards)
+
+
     if (!boards.length) return <h1>Loading...</h1>
     return <section className="task-main-container">
         <div className="board-container-left">

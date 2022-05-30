@@ -5,7 +5,7 @@ import React from "react"
 export const ColMenu = ({ removeCol, menuRef, colActions, setcolActions, setGroupIsClick }) => {
 
     const onRemoveCol = () => {
-        removeCol(colActions.colIdx, colActions.groupId)
+        removeCol(colActions.colIdx)
         setcolActions({ colIdx: '', groupId: '' })
     }
 

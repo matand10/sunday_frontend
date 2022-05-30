@@ -264,12 +264,12 @@
 
         & button {
             height: inherit;
-            border-radius: 4px;
+            // border-radius: 4px;
             background-color: #1976d2;
             color: #fff;
             padding: 0px 10px;
             position: absolute;
-            right: 30px;
+            right: 28px;
 
             &:hover {
                 background-color: #1565c0;
@@ -394,6 +394,7 @@
     justify-content: space-around;
     flex-basis: 623px;
 }
+
 
 .task-row-items>* {
     width: 130px;
@@ -566,6 +567,10 @@
             display: block;
         }
 
+        .col-arrow-container {
+            display: block;
+        }
+
         & .sort-header-menu {
             position: absolute;
             top: -25%;
@@ -590,6 +595,20 @@
 
 .hide-sort {
     display: none;
+}
+
+.col-arrow-container {
+    display: none;
+    float: right;
+    position: absolute;
+    right: 5px;
+    border-radius: 4px;
+    transition: .1s;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #e6e9ef;
+    }
 }
 
 .column-header-title {
