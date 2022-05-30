@@ -5,9 +5,11 @@ import { saveBoard } from '../store/board/board.action'
 
 
 export const ProgressBar = ({ group, board }) => {
-    // const [progress, setProgress] = useState('')
-    const [progress, setProgress] = useState(false)
-    const dispatch = useDispatch()
+    const [progress, setProgress] = useState('')
+
+    useEffect(() => {
+        getProgress()
+    }, [])
 
     const getProgress = () => {
         const groupTaskMap = group.tasks.reduce((acc, task) => {
@@ -23,21 +25,8 @@ export const ProgressBar = ({ group, board }) => {
         }, {})
         group.progress = groupTaskMap
         setProgress(groupTaskMap)
-        return group
     }
 
-    const updateGroupProgress = (newGroup, board) => {
-        const newBoard = boardService.groupUpdate(newGroup, board)
-        dispatch(saveBoard(newBoard))
-    }
-
-    useEffect(() => {
-        getProgress()
-    }, [])
-
-    useEffect(() => {
-        // updateGroupProgress(getProgress(), board)
-    }, [progress])
 
 
     return <section className="progress-display">
