@@ -109,12 +109,12 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
     const specialUpdateTask = (value, colIdx, status = null) => {
         let newTask = { ...task }
         newTask.columns[colIdx].value = value
+        group.tasks[taskIdx] = newTask
         if (status === 'status') {
-            group.tasks[taskIdx] = newTask
-            group.progress = groupService.getProgress(group)
-            console.log(group);
-            updateGroup(group)
+            group.progress[colIdx] = groupService.getProgress(group, colIdx)
         }
+        console.log(group);
+        updateGroup(group)
     }
 
     const textEdit = (colIdx, value) => {

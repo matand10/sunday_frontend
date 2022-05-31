@@ -16,9 +16,9 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, onDeleteBoard
 
     let navigate = useNavigate();
 
-    useEffect(() => {
-        if (boardUpdate) updateBoard(boardUpdate)
-    }, [boardUpdate])
+    // useEffect(() => {
+    //     if (boardUpdate) updateBoard(boardUpdate)
+    // }, [boardUpdate])
 
 
     const toggleNav = () => {
@@ -30,13 +30,15 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, onDeleteBoard
         setSelectedBoard(board)
     }
 
-    const handleChange = ({ target }) => {
+    const handleChange = ({ target }, board) => {
         document.addEventListener("keydown", (event) => {
             if (event.key === "Enter") {
                 event.preventDefault()
-                const value = target.value
-                const field = target.name
-                setBoardUpdate((prevBoard) => ({ ...prevBoard, [field]: value }))
+                // const value = target.value
+                // const field = target.name
+                let newBoard={...board}
+                newBoard.title=target.value
+                updateBoard(newBoard)
                 setRenameIsClick('')
             }
         })
@@ -47,7 +49,6 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, onDeleteBoard
         setRenameIsClick(board._id)
         setBoardUpdate(board)
     }
-
 
     return <section className={`home-control-component${isNavOpen ? "" : '-closed'}`}>
         <div className="control-nav-expend">
@@ -83,7 +84,7 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, onDeleteBoard
                             return <div key={idx} onClick={() => boardChange(board)} className='home-control-all-buttons'>
 
                                 {(renameIsClick === board._id) ? <div className="title-update-input">
-                                    <input type="text" defaultValue={board.title} onChange={handleChange} name="title" />
+                                    <input type="text" defaultValue={board.title} onChange={(event) => handleChange(event, board)} name="title" />
                                 </div> :
                                     <button className="home-control-button">
                                         <span className="home-control-button-span">{board.title}</span>

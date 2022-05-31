@@ -51,34 +51,11 @@ export const TasksApp = () => {
 
         dispatch(loadBoards())
 
-    }, [])
-
-    const activateBoard = async () => {
-        const board = await boardService.getById(boardId)
-        return board
-    }
-
-    // useEffect(() => {
-    //     if (!board) loadBoard()
-    // }, [boardId, filterBy])
-
-
-    // useEffect(() => {
-    //     if (!boardId) {
-    //         if (board) {
-    //             // boardId = board._id
-    //             navigate(`/board/${board._id}`)
-    //         }
-    //         else {
-    //             makeBoard()
-    //         }
-    //     }
-    // }, [boards, board])
+    }, [board])
 
     const makeBoard = async () => {
         console.log('make');
         const firstBoard = await boardService.makeBoard()
-        // setBoard(firstBoard)
         dispatch(saveBoard(firstBoard))
     }
 
@@ -112,8 +89,9 @@ export const TasksApp = () => {
         window.location.href = `/board`
     }
 
-    const updateBoard = (board) => {
-        dispatch(saveBoard(board))
+    const updateBoard = (updatedBoard) => {
+        dispatch(saveBoard(updatedBoard))
+        setBoard(updatedBoard)
     }
 
     const onRemoveGroup = (groupId) => {
