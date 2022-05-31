@@ -104,12 +104,12 @@ export const TasksApp = () => {
         newBoard._id = await boardService.save(newBoard)
         dispatch(saveBoard(newBoard))
         console.log(newBoard);
-        window.location.href =`/board/${newBoard._id}`
+        window.location.href = `/board/${newBoard._id}`
     }
 
     const onDeleteBoard = (boardId) => {
         dispatch(removeBoard(boardId))
-        navigate(`/board`)
+        window.location.href = `/board`
     }
 
     const updateBoard = (board) => {
