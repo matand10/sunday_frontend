@@ -14,7 +14,8 @@ export const groupService = {
     getEmptyGroup,
     groupColUpdate,
     groupColAdd,
-    groupColRemove
+    groupColRemove,
+    getProgress
 }
 
 // async function query() {
@@ -194,6 +195,21 @@ function groupColAdd(group, value) {
         newGroup.tasks[idx].columns.push({ ...column })
     })
     return newGroup
+}
+
+function getProgress(group) {
+    const groupTaskMap = group.tasks.reduce((acc, task) => {
+        task.columns.forEach(column => {
+            if (column.type === 'status') {
+                if (acc[column.value.title]) acc[column.value.title] += 1
+                else acc[column.value.title] = 1
+            } else {
+                return
+            }
+        })
+        return acc
+    }, {})
+    return groupTaskMap
 }
 
 function groupColRemove(colIdx, group) {

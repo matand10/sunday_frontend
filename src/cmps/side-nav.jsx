@@ -2,22 +2,33 @@ import { Link } from "react-router-dom"
 import workspaceImg from "../assets/img/side-nav/surface-workspace-logo.png"
 import productSwtich from "../assets/img/side-nav/product-switcher-logo.png"
 import { useEffect, useRef, useState } from "react"
-
+import { UserSideMenu } from '../modal/user-side-menu'
 
 export const SideNav = () => {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const [isUserSideMenuOpen, setIsUserSideMenuOpen] = useState(false)
     let menuRef = useRef()
 
     useEffect(() => {
-        document.addEventListener("mousedown", (event) => {
-            if (!menuRef.current?.contains(event.target)) {
-                setIsDialogOpen(false)
-            }
-        })
+        document.addEventListener("mousedown", eventListeners)
+        return () => {
+            document.removeEventListener('mousedown', eventListeners)
+        }
     })
+
+    const eventListeners = (ev) => {
+        if (!menuRef.current?.contains(ev.target)) {
+            setIsDialogOpen(false)
+            setIsUserSideMenuOpen(false)
+        }
+    }
 
     const toggleDialog = (value) => {
         setIsDialogOpen(value)
+    }
+
+    const toggleUserMenu = (value) => {
+        setIsUserSideMenuOpen(value)
     }
 
     return <section className="main-side-nav-container">
@@ -43,9 +54,9 @@ export const SideNav = () => {
                 <div className="product-switcher">
                     <img onClick={() => toggleDialog(true)} src={productSwtich} alt="dots-logo" />
                 </div>
-                {/* <div className="user-img">
-                    <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="workspace img" />
-                </div> */}
+                <div className="user-img">
+                    <img className="user-logout-button" onClick={() => toggleUserMenu(true)} src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="workspace img" />
+                </div>
             </div>
         </div>
 
@@ -63,5 +74,6 @@ export const SideNav = () => {
                 </div>
             </div>
         </div>}
+        {isUserSideMenuOpen && <UserSideMenu menuRef={menuRef} />}
     </section>
 }

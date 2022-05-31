@@ -1,5 +1,5 @@
 import { storageService } from './async-storage.service'
-// import { httpService } from './http.service'
+import { httpService } from './http.service'
 import { store } from '../store/store'
 // import { socketService, SOCKET_EVENT_USER_UPDATED, SOCKET_EMIT_USER_WATCH } from './socket.service'
 import { showSuccessMsg } from '../services/event-bus.service'
@@ -57,27 +57,34 @@ async function update(user) {
 }
 
 async function login(userCred) {
-    const users = await storageService.query('user')
-    const user = users.find(user => user.username === userCred.username)
-    // const user = await httpService.post('auth/login', userCred)
-    if (user) {
-        // socketService.login(user._id)
-        return saveLocalUser(user)
+    // const users = await storageService.query('user')
+    // const user = users.find(user => user.username === userCred.username)
+    try {
+        const user = await httpService.post('auth/login', userCred)
+        if (user) {
+            // socketService.login(user._id)
+            return saveLocalUser(user)
+        }
+    } catch (err) {
+        console.log(err)
     }
 }
 async function signup(userCred) {
-    console.log('userCred: ', userCred);
-    const user = await storageService.post('user', userCred)
-    console.log('user from DB: ', user);
-    // const user = await httpService.post('auth/signup', userCred)
-    // socketService.login(user._id)
-    return saveLocalUser(user)
+    try {
+        // const user = await storageService.post('user', userCred)
+        const user = await httpService.post('auth/signup', userCred)
+        // socketService.login(user._id)
+        return saveLocalUser(user)
+    } catch (err) {
+        console.log(err)
+    }
 }
 
-async function logout() {
-    sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
+function logout() {
+    console.log('Hola');
+    // sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
     // socketService.logout()
-    // return await httpService.post('auth/logout')
+    // return httpService.post('auth/logout')
 }
 
 

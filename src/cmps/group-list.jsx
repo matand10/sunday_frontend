@@ -18,7 +18,7 @@ import { ProgressBar } from '../features/progress-bar';
 import { ColAddMenu } from "../modal/col-add-menu";
 
 
-export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup, updateTaskDate }) => {
+export const GroupList = ({ updateTask, updateBoard, updateStatistics, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup, updateTaskDate }) => {
     const [task, setTask] = useState({ title: '' })
     const [groupIsClick, setGroupIsClick] = useState({})
     const [isClickGroup, setIsClickGroup] = useState(false)
@@ -45,13 +45,17 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
 
     useEffect(() => {
         updateGroup(groupUpdate)
-        // updateGroup(groupUpdate, board)
         setGroupIsClick({})
     }, [groupUpdate])
 
+    const onUpdateGroupBar = () => {
+        // const newGroup = groupService.getProgress(group)
+        // updateGroup(newGroup)
+    }
+
     const addTask = (ev) => {
         ev.preventDefault()
-        onAddTask( task, group.id)
+        onAddTask(task, group.id)
         reset()
     }
 
@@ -170,8 +174,8 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
             </div>
 
             {group.tasks.map((task, idx) => {
-                return <TasksList key={idx} boardId={boardId} task={task} /*menuRef={menuRef}*/ backgroundColor={group.style.color}
-                    onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate} />
+                return <TasksList key={idx} taskIdx={idx} boardId={boardId} task={task} /*menuRef={menuRef}*/ backgroundColor={group.style.color}
+                    updateGroup={updateGroup} updateBoard={updateBoard} onUpdateGroupBar={onUpdateGroupBar} onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate} />
             })}
 
             <div className="group-main-input-container">
@@ -196,7 +200,7 @@ export const GroupList = ({ updateTask, board, group, onAddTask, onRemoveGroup, 
                     <div className="group-footer-items">
                         {group.columns && group.columns.map((col, idx) => {
                             if (col.type === 'status') return <div key={idx} className="column-footer">
-                                <ProgressBar group={group} board={board} />
+                                <ProgressBar group={group} />
                             </div>
                             else return <div key={idx}></div>
                         })}

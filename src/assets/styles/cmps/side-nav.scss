@@ -2,6 +2,7 @@
     min-height: 100%;
     position: fixed;
     width: 66px;
+    z-index: 5000;
 }
 
 .main-side-nav-container {
@@ -47,9 +48,18 @@
 }
 
 .product-switcher {
-    margin: 5px 14px;
+    margin: 5px 28px;
     border-radius: 7px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+
+    & img {
+        width: 35px;
+    }
 
     &:hover {
         background-color: $nav-hover-background-color;
@@ -69,5 +79,31 @@
 }
 
 .user-img {
-    width: 33px;
+    margin: 5px 27px 10px;
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    & img {
+        width: 32px;
+        transition: .2s;
+
+        &:hover {}
+    }
+
+    &:hover {
+        background-color: $nav-hover-background-color;
+
+        .user-logout-button {
+            width: 30px;
+        }
+    }
+
+    &:active {
+        border: 1px solid white;
+    }
 }

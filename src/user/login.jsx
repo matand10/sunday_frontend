@@ -1,32 +1,37 @@
 import React from 'react'
+import { connect } from "react-redux";
 import { Header } from "../cmps/header"
 import { FcGoogle } from 'react-icons/fc';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import { onLogin } from '../store/user/user.actions';
 
 
-export class Login extends React.Component {
+class _Login extends React.Component {
     state = {
         credential: {
-            username: ''
+            username: '',
+            password: ''
         }
     }
 
     handleChange = ({ target }) => {
         const value = target.value
-        this.setState({ credential: { username: value } })
+        const field = target.name
+        this.setState((prevState) => ({ credential: { ...prevState.credential, [field]: value } }))
     }
 
-    login = (ev) => {
+    login = async (ev) => {
         ev.preventDefault()
         const { credential } = this.state
-        // Add function to send credentials
-        this.setState({ credential: { username: '' } })
+        await this.props.onLogin(credential)
+        this.setState({ credential: { username: '', password: '' } })
+        window.location.href = '/board'
     }
 
 
     render() {
-        const { username } = this.state.credential
+        const { username, password } = this.state.credential
         return <section>
             <Header />
             <div className="login-router-wrapper">
@@ -36,7 +41,11 @@ export class Login extends React.Component {
                         <form className="email-input-and-button-wrapper" onSubmit={(ev) => this.login(ev)}>
                             <div className="enter-work-email">
                                 <label className="login-label" htmlFor="user-email">Enter your work email adress</label>
-                                <input value={username} onChange={(ev) => this.handleChange(ev)} type="email" id="user_email" className="enter-work-email" placeholder="Example@company.com" />
+                                <input value={username} onChange={(ev) => this.handleChange(ev)} type="email" id="user_email" className="enter-work-email" placeholder="Example@company.com" name="username" />
+                            </div>
+                            <div className="enter-work-password">
+                                <label className="login-label" htmlFor="user-password">Enter your password</label>
+                                <input value={password} onChange={(ev) => this.handleChange(ev)} type="password" id="user-password" className="enter-password-login" placeholder="Aa123456" name="password" />
                             </div>
                             <div className="next-button-component">
                                 <button className="next-button">
@@ -68,3 +77,19 @@ export class Login extends React.Component {
         </section>
     }
 }
+
+const mapStateToProps = (storeState) => {
+    return {
+        user: storeState.userModule.user,
+    }
+}
+
+const mapDispatchToProps = {
+    onLogin,
+}
+
+
+export const Login = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(_Login)
