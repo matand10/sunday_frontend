@@ -197,16 +197,19 @@ function groupColAdd(group, value) {
     return newGroup
 }
 
-function getProgress(group) {
+function getProgress(group, colIdx) {
     const groupTaskMap = group.tasks.reduce((acc, task) => {
-        task.columns.forEach(column => {
-            if (column.type === 'status') {
-                if (acc[column.value.title]) acc[column.value.title] += 1
-                else acc[column.value.title] = 1
-            } else {
-                return
-            }
-        })
+        if (acc[task.columns[colIdx].value.title]) acc[task.columns[colIdx].value.title] += 1
+        else acc[task.columns[colIdx].value.title] = 1
+
+        // task.columns.forEach(column => {
+        //     if (column.type === 'status') {
+        //         if (acc[column.value.title]) acc[column.value.title] += 1
+        //         else acc[column.value.title] = 1
+        //     } else {
+        //         return
+        //     }
+        // })
         return acc
     }, {})
     return groupTaskMap

@@ -59,33 +59,15 @@ export const TasksApp = () => {
     //     dispatch(setFilter({ ...filterBy, checkedUser: checkedUser._id }))
     // }, [user])
 
+    useEffect(() => {
 
+        dispatch(loadBoards())
 
-    const activateBoard = async () => {
-        const board = await boardService.getById(boardId)
-        return board
-    }
-
-    // useEffect(() => {
-    //     if (!board) loadBoard()
-    // }, [boardId, filterBy])
-
-
-    // useEffect(() => {
-    //     if (!boardId) {
-    //         if (board) {
-    //             // boardId = board._id
-    //             navigate(`/board/${board._id}`)
-    //         }
-    //         else {
-    //             makeBoard()
-    //         }
-    //     }
-    // }, [boards, board])
+    }, [board])
 
     const makeBoard = async () => {
-        const firstBoard = await boardService.makeBoard(user)
-        // setBoard(firstBoard)
+        console.log('make');
+        const firstBoard = await boardService.makeBoard()
         dispatch(saveBoard(firstBoard))
     }
 
@@ -97,6 +79,7 @@ export const TasksApp = () => {
 
     const onAddTask = async (task, groupId) => {
         const newBoard = await taskService.addTask(board, task, groupId)
+        console.log('newBoard',newBoard)
         dispatch(saveBoard(newBoard))
     }
 
@@ -119,8 +102,9 @@ export const TasksApp = () => {
         window.location.href = `/board`
     }
 
-    const updateBoard = (board) => {
-        dispatch(saveBoard(board))
+    const updateBoard = (updatedBoard) => {
+        dispatch(saveBoard(updatedBoard))
+        setBoard(updatedBoard)
     }
 
     const onRemoveGroup = (groupId) => {

@@ -23,6 +23,8 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     const [handleSearch, setHandleSearch] = useState({ search: '' })
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
     const [unAssignedUsers, setUnAssignedUsers] = useState('')
+    const [titleBoard,setTitleBoard]=useState('')
+    const [isTitleBoardClick,setIsTitleBoardClick]=useState(false)
     const dispatch = useDispatch()
     // const navigate=useNavigate()
     let menuRef = useRef()
@@ -47,6 +49,16 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
         onFilter(handleSearch)
     }, [handleSearch])
 
+    const handleBoardTitleChange = ({target}) => {
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault()
+                const value = target.value
+                const field = target.name
+                setTitleBoard((prevBoard) => ({ ...prevBoard, [field]: value }))
+            }
+        })
+    }
     const toggleMenu = (value) => {
         setIsMenuOpen(value)
     }
@@ -77,7 +89,15 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
         <div className="board-header-main">
             <div className="board-header-top">
                 <div className="board-header-left">
-                    <h1 className="title">{board.title}</h1>
+                    {isTitleBoardClick ?
+                        <div>
+                            <input type="text" name="title" defaultValue={board.title} onChange={handleBoardTitleChange} />
+                        </div>
+                        :
+                        <div>
+                            <h1 className="title" onClick={()=>setIsTitleBoardClick(!isTitleBoardClick)}>{board.title}</h1>
+                        </div>
+                    }
                     <div className="icon-action-wrapper">
                         <span className="icon-action-btn"><FaExclamationCircle title="Hide board description" /></span>
                         <span className="icon-action-btn"><FaRegStar title="Add to favorites" /></span>

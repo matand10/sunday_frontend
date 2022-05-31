@@ -17,9 +17,9 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
     let menuRef = useRef()
     let navigate = useNavigate();
 
-    useEffect(() => {
-        if (boardUpdate) updateBoard(boardUpdate)
-    }, [boardUpdate])
+    // useEffect(() => {
+    //     if (boardUpdate) updateBoard(boardUpdate)
+    // }, [boardUpdate])
 
     useEffect(() => {
         document.addEventListener("mousedown", eventListener)
@@ -43,13 +43,15 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
         setSelectedBoard(board)
     }
 
-    const handleChange = ({ target }) => {
+    const handleChange = ({ target }, board) => {
         document.addEventListener("keydown", (event) => {
             if (event.key === "Enter") {
                 event.preventDefault()
-                const value = target.value
-                const field = target.name
-                setBoardUpdate((prevBoard) => ({ ...prevBoard, [field]: value }))
+                // const value = target.value
+                // const field = target.name
+                let newBoard = { ...board }
+                newBoard.title = target.value
+                updateBoard(newBoard)
                 setRenameIsClick('')
             }
         })
@@ -95,11 +97,12 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
                 <div className="user-projects-container">
                     <div className="project-side-link">
                         {boards.length && boards.map((board, idx) => {
-                            // return <div key={idx} onClick={() => window.location.href = `/board/${board._id}`} className='home-control-all-buttons'>
-                            return <div key={idx} onClick={() => boardChange(board)} className='home-control-all-buttons'>
+
+                            return <div key={idx} onClick={() => navigate(`/board/${board._id}`)} className='home-control-all-buttons'>
+                                {/* // return <div key={idx} onClick={() => boardChange(board)} className='home-control-all-buttons'> */}
 
                                 {(renameIsClick === board._id) ? <div className="title-update-input">
-                                    <input type="text" defaultValue={board.title} onChange={handleChange} name="title" />
+                                    <input type="text" defaultValue={board.title} onChange={(event) => handleChange(event, board)} name="title" />
                                 </div> :
                                     <button className="home-control-button">
                                         <span className="home-control-button-span">{board.title}</span>

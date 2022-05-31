@@ -112,11 +112,11 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
     const specialUpdateTask = (value, colIdx, status = null) => {
         let newTask = { ...task }
         newTask.columns[colIdx].value = value
+        group.tasks[taskIdx] = newTask
         if (status === 'status') {
-            group.tasks[taskIdx] = newTask
-            group.progress = groupService.getProgress(group)
-            updateGroup(group)
+            group.progress[colIdx] = groupService.getProgress(group, colIdx)
         }
+        updateGroup(group)
     }
 
     const textEdit = (colIdx, value) => {
@@ -172,7 +172,7 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
                                         </div>
                                     </div>
                             case 'status':
-                                return <div key={idx} className="flex-row-items status" style={{ backgroundColor: col.value.color }} onClick={(ev) => toggleStatus(ev, true, idx)}>{col.value.title}</div>
+                                return <div key={idx} className="flex-row-items status" style={{ backgroundColor: col.value?.color }} onClick={(ev) => toggleStatus(ev, true, idx)}>{col.value?.title}</div>
                             case 'date':
                                 return <div key={idx} className="flex-row-items">
                                     <label htmlFor="task-date">{col.value ? utilService.getCurrTime(col.value) : ''}</label>

@@ -74,6 +74,7 @@ async function addTask(board, task, groupId) {
         const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
         const newTask = await getEmptyTask(board.groups[groupIdx].columns)
         newTask.title = task.title
+        newTask.columns[1].value = task.status ? task.status : newTask.columns[1].value
         newBoard.groups[groupIdx].tasks.push(newTask)
     } else {
         const newTask = getEmptyTask(board.groups[0].columns)
@@ -89,7 +90,7 @@ function getEmptyTask(columns) {
         comments: [],
         // status: utilService.getLabel(),
         archivedAt: new Date(),
-        columns: [...columns] 
+        columns: [...columns]
     }
 }
 

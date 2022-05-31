@@ -238,7 +238,7 @@ function getLabels() {
         },
         {
             id: 'l104',
-            title: '',
+            title: 'Empty',
             color: '#c4c4c4'
         }
     ]
@@ -263,12 +263,15 @@ function makeBoard(user) {
             {
                 style: { color: utilService.getRandomColor() },
                 id: "g101",
-                title: "Group 1",
+                title: "Group Title",
                 archivedAt: 1589983468418,
                 progress: {
-                    'Working on it': null,
-                    Done: null,
-                    Stuck: null
+                    colIdx: 1,
+                    progress: {
+                        'Working on it': null,
+                        Done: null,
+                        Stuck: null
+                    }
                 },
                 columns: [
                     {
@@ -293,14 +296,14 @@ function makeBoard(user) {
                 tasks: [
                     {
                         id: "c101",
-                        title: "Replace logo",
+                        title: "Item 1",
                         comments: [],
                         archivedAt: 1589983468418,
                         columns: [
                             {
                                 title: 'Status',
                                 importance: 2,
-                                value: utilService.getLabel('working'),
+                                value: utilService.getLabel(''),
                                 type: 'status'
                             },
                             {
@@ -319,14 +322,14 @@ function makeBoard(user) {
                     },
                     {
                         id: "c102",
-                        title: "Add Samples",
+                        title: "Item 2",
                         comments: [],
                         archivedAt: 1589983468418,
                         columns: [
                             {
                                 title: 'Status',
                                 importance: 2,
-                                value: utilService.getLabel('done'),
+                                value: utilService.getLabel(''),
                                 type: 'status'
                             },
                             {
@@ -358,12 +361,15 @@ function makeBoard(user) {
             },
             {
                 id: "g102",
-                title: "Group 2",
+                title: "Group Title",
                 style: { color: utilService.getRandomColor() },
                 progress: {
-                    'Working on it': null,
-                    Done: null,
-                    Stuck: null
+                    colIdx: 1,
+                    progress: {
+                        'Working on it': null,
+                        Done: null,
+                        Stuck: null
+                    }
                 },
                 columns: [
                     {
@@ -388,13 +394,13 @@ function makeBoard(user) {
                 tasks: [
                     {
                         id: "c103",
-                        title: "Do that",
+                        title: "Item 3",
                         archivedAt: 1589983468418,
                         columns: [
                             {
                                 title: 'Status',
                                 importance: 2,
-                                value: utilService.getLabel('done'),
+                                value: utilService.getLabel(''),
                                 type: 'status'
                             },
                             {
@@ -413,13 +419,13 @@ function makeBoard(user) {
                     },
                     {
                         id: "c104",
-                        title: "Help me",
+                        title: "Item 4",
                         archivedAt: 1589983468418,
                         columns: [
                             {
                                 title: 'Status',
                                 importance: 2,
-                                value: utilService.getLabel("stuck"),
+                                value: utilService.getLabel(''),
                                 type: 'status'
                             },
                             {

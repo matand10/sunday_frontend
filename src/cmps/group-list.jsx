@@ -180,7 +180,7 @@ export const GroupList = ({ updateTask, updateBoard, updateStatistics, board, gr
                     <div className="group-footer-items">
                         {group.columns && group.columns.map((col, idx) => {
                             if (col.type === 'status') return <div key={idx} className="column-footer">
-                                <ProgressBar group={group} />
+                                <ProgressBar group={group} colIdx={idx} />
                             </div>
                             else return <div key={idx}></div>
                         })}
