@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { taskService } from '../services/task.service'
 
 
-export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard }) => {
+export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setKanbanBoard }) => {
     const [task, setTask] = useState({ title: '', status })
 
     const handleAddChange = ({ target }) => {
@@ -12,15 +12,20 @@ export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard }) =>
         setTask((prevTask) => ({ ...prevTask, [field]: value }))
     }
 
-    const addTask = (ev) => {
+    const addTaskKanban = async (ev) => {
         ev.preventDefault()
         const groupId = board.groups[0].id
-        let newBoard = { ...board }
-        let newTask = taskService.getEmptyTask(board.groups[0].columns)
-        newTask.title = task.title
-        newTask.columns[1].value = status
-        newBoard.groups[0].tasks.push(newTask)
+        // let newBoard = { ...board }
+        // let newTask = taskService.getEmptyTask(board.groups[0].columns)
+        // newTask.title = task.title
+        // newTask.columns[1].value = status
+        // newBoard.groups[0].tasks.push(newTask)
+        // setKanbanBoard(newBoard)
+
+        let newBoard = await taskService.addTask(board, task, groupId)
+        console.log(newBoard);
         updateBoard(newBoard)
+
     }
 
     return (
@@ -63,7 +68,7 @@ export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard }) =>
                             </div>
                         })}
                         <div className="column-main-input-container">
-                            <form className="main-column-input" onSubmit={addTask}>
+                            <form className="main-column-input" onSubmit={addTaskKanban}>
                                 <input className="column-input" type="text" placeholder="+Add Item" name="title" onChange={handleAddChange} />
                                 {task.title && <button className="add-task-button" style={{ backgroundColor: status.color }}>Add</button>}
                             </form>
