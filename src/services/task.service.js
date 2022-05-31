@@ -68,22 +68,26 @@ async function save(task, groupId, boardId) {
     }
 }
 
-async function addTask(board, task, groupId) {
+function addTask(board, task, groupId) {
     const newBoard = { ...board }
     if (task && groupId) {
         const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
-        const newTask = await getEmptyTask(board.groups[groupIdx].columns)
+        const columns = [...board.groups[groupIdx].columns]
+        console.log('service', columns);
+        const newTask = getEmptyTask(columns)
+
         newTask.title = task.title
-        newTask.columns[1].value = task.status ? task.status : newTask.columns[1].value
+        // newTask.columns[1].value = task.status ? task.status : newTask.columns[1].value
         newBoard.groups[groupIdx].tasks.push(newTask)
     } else {
         const newTask = getEmptyTask(board.groups[0].columns)
         newBoard.groups[0].tasks.push(newTask)
     }
-    return Promise.resolve(newBoard)
+    return newBoard
 }
 
 function getEmptyTask(columns) {
+    console.log('columns', columns);
     return {
         id: utilService.makeId(),
         title: 'item 1',

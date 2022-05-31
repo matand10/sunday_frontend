@@ -113,6 +113,7 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
         if (status === 'status') {
             group.progress[colIdx] = groupService.getProgress(group, colIdx)
         }
+        console.log('list', group.columns);
         updateGroup(group)
     }
 
