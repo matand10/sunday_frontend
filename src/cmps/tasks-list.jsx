@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { boardService } from '../services/board.service'
 import { FaCaretDown } from 'react-icons/fa'
 import { groupService } from '../services/group.service';
+import { InviteToTaskModal } from '../modal/invite-to-task-menu';
 
 export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar, task, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board, removeTask, updateTaskDate }) => {
     const [modal, setModal] = useState({})
@@ -16,6 +17,7 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
     const [taskUpdate, setTaskUpdate] = useState(task)
     const [modalPos, setModalPos] = useState({ x: null, y: null })
     const [statusActive, setStatusActive] = useState(false)
+    const [inviteUserModal, setInviteUserModal] = useState(false)
     const [editText, setEditText] = useState(false)
     let statusRef = useRef()
     let dateRef = useRef()
@@ -53,6 +55,7 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
         if (!statusRef.current?.contains(ev.target)) {
             setStatusActive(false)
             setArrowTask({})
+            setInviteUserModal(false)
         }
     }
 
@@ -124,8 +127,8 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
     if (!task) return <h1>Loading...</h1>
     let columns = task.columns
     columns = columns.sort((a, b) => a.importance - b.importance)
-    return <section className="task-row-component" onContextMenu={(ev) => onHandleRightClick(ev, task, true)} ref={menuRef} onDragOver={(ev) => draggingOver(ev)} onDrop={(ev) => dragDropped(ev, task.id)}>
-        <div className="task-row-wrapper" draggable onDragStart={(ev) => dragStarted(ev, task.id)}>
+    return <section className="task-row-component" ref={menuRef} onDragOver={(ev) => draggingOver(ev)} onDrop={(ev) => dragDropped(ev, task.id)}>
+        <div className="task-row-wrapper" onContextMenu={(ev) => onHandleRightClick(ev, task, true)} draggable onDragStart={(ev) => dragStarted(ev, task.id)}>
             <div className="task-row-title">
                 <div className="task-title-cell-component" onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })}>
                     <div className="left-indicator-cell" style={{ backgroundColor }}></div>
@@ -147,6 +150,7 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
                                 </div>
                             </div>
                         }
+
                     </div>
                 </div>
                 <div className="task-row-items">
@@ -154,20 +158,22 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
                         switch (col.type) {
                             case 'person':
                                 return col.value?.length ?
-                                    <div key={idx} className="flex-row-items user-image-container">{col.value.map((user, idx) => {
-                                        return <div key={idx} className="user-image-wrapper">
+                                    <div onClick={() => setInviteUserModal(true)} key={idx} className="flex-row-items user-image-container">{col.value.map((user, idx) => {
+                                        return <div key={idx} className="user-image-wrapper" >
                                             <img key={idx} style={{ left: `${20 * (idx) + 'px'}`, transform: `translateX(${-80 + '%'})` }} className="user-image-icon-assign" src={user.imgUrl} alt="user image" />
+                                            {inviteUserModal && <InviteToTaskModal statusRef={statusRef} board={board} task={task} />}
                                         </div>
                                     })}
                                     </div>
                                     :
-                                    <div key={idx} className="flex-row-items">
+                                    <div onClick={() => setInviteUserModal(true)} key={idx} className="flex-row-items">
                                         <div className="user-image-wrapper">
                                             <img className="user-image-icon-assign" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" />
+                                            {inviteUserModal && <InviteToTaskModal statusRef={statusRef} board={board} task={task} />}
                                         </div>
                                     </div>
                             case 'status':
-                                return <div key={idx} className="flex-row-items status" style={{ backgroundColor: col.value.color }} onClick={(ev) => toggleStatus(ev, true, idx)}>{col.value.title}</div>
+                                return <div key={idx} className="flex-row-items status" style={{ backgroundColor: col.value?.color }} onClick={(ev) => toggleStatus(ev, true, idx)}>{col.value?.title}</div>
                             case 'date':
                                 return <div key={idx} className="flex-row-items">
                                     <label htmlFor="task-date">{col.value ? utilService.getCurrTime(col.value) : ''}</label>
@@ -190,7 +196,7 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
             {arrowTask.board && arrowTask.groupId === group.id && arrowTask.taskId === task.id && <TaskMenu statusRef={statusRef} removeTask={removeTask} arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
         </div >
         {statusActive.value && <StatusModal updateGroup={updateGroup} onUpdateGroupBar={onUpdateGroupBar} specialUpdateTask={specialUpdateTask} statusActive={statusActive} statusRef={statusRef} modalPos={modalPos} />}
-        {modal.boardId && <SidePanel modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}
+        {modal.boardId && <SidePanel statusRef={statusRef} modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}
     </section >
 }
 

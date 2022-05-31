@@ -2,10 +2,8 @@ import { utilService } from "../services/util.service";
 import { Menu } from '../hooks/right-click-menu'
 import { RightClickMenu } from '../modal/right-click-menu'
 import React, { useRef, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form'
 import { FaChevronCircleDown, FaCaretDown, FaSort } from 'react-icons/fa'
 import { GroupMenu } from './group-menu'
-import { TaskMenu } from './task-menu'
 import { TasksList } from './tasks-list.jsx'
 import { useParams } from "react-router-dom";
 import { EditableColumn } from "../cmps/editable-input";
@@ -16,6 +14,7 @@ import { groupService } from "../services/group.service";
 import { ColMenu } from "../modal/col-menu";
 import { ProgressBar } from '../features/progress-bar';
 import { ColAddMenu } from "../modal/col-add-menu";
+import { MainGroupInput } from "./main-group-menu";
 
 
 export const GroupList = ({ updateTask, updateBoard, updateStatistics, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup, updateTaskDate }) => {
@@ -30,9 +29,6 @@ export const GroupList = ({ updateTask, updateBoard, updateStatistics, board, gr
     const [isReversedSort, setIsReversedSort] = useState(false)
     const [colActions, setColActions] = useState({ colIdx: '', groupId: '' })
     const [isAddCol, setIsAddCol] = useState(false)
-
-    const { register, reset, errors, handleSubmit } = useForm()
-
 
 
     const { x, y, handleContextMenu } = Menu()
@@ -53,17 +49,6 @@ export const GroupList = ({ updateTask, updateBoard, updateStatistics, board, gr
         // updateGroup(newGroup)
     }
 
-    const addTask = (ev) => {
-        ev.preventDefault()
-        onAddTask(task, group.id)
-        reset()
-    }
-
-    const onHandleCange = ({ target }) => {
-        const field = target.name
-        const value = target.type === 'number' ? (+target.value || '') : target.value
-        setTask((prevTask) => ({ ...prevTask, [field]: value }))
-    }
 
     useEffect(() => {
         document.addEventListener("mousedown", eventListeners)
@@ -79,7 +64,7 @@ export const GroupList = ({ updateTask, updateBoard, updateStatistics, board, gr
             setShowMenu(false)
             // setGroupIsClick({})
             setColActions(false)
-            // setIsAddCol(false)
+            setIsAddCol(false)
         }
     }
 
@@ -168,8 +153,10 @@ export const GroupList = ({ updateTask, updateBoard, updateStatistics, board, gr
                     })}
                 </div>
                 <div className="add-colomn-column-button-container">
-                    <button className="add-colomn-column-button" onClick={() => setIsAddCol(!isAddCol)}><span>+</span></button>
-                    {isAddCol && <ColAddMenu onNewCol={onNewCol} />}
+                    <button className="add-colomn-column-button" onClick={() => {
+                        setIsAddCol(!isAddCol)
+                    }}><span>+</span></button>
+                    {isAddCol && <ColAddMenu menuRef={menuRef} onNewCol={onNewCol} />}
                 </div>
             </div>
 
@@ -178,14 +165,7 @@ export const GroupList = ({ updateTask, updateBoard, updateStatistics, board, gr
                     updateGroup={updateGroup} updateBoard={updateBoard} onUpdateGroupBar={onUpdateGroupBar} onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate} />
             })}
 
-            <div className="group-main-input-container">
-                <form onSubmit={addTask} className="main-group-input">
-                    <div className="left-indicator-cell group-input-indicator" style={{ backgroundColor: group.style.color }}></div>
-                    <input className="group-input" type="text" placeholder="+Add Item" onChange={onHandleCange} name="title" />
-                    {task.title && <button className="submit-task-button">Add</button>}
-                    <div className="right-indicator-input"></div>
-                </form>
-            </div>
+            <MainGroupInput onAddTask={onAddTask} group={group} task={task} />
 
 
 
@@ -211,9 +191,6 @@ export const GroupList = ({ updateTask, updateBoard, updateStatistics, board, gr
                 </div>
             </div>
 
-
-
-            {clickTask.isOpen && <TaskMenu clickTask={clickTask} />}
             <RightClickMenu x={x} y={y} showMenu={showMenu} />
         </div>
     </div>

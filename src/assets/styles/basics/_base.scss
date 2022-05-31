@@ -153,3 +153,19 @@ select:active,
 select:focus {
     outline: none;
 }
+
+.user-picture {
+    width: 33px;
+}
+
+@keyframes open-mini-modal {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}

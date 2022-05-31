@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import dotsMenu from '../assets/img/side-nav/ds-menu.svg'
 import { useNavigate } from 'react-router-dom'
 import { CreatBoard } from './create-board'
@@ -6,20 +6,33 @@ import { BoardMenuActions } from '../modal/board-menu-actions'
 import { MdOutlineArrowForwardIos } from 'react-icons/md'
 
 
-export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, onDeleteBoard, updateBoard }) => {
+export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDeleteBoard, updateBoard }) => {
     const [showMenu, setShowMenu] = useState('')
     const [isNavOpen, setIsNavOpen] = useState(false)
     const [isClick, setIsClick] = useState(false)
     const [selectedBoard, setSelectedBoard] = useState({})
     const [renameIsClick, setRenameIsClick] = useState('')
     const [boardUpdate, setBoardUpdate] = useState('')
-
+    const [isBoardMenuOpen, setIsBoardMenuOpen] = useState(false)
+    let menuRef = useRef()
     let navigate = useNavigate();
 
     // useEffect(() => {
     //     if (boardUpdate) updateBoard(boardUpdate)
     // }, [boardUpdate])
 
+    useEffect(() => {
+        document.addEventListener("mousedown", eventListener)
+        return () => {
+            document.removeEventListener("mousedown", eventListener)
+        }
+    })
+
+    const eventListener = (ev) => {
+        if (!menuRef.current?.contains(ev.target)) {
+            setIsBoardMenuOpen(false)
+        }
+    }
 
     const toggleNav = () => {
         setIsNavOpen(!isNavOpen)
@@ -36,8 +49,8 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, onDeleteBoard
                 event.preventDefault()
                 // const value = target.value
                 // const field = target.name
-                let newBoard={...board}
-                newBoard.title=target.value
+                let newBoard = { ...board }
+                newBoard.title = target.value
                 updateBoard(newBoard)
                 setRenameIsClick('')
             }
@@ -48,6 +61,10 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, onDeleteBoard
         setSelectedBoard({})
         setRenameIsClick(board._id)
         setBoardUpdate(board)
+    }
+
+    const onOpenMenu = (value) => {
+        setIsBoardMenuOpen(value)
     }
 
     return <section className={`home-control-component${isNavOpen ? "" : '-closed'}`}>
@@ -80,9 +97,7 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, onDeleteBoard
                 <div className="user-projects-container">
                     <div className="project-side-link">
                         {boards.length && boards.map((board, idx) => {
-                            // return <div key={idx} onClick={() => window.location.href = `/board/${board._id}`} className='home-control-all-buttons'>
                             return <div key={idx} onClick={() => boardChange(board)} className='home-control-all-buttons'>
-
                                 {(renameIsClick === board._id) ? <div className="title-update-input">
                                     <input type="text" defaultValue={board.title} onChange={(event) => handleChange(event, board)} name="title" />
                                 </div> :
@@ -92,13 +107,16 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, onDeleteBoard
                                 }
 
 
-                                <div className="ds-menu-button" onClick={(event) => toggleBoardAction(board, event)}>
+                                <div className="ds-menu-button" onClick={(event) => {
+                                    toggleBoardAction(board, event)
+                                    onOpenMenu(true)
+                                }}>
                                     <img src={dotsMenu} alt="dots-menu" />
-                                    {selectedBoard._id && selectedBoard._id === board._id &&
-                                        < BoardMenuActions board={board} onRenameIsClick={onRenameIsClick} onDeleteBoard={onDeleteBoard} />}
+
                                 </div>
                             </div>
                         })}
+                        {isBoardMenuOpen && <BoardMenuActions menuRef={menuRef} board={board} onRenameIsClick={onRenameIsClick} onDeleteBoard={onDeleteBoard} />}
                     </div>
                 </div>
             </div>

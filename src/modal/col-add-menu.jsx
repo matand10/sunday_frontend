@@ -5,7 +5,7 @@ import React from "react"
 export const ColAddMenu = ({ menuRef, onNewCol }) => {
 
     return <React.Fragment>
-        <section ref={menuRef} className="task-main-menu-inner">
+        <section ref={menuRef} className="col-add-container">
             <div className="task-main-section">
                 <div className="task-menu-item">
                     <div className="task-content-wrapper" onClick={() => onNewCol('text')}>

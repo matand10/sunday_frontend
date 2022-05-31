@@ -38,3 +38,17 @@
         width: 100px
     }
 }
+
+.col-add-container {
+    background-color: #ffffff;
+    position: absolute;
+    right: 0px;
+    top: 30px;
+    border-radius: 7px;
+    box-shadow: 1px 1px 5px rgba($color: #000000, $alpha: 0.2);
+    width: 298px;
+    height: 135px;
+    padding: 8px;
+    z-index: 3010;
+    animation: open-mini-modal .2s;
+}
