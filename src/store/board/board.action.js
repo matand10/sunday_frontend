@@ -2,9 +2,10 @@ import { boardService } from '../../services/board.service'
 import { groupService } from '../../services/group.service'
 
 
-export function loadBoards() {
+export function loadBoards(filterBy) {
     return dispatch => {
-        return boardService.query()
+        // const filterBy = getState().boardModule.filterBy
+        return boardService.query(filterBy)
             .then(boards => {
                 const action = {
                     type: 'SET_BOARDS',
@@ -40,7 +41,6 @@ export function removeBoard(boardId) {
 }
 
 export function saveBoard(board) {
-    console.log('save');
     return dispatch => {
         const actionType = (board._id) ? 'UPDATE_BOARD' : 'ADD_BOARD'
         boardService.save(board)

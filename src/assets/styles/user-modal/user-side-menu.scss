@@ -9,6 +9,19 @@
     height: 250px;
     padding: 8px;
     z-index: 3008;
+    animation: open-modal .3s;
+}
+
+@keyframes open-modal {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .side-menu-avatar {

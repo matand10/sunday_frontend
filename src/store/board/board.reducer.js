@@ -1,11 +1,13 @@
 import { storageService } from "../../services/async-storage.service"
 import { boardService } from "../../services/board.service"
+import { userService } from '../../services/user.service'
 
 const initialState = {
     boards: boardService.query(),
     // boards: [],
     filterBy: {
-        search: ''
+        search: '',
+        userId: userService.getLoggedinUser()?._id || null
     }
 }
 

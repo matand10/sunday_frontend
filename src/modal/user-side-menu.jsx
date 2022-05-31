@@ -8,8 +8,8 @@ import { Link } from 'react-router-dom';
 export class _UserSideMenu extends React.Component {
 
     logout = () => {
-        onLogout()
-        // window.location.href = '/'
+        this.props.onLogout()
+        window.location.href = '/'
     }
 
 
