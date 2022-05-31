@@ -159,12 +159,8 @@ function groupHeadSort(sortValue, group, rev, colIdx) {
     return newGroup
 }
 
-async function isIdOk(boardId, boards) {
-    try {
-        return boards.some(board => board._id === boardId)
-    } catch (err) {
-        // console.log(err)
-    }
+function isIdOk(boardId, boards) {
+    return boards.some(board => board._id === boardId)
 }
 
 function getEmptyBoard() {
