@@ -17,7 +17,10 @@ function getTaskName(board, status) {
             done.push({
                 taskName: specific.title,
                 persons: specific.columns[0].value,
-                groupName: group.title
+                groupName: group.title,
+                groupColor:group.style.color,
+                groupId:group.id,
+                color:specific.columns[1].value.color
             })
         })
     })

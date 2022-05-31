@@ -238,7 +238,7 @@ function getLabels() {
         },
         {
             id: 'l104',
-            title: '',
+            title: 'Empty',
             color: '#c4c4c4'
         }
     ]

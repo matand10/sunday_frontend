@@ -80,6 +80,7 @@ export const TasksApp = () => {
 
     const onAddTask = async (task, groupId) => {
         const newBoard = await taskService.addTask(board, task, groupId)
+        console.log('newBoard',newBoard)
         dispatch(saveBoard(newBoard))
     }
 
