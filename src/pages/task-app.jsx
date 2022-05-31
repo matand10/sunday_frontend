@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { loadBoards, setFilter } from "../store/board/board.action"
-import { MainBoard } from '../cmps/main-board.jsx'
 import { SideNav } from '../cmps/side-nav.jsx'
 import { BoardHeader } from "../cmps/board-header"
 import { saveBoard, removeBoard } from '../store/board/board.action'
@@ -9,24 +8,51 @@ import { ExtendedSideNav } from '../cmps/extended-side-nav.jsx'
 import { taskService } from "../services/task.service"
 import { boardService } from "../services/board.service"
 import { useNavigate, useParams } from "react-router-dom"
-import {KanbanBoard} from '../cmps/kanban-board'
-import { Route, Routes, BrowserRouter,Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 
 export const TasksApp = () => {
     const [board, setBoard] = useState(null)
     const { boards } = useSelector((storeState) => storeState.boardModule)
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
+    const [isMake, setIsMake] = useState(false)
+
     const dispatch = useDispatch()
     const navigate = useNavigate();
     const { boardId } = useParams()
 
     useEffect(() => {
-        dispatch(loadBoards())
-        if (boardId) if (boardService.isIdOk(boardId, boards)) {
-            navigate('/board')
-        } else {
-            setBoard(activateBoard())
+        if (board) {
+            return
         }
+
+
+        console.log(boards.length);
+        if (boards.length === 0) {
+            setIsMake(true)
+        } else {
+            if (boards.length > 0) {
+                if (boardId) {
+                    if (boardService.isIdOk(boardId, boards)) {
+                        loadBoard()
+                        return
+                    }
+                    if (boards[0]._id) window.location.href = `/board/${boards[0]._id}`
+                    else if (boards[0].length > 0) window.location.href = `/board/${boards[0]}`
+                } else window.location.href = `/board/${boards[0]}`
+            } 
+    }
+    }, [boards])
+
+    useEffect(() => {
+        if (isMake) {
+            makeBoard()
+        }
+    }, [isMake])
+
+    useEffect(() => {
+
+        dispatch(loadBoards())
+
     }, [])
 
     const activateBoard = async () => {
@@ -34,33 +60,33 @@ export const TasksApp = () => {
         return board
     }
 
-    useEffect(() => {
-        if (!board) loadBoard()
-    }, [boardId, filterBy])
+    // useEffect(() => {
+    //     if (!board) loadBoard()
+    // }, [boardId, filterBy])
 
 
-    useEffect(() => {
-        if (!boardId) {
-            if (board) {
-                // boardId = board._id
-                navigate(`/board/${board._id}`)
-            }
-            else {
-                makeBoard()
-            }
-        }
-    }, [boards, board])
+    // useEffect(() => {
+    //     if (!boardId) {
+    //         if (board) {
+    //             // boardId = board._id
+    //             navigate(`/board/${board._id}`)
+    //         }
+    //         else {
+    //             makeBoard()
+    //         }
+    //     }
+    // }, [boards, board])
 
     const makeBoard = async () => {
-        let firstBoard
-        if (boards.length === 0) firstBoard = await boardService.makeBoard()
-        else if (boards.length > 0) firstBoard = boards[0]
-        setBoard(firstBoard)
+        console.log('make');
+        const firstBoard = await boardService.makeBoard()
+        // setBoard(firstBoard)
+        dispatch(saveBoard(firstBoard))
     }
 
     const loadBoard = async () => {
-        const board = await boardService.getById(boardId)
-        const filteredBoard = boardService.filterBoard(board, filterBy)
+        const currBoard = await boardService.getById(boardId)
+        const filteredBoard = boardService.filterBoard(currBoard, filterBy)
         setBoard(filteredBoard)
     }
 
@@ -139,13 +165,7 @@ export const TasksApp = () => {
             <ExtendedSideNav updateBoard={updateBoard} openBoard={openBoard} boards={boards} onAddBoard={onAddBoard} onDeleteBoard={onDeleteBoard} />
             <div className="main-app flex-column">
                 <BoardHeader onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
-                <Outlet context={{board ,removeTask, onAddTask ,onRemoveGroup, updateTask ,updateGroup ,updateTaskDate}} />
-                {/* <MainBoard board={board} removeTask={removeTask} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} updateGroup={updateGroup} updateTaskDate={updateTaskDate} />
-                <KanbanBoard/> */}
-                {/* <Routes>
-                <Route path="Table" component={MainBoard} board={board} removeTask={removeTask} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} updateGroup={updateGroup} updateTaskDate={updateTaskDate} />
-                <Route path="Kanban" component={KanbanBoard} />
-                </Routes> */}
+                <Outlet context={{ board, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
             </div>
         </div>
     </section>
