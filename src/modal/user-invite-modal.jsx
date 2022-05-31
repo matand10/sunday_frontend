@@ -15,7 +15,8 @@ export const InviteUserMenu = ({ users, updateBoard, setUnAssignedUsers, board, 
         board.members.push(user)
         const newBoard = { ...board }
         updateBoard(newBoard)
-        console.log(board)
+        setFilteredUsers(userService.checkBoardUsers(users, newBoard))
+        console.log(newBoard)
     }
 
     return <React.Fragment>

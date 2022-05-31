@@ -107,15 +107,17 @@ export const TasksApp = () => {
     }
 
     const onAddBoard = async (board) => {
-        let newBoard = await boardService.makeBoard()
+        let newBoard = boardService.makeBoard()
         newBoard.title = board.title
+        newBoard._id = await boardService.save(newBoard)
         dispatch(saveBoard(newBoard))
-        // navigate(`/board/${newBoard._id}`)
+        console.log(newBoard);
+        window.location.href = `/board/${newBoard._id}`
     }
 
     const onDeleteBoard = (boardId) => {
         dispatch(removeBoard(boardId))
-        navigate(`/board`)
+        window.location.href = `/board`
     }
 
     const updateBoard = (board) => {
@@ -161,6 +163,11 @@ export const TasksApp = () => {
         dispatch(saveBoard(newBoard))
     }
 
+    const boardChange = (board) => {
+        setBoard(board)
+        navigate(`/board/${board._id}`)
+    }
+
 
     if (!boards.length) return <h1>Loading...</h1>
     return <section className="task-main-container">
@@ -168,7 +175,7 @@ export const TasksApp = () => {
             <SideNav />
         </div>
         <div className="board-container-right">
-            <ExtendedSideNav updateBoard={updateBoard} openBoard={openBoard} boards={boards} onAddBoard={onAddBoard} onDeleteBoard={onDeleteBoard} />
+            <ExtendedSideNav boardChange={boardChange} updateBoard={updateBoard} openBoard={openBoard} boards={boards} onAddBoard={onAddBoard} onDeleteBoard={onDeleteBoard} />
             <div className="main-app flex-column">
                 <BoardHeader updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
                 <Outlet context={{ board, updateBoard, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
