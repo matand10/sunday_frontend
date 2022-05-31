@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { loadBoards, setFilter } from "../store/board/board.action"
+import { loadUsers } from "../store/user/user.actions"
 import { SideNav } from '../cmps/side-nav.jsx'
 import { BoardHeader } from "../cmps/board-header"
 import { saveBoard, removeBoard } from '../store/board/board.action'
@@ -9,11 +10,13 @@ import { taskService } from "../services/task.service"
 import { boardService } from "../services/board.service"
 import { useNavigate, useParams } from "react-router-dom"
 import { Outlet } from 'react-router-dom'
+import { userService } from "../services/user.service"
 
 export const TasksApp = () => {
     const [board, setBoard] = useState(null)
     const { boards } = useSelector((storeState) => storeState.boardModule)
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
+    const { users, user } = useSelector((storeState) => storeState.userModule)
     const [isMake, setIsMake] = useState(false)
 
     const dispatch = useDispatch()
@@ -21,15 +24,20 @@ export const TasksApp = () => {
     const { boardId } = useParams()
 
     useEffect(() => {
+        dispatch(loadUsers())
+        dispatch(loadBoards(filterBy))
+    }, [])
+
+    useEffect(() => {
         if (board) {
             return
         }
-
         if (boards.length === 0) {
             setIsMake(true)
         } else {
             if (boards.length > 0) {
                 if (boardId) {
+
                     if (boardService.isIdOk(boardId, boards)) {
                         loadBoard()
                         return
@@ -46,6 +54,11 @@ export const TasksApp = () => {
             makeBoard()
         }
     }, [isMake])
+
+    // useEffect(() => {
+    //     const checkedUser = userService.checkGuestMode(user)
+    //     dispatch(setFilter({ ...filterBy, checkedUser: checkedUser._id }))
+    // }, [user])
 
     useEffect(() => {
 
@@ -147,10 +160,31 @@ export const TasksApp = () => {
         <div className="board-container-right">
             <ExtendedSideNav boardChange={boardChange} updateBoard={updateBoard} openBoard={openBoard} boards={boards} onAddBoard={onAddBoard} onDeleteBoard={onDeleteBoard} />
             <div className="main-app flex-column">
-                <BoardHeader onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
-                <Outlet context={{ board, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
+                <BoardHeader updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
+                <Outlet context={{ board, updateBoard, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
             </div>
         </div>
     </section>
 
 }
+
+
+
+
+// if (user) {
+//     console.log(user);
+//     userBoard = userService.loadUserBoard(boards, user)
+//     if (userBoard) {
+//         const filteredBoard = boardService.filterBoard(userBoard, filterBy)
+//         return setBoard(filteredBoard)
+//     }
+//     else {
+//         userBoard = await boardService.makeBoard(user)
+//         const filteredBoard = boardService.filterBoard(userBoard, filterBy)
+//         setBoard(filteredBoard)
+//         // dispatch(saveBoard(userBoard))
+//     }
+// } else {
+//     // userBoard = userService.loadUserBoard(boards, user)
+//     if (!userBoard) userBoard = await boardService.makeBoard(user)
+// }

@@ -1,5 +1,5 @@
 import { BoardNav } from "./board-nav";
-import { FaExclamationCircle, FaRegStar, FaSearch, FaRegUserCircle, FaFilter, FaSort,FaTrello } from 'react-icons/fa';
+import { FaExclamationCircle, FaRegStar, FaSearch, FaRegUserCircle, FaFilter, FaSort, FaTrello } from 'react-icons/fa';
 import { BsPinAngle, BsTable } from 'react-icons/bs';
 import { FiFilter } from 'react-icons/fi';
 import { BiSort } from 'react-icons/bi';
@@ -7,23 +7,25 @@ import { IoIosSearch } from 'react-icons/io';
 import { DsMenu } from '../modal/ds-menu';
 import { SortMenu } from '../filters/sort-by';
 import dotsMenu from '../assets/img/side-nav/ds-menu.svg'
-import { useState, useRef, useEffect,useNavigate } from "react"
+import { useState, useRef, useEffect, useNavigate } from "react"
 import React from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { setFilter } from '../store/board/board.action'
-import { NavLink,Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
+import { InviteUserMenu } from '../modal/user-invite-modal'
+import { userService } from "../services/user.service";
 
-export const BoardHeader = ({ board, onAddTask, onAddGroup, onFilter }) => {
+export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, onFilter }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [isInviteMenuOpen, setIsInviteMenuOpen] = useState(false)
     const [isSearchActive, setIsSearchActive] = useState(false)
     const [isSortMenuOpen, setIsSortMenu] = useState(false)
     const [handleSearch, setHandleSearch] = useState({ search: '' })
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
+    const [unAssignedUsers, setUnAssignedUsers] = useState('')
     const dispatch = useDispatch()
     // const navigate=useNavigate()
-
     let menuRef = useRef()
-
 
     useEffect(() => {
         document.addEventListener("mousedown", eventListeners)
@@ -37,6 +39,7 @@ export const BoardHeader = ({ board, onAddTask, onAddGroup, onFilter }) => {
             setIsMenuOpen(false)
             setIsSearchActive(false)
             setIsSortMenu(false)
+            setIsInviteMenuOpen(false)
         }
     }
 
@@ -46,6 +49,9 @@ export const BoardHeader = ({ board, onAddTask, onAddGroup, onFilter }) => {
 
     const toggleMenu = (value) => {
         setIsMenuOpen(value)
+    }
+    const toggleInviteMenu = (value) => {
+        setIsInviteMenuOpen(value)
     }
 
     const toggleSortModal = (value) => {
@@ -66,7 +72,6 @@ export const BoardHeader = ({ board, onAddTask, onAddGroup, onFilter }) => {
         dispatch(setFilter(newFilterBy))
     }
 
-
     if (!board) return <h1>Loading...</h1>
     return <div className="board-header">
         <div className="board-header-main">
@@ -82,7 +87,7 @@ export const BoardHeader = ({ board, onAddTask, onAddGroup, onFilter }) => {
                 <div className="board-header-right">
                     <div className="board-header-actions">
                         <button className="panel-button">Last Seen</button>
-                        <button className="panel-button">Invite</button>
+                        <button className="panel-button" onClick={() => toggleInviteMenu(true)}>Invite / {unAssignedUsers.length}</button>
                         <button className="panel-button">Activity</button>
                         <button className="panel-button board-add"><span>+</span> Add to board</button>
                         <div onClick={() => toggleMenu(true)} className="ds-menu-side-panel-header"><img src={dotsMenu} alt='dots-menu' /></div>
@@ -102,14 +107,13 @@ export const BoardHeader = ({ board, onAddTask, onAddGroup, onFilter }) => {
                 <div className="board-subsets-item">
                     <button className="board-subsets-item-button"><NavLink to={`/board/${board._id}`}><span><BsTable /> Main Table</span></NavLink> </button>
                     <div className="board-subsets-item-line"></div>
-                    </div>
+                </div>
                 <div className="board-kanban-item">
-                    <button className="board-kanban-item-button"><NavLink to={`/board/${board._id}/kanban`}><span><FaTrello/> Kanban</span></NavLink></button>
+                    <button className="board-kanban-item-button"><NavLink to={`/board/${board._id}/kanban`}><span><FaTrello /> Kanban</span></NavLink></button>
                     {/* <button className="board-kanban-item-button" onClick={()=>navigate(`{/board/${board._id}/kanban}`)}><span><FaTrello/> Kanban</span></button> */}
                     <div className="board-kanban-item-line"></div>
-                    </div>
+                </div>
             </div>
-           
         </div>
 
         <div className="divider"></div>
@@ -124,6 +128,7 @@ export const BoardHeader = ({ board, onAddTask, onAddGroup, onFilter }) => {
         </div>
 
         <DsMenu isMenuOpen={isMenuOpen} menuRef={menuRef} />
+        <InviteUserMenu users={users} setUnAssignedUsers={setUnAssignedUsers} updateBoard={updateBoard} board={board} isInviteMenuOpen={isInviteMenuOpen} menuRef={menuRef} />
         <SortMenu onSetFilter={onSetFilter} isSortMenuOpen={isSortMenuOpen} menuRef={menuRef} />
     </div>
 }
