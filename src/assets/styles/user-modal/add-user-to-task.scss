@@ -1,0 +1,68 @@
+.invite-member-task-wrapper {
+    background-color: #ffffff;
+    position: absolute;
+    right: -119px;
+    top: 110%;
+    border-radius: 7px;
+    box-shadow: 1px 1px 5px rgba($color: #000000, $alpha: 0.2);
+    padding: 16px;
+    z-index: 3010;
+    width: 264px;
+    // height: 181px;
+    animation: open-assign-user-modal .3s;
+}
+
+@keyframes open-assign-user-modal {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.invite-member-task-container {}
+
+.invite-member-divider-modal {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.divider-invite {
+    height: 1px;
+    width: 35%;
+    background-color: #b4b4b4;
+}
+
+.assigned-to-task-members {
+    padding: 10px 0;
+}
+
+.unassigned-to-task-members {
+    padding: 10px 0;
+}
+
+.assigned-members {
+    padding: 5px 0px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    &:hover {
+        background-color: #e6e9ef;
+    }
+
+    & span {
+        margin-inline-start: 5px;
+    }
+}
+
+.user-invite-pic-container {
+    width: 33px;
+}

@@ -6,24 +6,32 @@ export const InviteUserMenu = ({ users, updateBoard, setUnAssignedUsers, board, 
     const [filteredUsers, setFilteredUsers] = useState([])
 
     useEffect(() => {
-        const unAssignedUsers = userService.checkBoardUsers(users, board)
+        const unAssignedUsers = userService.getUnAssignedUsers(users, board)
         setFilteredUsers(unAssignedUsers)
         setUnAssignedUsers(unAssignedUsers)
     }, [])
+
+    useEffect(() => {
+        setUnAssignedUsers(userService.getUnAssignedUsers(users, board))
+    }, [filteredUsers])
+
+    const deleteUserFromInvite = (user) => {
+        inviteUserToBoard(user)
+        const unAssignedUsers = userService.getUnAssignedUsers(users, board)
+        setFilteredUsers(unAssignedUsers)
+    }
 
     const inviteUserToBoard = (user) => {
         board.members.push(user)
         const newBoard = { ...board }
         updateBoard(newBoard)
-        setFilteredUsers(userService.checkBoardUsers(users, newBoard))
-        console.log(newBoard)
     }
 
     return <React.Fragment>
         {filteredUsers.length && isInviteMenuOpen && <section ref={menuRef} className="user-invite-menu">
             <div className="user-invite-menu-container">
                 {filteredUsers.map((user, idx) => {
-                    return <div onClick={() => inviteUserToBoard(user)} className="users-invitation-container" key={idx}>
+                    return <div onClick={() => deleteUserFromInvite(user)} className="users-invitation-container" key={idx}>
                         <div className="user-img-invite"><img src={user.userImg || userImg} /></div>
                         <h4>{user.fullname}</h4>
                     </div>

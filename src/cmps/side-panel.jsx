@@ -20,11 +20,12 @@ export class SidePanel extends React.Component {
     }
 
     render() {
+        const { statusRef } = this.props
         const { isModalOpen, isInputClicked } = this.state
         const { boardId, groupId, task } = this.props.modal
 
 
-        return <section onClick={() => this.toggleInput(false)}>
+        return <section onClick={() => this.toggleInput(false)} ref={statusRef}>
             {/* <button className="side-panel-btn" onClick={this.toggleModal}>Open Modal</button> */}
             <div className="side-panel-modal" style={{ left: isModalOpen ? '0px' : '3000px' }}>
                 <div className="modal-content">

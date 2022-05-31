@@ -2,19 +2,20 @@
     display: block;
     background-color: #ffffff;
     position: absolute;
-    // margin-top: 40px;
-    // display:inline-block;
+    right: -50%;
     z-index: 1000;
     border-radius: 7px;
     box-shadow: 1px 1px 5px rgba($color: #000000, $alpha: 0.2);
     width: fit-content;
-    // height: 355px;
     padding: 8px;
+    animation: open-mini-modal .2s;
 
     >* {
         width: auto;
     }
 }
+
+
 
 .board-menu-item {
     line-height: 24px;

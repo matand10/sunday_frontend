@@ -37,7 +37,6 @@ export const TasksApp = () => {
         } else {
             if (boards.length > 0) {
                 if (boardId) {
-
                     if (boardService.isIdOk(boardId, boards)) {
                         loadBoard()
                         return
@@ -175,7 +174,7 @@ export const TasksApp = () => {
             <SideNav />
         </div>
         <div className="board-container-right">
-            <ExtendedSideNav boardChange={boardChange} updateBoard={updateBoard} openBoard={openBoard} boards={boards} onAddBoard={onAddBoard} onDeleteBoard={onDeleteBoard} />
+            <ExtendedSideNav board={board} boardChange={boardChange} updateBoard={updateBoard} openBoard={openBoard} boards={boards} onAddBoard={onAddBoard} onDeleteBoard={onDeleteBoard} />
             <div className="main-app flex-column">
                 <BoardHeader updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
                 <Outlet context={{ board, updateBoard, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
@@ -184,24 +183,3 @@ export const TasksApp = () => {
     </section>
 
 }
-
-
-
-
-// if (user) {
-//     console.log(user);
-//     userBoard = userService.loadUserBoard(boards, user)
-//     if (userBoard) {
-//         const filteredBoard = boardService.filterBoard(userBoard, filterBy)
-//         return setBoard(filteredBoard)
-//     }
-//     else {
-//         userBoard = await boardService.makeBoard(user)
-//         const filteredBoard = boardService.filterBoard(userBoard, filterBy)
-//         setBoard(filteredBoard)
-//         // dispatch(saveBoard(userBoard))
-//     }
-// } else {
-//     // userBoard = userService.loadUserBoard(boards, user)
-//     if (!userBoard) userBoard = await boardService.makeBoard(user)
-// }

@@ -19,7 +19,8 @@ export const userService = {
     update,
     checkGuestMode,
     checkBoardMember,
-    checkBoardUsers
+    getAssignedUsers,
+    getUnAssignedUsers,
 }
 
 window.userService = userService
@@ -113,14 +114,19 @@ function checkGuestMode(user) {
 }
 
 function checkBoardMember(board, user) {
-    console.log(board);
     if (!board) return
     return board.members.every(member => member._id === user._id)
 }
 
-function checkBoardUsers(users, board) {
+function getUnAssignedUsers(users, board) {
     return users.filter(user => {
-        return board.members.find(member => member._id !== user._id)
+        return board.members.every(member => member._id !== user._id)
+    })
+}
+
+function getAssignedUsers(users, board) {
+    return users.filter(user => {
+        return board.members.every(member => member._id === user._id)
     })
 }
 

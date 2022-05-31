@@ -383,7 +383,8 @@
             display: flex;
         }
     }
-    &>*{
+
+    &>* {
         min-height: 30px;
     }
 }
@@ -666,6 +667,7 @@
 }
 
 .add-colomn-column-button-container {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
