@@ -1,24 +1,28 @@
 import { FaRegUserCircle, FaRegCircle } from 'react-icons/fa'
 import { useState } from 'react'
+import { taskService } from '../services/task.service'
 
 
-export const KanbanList = ({ kanban, status,onAddTask,board }) => {
-    const [task, setTask] = useState({ title: '',status })
+export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard }) => {
+    const [task, setTask] = useState({ title: '', status })
 
     const handleAddChange = ({ target }) => {
         const field = target.name
         const value = target.value
         setTask((prevTask) => ({ ...prevTask, [field]: value }))
     }
-    
+
     const addTask = (ev) => {
         ev.preventDefault()
-        const groupId=board.groups[0].id
-      
-        onAddTask(task,groupId)
+        const groupId = board.groups[0].id
+        let newBoard = { ...board }
+        let newTask = taskService.getEmptyTask(board.groups[0].columns)
+        newTask.title = task.title
+        newTask.columns[1].value = status
+        newBoard.groups[0].tasks.push(newTask)
+        updateBoard(newBoard)
     }
 
-    console.log('ididid',status)
     return (
         <section>
             <div className="kanban-container">
