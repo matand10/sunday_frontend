@@ -40,6 +40,7 @@ export function removeBoard(boardId) {
 }
 
 export function saveBoard(board) {
+    console.log('save');
     return dispatch => {
         const actionType = (board._id) ? 'UPDATE_BOARD' : 'ADD_BOARD'
         boardService.save(board)
@@ -48,7 +49,6 @@ export function saveBoard(board) {
                     type: actionType,
                     board: savedBoard
                 })
-                if (actionType === 'ADD_BOARD') window.location.href = (`/board/${savedBoard}`)
             })
             .catch(err => {
                 console.log(err)

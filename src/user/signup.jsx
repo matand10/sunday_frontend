@@ -8,11 +8,12 @@ import signup3 from '../assets/img/signup/signup3.png'
 import { onSignup } from '../store/user/user.actions'
 
 
-export class _Signup extends React.Component {
+class _Signup extends React.Component {
     state = {
         credential: {
             username: '',
-            password: ''
+            password: '',
+            fullname: ''
         }
     }
 
@@ -27,12 +28,13 @@ export class _Signup extends React.Component {
         ev.preventDefault()
         const { credential } = this.state
         this.props.onSignup(credential)
-        this.setState({ credential: { password: '', username: '' } })
+        this.setState({ credential: { password: '', username: '', fullname: '' } })
+        window.location.href = '/board'
     }
 
 
     render() {
-        const { username, passowrd } = this.state.credential
+        const { username, passowrd, fullname } = this.state.credential
 
         return <section className="main-signup-component">
             <div className="signup-background-image">a</div>
@@ -45,6 +47,13 @@ export class _Signup extends React.Component {
                     <div className="signup-form-wrapper">
                         <form onSubmit={(ev) => this.signup(ev)} className="signup-form">
                             <div className="signup-input-component">
+                                <div className="signup-input-container">
+                                    <label className="signup-labels" htmlFor="signup-input-fullname-label"><span>Fullname</span></label>
+                                    <div className="signup-input-wrapper">
+                                        <input className="signup-input" type="text" id="signup-input-fullname-label"
+                                            value={fullname} name="fullname" placeholder='Israel Israely' onChange={(ev) => this.handleChange(ev)} />
+                                    </div>
+                                </div>
                                 <div className="signup-input-container">
                                     <label className="signup-labels" htmlFor="signup-input-email-label"><span>Email</span></label>
                                     <div className="signup-input-wrapper">

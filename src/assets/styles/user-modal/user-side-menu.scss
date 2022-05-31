@@ -1,0 +1,57 @@
+.user-side-menu {
+    background-color: #ffffff;
+    position: absolute;
+    left: 55px;
+    bottom: 5px;
+    border-radius: 7px;
+    box-shadow: 1px 1px 5px rgba($color: #000000, $alpha: 0.2);
+    width: 300px;
+    height: 250px;
+    padding: 8px;
+    z-index: 3008;
+}
+
+.side-menu-avatar {
+    position: relative;
+    left: -15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-side-menu-logo {
+    width: 33px;
+    margin-inline-end: 5px;
+}
+
+.side-user-menu-content {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.side-user-content-header {
+    padding: 8px;
+}
+
+.side-user-content-wrapper {
+    width: 100%;
+
+}
+
+.side-menu-list {
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 70%;
+    height: 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    gap: 10px;
+
+    &:hover {
+        background-color: #dcdfec;
+    }
+}

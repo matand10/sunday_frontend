@@ -6,7 +6,7 @@ export const StatusModal = ({ statusActive, statusRef, modalPos, changeStatus, s
 
     const onChangeStatus = (value) => {
         // changeStatus(status, statusActive)
-        specialUpdateTask(value, statusActive.colIdx)
+        specialUpdateTask(value, statusActive.colIdx, 'status')
     }
 
 

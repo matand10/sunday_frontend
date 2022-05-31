@@ -7,8 +7,9 @@ import { SidePanel } from "./side-panel"
 import { useParams } from "react-router-dom";
 import { boardService } from '../services/board.service'
 import { FaCaretDown } from 'react-icons/fa'
+import { groupService } from '../services/group.service';
 
-export const TasksList = ({ updateBoard, task, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board, removeTask, updateTaskDate }) => {
+export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar, task, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board, removeTask, updateTaskDate }) => {
     const [modal, setModal] = useState({})
     const [arrowTask, setArrowTask] = useState({})
     const [updateIsClick, setUpdateIsClick] = useState({})
@@ -16,7 +17,6 @@ export const TasksList = ({ updateBoard, task, backgroundColor, onHandleRightCli
     const [modalPos, setModalPos] = useState({ x: null, y: null })
     const [statusActive, setStatusActive] = useState(false)
     const [editText, setEditText] = useState(false)
-
     let statusRef = useRef()
     let dateRef = useRef()
     const { boardId } = useParams()
@@ -88,6 +88,7 @@ export const TasksList = ({ updateBoard, task, backgroundColor, onHandleRightCli
         ev.preventDefault()
         const transferedTaskId = ev.dataTransfer.getData("taskId")
         const newBoard = boardService.changeTaskPosition(transferedTaskId, group.id, board, toIndex)
+        console.log(newBoard)
         updateBoard(newBoard)
     }
 
@@ -105,10 +106,15 @@ export const TasksList = ({ updateBoard, task, backgroundColor, onHandleRightCli
         })
     }
 
-    const specialUpdateTask = (value, colIdx) => {
-        let newTask = task
+    const specialUpdateTask = (value, colIdx, status = null) => {
+        let newTask = { ...task }
         newTask.columns[colIdx].value = value
-        updateTask(newTask, group.id)
+        if (status === 'status') {
+            group.tasks[taskIdx] = newTask
+            group.progress = groupService.getProgress(group)
+            console.log(group);
+            updateGroup(group)
+        }
     }
 
     const textEdit = (colIdx, value) => {
@@ -183,7 +189,7 @@ export const TasksList = ({ updateBoard, task, backgroundColor, onHandleRightCli
             </div>
             {arrowTask.board && arrowTask.groupId === group.id && arrowTask.taskId === task.id && <TaskMenu statusRef={statusRef} removeTask={removeTask} arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
         </div >
-        {statusActive.value && <StatusModal specialUpdateTask={specialUpdateTask} statusActive={statusActive} statusRef={statusRef} modalPos={modalPos} />}
+        {statusActive.value && <StatusModal updateGroup={updateGroup} onUpdateGroupBar={onUpdateGroupBar} specialUpdateTask={specialUpdateTask} statusActive={statusActive} statusRef={statusRef} modalPos={modalPos} />}
         {modal.boardId && <SidePanel modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}
     </section >
 }
