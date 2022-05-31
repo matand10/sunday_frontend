@@ -38,7 +38,7 @@ export const TasksApp = () => {
                     }
                     if (boards[0]._id) window.location.href = `/board/${boards[0]._id}`
                     else if (boards[0].length > 0) window.location.href = `/board/${boards[0]}`
-                } else window.location.href = `/board/${boards[0]}`
+                } else window.location.href = `/board/${boards[0]._id}`
             } 
     }
     }, [boards])
