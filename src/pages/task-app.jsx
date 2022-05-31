@@ -25,8 +25,6 @@ export const TasksApp = () => {
             return
         }
 
-
-        console.log(boards.length);
         if (boards.length === 0) {
             setIsMake(true)
         } else {
@@ -39,8 +37,8 @@ export const TasksApp = () => {
                     if (boards[0]._id) window.location.href = `/board/${boards[0]._id}`
                     else if (boards[0].length > 0) window.location.href = `/board/${boards[0]}`
                 } else window.location.href = `/board/${boards[0]._id}`
-            } 
-    }
+            }
+        }
     }, [boards])
 
     useEffect(() => {
@@ -101,10 +99,12 @@ export const TasksApp = () => {
     }
 
     const onAddBoard = async (board) => {
-        let newBoard = await boardService.makeBoard()
+        let newBoard = boardService.makeBoard()
         newBoard.title = board.title
+        newBoard._id = await boardService.save(newBoard)
         dispatch(saveBoard(newBoard))
-        // navigate(`/board/${newBoard._id}`)
+        console.log(newBoard);
+        window.location.href =`/board/${newBoard._id}`
     }
 
     const onDeleteBoard = (boardId) => {
@@ -155,6 +155,11 @@ export const TasksApp = () => {
         dispatch(saveBoard(newBoard))
     }
 
+    const boardChange = (board) => {
+        setBoard(board)
+        navigate(`/board/${board._id}`)
+    }
+
 
     if (!boards.length) return <h1>Loading...</h1>
     return <section className="task-main-container">
@@ -162,7 +167,7 @@ export const TasksApp = () => {
             <SideNav />
         </div>
         <div className="board-container-right">
-            <ExtendedSideNav updateBoard={updateBoard} openBoard={openBoard} boards={boards} onAddBoard={onAddBoard} onDeleteBoard={onDeleteBoard} />
+            <ExtendedSideNav boardChange={boardChange} updateBoard={updateBoard} openBoard={openBoard} boards={boards} onAddBoard={onAddBoard} onDeleteBoard={onDeleteBoard} />
             <div className="main-app flex-column">
                 <BoardHeader onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
                 <Outlet context={{ board, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />

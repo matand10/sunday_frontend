@@ -6,7 +6,7 @@ import { BoardMenuActions } from '../modal/board-menu-actions'
 import { MdOutlineArrowForwardIos } from 'react-icons/md'
 
 
-export const ExtendedSideNav = ({ boards, onAddBoard, onDeleteBoard, updateBoard }) => {
+export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, onDeleteBoard, updateBoard }) => {
     const [showMenu, setShowMenu] = useState('')
     const [isNavOpen, setIsNavOpen] = useState(false)
     const [isClick, setIsClick] = useState(false)
@@ -79,7 +79,8 @@ export const ExtendedSideNav = ({ boards, onAddBoard, onDeleteBoard, updateBoard
                 <div className="user-projects-container">
                     <div className="project-side-link">
                         {boards.length && boards.map((board, idx) => {
-                            return <div key={idx} onClick={() => navigate(`/board/${board._id}`)} className='home-control-all-buttons'>
+                            // return <div key={idx} onClick={() => window.location.href = `/board/${board._id}`} className='home-control-all-buttons'>
+                            return <div key={idx} onClick={() => boardChange(board)} className='home-control-all-buttons'>
 
                                 {(renameIsClick === board._id) ? <div className="title-update-input">
                                     <input type="text" defaultValue={board.title} onChange={handleChange} name="title" />
