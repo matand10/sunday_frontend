@@ -24,9 +24,9 @@ class _Login extends React.Component {
     login = async (ev) => {
         ev.preventDefault()
         const { credential } = this.state
-        await this.props.onLogin(credential)
+        let user = await this.props.onLogin(credential)
         this.setState({ credential: { username: '', password: '' } })
-        window.location.href = '/board'
+        if (user) window.location.href = '/board'
     }
 
 

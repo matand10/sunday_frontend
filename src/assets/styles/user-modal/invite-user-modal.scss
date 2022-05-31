@@ -1,0 +1,53 @@
+.user-invite-menu {
+    background-color: #ffffff;
+    position: fixed;
+    right: 275px;
+    top: 50px;
+    border-radius: 7px;
+    box-shadow: 1px 1px 5px rgba($color: #000000, $alpha: 0.2);
+    width: 300px;
+    padding: 8px;
+    z-index: 3010;
+    animation: user-invite .2s;
+}
+
+@keyframes user-invite {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.user-invite-menu-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.users-invitation-container {
+    display: flex;
+    cursor: pointer;
+    transition: background-color .1s;
+    border-radius: 4px;
+    width: 100%;
+    margin-top: 3px;
+
+    & h4 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-inline-start: 5px;
+    }
+
+    &:hover {
+        background-color: #e6e9ef;
+    }
+}
+
+.user-img-invite {
+    width: 33px;
+}

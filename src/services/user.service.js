@@ -17,14 +17,17 @@ export const userService = {
     getById,
     remove,
     update,
+    checkGuestMode,
+    checkBoardMember,
+    checkBoardUsers
 }
 
 window.userService = userService
 
 
 function getUsers() {
-    return storageService.query('user')
-    // return httpService.get(`user`)
+    // return storageService.query('user')
+    return httpService.get(`user`)
 }
 
 function onUserUpdate(user) {
@@ -33,8 +36,8 @@ function onUserUpdate(user) {
 }
 
 async function getById(userId) {
-    const user = await storageService.get('user', userId)
-    // const user = await httpService.get(`user/${userId}`)
+    // const user = await storageService.get('user', userId)
+    const user = await httpService.get(`user/${userId}`)
     // gWatchedUser = user;
 
     // socketService.emit(SOCKET_EMIT_USER_WATCH, userId)
@@ -44,13 +47,13 @@ async function getById(userId) {
     return user
 }
 function remove(userId) {
-    return storageService.remove('user', userId)
-    // return httpService.delete(`user/${userId}`)
+    // return storageService.remove('user', userId)
+    return httpService.delete(`user/${userId}`)
 }
 
 async function update(user) {
-    await storageService.put('user', user)
-    // user = await httpService.put(`user/${user._id}`, user)
+    // await storageService.put('user', user)
+    user = await httpService.put(`user/${user._id}`, user)
     // Handle case in which admin updates other user's details
     if (getLoggedinUser()._id === user._id) saveLocalUser(user)
     return user;
@@ -81,10 +84,9 @@ async function signup(userCred) {
 }
 
 function logout() {
-    console.log('Hola');
-    // sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
+    sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
     // socketService.logout()
-    // return httpService.post('auth/logout')
+    return httpService.post('auth/logout')
 }
 
 
@@ -97,6 +99,30 @@ function getLoggedinUser() {
     return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
 }
 
+function loadUserBoard(boards, user) {
+    if (!user) user = { _id: 'guest_id' }
+    const userBoard = boards.find(board => {
+        return board.members.find(member => member._id === user._id)
+    })
+    return userBoard
+}
+
+function checkGuestMode(user) {
+    if (!user) user = { username: 'Guest' }
+    return user
+}
+
+function checkBoardMember(board, user) {
+    console.log(board);
+    if (!board) return
+    return board.members.every(member => member._id === user._id)
+}
+
+function checkBoardUsers(users, board) {
+    return users.filter(user => {
+        return board.members.find(member => member._id !== user._id)
+    })
+}
 
 // ;(async ()=>{
 //     await userService.signup({fullname: 'Puki Norma', username: 'user1', password:'123',score: 10000, isAdmin: false})

@@ -23,12 +23,12 @@ export const boardService = {
     isIdOk,
 }
 
-async function query() {
+async function query(filterBy = {}) {
     try {
         // const res = await storageService.get(STORAGE_KEY)
         // const res = await storageService.query(STORAGE_KEY)
         // if (!res.length) res = getEmptyBoard()
-        const boards = await httpService.get('board')
+        const boards = await httpService.get('board', { params: { filterBy } })
         return boards
     } catch (err) {
         console.log('err', err)
@@ -244,23 +244,21 @@ function getLabels() {
     ]
 }
 
-function makeBoard() {
+function makeBoard(user) {
     return {
         title: "Robot dev proj",
         archivedAt: 1589983468418,
         createdAt: 1589983468418,
-        createdBy: {
-            _id: "u101",
-            fullname: "Abi Abambi",
+        createdBy: user || {
+            _id: "guest_id",
+            fullname: "Guest",
             imgUrl: "http://some-img"
         },
-        members: [
-            {
-                _id: "u101",
-                fullname: "Tal Tarablus",
-                imgUrl: "https://www.google.com"
-            }
-        ],
+        members: [(user || {
+            _id: "u101",
+            fullname: "Guest",
+            imgUrl: "http://some-img"
+        })],
         groups: [
             {
                 style: { color: utilService.getRandomColor() },

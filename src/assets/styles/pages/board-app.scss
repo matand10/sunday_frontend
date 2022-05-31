@@ -15,9 +15,11 @@
 .board-container-right {
     grid-area: content;
     display: flex;
-    // flex-flow: column;
+    height: 100vh;
 }
 
-.main-app{
+.main-app {
+    overflow-y: auto;
+    height: 100%;
     width: 100%;
 }

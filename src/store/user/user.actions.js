@@ -31,6 +31,7 @@ export function onLogin(credentials) {
                 type: 'SET_USER',
                 user
             })
+            return user
         } catch (err) {
             console.log('Cannot login', err)
         }
