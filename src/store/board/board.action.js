@@ -40,7 +40,7 @@ export function removeBoard(boardId) {
 }
 
 export function saveBoard(board) {
-    console.log('save');
+    console.log('board',board)
     return dispatch => {
         const actionType = (board._id) ? 'UPDATE_BOARD' : 'ADD_BOARD'
         boardService.save(board)

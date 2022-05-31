@@ -1,34 +1,69 @@
+import { FaRegUserCircle, FaRegCircle } from 'react-icons/fa'
+import { useState } from 'react'
 
 
-export const KanbanList = ({kanban}) => {
+export const KanbanList = ({ kanban, status,onAddTask,board }) => {
+    const [task, setTask] = useState({ title: '',status })
 
+    const handleAddChange = ({ target }) => {
+        const field = target.name
+        const value = target.value
+        setTask((prevTask) => ({ ...prevTask, [field]: value }))
+    }
+    
+    const addTask = (ev) => {
+        ev.preventDefault()
+        const groupId=board.groups[0].id
+      
+        onAddTask(task,groupId)
+    }
 
+    console.log('ididid',status)
     return (
         <section>
             <div className="kanban-container">
-                <div className="kanban-column-content" style={{ backgroundColor: {} }}>
-                    <div className="kanban-column-name">Done / {kanban['Done'].length}</div>
+                <div className="kanban-column-content" style={{ backgroundColor: status.color }}>
+                    <div className="kanban-column-name">{status.title} / {(!kanban[status.title]?.length) ? '0' : kanban[status.title].length}</div>
                     <div className="kanban-tasks-container">
 
-                        {kanban['Done'] && kanban['Done'].map((doneItem, idx) => {
+                        {kanban[(status.title === 'Working on it') ? status.title = 'WorkingOnIt' : status.title] && kanban[(status.title === 'Working on it') ? status.title = 'WorkingOnIt' : status.title].map((item, idx) => {
                             return <div key={idx} className="kanban-task-content">
-                                <div>{doneItem.taskName}</div>
-                                <div>{doneItem.persons?.length ?
-                                    <div className="flex-row-items user-image-container">{doneItem.persons.map((user, idx) => {
-                                        return <div key={idx} className="user-image-wrapper">
-                                            <img key={idx} style={{ left: `${20 * (idx) + 'px'}`, transform: `translateX(${-80 + '%'})` }} className="user-image-icon-assign" src={user.imgUrl} alt="user image" />
-                                        </div>
-                                    })}
+                                <div className="task-name-content">
+                                    <div>{item.taskName}</div>
+                                </div>
+                                <div className="task-down-phase">
+                                    <div className='task-person-content'>
+                                        <div className='text-component'><FaRegUserCircle /> Persons</div>
+                                        <div className="task-person-name">{item.persons.length ?
+                                            <div className="task-person-item task-user-image-container">{item.persons.map((user, idx) => {
+                                                return <div key={idx} className="user-image">
+                                                    <img key={idx} style={{ left: `${20 * (idx) + 'px'}`, transform: `translateX(${-80 + '%'})` }} className="user-img-icon" src={user.imgUrl} alt="user image" />
+                                                </div>
+                                            })}
+                                            </div>
+                                            :
+                                            <div className="task-person-item">
+                                                <div className="user-image">
+                                                    <img className="user-image-icon" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" />
+                                                </div>
+                                            </div>}</div>
                                     </div>
-                                    :
-                                    <div className="flex-row-items">
-                                        <div className="user-image-wrapper">
-                                            <img className="user-image-icon-assign" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" />
+                                    <div className="task-group-name">
+                                        <div className='text-group-component'><FaRegCircle /> Group</div>
+                                        <div className='group-color-container'>
+                                            <div className='color-group-component' style={{ backgroundColor: item.groupColor }}></div>
+                                            <div className='group-cell-component'>{item.groupName}</div>
                                         </div>
-                                    </div>}</div>
-                                <div>{doneItem.groupName}</div>
+                                    </div>
+                                </div>
                             </div>
                         })}
+                        <div className="column-main-input-container">
+                            <form className="main-column-input" onSubmit={addTask}>
+                                <input className="column-input" type="text" placeholder="+Add Item" name="title" onChange={handleAddChange} />
+                                {task.title && <button className="add-task-button" style={{ backgroundColor: status.color }}>Add</button>}
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
