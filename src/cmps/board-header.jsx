@@ -30,12 +30,14 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     let menuRef = useRef()
     const firstFilterUseEffectRef = useRef()
     firstFilterUseEffectRef.current = true
+
     useEffect(() => {
         document.addEventListener("mousedown", eventListeners)
         return () => {
             document.addEventListener("mousedown", eventListeners)
         }
     })
+
     const eventListeners = (ev) => {
         if (!menuRef.current?.contains(ev.target)) {
             setIsMenuOpen(false)
@@ -45,41 +47,51 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
             setIsTitleBoardClick(false)
         }
     }
+    
     useEffect(() => {
         if (!firstFilterUseEffectRef.current) onFilter(handleSearch)
         firstFilterUseEffectRef.current = false
     }, [handleSearch])
+
     const updateTitleBoard = (ev) => {
         ev.preventDefault()
         board.title = titleBoard.title
         updateBoard(board)
         setIsTitleBoardClick(!isTitleBoardClick)
     }
+
     const handleBoardTitleChange = ({ target }) => {
         const value = target.value
         const field = target.name
         setTitleBoard((prevBoard) => ({ ...prevBoard, [field]: value }))
     }
+
     const toggleMenu = (value) => {
         setIsMenuOpen(value)
     }
+
     const toggleInviteMenu = (value) => {
         setIsInviteMenuOpen(value)
     }
+
     const toggleSortModal = (value) => {
         setIsSortMenu(value)
     }
+
     const toggleSearchActive = (value) => {
         setIsSearchActive(value)
     }
+
     const onHandleSearch = ({ target }) => {
         // const value = target.value
         // setHandleSearch({ search: value })
     }
+
     const onSetFilter = (label) => {
         const newFilterBy = { ...filterBy, sortBy: label }
         // dispatch(setFilter(newFilterBy))
     }
+
     if (!board) return <h1>Loading...</h1>
     return <div className="board-header">
         <div className="board-header-main">
@@ -104,7 +116,7 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
                 <div className="board-header-right">
                     <div className="board-header-actions">
                         <button className="panel-button">Last Seen</button>
-                        <button className="panel-button" onClick={() => toggleInviteMenu(true)}>Invite / {unAssignedUsers.length}</button>
+                        {/* <button className="panel-button" onClick={() => toggleInviteMenu(true)}>Invite / {unAssignedUsers.length}</button> */}
                         <button className="panel-button">Activity</button>
                         <button className="panel-button board-add"><span>+</span> Add to board</button>
                         <div onClick={() => toggleMenu(true)} className="ds-menu-side-panel-header"><img src={dotsMenu} alt='dots-menu' /></div>
