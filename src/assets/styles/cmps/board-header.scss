@@ -173,51 +173,64 @@
     height: 40px;
     width: 80.875px;
     cursor: pointer;
-
+    & .kanban-nav{
+        text-decoration: none;
+        padding:7px 16px;
+        
+    }
+    
     &:hover {
         background-color: #dcdfec;
     }
-
+    
     & span {
+        display: flex;
         color: #575757;
+        gap:3px;
     }
-
-    &:focus+.board-kanban-item-line {
+    &:focus+.board-kanban-item-line{
         background-color: #1976D2;
         height: 2.4px;
         position: relative;
         top: 4px;
     }
+
 }
 
 .board-subsets-item {
     padding-bottom: 4px;
 
 }
-
-.board-subsets-item-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px;
-    height: 40px;
-    width: 128px;
-    cursor: pointer;
-
-    &:hover {
-        background-color: #dcdfec;
-    }
-
-    & span {
-        color: #575757;
-    }
-
+.board-subsets-item{
     &:focus+.board-subsets-item-line {
         background-color: #1976D2;
         height: 2.4px;
         position: relative;
         top: 4px;
     }
+    .board-subsets-item-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        height: 40px;
+        width: 128px;
+        cursor: pointer;
+        .main-table-nav{
+            text-decoration: none;
+            padding:7px 16px;
+        }
+    
+        &:hover {
+            background-color: #dcdfec;
+        }
+    
+        & span {
+            color: #575757;
+        }
+    
+    }
+
 }
 
 .board-filter-search {

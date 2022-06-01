@@ -3,8 +3,9 @@ import { useState } from 'react'
 import { taskService } from '../services/task.service'
 
 
-export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setKanbanBoard }) => {
+export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setKanbanBoard, updateTask }) => {
     const [task, setTask] = useState({ title: '', status })
+    const [isTaskNameClick, setIsTaskNameClick] = useState({})
 
     const handleAddChange = ({ target }) => {
         const field = target.name
@@ -23,9 +24,28 @@ export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setK
         // setKanbanBoard(newBoard)
 
         let newBoard = await taskService.addTask(board, task, groupId)
-        console.log(newBoard);
         updateBoard(newBoard)
 
+    }
+
+    const handleTaskNameChange = ({ target }) => {
+        const field = target.name
+        const value = target.value
+        setTask((prevTask) => ({ ...prevTask, [field]: value }))
+    }
+
+    const updateTaskName = async (ev, taskId, groupId) => {
+        ev.preventDefault()
+        task.id = taskId
+        console.log('task',task)
+        let newBoard = await taskService.save(task, groupId, board._id)
+        updateBoard(newBoard)
+        setIsTaskNameClick({})
+    }
+
+    const setUpdateClick = (ev, params) => {
+        ev.stopPropagation()
+        setIsTaskNameClick(params)
     }
 
     return (
@@ -38,7 +58,17 @@ export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setK
                         {kanban[(status.title === 'Working on it') ? status.title = 'WorkingOnIt' : status.title] && kanban[(status.title === 'Working on it') ? status.title = 'WorkingOnIt' : status.title].map((item, idx) => {
                             return <div key={idx} className="kanban-task-content">
                                 <div className="task-name-content">
-                                    <div>{item.taskName}</div>
+                                    {(isTaskNameClick.boardId && isTaskNameClick.groupId === item.groupId && isTaskNameClick.taskId === item.taskId) ?
+                                        <div>
+                                            <form onSubmit={(event) => updateTaskName(event, item.taskId, item.groupId)}>
+                                                <input type="text" name="title" defaultValue={item.taskName} onChange={handleTaskNameChange} />
+                                            </form>
+                                        </div>
+                                        :
+                                        <div>
+                                            <div onClick={(event) => setUpdateClick(event, { boardId: board._id, groupId: item.groupId, taskId: item.taskId})}>{item.taskName}</div>
+                                        </div>
+                                    }
                                 </div>
                                 <div className="task-down-phase">
                                     <div className='task-person-content'>

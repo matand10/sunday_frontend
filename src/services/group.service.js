@@ -38,7 +38,6 @@ async function remove(groupId, boardId) {
 }
 
 function getById(groupId, board) {
-    console.log('froum service', board)
     return board.groups.find(group => group.id === groupId)
 }
 

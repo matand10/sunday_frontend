@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { loadBoards, setFilter } from "../store/board/board.action"
 import { loadUsers } from "../store/user/user.actions"
@@ -11,6 +11,7 @@ import { boardService } from "../services/board.service"
 import { useNavigate, useParams } from "react-router-dom"
 import { Outlet } from 'react-router-dom'
 import { userService } from "../services/user.service"
+import ReactDOM from "react-dom"
 
 export const TasksApp = () => {
     const [board, setBoard] = useState(null)
@@ -22,6 +23,7 @@ export const TasksApp = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate();
     const { boardId } = useParams()
+    const ref = useRef(null)
 
     useEffect(() => {
         dispatch(loadUsers())
@@ -36,7 +38,6 @@ export const TasksApp = () => {
         //     setBoard(newBoard)
         //     return
         // }
-        console.log(boards.length);
         if (boards.length > 0) {
             if (boardService.isIdOk(boardId, boards) && boards._id) {
                 loadBoard()
@@ -155,7 +156,9 @@ export const TasksApp = () => {
     }
 
 
+    
     if (!boards.length) return <h1>Loading...</h1>
+    // if (!boards.length) return <div style={{ width: 100 + '%', height: 0, paddingBottom: 56 + '%', position: 'relative' }}><iframe ref={ref} src="https://giphy.com/embed/jAYUbVXgESSti" style={{ width: 50 + '%', height: 50 + '%', position: 'absolute', frameBorder: 0 }} className="giphy-embed" allowFullScreen /></div>
     return <section className="task-main-container">
         <div className="board-container-left">
             <SideNav />

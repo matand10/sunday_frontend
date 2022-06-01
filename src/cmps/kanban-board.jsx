@@ -5,7 +5,7 @@ import { KanbanList } from '../cmps/kanban-list'
 import { boardService } from '../services/board.service'
 
 export const KanbanBoard = () => {
-    const { board, onAddTask, updateBoard } = useOutletContext()
+    const { board, onAddTask, updateBoard,updateTask } = useOutletContext()
     const [kanban, setKanban] = useState(false)
     const [kanbanBoard, setKanbanBoard] = useState(board)
 
@@ -20,7 +20,7 @@ export const KanbanBoard = () => {
 
     return (
         <section className="kanban-board-container">
-            {boardService.getLabels().map((status, idx) => <KanbanList setKanbanBoard={setKanbanBoard} updateBoard={updateBoard} key={idx} kanban={kanban} status={status} onAddTask={onAddTask} board={board} />)}
+            {boardService.getLabels().map((status, idx) => <KanbanList setKanbanBoard={setKanbanBoard} updateBoard={updateBoard} key={idx} kanban={kanban} status={status} onAddTask={onAddTask} board={board} updateTask={updateTask}/>)}
         </section>
     )
 }

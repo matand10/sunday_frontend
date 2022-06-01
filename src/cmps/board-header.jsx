@@ -133,11 +133,11 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
         <div className="board-subsets-toolbar">
             <div className="board-subsets-tabs">
                 <div className="board-subsets-item">
-                    <button className="board-subsets-item-button"><NavLink to={`/board/${board._id}`}><span><BsTable /> Main Table</span></NavLink> </button>
+                    <button className="board-subsets-item-button"><NavLink to={`/board/${board._id}`} className="main-table-nav"><span><BsTable /> Main Table</span></NavLink> </button>
                     <div className="board-subsets-item-line"></div>
                 </div>
                 <div className="board-kanban-item">
-                    <button className="board-kanban-item-button"><NavLink to={`/board/${board._id}/kanban`}><span><FaTrello /> Kanban</span></NavLink></button>
+                    <button className="board-kanban-item-button"><NavLink to={`/board/${board._id}/kanban`} className="kanban-nav"><span><FaTrello /> Kanban</span></NavLink></button>
                     {/* <button className="board-kanban-item-button" onClick={()=>navigate(`{/board/${board._id}/kanban}`)}><span><FaTrello/> Kanban</span></button> */}
                     <div className="board-kanban-item-line"></div>
                 </div>
