@@ -32,6 +32,7 @@
         }
     }
 
+
     & .icon-action-btn {
         color: #676879;
         display: flex;
@@ -47,6 +48,18 @@
             background-color: #dcdfec;
         }
 
+    }
+}
+
+.board-title-input-container {
+    & .board-title-form {
+        & input {
+            line-height: 40px;
+            border-radius: 4px;
+            font-weight: 500px;
+            border: 1px solid #1976d2;
+            font-size: rem(30px)
+        }
     }
 }
 
@@ -168,17 +181,18 @@
     & span {
         color: #575757;
     }
-    &:focus+.board-kanban-item-line{
-        background-color:#1976D2;
+
+    &:focus+.board-kanban-item-line {
+        background-color: #1976D2;
         height: 2.4px;
         position: relative;
-        top:4px;
+        top: 4px;
     }
 }
 
 .board-subsets-item {
     padding-bottom: 4px;
-    
+
 }
 
 .board-subsets-item-button {
@@ -189,19 +203,20 @@
     height: 40px;
     width: 128px;
     cursor: pointer;
-    
+
     &:hover {
         background-color: #dcdfec;
     }
-    
+
     & span {
         color: #575757;
     }
+
     &:focus+.board-subsets-item-line {
-        background-color:#1976D2;
+        background-color: #1976D2;
         height: 2.4px;
         position: relative;
-        top:4px;
+        top: 4px;
     }
 }
 

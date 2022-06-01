@@ -56,6 +56,7 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
             setStatusActive(false)
             setArrowTask({})
             setInviteUserModal(false)
+            setUpdateIsClick({})
         }
     }
 
@@ -136,7 +137,7 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
                     <div className="task-title-content" >
                         {(updateIsClick.boardId && updateIsClick.groupId === group.id && updateIsClick.task.id === task.id) ?
                             <div className="title-update-input">
-                                <input type="text" defaultValue={task.title} onChange={handleChange} name="title" onClick={(event) => (event.stopPropagation())} /*ref={menuRef}*/ />
+                                <input type="text" defaultValue={task.title} onChange={handleChange} name="title" onClick={(event) => (event.stopPropagation())} ref={statusRef} />
                             </div>
                             :
                             <div className="task-title-cell">
