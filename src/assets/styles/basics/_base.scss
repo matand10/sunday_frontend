@@ -21,6 +21,7 @@ html {
 body {
     margin: 0;
     background-color: $primary-background-color;
+    overflow-x: hidden;
 
     @include for-normal-layout {
         &.sidebar-open {
