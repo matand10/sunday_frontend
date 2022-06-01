@@ -94,7 +94,7 @@ function getEmptyGroup() {
                 id: utilService.makeId(),
                 title: 'item 1',
                 comments: [],
-                status: utilService.getLabel(),
+                // status: utilService.getLabel(),
                 archivedAt: new Date(),
                 columns: [
                     {
@@ -198,6 +198,7 @@ function groupColAdd(group, value) {
 }
 
 function getProgress(group, colIdx) {
+    console.log(group);
     const groupTaskMap = group.tasks.reduce((acc, task) => {
         if (acc[task.columns[colIdx].value.title]) acc[task.columns[colIdx].value.title] += 1
         else acc[task.columns[colIdx].value.title] = 1

@@ -14,6 +14,7 @@ import { setFilter } from '../store/board/board.action'
 import { NavLink, Outlet } from "react-router-dom";
 import { InviteUserMenu } from '../modal/user-invite-modal'
 import { userService } from "../services/user.service";
+import { boardService } from "../services/board.service";
 
 export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, onFilter }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -42,6 +43,7 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
             setIsSearchActive(false)
             setIsSortMenu(false)
             setIsInviteMenuOpen(false)
+            setIsTitleBoardClick(false)
         }
     }
 
@@ -49,6 +51,7 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
         onFilter(handleSearch)
     }, [handleSearch])
 
+<<<<<<< HEAD
     const handleBoardTitleChange = ({ target }) => {
         document.addEventListener("keydown", (event) => {
             if (event.key === "Enter") {
@@ -58,10 +61,25 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
                 setTitleBoard((prevBoard) => ({ ...prevBoard, [field]: value }))
             }
         })
+=======
+    const updateTitleBoard = (ev) => {
+        ev.preventDefault()
+        board.title = titleBoard.title
+        updateBoard(board)
+        setIsTitleBoardClick(!isTitleBoardClick)
+>>>>>>> c853ab8f9b282ff802a1965a242cf6b0ac963ea9
     }
+
+    const handleBoardTitleChange = ({ target }) => {
+        const value = target.value
+        const field = target.name
+        setTitleBoard((prevBoard) => ({ ...prevBoard, [field]: value }))
+    }
+
     const toggleMenu = (value) => {
         setIsMenuOpen(value)
     }
+
     const toggleInviteMenu = (value) => {
         setIsInviteMenuOpen(value)
     }
@@ -90,11 +108,17 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
             <div className="board-header-top">
                 <div className="board-header-left">
                     {isTitleBoardClick ?
-                        <div>
-                            <input type="text" name="title" defaultValue={board.title} onChange={handleBoardTitleChange} />
+                        <div className="board-title-input-container">
+                            <form onSubmit={updateTitleBoard} className="board-title-form">
+                                <input type="text" name="title" defaultValue={board.title} onChange={handleBoardTitleChange} ref={menuRef}/>
+                            </form>
                         </div>
                         :
+<<<<<<< HEAD
                         <div>
+=======
+                        <div className="board-title-content">
+>>>>>>> c853ab8f9b282ff802a1965a242cf6b0ac963ea9
                             <h1 className="title" onClick={() => setIsTitleBoardClick(!isTitleBoardClick)}>{board.title}</h1>
                         </div>
                     }

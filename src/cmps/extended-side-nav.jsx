@@ -97,10 +97,7 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
                 <div className="user-projects-container">
                     <div className="project-side-link">
                         {boards.length && boards.map((board, idx) => {
-
-                            return <div key={idx} onClick={() => navigate(`/board/${board._id}`)} className='home-control-all-buttons'>
-                                {/* // return <div key={idx} onClick={() => boardChange(board)} className='home-control-all-buttons'> */}
-
+                            return <div key={idx} onClick={() => boardChange(board)} className='home-control-all-buttons'>
                                 {(renameIsClick === board._id) ? <div className="title-update-input">
                                     <input type="text" defaultValue={board.title} onChange={(event) => handleChange(event, board)} name="title" />
                                 </div> :

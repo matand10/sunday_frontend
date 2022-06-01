@@ -11,6 +11,7 @@ export const StatusModal = ({ statusActive, statusRef, modalPos, changeStatus, s
 
 
     const labels = boardService.getLabels()
+    
     return <section className="main-status-modal" style={{ left: modalPos.x - 75, top: modalPos.y + 15 }} ref={statusRef}>
         <div className="status-modal-container">
             {labels.map(label => {

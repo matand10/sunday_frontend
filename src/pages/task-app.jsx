@@ -24,32 +24,40 @@ export const TasksApp = () => {
 
     useEffect(() => {
         dispatch(loadUsers())
-        dispatch(loadBoards(filterBy))
-    }, [])
+        dispatch(loadBoards())
+    }, [boardId])
 
     useEffect(() => {
-        if (board) {
-            return
-        }
-        if (boards.length === 0) {
-            setIsMake(true)
-        } else {
-            if (boards.length > 0) {
-                if (boardId) {
-                    if (boardService.isIdOk(boardId, boards)) {
-                        loadBoard()
-                        return
-                    }
-                    if (boards[0]._id) window.location.href = `/board/${boards[0]._id}`
-                    else if (boards[0].length > 0) window.location.href = `/board/${boards[0]}`
-                } else window.location.href = `/board/${boards[0]._id}`
+        if (board) return
+        // if (board && !board._id) {
+        //     let newBoard = { ...board }
+        //     newBoard._id = boardId
+        //     setBoard(newBoard)
+        //     return
+        // }
+        console.log(boards.length);
+        if (boards.length > 0) {
+            if (boardService.isIdOk(boardId, boards) && boards._id) {
+                loadBoard()
+                return
+            } else if (boards[0]._id) {
+                setBoard(boards[0])
+                navigate(`/board/${boards[0]._id}`)
+                return
             }
         }
     }, [boards])
 
     useEffect(() => {
+        // if (typeof boards[0] === 'string') window.location.href = `/board/${boards[0]}`
+        if (boards.length === 0) {
+            setIsMake(true)
+        }
+    }, [boards])
+
+    useEffect(() => {
         if (isMake) {
-            makeBoard()
+            onAddBoard()
         }
     }, [isMake])
 
@@ -58,17 +66,11 @@ export const TasksApp = () => {
     //     dispatch(setFilter({ ...filterBy, checkedUser: checkedUser._id }))
     // }, [user])
 
-    useEffect(() => {
-
-        dispatch(loadBoards())
-
-    }, [board])
-
-    const makeBoard = async () => {
-        console.log('make');
-        const firstBoard = await boardService.makeBoard()
-        dispatch(saveBoard(firstBoard))
-    }
+    // const makeBoard = () => {
+    //     console.log('make');
+    //     const firstBoard = boardService.makeBoard()
+    //     dispatch(saveBoard(firstBoard))
+    // }
 
     const loadBoard = async () => {
         const currBoard = await boardService.getById(boardId)
@@ -87,18 +89,19 @@ export const TasksApp = () => {
         dispatch(saveBoard(board))
     }
 
-    const onAddBoard = async (board) => {
+    const onAddBoard = async (board = { title: 'First Board' }) => {
         let newBoard = boardService.makeBoard()
         newBoard.title = board.title
         newBoard._id = await boardService.save(newBoard)
-        dispatch(saveBoard(newBoard))
-        console.log(newBoard);
-        window.location.href = `/board/${newBoard._id}`
+        navigate(`/board/${newBoard._id}`)
+        setBoard(newBoard)
+        // dispatch(saveBoard(newBoard))
     }
 
     const onDeleteBoard = (boardId) => {
         dispatch(removeBoard(boardId))
-        window.location.href = `/board`
+        setBoard(null)
+        navigate(`/board`)
     }
 
     const updateBoard = (updatedBoard) => {
@@ -164,5 +167,8 @@ export const TasksApp = () => {
             </div>
         </div>
     </section>
-
 }
+
+
+
+
