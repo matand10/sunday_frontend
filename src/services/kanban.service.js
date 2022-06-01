@@ -16,11 +16,12 @@ function getTaskName(board, status) {
         filter.forEach(specific => {
             done.push({
                 taskName: specific.title,
+                taskId: specific.id,
                 persons: specific.columns[0].value,
                 groupName: group.title,
-                groupColor:group.style.color,
-                groupId:group.id,
-                color:specific.columns[1].value.color
+                groupColor: group.style.color,
+                groupId: group.id,
+                color: specific.columns[1].value.color
             })
         })
     })
