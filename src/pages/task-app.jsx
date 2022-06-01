@@ -18,7 +18,6 @@ export const TasksApp = () => {
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
     const { users, user } = useSelector((storeState) => storeState.userModule)
     const [isMake, setIsMake] = useState(false)
-
     const dispatch = useDispatch()
     const navigate = useNavigate();
     const { boardId } = useParams()
@@ -79,7 +78,7 @@ export const TasksApp = () => {
 
     const onAddTask = async (task, groupId) => {
         const newBoard = await taskService.addTask(board, task, groupId)
-        console.log('newBoard',newBoard)
+        console.log('newBoard', newBoard)
         dispatch(saveBoard(newBoard))
     }
 

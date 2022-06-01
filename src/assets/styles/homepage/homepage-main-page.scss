@@ -1,0 +1,73 @@
+.sunday-first-homepage-header {
+    margin-top: 72px;
+    color: rgb(255, 255, 255);
+    background: linear-gradient(rgb(0, 1, 51) 0%,
+            rgb(15, 16, 72) 100%);
+    padding-top: 64px;
+}
+
+.homepage-first-fold {
+    height: 100vh;
+}
+
+.head-paragraph-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.head-paragraph-title {
+    max-width: 800px;
+    margin-bottom: 16px;
+    text-align: center;
+
+    & h1 {
+        line-height: 85px;
+        padding-bottom: 12px;
+        font-weight: 400;
+        font-size: 80px;
+    }
+}
+
+.head-paragraph-body {
+    margin-top: 10px;
+
+    & h2 {
+        font-size: 24px;
+        line-height: 40px;
+
+    }
+}
+
+.homepage-second-fold {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    height: 200px;
+}
+
+.secondary-signup-button {
+    width: 170px;
+    height: 47px;
+    border-radius: 40px;
+    font-weight: 300;
+    background-color: #6c6cff;
+    color: #ffffff;
+    line-height: 17px;
+    transition: .1s;
+
+    &:hover {
+        background-color: #5a5ad5;
+    }
+}
+
+.secondary-paragraph-body {
+    margin-top: 20px;
+
+    &>:first-child {
+        margin-inline-end: 20px;
+    }
+}

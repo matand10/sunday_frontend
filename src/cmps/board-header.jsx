@@ -23,8 +23,8 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     const [handleSearch, setHandleSearch] = useState({ search: '' })
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
     const [unAssignedUsers, setUnAssignedUsers] = useState('')
-    const [titleBoard,setTitleBoard]=useState('')
-    const [isTitleBoardClick,setIsTitleBoardClick]=useState(false)
+    const [titleBoard, setTitleBoard] = useState('')
+    const [isTitleBoardClick, setIsTitleBoardClick] = useState(false)
     const dispatch = useDispatch()
     // const navigate=useNavigate()
     let menuRef = useRef()
@@ -49,7 +49,7 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
         onFilter(handleSearch)
     }, [handleSearch])
 
-    const handleBoardTitleChange = ({target}) => {
+    const handleBoardTitleChange = ({ target }) => {
         document.addEventListener("keydown", (event) => {
             if (event.key === "Enter") {
                 event.preventDefault()
@@ -95,7 +95,7 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
                         </div>
                         :
                         <div>
-                            <h1 className="title" onClick={()=>setIsTitleBoardClick(!isTitleBoardClick)}>{board.title}</h1>
+                            <h1 className="title" onClick={() => setIsTitleBoardClick(!isTitleBoardClick)}>{board.title}</h1>
                         </div>
                     }
                     <div className="icon-action-wrapper">
