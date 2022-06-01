@@ -3,12 +3,14 @@ import { userService } from '../../services/user.service'
 
 const initialState = {
     user: userService.getLoggedinUser(),
-    users: [],
+    users: userService.getUsers(),
     isScreenOn: false
 }
 
 export function userReducer(state = initialState, action) {
+    var users
     var newState = state;
+
     switch (action.type) {
         case 'SET_USER':
             newState = { ...state, user: action.user }
@@ -22,6 +24,10 @@ export function userReducer(state = initialState, action) {
         case 'SET_USERS':
             newState = { ...state, users: action.users }
             break;
+        case 'UPDATE_USER':
+            users = state.users.map(currUser =>
+                (currUser._id === action.user._id) ? { ...action.user } : currUser)
+            return { ...state, users: users }
         default:
     }
     // For debug:

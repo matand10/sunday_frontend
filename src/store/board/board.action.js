@@ -2,11 +2,10 @@ import { boardService } from '../../services/board.service'
 import { groupService } from '../../services/group.service'
 
 
-export function loadBoards() {
-    return dispatch => {
+export function loadBoards(filterBy) {
+    return (dispatch, getState) => {
         // const filterBy = getState().boardModule.filterBy
-        // return boardService.query(filterBy)
-        return boardService.query()
+        return boardService.query(filterBy)
             .then(boards => {
                 const action = {
                     type: 'SET_BOARDS',

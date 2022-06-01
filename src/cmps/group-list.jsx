@@ -8,7 +8,7 @@ import { TasksList } from './tasks-list.jsx'
 import { useParams } from "react-router-dom";
 import { EditableColumn } from "../cmps/editable-input";
 import { boardService } from "../services/board.service";
-import { saveBoard } from '../store/board/board.action'
+// import { saveBoard } from '../store/board/board.action'
 import { useDispatch } from "react-redux";
 import { groupService } from "../services/group.service";
 import { ColMenu } from "../modal/col-menu";

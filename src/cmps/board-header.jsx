@@ -29,6 +29,8 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     const dispatch = useDispatch()
     // const navigate=useNavigate()
     let menuRef = useRef()
+    const firstFilterUseEffectRef = useRef()
+    firstFilterUseEffectRef.current = true
 
     useEffect(() => {
         document.addEventListener("mousedown", eventListeners)
@@ -48,7 +50,8 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     }
 
     useEffect(() => {
-        onFilter(handleSearch)
+        if (!firstFilterUseEffectRef.current) onFilter(handleSearch)
+        firstFilterUseEffectRef.current = false
     }, [handleSearch])
 
     const updateTitleBoard = (ev) => {
@@ -81,13 +84,13 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     }
 
     const onHandleSearch = ({ target }) => {
-        const value = target.value
-        setHandleSearch({ search: value })
+        // const value = target.value
+        // setHandleSearch({ search: value })
     }
 
     const onSetFilter = (label) => {
         const newFilterBy = { ...filterBy, sortBy: label }
-        dispatch(setFilter(newFilterBy))
+        // dispatch(setFilter(newFilterBy))
     }
 
     if (!board) return <h1>Loading...</h1>
@@ -98,7 +101,7 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
                     {isTitleBoardClick ?
                         <div className="board-title-input-container">
                             <form onSubmit={updateTitleBoard} className="board-title-form">
-                                <input type="text" name="title" defaultValue={board.title} onChange={handleBoardTitleChange} ref={menuRef}/>
+                                <input type="text" name="title" defaultValue={board.title} onChange={handleBoardTitleChange} ref={menuRef} />
                             </form>
                         </div>
                         :
@@ -156,7 +159,7 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
         </div>
 
         <DsMenu isMenuOpen={isMenuOpen} menuRef={menuRef} />
-        <InviteUserMenu users={users} setUnAssignedUsers={setUnAssignedUsers} updateBoard={updateBoard} board={board} isInviteMenuOpen={isInviteMenuOpen} menuRef={menuRef} />
+        {/* <InviteUserMenu users={users} setUnAssignedUsers={setUnAssignedUsers} updateBoard={updateBoard} board={board} isInviteMenuOpen={isInviteMenuOpen} menuRef={menuRef} /> */}
         <SortMenu onSetFilter={onSetFilter} isSortMenuOpen={isSortMenuOpen} menuRef={menuRef} />
     </div>
 }

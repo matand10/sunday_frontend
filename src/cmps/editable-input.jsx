@@ -55,7 +55,6 @@ export const EditableColumn = ({ text, updateGroup, group, colIdx }) => {
 
     const onUpdateGroup = () => {
         const newGroup = groupService.groupColUpdate(inputValue, colIdx, group)
-        console.log(newGroup);
         updateGroup(newGroup)
     }
 

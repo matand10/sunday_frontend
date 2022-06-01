@@ -15,12 +15,14 @@ export const KanbanBoard = () => {
         setKanban(kanbanService.getKanban(board))
     }, [kanbanBoard])
 
-    console.log(kanban);
-    if (!kanban['Done']) return <h1>Loading...</h1>
+    const onUpdatTaskName=(newBoard)=>{
+        setKanbanBoard(newBoard)
+    }
 
+    if (!kanban['Done']) return <h1>Loading...</h1>
     return (
         <section className="kanban-board-container">
-            {boardService.getLabels().map((status, idx) => <KanbanList setKanbanBoard={setKanbanBoard} updateBoard={updateBoard} key={idx} kanban={kanban} status={status} onAddTask={onAddTask} board={board} updateTask={updateTask}/>)}
+            {boardService.getLabels().map((status, idx) => <KanbanList onUpdatTaskName={onUpdatTaskName} setKanbanBoard={setKanbanBoard} updateBoard={updateBoard} key={idx} kanban={kanban} status={status} onAddTask={onAddTask} board={board} updateTask={updateTask}/>)}
         </section>
     )
 }

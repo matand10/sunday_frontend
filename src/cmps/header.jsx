@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-
+import MainLogo from '../assets/img/app-logo/logo.png'
 
 
 export const Header = () => {
@@ -15,8 +15,9 @@ export const Header = () => {
             <div className="right-header">
                 <nav className="main-header-nav">
                     <ul className="main-nav clean-list">
-                        <li className="header-list"><Link to="/login">Login</Link></li>
-                        <li className="header-list"><button className="signup-btn">Get Started</button></li>
+                        <li className="header-list"><Link className="header-list-link" to="/board">Guest</Link></li>
+                        <li className="header-list"><Link className="header-list-link" to="/login">Log in</Link></li>
+                        <li className="header-list-signup"><button className="main-signup-button" ><span>Get Started</span></button></li>
                     </ul>
                 </nav>
             </div>
