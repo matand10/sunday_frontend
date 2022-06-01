@@ -133,6 +133,9 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
                     <div className="left-indicator-cell" style={{ backgroundColor }}></div>
                     <div className="task-arrow-container">
                         <div className="task-arrow-div" onClick={(ev) => onOpenMenu(ev, { taskId: task.id, groupId: group.id, board: board })} > <FaCaretDown className="task-arrow" /></div>
+                        
+                        {arrowTask.board && arrowTask.groupId === group.id && arrowTask.taskId === task.id && <TaskMenu statusRef={statusRef} removeTask={removeTask} arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
+                    
                     </div>
                     <div className="task-title-content" >
                         {(updateIsClick.boardId && updateIsClick.groupId === group.id && updateIsClick.task.id === task.id) ?
@@ -195,7 +198,6 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
                 </div>
                 <div className="add-colomn-column"></div>
             </div>
-            {arrowTask.board && arrowTask.groupId === group.id && arrowTask.taskId === task.id && <TaskMenu statusRef={statusRef} removeTask={removeTask} arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
         </div >
         {statusActive.value && <StatusModal setStatusActive={setStatusActive} updateGroup={updateGroup} onUpdateGroupBar={onUpdateGroupBar} specialUpdateTask={specialUpdateTask} statusActive={statusActive} statusRef={statusRef} modalPos={modalPos} />}
         {modal.boardId && <SidePanel statusRef={statusRef} modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}

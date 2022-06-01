@@ -47,8 +47,6 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
         document.addEventListener("keydown", (event) => {
             if (event.key === "Enter") {
                 event.preventDefault()
-                // const value = target.value
-                // const field = target.name
                 let newBoard = boards[idx]
                 newBoard.title = target.value
                 setBoardUpdate(newBoard)
