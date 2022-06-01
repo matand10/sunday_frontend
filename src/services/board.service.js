@@ -250,11 +250,11 @@ function makeBoard(user) {
         title: "Robot dev proj",
         archivedAt: 1589983468418,
         createdAt: 1589983468418,
-        members: [user || ({
+        members: [user, {
             _id: "u101",
             fullname: "Guest",
             imgUrl: "http://some-img"
-        })],
+        }],
         groups: [
             {
                 style: { color: utilService.getRandomColor() },

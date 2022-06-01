@@ -245,10 +245,11 @@
 }
 
 .board-content-wrapper {
-    padding: 18px 20px 0 16px;
+    // padding: 18px 20px 0 16px;
     background-color: $primary-background-color;
     border-radius: 8px;
     color: $table-text-main-color;
+    min-width: 1040px;
 
     & form {
         height: 35px;
@@ -307,7 +308,7 @@
     border: 0;
     vertical-align: baseline;
     justify-content: center;
-    font-size: 1.2rem;
+    // font-size: 1.2rem;
 }
 
 
@@ -316,14 +317,21 @@
 .group-header-component {
     display: flex;
     justify-content: space-between;
-    padding: 0 20px;
+    padding: 0 11px;
+    min-width: 623px;
+    margin-inline-end: 15px;
 }
+
+// .coulmn-main-header-container {
+//     max-width: 400px;
+// }
 
 .group-header-title {
     display: flex;
     flex-basis: 400px;
     position: relative;
     padding-left: 5px;
+    min-width: 400px;
 
     & input {
         width: 100%;
@@ -367,7 +375,7 @@
     justify-content: center;
     align-items: center;
     width: 130px;
-    margin: 0 5px;
+    // margin: 0 5px;
 }
 
 .task-row-component {
@@ -392,8 +400,10 @@
 .task-row-items {
     height: 100%;
     display: flex;
-    justify-content: space-around;
-    flex-basis: 623px;
+    justify-content: flex-end;
+    // flex-basis: 623px;
+    flex-basis: 400px;
+    margin-inline-end: 16px;
 }
 
 
@@ -405,6 +415,12 @@
 .task-row-title {
     display: flex;
     justify-content: space-between;
+}
+
+
+.task-column-rows {
+    width: 100%;
+
 }
 
 .task-row-wrapper {
@@ -507,7 +523,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0px;
+    border-right: 1px solid rgb(255, 255, 255);
+    border-left: 1px solid rgb(255, 255, 255);
 }
+
 
 .left-indicator-cell {
     width: 8px;
@@ -640,13 +660,14 @@
 .flex-row-items {
     & input {
         position: absolute;
-        width: 140px;
+        width: 130px;
+        height: 100%;
         opacity: 0;
     }
 
     & input[type="date"]::-webkit-inner-spin-button,
     input[type="date"]::-webkit-calendar-picker-indicator {
-
+        cursor: pointer;
         width: 100%;
         opacity: 0;
     }
@@ -671,6 +692,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 
 .add-colomn-column-button {
