@@ -67,6 +67,14 @@ function getEmptyGroup() {
         style: { color: utilService.getRandomColor() },
         title: 'Group Title',
         archivedAt: '',
+        progress: {
+            colIdx: 1,
+            progress: {
+                'Working on it': null,
+                Done: null,
+                Stuck: null
+            }
+        },
         columns: [
             {
                 title: 'Person',

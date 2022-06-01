@@ -29,6 +29,8 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     const dispatch = useDispatch()
     // const navigate=useNavigate()
     let menuRef = useRef()
+    const firstFilterUseEffectRef = useRef()
+    firstFilterUseEffectRef.current = true
 
     useEffect(() => {
         document.addEventListener("mousedown", eventListeners)
@@ -48,8 +50,20 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     }
 
     useEffect(() => {
-        onFilter(handleSearch)
+        if (!firstFilterUseEffectRef.current) onFilter(handleSearch)
+        firstFilterUseEffectRef.current = false
     }, [handleSearch])
+
+    // const handleBoardTitleChange = ({ target }) => {
+    //     document.addEventListener("keydown", (event) => {
+    //         if (event.key === "Enter") {
+    //             event.preventDefault()
+    //             const value = target.value
+    //             const field = target.name
+    //             setTitleBoard((prevBoard) => ({ ...prevBoard, [field]: value }))
+    //         }
+    //     })
+    // }
 
     const updateTitleBoard = (ev) => {
         ev.preventDefault()
@@ -81,13 +95,13 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     }
 
     const onHandleSearch = ({ target }) => {
-        const value = target.value
-        setHandleSearch({ search: value })
+        // const value = target.value
+        // setHandleSearch({ search: value })
     }
 
     const onSetFilter = (label) => {
         const newFilterBy = { ...filterBy, sortBy: label }
-        dispatch(setFilter(newFilterBy))
+        // dispatch(setFilter(newFilterBy))
     }
 
     if (!board) return <h1>Loading...</h1>
@@ -103,6 +117,8 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
                         </div>
                         :
                         <div className="board-title-content">
+
+
                             <h1 className="title" onClick={() => setIsTitleBoardClick(!isTitleBoardClick)}>{board.title}</h1>
                         </div>
                     }
@@ -156,7 +172,7 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
         </div>
 
         <DsMenu isMenuOpen={isMenuOpen} menuRef={menuRef} />
-        <InviteUserMenu users={users} setUnAssignedUsers={setUnAssignedUsers} updateBoard={updateBoard} board={board} isInviteMenuOpen={isInviteMenuOpen} menuRef={menuRef} />
+        {/* <InviteUserMenu users={users} setUnAssignedUsers={setUnAssignedUsers} updateBoard={updateBoard} board={board} isInviteMenuOpen={isInviteMenuOpen} menuRef={menuRef} /> */}
         <SortMenu onSetFilter={onSetFilter} isSortMenuOpen={isSortMenuOpen} menuRef={menuRef} />
     </div>
 }

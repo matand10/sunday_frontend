@@ -92,7 +92,6 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
         ev.preventDefault()
         const transferedTaskId = ev.dataTransfer.getData("taskId")
         const newBoard = boardService.changeTaskPosition(transferedTaskId, group.id, board, toIndex)
-        console.log(newBoard)
         updateBoard(newBoard)
     }
 
@@ -117,7 +116,6 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
         if (status === 'status') {
             group.progress[colIdx] = groupService.getProgress(group, colIdx)
         }
-        console.log('list', group.columns);
         updateGroup(group)
     }
 

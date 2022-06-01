@@ -33,7 +33,6 @@ export function saveTask(task, groupId, boardId) {
     return dispatch => {
         taskService.save(task, groupId, boardId)
             .then(savedBoard => {
-                console.log('save',savedBoard)
                 dispatch({
                     type: 'UPDATE_BOARD',
                     board: savedBoard

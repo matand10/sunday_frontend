@@ -15,7 +15,6 @@ export const KanbanBoard = () => {
         setKanban(kanbanService.getKanban(board))
     }, [kanbanBoard])
 
-    console.log(kanban);
     if (!kanban['Done']) return <h1>Loading...</h1>
 
     return (
