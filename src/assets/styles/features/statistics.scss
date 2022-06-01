@@ -1,8 +1,17 @@
-.group-footer-items {
+.columns-footer-component {
+    width: 100%;
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-basis: 623px;
+    justify-content: flex-end;
+    padding-inline-end: 20px;
+}
+
+.group-footer-container {
+    margin-inline-end: 16px;
+}
+
+.group-footer-items {
+    width: 100%;
+    display: flex;
 }
 
 .group-footer-items>* {
@@ -11,7 +20,7 @@
     justify-content: center;
     align-items: center;
     width: 130px;
-    margin: 0 5px;
+    // margin: 0 5px;
 }
 
 .column-footer {

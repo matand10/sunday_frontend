@@ -154,49 +154,52 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
 
                     </div>
                 </div>
-                <div className="task-row-items">
-                    {columns.map((col, idx) => {
-                        switch (col.type) {
-                            case 'person':
-                                return col.value?.length ?
-                                    <div onClick={() => setInviteUserModal(true)} key={idx} className="flex-row-items user-image-container">{col.value.map((user, idx) => {
-                                        return <div key={idx} className="user-image-wrapper" >
-                                            <img key={idx} style={{ left: `${20 * (idx) + 'px'}`, transform: `translateX(${-80 + '%'})` }} className="user-image-icon-assign" src={user.imgUrl} alt="user image" />
-                                            {inviteUserModal && <InviteToTaskModal statusRef={statusRef} board={board} task={task} />}
+
+                <div className="task-column-rows">
+                    <div className="task-row-items">
+                        {columns.map((col, idx) => {
+                            switch (col.type) {
+                                case 'person':
+                                    return col.value?.length ?
+                                        <div onClick={() => setInviteUserModal(true)} key={idx} className="flex-row-items user-image-container">{col.value.map((user, idx) => {
+                                            return <div key={idx} className="user-image-wrapper" >
+                                                <img key={idx} style={{ left: `${20 * (idx) + 'px'}`, transform: `translateX(${-80 + '%'})` }} className="user-image-icon-assign" src={user.imgUrl} alt="user image" />
+                                                {inviteUserModal && <InviteToTaskModal statusRef={statusRef} board={board} task={task} />}
+                                            </div>
+                                        })}
                                         </div>
-                                    })}
-                                    </div>
-                                    :
-                                    <div onClick={() => setInviteUserModal(true)} key={idx} className="flex-row-items">
-                                        <div className="user-image-wrapper">
-                                            <img className="user-image-icon-assign" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" />
-                                            {inviteUserModal && <InviteToTaskModal statusRef={statusRef} board={board} task={task} />}
+                                        :
+                                        <div onClick={() => setInviteUserModal(true)} key={idx} className="flex-row-items">
+                                            <div className="user-image-wrapper">
+                                                <img className="user-image-icon-assign" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" />
+                                                {inviteUserModal && <InviteToTaskModal statusRef={statusRef} board={board} task={task} />}
+                                            </div>
                                         </div>
+                                case 'status':
+                                    return <div key={idx} className="flex-row-items status" style={{ backgroundColor: col.value?.color }} onClick={(ev) => toggleStatus(ev, true, idx)}>{col.value?.title}</div>
+                                case 'date':
+                                    return <div key={idx} className="flex-row-items">
+                                        <label htmlFor="task-date">{col.value ? utilService.getCurrTime(col.value) : ''}</label>
+                                        <input id="task-date" type="date" name="archivedAt" defaultValue={col.value} key={idx} onChange={(event) => handleDateChange(event, idx)} ref={dateRef} />
                                     </div>
-                            case 'status':
-                                return <div key={idx} className="flex-row-items status" style={{ backgroundColor: col.value?.color }} onClick={(ev) => toggleStatus(ev, true, idx)}>{col.value?.title}</div>
-                            case 'date':
-                                return <div key={idx} className="flex-row-items">
-                                    <label htmlFor="task-date">{col.value ? utilService.getCurrTime(col.value) : ''}</label>
-                                    <input id="task-date" type="date" name="archivedAt" defaultValue={col.value} key={idx} onChange={(event) => handleDateChange(event, idx)} ref={dateRef} />
-                                </div>
-                            case 'text':
-                                if (editText.value && editText.colIdx) {
-                                    return <div key={idx} className="title-update-input">
-                                        <input type="text" defaultValue={col.value} onChange={(event) => handleTextChange(event, idx)} onClick={(event) => (event.stopPropagation())} /*ref={menuRef}*/ />
-                                    </div>
-                                }
-                                return <div onClick={() => textEdit(idx, true)} key={idx} className="flex-row-items">{col.value}</div>
+                                case 'text':
+                                    if (editText.value && editText.colIdx) {
+                                        return <div key={idx} className="title-update-input">
+                                            <input type="text" defaultValue={col.value} onChange={(event) => handleTextChange(event, idx)} onClick={(event) => (event.stopPropagation())} /*ref={menuRef}*/ />
+                                        </div>
+                                    }
+                                    return <div onClick={() => textEdit(idx, true)} key={idx} className="flex-row-items">{col.value}</div>
+                            }
+                        })
                         }
-                    })
-                    }
-                    <div className="right-indicator-row"></div>
+                        <div className="right-indicator-row"></div>
+                    </div>
                 </div>
                 <div className="add-colomn-column"></div>
             </div>
             {arrowTask.board && arrowTask.groupId === group.id && arrowTask.taskId === task.id && <TaskMenu statusRef={statusRef} removeTask={removeTask} arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
         </div >
-        {statusActive.value && <StatusModal updateGroup={updateGroup} onUpdateGroupBar={onUpdateGroupBar} specialUpdateTask={specialUpdateTask} statusActive={statusActive} statusRef={statusRef} modalPos={modalPos} />}
+        {statusActive.value && <StatusModal setStatusActive={setStatusActive} updateGroup={updateGroup} onUpdateGroupBar={onUpdateGroupBar} specialUpdateTask={specialUpdateTask} statusActive={statusActive} statusRef={statusRef} modalPos={modalPos} />}
         {modal.boardId && <SidePanel statusRef={statusRef} modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}
     </section >
 }

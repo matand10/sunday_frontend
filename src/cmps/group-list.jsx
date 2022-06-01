@@ -136,27 +136,29 @@ export const GroupList = ({ updateTask, updateBoard, updateStatistics, board, gr
                     }
                 </div>
 
-                <div className="group-header-items">
-                    {columns.map((col, idx) => {
-                        return <div key={idx} className="column-header">
-                            <div onClick={() => onHeaderSort(col.type, idx)} className="sort-header-menu hide-sort">
-                                <FaSort />
+                <div className="flex coulmn-main-header-container">
+                    <div className="group-header-items">
+                        {columns.map((col, idx) => {
+                            return <div key={idx} className="column-header">
+                                <div onClick={() => onHeaderSort(col.type, idx)} className="sort-header-menu hide-sort">
+                                    <FaSort />
+                                </div>
+                                <span className="editable-column-header">
+                                    <EditableColumn colIdx={idx} group={group} updateGroup={updateGroup} text={col.title} />
+                                </span>
+                                <div className="col-arrow-container">
+                                    <div className="col-arrow-div" onClick={() => onOpenColActions(idx, group.id)} > <FaCaretDown className="col-arrow" /></div>
+                                </div>
+                                {colActions.colIdx === idx && colActions.groupId === group.id && <ColMenu setGroupIsClick={setGroupIsClick} setcolActions={setColActions} menuRef={menuRef} removeCol={removeCol} colActions={colActions} />}
                             </div>
-                            <span className="editable-column-header">
-                                <EditableColumn colIdx={idx} group={group} updateGroup={updateGroup} text={col.title} />
-                            </span>
-                            <div className="col-arrow-container">
-                                <div className="col-arrow-div" onClick={() => onOpenColActions(idx, group.id)} > <FaCaretDown className="col-arrow" /></div>
-                            </div>
-                            {colActions.colIdx === idx && colActions.groupId === group.id && <ColMenu setGroupIsClick={setGroupIsClick} setcolActions={setColActions} menuRef={menuRef} removeCol={removeCol} colActions={colActions} />}
-                        </div>
-                    })}
-                </div>
-                <div className="add-colomn-column-button-container">
-                    <button className="add-colomn-column-button" onClick={() => {
-                        setIsAddCol(!isAddCol)
-                    }}><span>+</span></button>
-                    {isAddCol && <ColAddMenu menuRef={menuRef} onNewCol={onNewCol} />}
+                        })}
+                    </div>
+                    <div className="add-colomn-column-button-container">
+                        <button className="add-colomn-column-button" onClick={() => {
+                            setIsAddCol(!isAddCol)
+                        }}><span>+</span></button>
+                        {isAddCol && <ColAddMenu menuRef={menuRef} onNewCol={onNewCol} />}
+                    </div>
                 </div>
             </div>
 
@@ -169,13 +171,12 @@ export const GroupList = ({ updateTask, updateBoard, updateStatistics, board, gr
 
 
 
-
             <div className="columns-footer-component">
-                <div className="group-header-component">
-                    <div className="group-header-title">
+                <div className="group-footer-container">
+                    {/* <div className="group-header-title">
                         <div className="group-arrow-div" style={{ color: group.style.color }}>
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className="group-footer-items">
                         {group.columns && group.columns.map((col, idx) => {

@@ -51,23 +51,11 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
         onFilter(handleSearch)
     }, [handleSearch])
 
-<<<<<<< HEAD
-    const handleBoardTitleChange = ({ target }) => {
-        document.addEventListener("keydown", (event) => {
-            if (event.key === "Enter") {
-                event.preventDefault()
-                const value = target.value
-                const field = target.name
-                setTitleBoard((prevBoard) => ({ ...prevBoard, [field]: value }))
-            }
-        })
-=======
     const updateTitleBoard = (ev) => {
         ev.preventDefault()
         board.title = titleBoard.title
         updateBoard(board)
         setIsTitleBoardClick(!isTitleBoardClick)
->>>>>>> c853ab8f9b282ff802a1965a242cf6b0ac963ea9
     }
 
     const handleBoardTitleChange = ({ target }) => {
@@ -110,15 +98,11 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
                     {isTitleBoardClick ?
                         <div className="board-title-input-container">
                             <form onSubmit={updateTitleBoard} className="board-title-form">
-                                <input type="text" name="title" defaultValue={board.title} onChange={handleBoardTitleChange} ref={menuRef}/>
+                                <input type="text" name="title" defaultValue={board.title} onChange={handleBoardTitleChange} ref={menuRef} />
                             </form>
                         </div>
                         :
-<<<<<<< HEAD
-                        <div>
-=======
                         <div className="board-title-content">
->>>>>>> c853ab8f9b282ff802a1965a242cf6b0ac963ea9
                             <h1 className="title" onClick={() => setIsTitleBoardClick(!isTitleBoardClick)}>{board.title}</h1>
                         </div>
                     }
