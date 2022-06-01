@@ -23,7 +23,6 @@ export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setK
         // setKanbanBoard(newBoard)
 
         let newBoard = await taskService.addTask(board, task, groupId)
-        console.log(newBoard);
         updateBoard(newBoard)
 
     }

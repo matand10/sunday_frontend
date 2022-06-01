@@ -19,7 +19,6 @@ export const InviteToTaskModal = ({ statusRef, task, board }) => {
 
 
     const assignUserToTask = (user) => {
-        console.log(user);
     }
 
     return <section className="invite-member-task-wrapper" ref={statusRef}>

@@ -160,7 +160,6 @@ function groupHeadSort(sortValue, group, rev, colIdx) {
 }
 
 function isIdOk(boardId, boards) {
-    console.log(boards);
     if (!boards._id) return
     return boards.some(board => board._id === boardId)
 }
@@ -251,12 +250,7 @@ function makeBoard(user) {
         title: "Robot dev proj",
         archivedAt: 1589983468418,
         createdAt: 1589983468418,
-        createdBy: user || {
-            _id: "guest_id",
-            fullname: "Guest",
-            imgUrl: "http://some-img"
-        },
-        members: [(user || {
+        members: [user || ({
             _id: "u101",
             fullname: "Guest",
             imgUrl: "http://some-img"

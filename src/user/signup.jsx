@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { FcGoogle } from 'react-icons/fc';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import signup1 from '../assets/img/signup/signup1.png'
 import signup2 from '../assets/img/signup/signup2.png'
 import signup3 from '../assets/img/signup/signup3.png'
@@ -13,7 +13,8 @@ class _Signup extends React.Component {
         credential: {
             username: '',
             password: '',
-            fullname: ''
+            fullname: '',
+            boardsIds: []
         }
     }
 
@@ -29,7 +30,7 @@ class _Signup extends React.Component {
         const { credential } = this.state
         this.props.onSignup(credential)
         this.setState({ credential: { password: '', username: '', fullname: '' } })
-        window.location.href = '/board'
+        // window.location.href = '/login'
     }
 
 

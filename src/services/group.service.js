@@ -32,13 +32,11 @@ async function remove(groupId, boardId) {
     let currBoard = await boardService.getById(boardId)
     let currGroup = currBoard.groups.filter(group => group.id !== groupId)
     currBoard.groups = currGroup
-    console.log('cuurBoard', currBoard)
     await storageService.put(STORAGE_KEY, currBoard)
     return currBoard
 }
 
 function getById(groupId, board) {
-    console.log('froum service', board)
     return board.groups.find(group => group.id === groupId)
 }
 
@@ -69,6 +67,14 @@ function getEmptyGroup() {
         style: { color: utilService.getRandomColor() },
         title: 'Group Title',
         archivedAt: '',
+        progress: {
+            colIdx: 1,
+            progress: {
+                'Working on it': null,
+                Done: null,
+                Stuck: null
+            }
+        },
         columns: [
             {
                 title: 'Person',
@@ -198,7 +204,6 @@ function groupColAdd(group, value) {
 }
 
 function getProgress(group, colIdx) {
-    console.log(group);
     const groupTaskMap = group.tasks.reduce((acc, task) => {
         if (acc[task.columns[colIdx].value.title]) acc[task.columns[colIdx].value.title] += 1
         else acc[task.columns[colIdx].value.title] = 1
