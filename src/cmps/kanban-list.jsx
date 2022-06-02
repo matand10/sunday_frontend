@@ -1,10 +1,14 @@
 import { FaRegUserCircle, FaRegCircle } from 'react-icons/fa'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { boardService } from '../services/board.service'
 import { taskService } from '../services/task.service'
 
 
-export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setKanbanBoard }) => {
+export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setKanbanBoard, updateTask,onUpdatTaskName }) => {
     const [task, setTask] = useState({ title: '', status })
+    const [taskTitle, setTaskTitle] = useState('')
+    const [isTaskNameClick, setIsTaskNameClick] = useState({})
+
 
     const handleAddChange = ({ target }) => {
         const field = target.name
@@ -15,16 +19,31 @@ export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setK
     const addTaskKanban = async (ev) => {
         ev.preventDefault()
         const groupId = board.groups[0].id
-        // let newBoard = { ...board }
-        // let newTask = taskService.getEmptyTask(board.groups[0].columns)
-        // newTask.title = task.title
-        // newTask.columns[1].value = status
-        // newBoard.groups[0].tasks.push(newTask)
-        // setKanbanBoard(newBoard)
-
         let newBoard = await taskService.addTask(board, task, groupId)
         updateBoard(newBoard)
+        onUpdatTaskName(newBoard)
+    }
 
+    const handleTaskNameChange = ({ target }) => {
+        const field = target.name
+        const value = target.value
+        setTaskTitle((prevTask) => ({ ...prevTask, [field]: value }))
+    }
+
+    const updateTaskName = (ev, taskId, groupId) => {
+        ev.preventDefault()
+        const groupIdx=board.groups.findIndex(group=>group.id===groupId)
+        let taskIdx=board.groups[groupIdx].tasks.findIndex(task=>task.id===taskId)
+        let newBoard = {...board}
+        newBoard.groups[groupIdx].tasks[taskIdx].title=taskTitle.title
+        updateBoard(newBoard)
+        onUpdatTaskName(newBoard)
+        setIsTaskNameClick({})
+    }
+
+    const setUpdateClick = (ev, params) => {
+        ev.stopPropagation()
+        setIsTaskNameClick(params)
     }
 
     return (
@@ -37,7 +56,17 @@ export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setK
                         {kanban[(status.title === 'Working on it') ? status.title = 'WorkingOnIt' : status.title] && kanban[(status.title === 'Working on it') ? status.title = 'WorkingOnIt' : status.title].map((item, idx) => {
                             return <div key={idx} className="kanban-task-content">
                                 <div className="task-name-content">
-                                    <div>{item.taskName}</div>
+                                    {(isTaskNameClick.boardId && isTaskNameClick.groupId === item.groupId && isTaskNameClick.taskId === item.taskId) ?
+                                        <div>
+                                            <form onSubmit={(event) => updateTaskName(event, item.taskId, item.groupId)}>
+                                                <input type="text" name="title" defaultValue={item.taskName} onChange={handleTaskNameChange} onClick={(event) => (event.stopPropagation())}/>
+                                            </form>
+                                        </div>
+                                        :
+                                        <div>
+                                            <div onClick={(event) => setUpdateClick(event, { boardId: board._id, groupId: item.groupId, taskId: item.taskId })}>{item.taskName}</div>
+                                        </div>
+                                    }
                                 </div>
                                 <div className="task-down-phase">
                                     <div className='task-person-content'>

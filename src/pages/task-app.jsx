@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { loadBoards, setFilter } from "../store/board/board.action"
 import { loadUsers, updateUser } from "../store/user/user.actions"
@@ -11,7 +11,7 @@ import { taskService } from "../services/task.service"
 import { boardService } from "../services/board.service"
 import { useNavigate, useParams } from "react-router-dom"
 import { Outlet } from 'react-router-dom'
-import { userService } from "../services/user.service"
+import { groupService } from "../services/group.service"
 
 export const TasksApp = () => {
     const [board, setBoard] = useState(null)
@@ -23,6 +23,7 @@ export const TasksApp = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate();
     const { boardId } = useParams()
+    const ref = useRef(null)
 
     useEffect(() => {
         dispatch(loadUsers())
@@ -37,44 +38,19 @@ export const TasksApp = () => {
         else {
             navigate(`/board/${boards[0]._id}`)
         }
-    }, [boardId])
+    }, [boardId, board])
 
     useEffect(() => {
+
         if (boards.length > 0) {
-            if (boardId && (boardService.isIdOk(boardId, boards))) loadBoard()
-            else {
+            if (boardId) {
+                if (boardService.isIdOk(boardId, boards)) loadBoard()
+            } else {
                 setBoard(boards[0])
                 navigate(`/board/${boards[0]._id}`)
             }
         }
     }, [boards])
-
-
-    // useEffect(() => {
-    //     if (board) return
-    //     if (boards.length > 0) {
-    //         if (boardService.isIdOk(boardId, boards) && boards._id) {
-    //             loadBoard()
-    //             return
-    //         } else if (boards[0]._id) {
-    //             setBoard(boards[0])
-    //             navigate(`/board/${boards[0]._id}`)
-    //             return
-    //         }
-    //     }
-    // }, [boards])
-
-    // useEffect(() => {
-    //     if (boards.length === 0) {
-    //         setIsMake(true)
-    //     }
-    // }, [boards])
-
-    // useEffect(() => {
-    //     if (isMake) {
-    //         onAddBoard()
-    //     }
-    // }, [isMake])
 
     const loadBoard = async () => {
         const currBoard = await boardService.getById(boardId)
@@ -96,11 +72,8 @@ export const TasksApp = () => {
         let newUser = { ...user }
         let newBoard = boardService.makeBoard(newUser)
         newBoard.title = board.title
-        newBoard._id = await boardService.save(newBoard)
         newBoard.members.push(newUser)
-        dispatch(updateUser(newUser))
-        navigate(`/board/${newBoard._id}`)
-        setBoard(newBoard)
+        dispatch(saveBoard(newBoard))
     }
 
     const onDeleteBoard = (boardId) => {
@@ -110,8 +83,8 @@ export const TasksApp = () => {
     }
 
     const updateBoard = (updatedBoard) => {
-        dispatch(saveBoard(updatedBoard))
         setBoard(updatedBoard)
+        dispatch(saveBoard(updatedBoard))
     }
 
     const onRemoveGroup = (groupId) => {
@@ -144,6 +117,16 @@ export const TasksApp = () => {
         const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
         const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(task => task.id === taskId)
         newBoard.groups[groupIdx].tasks.splice(taskIdx, 1)
+        let statusColIdxs = []
+        newBoard.groups[groupIdx].columns.forEach((col, idx) => {
+            if (col.type === 'status') statusColIdxs.push(idx)
+        })
+        const group = { ...newBoard.groups[groupIdx] }
+        // let progressBars = statusColIdxs.map(((colIdx, idx) => {
+        const progressBars = groupService.getProgress(group, statusColIdxs)
+        // }))
+        newBoard.groups[groupIdx].progress = progressBars
+        console.log(newBoard);
         dispatch(saveBoard(newBoard))
     }
 
@@ -157,7 +140,13 @@ export const TasksApp = () => {
         navigate(`/board/${board._id}`)
     }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 931d81757ebe5499b800fab33a6b7d15fe28eb10
     if (!boards.length) return <h1>Loading...</h1>
+    // if (!boards.length) return <div style={{ width: 100 + '%', height: 0, paddingBottom: 56 + '%', position: 'relative' }}><iframe ref={ref} src="https://giphy.com/embed/jAYUbVXgESSti" style={{ width: 50 + '%', height: 50 + '%', position: 'absolute', frameBorder: 0 }} className="giphy-embed" allowFullScreen /></div>
     return <section className="task-main-container">
         <div className="board-container-left">
             <SideNav />

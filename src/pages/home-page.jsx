@@ -2,15 +2,23 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link, NavLink } from 'react-router-dom'
 import { Header } from '../cmps/header.jsx'
+import { onLogin } from '../store/user/user.actions.js'
 
 class _HomePage extends React.Component {
 
+    gusetMode = async (ev) => {
+        ev.preventDefault()
+        console.log('hey');
+        const credential = { username: 'guest@guest', password: 'guest' }
+        let user = await this.props.onLogin(credential)
+        if (user) window.location.href = '/board'
+    }
 
     render() {
         return (
             <section>
                 <header>
-                    <Header />
+                    <Header gusetMode={this.gusetMode} />
                 </header>
                 <main>
                     <section className="sunday-first-homepage-header">
@@ -50,4 +58,8 @@ function mapStateToProps(state) {
     }
 }
 
-export const HomePage = connect(mapStateToProps)(_HomePage)
+const mapDispatchToProps = {
+    onLogin
+}
+
+export const HomePage = connect(mapStateToProps, mapDispatchToProps)(_HomePage)

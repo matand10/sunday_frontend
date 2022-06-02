@@ -6,7 +6,7 @@ import { FaChevronCircleDown, FaCaretDown, FaSort } from 'react-icons/fa'
 import { GroupMenu } from './group-menu'
 import { TasksList } from './tasks-list.jsx'
 import { useParams } from "react-router-dom";
-import { EditableColumn } from "../cmps/editable-input";
+import { EditableColumn } from "./editable-colum";
 import { boardService } from "../services/board.service";
 // import { saveBoard } from '../store/board/board.action'
 import { useDispatch } from "react-redux";

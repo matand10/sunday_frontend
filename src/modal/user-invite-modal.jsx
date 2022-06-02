@@ -29,7 +29,7 @@ export const InviteUserMenu = ({ users, updateBoard, setUnAssignedUsers, board, 
     }
 
     return <React.Fragment>
-        {filteredUsers.length && isInviteMenuOpen && <section ref={menuRef} className="user-invite-menu">
+        {/* {filteredUsers.length && isInviteMenuOpen && <section ref={menuRef} className="user-invite-menu">
             <div className="user-invite-menu-container">
                 {filteredUsers.map((user, idx) => {
                     return <div onClick={() => deleteUserFromInvite(user)} className="users-invitation-container" key={idx}>
@@ -38,7 +38,7 @@ export const InviteUserMenu = ({ users, updateBoard, setUnAssignedUsers, board, 
                     </div>
                 })}
             </div>
-        </section>}
+        </section>} */}
     </React.Fragment>
 
 }

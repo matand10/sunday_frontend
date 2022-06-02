@@ -203,22 +203,17 @@ function groupColAdd(group, value) {
     return newGroup
 }
 
-function getProgress(group, colIdx) {
-    const groupTaskMap = group.tasks.reduce((acc, task) => {
-        if (acc[task.columns[colIdx].value.title]) acc[task.columns[colIdx].value.title] += 1
-        else acc[task.columns[colIdx].value.title] = 1
-
-        // task.columns.forEach(column => {
-        //     if (column.type === 'status') {
-        //         if (acc[column.value.title]) acc[column.value.title] += 1
-        //         else acc[column.value.title] = 1
-        //     } else {
-        //         return
-        //     }
-        // })
-        return acc
-    }, {})
-    return groupTaskMap
+function getProgress(group, colIdxs) {
+    colIdxs.forEach(colIdx=>{
+        const value = group.tasks.reduce((acc, task) => {
+            if (acc[task.columns[colIdx].value.title]) acc[task.columns[colIdx].value.title] += 1
+            else acc[task.columns[colIdx].value.title] = 1
+            return acc
+        }, {})
+        const progIdx = group.progress.findIndex(pro => pro.colIdx === colIdx)
+        group.progress[progIdx].value = value
+    })
+    return group.progress
 }
 
 function groupColRemove(colIdx, group) {

@@ -160,7 +160,7 @@ function groupHeadSort(sortValue, group, rev, colIdx) {
 }
 
 function isIdOk(boardId, boards) {
-    if (!boards._id) return
+    // if (!boards._id) return
     return boards.some(board => board._id === boardId)
 }
 
@@ -250,25 +250,25 @@ function makeBoard(user) {
         title: "Robot dev proj",
         archivedAt: 1589983468418,
         createdAt: 1589983468418,
-        members: [user || ({
+        members: [user, {
             _id: "u101",
             fullname: "Guest",
             imgUrl: "http://some-img"
-        })],
+        }],
         groups: [
             {
                 style: { color: utilService.getRandomColor() },
                 id: "g101",
                 title: "Group Title",
                 archivedAt: 1589983468418,
-                progress: {
-                    colIdx: 1,
-                    progress: {
+                progress: [{
+                    value: {
                         'Working on it': null,
                         Done: null,
                         Stuck: null
-                    }
-                },
+                    },
+                    colIdx: 1
+                }],
                 columns: [
                     {
                         title: 'Person',
@@ -348,14 +348,14 @@ function makeBoard(user) {
                 id: "g102",
                 title: "Group Title",
                 style: { color: utilService.getRandomColor() },
-                progress: {
-                    colIdx: 1,
-                    progress: {
+                progress: [{
+                    value: {
                         'Working on it': null,
                         Done: null,
                         Stuck: null
-                    }
-                },
+                    },
+                    colIdx: 1
+                }],
                 columns: [
                     {
                         title: 'Person',
