@@ -322,9 +322,9 @@
     margin-inline-end: 15px;
 }
 
-.coulmn-main-header-container {
-    max-width: 400px;
-}
+// .coulmn-main-header-container {
+//     max-width: 400px;
+// }
 
 .group-header-title {
     display: flex;
@@ -440,9 +440,8 @@
 .task-title-cell-component {
     display: flex;
     align-items: center;
-    flex-basis: 623px;
+    flex-basis: 400px;
     position: relative;
-    min-width: 623px;
 }
 
 .task-title-cell {

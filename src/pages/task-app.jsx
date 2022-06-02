@@ -10,8 +10,6 @@ import { taskService } from "../services/task.service"
 import { boardService } from "../services/board.service"
 import { useNavigate, useParams } from "react-router-dom"
 import { Outlet } from 'react-router-dom'
-import { userService } from "../services/user.service"
-import ReactDOM from "react-dom"
 
 export const TasksApp = () => {
     const [board, setBoard] = useState(null)
@@ -30,23 +28,15 @@ export const TasksApp = () => {
     }, [])
 
     useEffect(() => {
-        console.log(boards);
         if (board && board._id === boardId) return
         if (!boards.length > 0) return
         if (boardId && (boardService.isIdOk(boardId, boards))) loadBoard()
         else {
             navigate(`/board/${boards[0]._id}`)
         }
-    }, [boardId])
+    }, [boardId, board])
 
     useEffect(() => {
-        if (board) return
-        // if (board && !board._id) {
-        //     let newBoard = { ...board }
-        //     newBoard._id = boardId
-        //     setBoard(newBoard)
-        //     return
-        // }
         if (boards.length > 0) {
             if (boardId && (boardService.isIdOk(boardId, boards))) loadBoard()
             else {
@@ -55,33 +45,6 @@ export const TasksApp = () => {
             }
         }
     }, [boards])
-
-
-    // useEffect(() => {
-    //     if (board) return
-    //     if (boards.length > 0) {
-    //         if (boardService.isIdOk(boardId, boards) && boards._id) {
-    //             loadBoard()
-    //             return
-    //         } else if (boards[0]._id) {
-    //             setBoard(boards[0])
-    //             navigate(`/board/${boards[0]._id}`)
-    //             return
-    //         }
-    //     }
-    // }, [boards])
-
-    // useEffect(() => {
-    //     if (boards.length === 0) {
-    //         setIsMake(true)
-    //     }
-    // }, [boards])
-
-    // useEffect(() => {
-    //     if (isMake) {
-    //         onAddBoard()
-    //     }
-    // }, [isMake])
 
     const loadBoard = async () => {
         const currBoard = await boardService.getById(boardId)
@@ -105,11 +68,8 @@ export const TasksApp = () => {
         let newUser = { ...user }
         let newBoard = boardService.makeBoard(newUser)
         newBoard.title = board.title
-        newBoard._id = await boardService.save(newBoard)
         newBoard.members.push(newUser)
-        dispatch(updateUser(newUser))
-        navigate(`/board/${newBoard._id}`)
-        setBoard(newBoard)
+        dispatch(saveBoard(newBoard))
     }
 
     const onDeleteBoard = (boardId) => {
@@ -119,8 +79,8 @@ export const TasksApp = () => {
     }
 
     const updateBoard = (updatedBoard) => {
-        dispatch(saveBoard(updatedBoard))
         setBoard(updatedBoard)
+        dispatch(saveBoard(updatedBoard))
     }
 
     const onRemoveGroup = (groupId) => {
@@ -167,7 +127,7 @@ export const TasksApp = () => {
     }
 
 
-    
+
     if (!boards.length) return <h1>Loading...</h1>
     // if (!boards.length) return <div style={{ width: 100 + '%', height: 0, paddingBottom: 56 + '%', position: 'relative' }}><iframe ref={ref} src="https://giphy.com/embed/jAYUbVXgESSti" style={{ width: 50 + '%', height: 50 + '%', position: 'absolute', frameBorder: 0 }} className="giphy-embed" allowFullScreen /></div>
     return <section className="task-main-container">

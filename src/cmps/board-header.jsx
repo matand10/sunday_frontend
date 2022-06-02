@@ -15,7 +15,6 @@ import { NavLink, Outlet } from "react-router-dom";
 import { InviteUserMenu } from '../modal/user-invite-modal'
 import { userService } from "../services/user.service";
 import { boardService } from "../services/board.service";
-
 export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, onFilter }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isInviteMenuOpen, setIsInviteMenuOpen] = useState(false)
@@ -48,7 +47,7 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
             setIsTitleBoardClick(false)
         }
     }
-
+    
     useEffect(() => {
         if (!firstFilterUseEffectRef.current) onFilter(handleSearch)
         firstFilterUseEffectRef.current = false
@@ -114,39 +113,35 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
                         <span className="icon-action-btn"><FaRegStar title="Add to favorites" /></span>
                     </div>
                 </div>
-
                 <div className="board-header-right">
                     <div className="board-header-actions">
                         <button className="panel-button">Last Seen</button>
-                        <button className="panel-button" onClick={() => toggleInviteMenu(true)}>Invite / {unAssignedUsers.length}</button>
+                        {/* <button className="panel-button" onClick={() => toggleInviteMenu(true)}>Invite / {unAssignedUsers.length}</button> */}
                         <button className="panel-button">Activity</button>
                         <button className="panel-button board-add"><span>+</span> Add to board</button>
                         <div onClick={() => toggleMenu(true)} className="ds-menu-side-panel-header"><img src={dotsMenu} alt='dots-menu' /></div>
                     </div>
                 </div>
             </div>
-
             <div className="ds-header-component">
                 <div className="ds-header-content">
                     <span>Add board description</span>
                 </div>
             </div>
         </div>
-
         <div className="board-subsets-toolbar">
             <div className="board-subsets-tabs">
                 <div className="board-subsets-item">
-                    <button className="board-subsets-item-button"><NavLink to={`/board/${board._id}`} className="main-table-nav"><span><BsTable /> Main Table</span></NavLink> </button>
+                    <button className="board-subsets-item-button"><NavLink to={`/board/${board._id}`}><span><BsTable /> Main Table</span></NavLink> </button>
                     <div className="board-subsets-item-line"></div>
                 </div>
                 <div className="board-kanban-item">
-                    <button className="board-kanban-item-button"><NavLink to={`/board/${board._id}/kanban`} className="kanban-nav"><span><FaTrello /> Kanban</span></NavLink></button>
+                    <button className="board-kanban-item-button"><NavLink to={`/board/${board._id}/kanban`}><span><FaTrello /> Kanban</span></NavLink></button>
                     {/* <button className="board-kanban-item-button" onClick={()=>navigate(`{/board/${board._id}/kanban}`)}><span><FaTrello/> Kanban</span></button> */}
                     <div className="board-kanban-item-line"></div>
                 </div>
             </div>
         </div>
-
         <div className="divider"></div>
         <div className="board-header-actions-v2">
             <BoardNav onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
@@ -157,9 +152,8 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
             <button className="panel-button-v2" onClick={() => toggleSortModal(true)}><BiSort /> <span>Sort</span></button>
             <button className="panel-button-v2"><BsPinAngle /> <span>Pin</span></button>
         </div>
-
         <DsMenu isMenuOpen={isMenuOpen} menuRef={menuRef} />
-        {/* <InviteUserMenu users={users} setUnAssignedUsers={setUnAssignedUsers} updateBoard={updateBoard} board={board} isInviteMenuOpen={isInviteMenuOpen} menuRef={menuRef} /> */}
+        <InviteUserMenu users={users} setUnAssignedUsers={setUnAssignedUsers} updateBoard={updateBoard} board={board} isInviteMenuOpen={isInviteMenuOpen} menuRef={menuRef} />
         <SortMenu onSetFilter={onSetFilter} isSortMenuOpen={isSortMenuOpen} menuRef={menuRef} />
     </div>
 }
