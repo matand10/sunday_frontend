@@ -93,16 +93,16 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
         updateGroup(newGroup)
     }
 
-    const handleGroupCange = ({ target }) => {
-        document.addEventListener("keydown", (event) => {
-            if (event.key === "Enter") {
-                event.preventDefault()
-                const value = target.value
-                const field = target.name
-                setGroupUpdate((prevGroup) => ({ ...prevGroup, [field]: value }))
-            }
-        })
-    }
+    // const handleGroupCange = ({ target }) => {
+    //     document.addEventListener("keydown", (event) => {
+    //         if (event.key === "Enter") {
+    //             event.preventDefault()
+    //             const value = target.value
+    //             const field = target.name
+    //             setGroupUpdate((prevGroup) => ({ ...prevGroup, [field]: value }))
+    //         }
+    //     })
+    // }
 
     const onHeaderSort = (sortValue, colIdx) => {
         setIsReversedSort(!isReversedSort)
@@ -114,9 +114,18 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
         setColActions({ colIdx: colIdx, groupId: groupId })
     }
 
+    const changeGroupTitle = (ev) => {
+        const value = ev.currentTarget.textContent
+        const newGroup = { ...group }
+        newGroup.title = value
+        updateGroup(newGroup)
+    }
+
     let columns = group.columns
     columns = columns.sort((a, b) => a.importance - b.importance)
+
     if (!board) return <h1>Loading...</h1>
+
     return <div className="board-content-wrapper">
         <div className="group-header-wrapper">
             <div className="group-header-component">
@@ -125,16 +134,10 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
                         <FaChevronCircleDown className="group-arrow" onClick={() => setIsClickGroup(!isClickGroup)} />
                     </div>
                     <div>{isClickGroup && <GroupMenu menuRef={menuRef} group={group} onRemoveGroup={onRemoveGroup} />}</div>
-                    {(groupIsClick.boardId && groupIsClick.groupId === group.id) ?
-                        <div>
-                            <input type="text" ref={menuRef} defaultValue={group.title} onChange={handleGroupCange} name="title" style={{ color: group.style.color }} />
-                        </div>
-                        :
-                        <div className="column-header column-header-title">
-                            <h3 style={{ color: group.style.color }} onClick={(event) => onUpdateGroup(event, { boardId: board._id, groupId: group.id })}>{group.title}</h3>
-                            <div onClick={() => onHeaderSort('title')} className="sort-header-menu hide-sort"><FaSort /></div>
-                        </div>
-                    }
+                    <div className="column-header column-header-title">
+                        <h3 style={{ color: group.style.color }} contentEditable={true} suppressContentEditableWarning={true} onBlur={(ev) => changeGroupTitle(ev)}>{group.title}</h3>
+                        <div onClick={() => onHeaderSort('title')} className="sort-header-menu hide-sort"><FaSort /></div>
+                    </div>
                 </div>
 
                 <div className="flex coulmn-main-header-container">

@@ -28,7 +28,6 @@ async function query(filterBy = {}) {
         // const res = await storageService.get(STORAGE_KEY)
         // const res = await storageService.query(STORAGE_KEY)
         // if (!res.length) res = getEmptyBoard()
-        console.log(filterBy);
         const boards = await httpService.get('board', { params: { filterBy } })
         return boards
     } catch (err) {

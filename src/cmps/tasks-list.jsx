@@ -7,16 +7,15 @@ import { SidePanel } from "./side-panel"
 import { useParams } from "react-router-dom";
 import { boardService } from '../services/board.service'
 import { FaCaretDown } from 'react-icons/fa'
-import { BiMessageRounded } from 'react-icons/bi'
 import { groupService } from '../services/group.service';
 import { InviteToTaskModal } from '../modal/invite-to-task-menu';
+import { TaskTitleChange } from './task-title-change';
 
 
 export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdateGroupBar, task, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board, removeTask, updateTaskDate }) => {
     const [modal, setModal] = useState({})
     const [arrowTask, setArrowTask] = useState({})
     const [updateIsClick, setUpdateIsClick] = useState({})
-    const [taskUpdate, setTaskUpdate] = useState(task)
     const [modalPos, setModalPos] = useState({ x: null, y: null })
     const [statusActive, setStatusActive] = useState(false)
     const [inviteUserModal, setInviteUserModal] = useState(false)
@@ -28,11 +27,6 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
     let statusRef = useRef()
     let dateRef = useRef()
     const { boardId } = useParams()
-
-    useEffect(() => {
-        updateTask(taskUpdate, group.id, board)
-        setUpdateIsClick({})
-    }, [taskUpdate])
 
 
     useEffect(() => {
@@ -46,18 +40,6 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
         ev.stopPropagation()
         setArrowTask(params)
     }
-
-    const handleChange = ({ target }) => {
-        document.addEventListener("keydown", (event) => {
-            if (event.key === "Enter") {
-                event.preventDefault()
-                const value = target.value
-                const field = target.name
-                setTaskUpdate((prevTask) => ({ ...prevTask, [field]: value }))
-            }
-        })
-    }
-
 
     const eventListener = (ev) => {
         if (!statusRef.current?.contains(ev.target)) {
@@ -107,15 +89,7 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
         specialUpdateTask(target.value, colIdx)
     }
 
-    const handleTextChange = ({ target }, colIdx) => {
-        document.addEventListener("keydown", (event) => {
-            if (event.key === "Enter") {
-                event.preventDefault()
-                specialUpdateTask(target.value, colIdx)
-                setEditText(false)
-            }
-        })
-    }
+
 
     const specialUpdateTask = (value, colIdx, status = null) => {
         let newTask = { ...task }
@@ -142,30 +116,9 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
                     <div className="left-indicator-cell" style={{ backgroundColor }}></div>
                     <div className="task-arrow-container">
                         <div className="task-arrow-div" onClick={(ev) => onOpenMenu(ev, { taskId: task.id, groupId: group.id, board: board })} > <FaCaretDown className="task-arrow" /></div>
-
                         {arrowTask.board && arrowTask.groupId === group.id && arrowTask.taskId === task.id && <TaskMenu statusRef={statusRef} removeTask={removeTask} arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
-
                     </div>
-                    <div className="task-title-content" >
-                        {(updateIsClick.boardId && updateIsClick.groupId === group.id && updateIsClick.task.id === task.id) ?
-                            <div className="title-update-input">
-                                <input type="text" defaultValue={task.title} onChange={handleChange} name="title" onClick={(event) => (event.stopPropagation())} ref={statusRef} />
-                            </div>
-                            :
-                            <div className="task-title-cell">
-                                <div>
-                                    {task.title}
-                                </div>
-                                <div className="edit-button-container">
-                                    <button onClick={(event) => onUpdateTask(event, { boardId: board._id, groupId: group.id, task: task })} className="edit-button">Edit</button>
-                                </div>
-                                <div className="activity-main-container">
-                                    <BiMessageRounded className="activities-icon" onClick={onOpenModal} style={{ color: task.comments?.length ? '#1976d2' : '' }} />
-                                </div>
-                            </div>
-                        }
-
-                    </div>
+                    <TaskTitleChange setUpdateIsClick={setUpdateIsClick} updateTask={updateTask} updateIsClick={updateIsClick} taskIdx={taskIdx} statusRef={statusRef} task={task} group={group} onUpdateTask={onUpdateTask} onOpenModal={onOpenModal} board={board} />
                 </div>
 
                 <div className="task-column-rows">
@@ -198,7 +151,7 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
                                 case 'text':
                                     if (editText.value && editText.colIdx) {
                                         return <div key={idx} className="title-update-input">
-                                            <input type="text" defaultValue={col.value} onChange={(event) => handleTextChange(event, idx)} onClick={(event) => (event.stopPropagation())} /*ref={menuRef}*/ />
+                                            {/* <input type="text" value={col.value} onChange={(event) => handleTextChange(event, idx)} onClick={(event) => (event.stopPropagation())} /> */}
                                         </div>
                                     }
                                     return <div onClick={() => textEdit(idx, true)} key={idx} className="flex-row-items">{col.value}</div>

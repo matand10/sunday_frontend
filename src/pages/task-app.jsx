@@ -15,8 +15,8 @@ import { useEffectUpdate } from "../hooks/useEffectUpdate"
 import { groupService } from "../services/group.service"
 
 export const TasksApp = () => {
-    
-    
+
+
     const [board, setBoard] = useState(null)
     const { boards } = useSelector((storeState) => storeState.boardModule)
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
@@ -29,23 +29,18 @@ export const TasksApp = () => {
     const ref = useRef(null)
 
     useEffect(() => {
-        console.log('Rendered');
         dispatch(loadUsers())
         dispatch(loadBoards(filterBy))
     }, [])
-    
+
     useEffectUpdate(() => {
-        console.log('Updated');
         // dispatch(loadUpdates())
         loadBoard()
     }, [boards])
 
     const loadBoard = async () => {
-        console.log(boards);
-
         const currBoard = boardId ? await boardService.getById(boardId) : boards[0]
         if (!currBoard) return navigate('/')
-        console.log('currBoard', currBoard);
         const filteredBoard = boardService.filterBoard(currBoard, filterBy)
         setBoard(filteredBoard)
     }
