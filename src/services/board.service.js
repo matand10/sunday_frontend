@@ -28,7 +28,6 @@ async function query(filterBy = {}) {
         // const res = await storageService.get(STORAGE_KEY)
         // const res = await storageService.query(STORAGE_KEY)
         // if (!res.length) res = getEmptyBoard()
-        console.log(filterBy);
         const boards = await httpService.get('board', { params: { filterBy } })
         return boards
     } catch (err) {
@@ -40,7 +39,6 @@ function filterBoard(board, filterBy) {
     let newGroups
     // console.log(filterBy);
     if (filterBy.search) {
-        console.log(board)
         newGroups = board.groups.filter(group => {
             return group.tasks = group.tasks.filter(task => {
                 const regex = new RegExp(filterBy.search, 'i')

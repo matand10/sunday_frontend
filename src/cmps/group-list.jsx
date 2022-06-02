@@ -40,10 +40,10 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
     const dispatch = useDispatch()
 
 
-    useEffectUpdate(() => {
-        updateGroup(groupUpdate)
-        setGroupIsClick({})
-    }, [groupUpdate])
+    // useEffectUpdate(() => {
+    //     updateGroup(groupUpdate)
+    //     setGroupIsClick({})
+    // }, [groupUpdate])
 
     const onUpdateGroupBar = () => {
         // const newGroup = groupService.getProgress(group)

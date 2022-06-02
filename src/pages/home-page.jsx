@@ -8,7 +8,6 @@ class _HomePage extends React.Component {
 
     gusetMode = async (ev) => {
         ev.preventDefault()
-        console.log('hey');
         const credential = { username: 'guest@guest', password: 'guest' }
         let user = await this.props.onLogin(credential)
         if (user) window.location.href = '/board'

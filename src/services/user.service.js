@@ -123,9 +123,9 @@ function checkBoardMember(board, user) {
 }
 
 function getUnAssignedUsers(users, board) {
-    // return users.filter(user => {
-    //     return board.members.every(member => member._id !== user._id)
-    // })
+    return users.filter(user => {
+        return board.members.every(member => member._id !== user._id)
+    })
 }
 
 function getAssignedUsers(users, board) {

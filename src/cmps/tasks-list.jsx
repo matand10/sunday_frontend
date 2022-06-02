@@ -50,7 +50,6 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
     const handleChange = ({ target }) => {
         document.addEventListener("keydown", (event) => {
             if (event.key === "Enter") {
-                console.log('task');
                 event.preventDefault()
                 const value = target.value
                 const field = target.name
@@ -111,7 +110,6 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
     const handleTextChange = ({ target }, colIdx) => {
         document.addEventListener("keydown", (event) => {
             if (event.key === "Enter") {
-                console.log('task2');
                 event.preventDefault()
                 specialUpdateTask(target.value, colIdx)
                 setEditText(false)
@@ -120,13 +118,14 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
     }
 
     const specialUpdateTask = (value, colIdx, status = null) => {
+        let newGroup = { ...group }
         let newTask = { ...task }
         newTask.columns[colIdx].value = value
-        group.tasks[taskIdx] = newTask
+        newGroup.tasks[taskIdx] = newTask
         if (status === 'status') {
-            group.progress = groupService.getProgress(group, [colIdx])
+            newGroup.progress = groupService.getProgress(newGroup)
         }
-        updateGroup(group)
+        updateGroup(newGroup)
     }
 
     const textEdit = (colIdx, value) => {
