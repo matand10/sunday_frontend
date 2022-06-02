@@ -19,7 +19,6 @@ export const TaskMenu = ({ arrowTask, statusRef, onOpenMenu, removeTask }) => {
                         <div className="task-icon"><AiOutlineUserAdd /></div>
                         <div className="task-title">Rename item</div>
                     </div>
-                    {/* <div className="group-content-wrapper" onClick={() => deleteTask(task.id)}> */}
                     <div className="task-content-wrapper" onClick={() => removeTask(arrowTask.taskId, arrowTask.groupId)}>
                         <div className="task-icon"><BsTrash /></div>
                         <div className="task-title">Delete</div>

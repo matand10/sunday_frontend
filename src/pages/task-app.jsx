@@ -10,6 +10,7 @@ import { taskService } from "../services/task.service"
 import { boardService } from "../services/board.service"
 import { useNavigate, useParams } from "react-router-dom"
 import { Outlet } from 'react-router-dom'
+import { groupService } from "../services/group.service"
 
 export const TasksApp = () => {
     const [board, setBoard] = useState(null)
@@ -37,9 +38,11 @@ export const TasksApp = () => {
     }, [boardId, board])
 
     useEffect(() => {
+
         if (boards.length > 0) {
-            if (boardId && (boardService.isIdOk(boardId, boards))) loadBoard()
-            else {
+            if (boardId) {
+                if (boardService.isIdOk(boardId, boards)) loadBoard()
+            } else {
                 setBoard(boards[0])
                 navigate(`/board/${boards[0]._id}`)
             }
@@ -48,14 +51,12 @@ export const TasksApp = () => {
 
     const loadBoard = async () => {
         const currBoard = await boardService.getById(boardId)
-        console.log(currBoard);
         const filteredBoard = boardService.filterBoard(currBoard, filterBy)
         setBoard(filteredBoard)
     }
 
     const onAddTask = async (task, groupId) => {
         const newBoard = await taskService.addTask(board, task, groupId)
-        console.log('newBoard', newBoard)
         dispatch(saveBoard(newBoard))
     }
 
@@ -113,6 +114,16 @@ export const TasksApp = () => {
         const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
         const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(task => task.id === taskId)
         newBoard.groups[groupIdx].tasks.splice(taskIdx, 1)
+        let statusColIdxs = []
+        newBoard.groups[groupIdx].columns.forEach((col, idx) => {
+            if (col.type === 'status') statusColIdxs.push(idx)
+        })
+        const group = { ...newBoard.groups[groupIdx] }
+        // let progressBars = statusColIdxs.map(((colIdx, idx) => {
+        const progressBars = groupService.getProgress(group, statusColIdxs)
+        // }))
+        newBoard.groups[groupIdx].progress = progressBars
+        console.log(newBoard);
         dispatch(saveBoard(newBoard))
     }
 
