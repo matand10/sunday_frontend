@@ -67,14 +67,14 @@ function getEmptyGroup() {
         style: { color: utilService.getRandomColor() },
         title: 'Group Title',
         archivedAt: '',
-        progress: {
-            colIdx: 1,
-            progress: {
+        progress: [{
+            value: {
                 'Working on it': null,
                 Done: null,
                 Stuck: null
-            }
-        },
+            },
+            colIdx: 1
+        }],
         columns: [
             {
                 title: 'Person',
@@ -204,7 +204,7 @@ function groupColAdd(group, value) {
 }
 
 function getProgress(group, colIdxs) {
-    colIdxs.forEach(colIdx=>{
+    colIdxs.forEach(colIdx => {
         const value = group.tasks.reduce((acc, task) => {
             if (acc[task.columns[colIdx].value.title]) acc[task.columns[colIdx].value.title] += 1
             else acc[task.columns[colIdx].value.title] = 1

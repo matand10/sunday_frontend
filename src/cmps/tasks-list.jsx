@@ -50,6 +50,7 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
     const handleChange = ({ target }) => {
         document.addEventListener("keydown", (event) => {
             if (event.key === "Enter") {
+                console.log('task');
                 event.preventDefault()
                 const value = target.value
                 const field = target.name
@@ -110,6 +111,7 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
     const handleTextChange = ({ target }, colIdx) => {
         document.addEventListener("keydown", (event) => {
             if (event.key === "Enter") {
+                console.log('task2');
                 event.preventDefault()
                 specialUpdateTask(target.value, colIdx)
                 setEditText(false)

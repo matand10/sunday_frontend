@@ -10,7 +10,7 @@ export const boardService = {
     getById,
     save,
     remove,
-    getEmptyBoard,
+    // getEmptyBoard,
     filterBoard,
     taskUpdate,
     groupUpdate,
@@ -72,7 +72,7 @@ function filterBoard(board, filterBy) {
 async function getById(boardId) {
     try {
         // const res = await storageService.get(STORAGE_KEY, boardId)
-        if (!boardId) return
+        // if (!boardId) return
         const res = await httpService.get(`board/${boardId}`)
         return res
     } catch (err) {
@@ -161,63 +161,63 @@ function groupHeadSort(sortValue, group, rev, colIdx) {
 }
 
 function isIdOk(boardId, boards) {
-    return boards.some(board => board._id === boardId)
+    return boards.find(board => board._id === boardId)
 }
 
-function getEmptyBoard() {
-    return {
-        title: '',
-        archivedAt: '',
-        createdAt: Date.now(),
-        createdBy: {},
-        members: [],
-        groups: [
-            {
-                style: { color: utilService.getRandomColor() },
-                title: 'Group Title',
-                archivedAt: '',
-                tasks: [
-                    {
-                        title: 'Item 1',
-                        assignedTo: [],
-                        comments: [],
-                        status: utilService.getLabel(),
-                        archivedAt: ''
-                    },
-                    {
-                        title: 'Item 2',
-                        assignedTo: [],
-                        comments: [],
-                        status: utilService.getLabel(),
-                        archivedAt: ''
-                    }
-                ]
-            },
-            {
-                style: { color: utilService.getRandomColor() },
-                title: 'Group Title',
-                archivedAt: '',
-                tasks: [
-                    {
-                        title: 'Item 3',
-                        assignedTo: [],
-                        comments: [],
-                        status: '',
-                        archivedAt: ''
-                    },
-                    {
-                        title: 'Item 4',
-                        assignedTo: [],
-                        comments: [],
-                        status: '',
-                        archivedAt: ''
-                    }
-                ]
-            }
-        ],
-        style: {}
-    }
-}
+// function getEmptyBoard() {
+//     return {
+//         title: '',
+//         archivedAt: '',
+//         createdAt: Date.now(),
+//         createdBy: {},
+//         members: [],
+//         groups: [
+//             {
+//                 style: { color: utilService.getRandomColor() },
+//                 title: 'Group Title',
+//                 archivedAt: '',
+//                 tasks: [
+//                     {
+//                         title: 'Item 1',
+//                         assignedTo: [],
+//                         comments: [],
+//                         status: utilService.getLabel(),
+//                         archivedAt: ''
+//                     },
+//                     {
+//                         title: 'Item 2',
+//                         assignedTo: [],
+//                         comments: [],
+//                         status: utilService.getLabel(),
+//                         archivedAt: ''
+//                     }
+//                 ]
+//             },
+//             {
+//                 style: { color: utilService.getRandomColor() },
+//                 title: 'Group Title',
+//                 archivedAt: '',
+//                 tasks: [
+//                     {
+//                         title: 'Item 3',
+//                         assignedTo: [],
+//                         comments: [],
+//                         status: '',
+//                         archivedAt: ''
+//                     },
+//                     {
+//                         title: 'Item 4',
+//                         assignedTo: [],
+//                         comments: [],
+//                         status: '',
+//                         archivedAt: ''
+//                     }
+//                 ]
+//             }
+//         ],
+//         style: {}
+//     }
+// }
 
 
 function getLabels() {

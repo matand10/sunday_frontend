@@ -15,8 +15,8 @@ import { useEffectUpdate } from "../hooks/useEffectUpdate"
 import { groupService } from "../services/group.service"
 
 export const TasksApp = () => {
-    
-    
+
+
     const [board, setBoard] = useState(null)
     const { boards } = useSelector((storeState) => storeState.boardModule)
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
@@ -29,23 +29,22 @@ export const TasksApp = () => {
     const ref = useRef(null)
 
     useEffect(() => {
-        console.log('Rendered');
         dispatch(loadUsers())
         dispatch(loadBoards(filterBy))
     }, [])
-    
+
     useEffectUpdate(() => {
-        console.log('Updated');
         // dispatch(loadUpdates())
+        console.log('load');
         loadBoard()
     }, [boards])
 
     const loadBoard = async () => {
-        console.log(boards);
-
-        const currBoard = boardId ? await boardService.getById(boardId) : boards[0]
-        if (!currBoard) return navigate('/')
-        console.log('currBoard', currBoard);
+        let currBoard
+        if (boards.length === 0) onAddBoard()
+        else if (boardId && boardService.isIdOk(boardId, boards)) currBoard = boardService.isIdOk(boardId, boards)
+        else currBoard = boards[0]
+        if (!currBoard) return navigate('/board')
         const filteredBoard = boardService.filterBoard(currBoard, filterBy)
         setBoard(filteredBoard)
     }
@@ -70,8 +69,9 @@ export const TasksApp = () => {
 
     const onDeleteBoard = (boardId) => {
         dispatch(removeBoard(boardId))
-        setBoard(null)
         navigate(`/board`)
+        // setBoard(null)
+        // loadBoard()
     }
 
     const updateBoard = (updatedBoard) => {
