@@ -10,45 +10,58 @@ import { taskService } from "../services/task.service"
 import { boardService } from "../services/board.service"
 import { useNavigate, useParams } from "react-router-dom"
 import { Outlet } from 'react-router-dom'
+import { useEffectUpdate } from "../hooks/useEffectUpdate"
 
 export const TasksApp = () => {
+
     const [board, setBoard] = useState(null)
+    const [isMake, setIsMake] = useState(false)
+
     const { boards } = useSelector((storeState) => storeState.boardModule)
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
     const { users, user } = useSelector((storeState) => storeState.userModule)
-    const [isMake, setIsMake] = useState(false)
+
     const dispatch = useDispatch()
     const navigate = useNavigate();
     const { boardId } = useParams()
     const ref = useRef(null)
 
     useEffect(() => {
+        console.log('Rendered');
         dispatch(loadUsers())
         dispatch(loadBoards(filterBy))
     }, [])
 
-    useEffect(() => {
-        if (board && board._id === boardId) return
-        if (!boards.length > 0) return
-        if (boardId && (boardService.isIdOk(boardId, boards))) loadBoard()
-        else {
-            navigate(`/board/${boards[0]._id}`)
-        }
-    }, [boardId, board])
-
-    useEffect(() => {
-        if (boards.length > 0) {
-            if (boardId && (boardService.isIdOk(boardId, boards))) loadBoard()
-            else {
-                setBoard(boards[0])
-                navigate(`/board/${boards[0]._id}`)
-            }
-        }
+    useEffectUpdate(() => {
+        console.log('Updated');
+        loadBoard()
     }, [boards])
 
+    // useEffect(() => {
+    //     if (board && board._id === boardId) return
+    //     if (!boards.length > 0) return
+    //     if (boardId && (boardService.isIdOk(boardId, boards))) loadBoard()
+    //     else {
+    //         navigate(`/board/${boards[0]._id}`)
+    //     }
+    // }, [boardId, board])
+
+    // useEffect(() => {
+    //     if (boards.length > 0) {
+    //         if (boardId && (boardService.isIdOk(boardId, boards))) loadBoard()
+    //         else {
+    //             setBoard(boards[0])
+    //             navigate(`/board/${boards[0]._id}`)
+    //         }
+    //     }
+    // }, [boards])
+
     const loadBoard = async () => {
-        const currBoard = await boardService.getById(boardId)
-        console.log(currBoard);
+        console.log(boards);
+
+        const currBoard = boardId ? await boardService.getById(boardId) : boards[0]
+        if (!currBoard) return navigate('/')
+        console.log('currBoard', currBoard);
         const filteredBoard = boardService.filterBoard(currBoard, filterBy)
         setBoard(filteredBoard)
     }
@@ -135,6 +148,7 @@ export const TasksApp = () => {
             <SideNav />
             <ExtendedSideNav board={board} boardChange={boardChange} updateBoard={updateBoard} openBoard={openBoard} boards={boards} onAddBoard={onAddBoard} onDeleteBoard={onDeleteBoard} />
         </div>
+        
         <div className="board-container-right">
             <div className="main-app flex-column">
                 <BoardHeader updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />

@@ -14,7 +14,7 @@ export const SideNav = () => {
         return () => {
             document.removeEventListener('mousedown', eventListeners)
         }
-    })
+    }, [])
 
     const eventListeners = (ev) => {
         if (!menuRef.current?.contains(ev.target)) {

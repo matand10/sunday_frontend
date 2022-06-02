@@ -28,6 +28,7 @@ async function query(filterBy = {}) {
         // const res = await storageService.get(STORAGE_KEY)
         // const res = await storageService.query(STORAGE_KEY)
         // if (!res.length) res = getEmptyBoard()
+        console.log(filterBy);
         const boards = await httpService.get('board', { params: { filterBy } })
         return boards
     } catch (err) {
@@ -250,11 +251,7 @@ function makeBoard(user) {
         title: "Robot dev proj",
         archivedAt: 1589983468418,
         createdAt: 1589983468418,
-        members: [user, {
-            _id: "u101",
-            fullname: "Guest",
-            imgUrl: "http://some-img"
-        }],
+        members: [user],
         groups: [
             {
                 style: { color: utilService.getRandomColor() },

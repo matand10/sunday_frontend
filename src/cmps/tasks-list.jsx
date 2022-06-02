@@ -19,6 +19,10 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
     const [statusActive, setStatusActive] = useState(false)
     const [inviteUserModal, setInviteUserModal] = useState(false)
     const [editText, setEditText] = useState(false)
+    const [modalData, setModalData] = useState(null)
+    // {type: 'status', data: {}, pos: {}}
+
+
     let statusRef = useRef()
     let dateRef = useRef()
     const { boardId } = useParams()
@@ -27,6 +31,14 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
         updateTask(taskUpdate, group.id, board)
         setUpdateIsClick({})
     }, [taskUpdate])
+
+
+    useEffect(() => {
+        document.addEventListener("mousedown", eventListener)
+        return () => {
+            document.removeEventListener("mousedown", eventListener)
+        }
+    }, [])
 
     const onOpenMenu = (ev, params) => {
         ev.stopPropagation()
@@ -44,12 +56,6 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
         })
     }
 
-    useEffect(() => {
-        document.addEventListener("mousedown", eventListener)
-        return () => {
-            document.removeEventListener("mousedown", eventListener)
-        }
-    })
 
     const eventListener = (ev) => {
         if (!statusRef.current?.contains(ev.target)) {
@@ -133,9 +139,9 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
                     <div className="left-indicator-cell" style={{ backgroundColor }}></div>
                     <div className="task-arrow-container">
                         <div className="task-arrow-div" onClick={(ev) => onOpenMenu(ev, { taskId: task.id, groupId: group.id, board: board })} > <FaCaretDown className="task-arrow" /></div>
-                        
+
                         {arrowTask.board && arrowTask.groupId === group.id && arrowTask.taskId === task.id && <TaskMenu statusRef={statusRef} removeTask={removeTask} arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
-                    
+
                     </div>
                     <div className="task-title-content" >
                         {(updateIsClick.boardId && updateIsClick.groupId === group.id && updateIsClick.task.id === task.id) ?
