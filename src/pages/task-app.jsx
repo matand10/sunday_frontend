@@ -10,7 +10,11 @@ import { taskService } from "../services/task.service"
 import { boardService } from "../services/board.service"
 import { useNavigate, useParams } from "react-router-dom"
 import { Outlet } from 'react-router-dom'
+<<<<<<< HEAD
 import { useEffectUpdate } from "../hooks/useEffectUpdate"
+=======
+import { groupService } from "../services/group.service"
+>>>>>>> main
 
 export const TasksApp = () => {
 
@@ -32,9 +36,31 @@ export const TasksApp = () => {
         dispatch(loadBoards(filterBy))
     }, [])
 
+<<<<<<< HEAD
     useEffectUpdate(() => {
         console.log('Updated');
         loadBoard()
+=======
+    useEffect(() => {
+        if (board && board._id === boardId) return
+        if (!boards.length > 0) return
+        if (boardId && (boardService.isIdOk(boardId, boards))) loadBoard()
+        else {
+            navigate(`/board/${boards[0]._id}`)
+        }
+    }, [boardId, board])
+
+    useEffect(() => {
+
+        if (boards.length > 0) {
+            if (boardId) {
+                if (boardService.isIdOk(boardId, boards)) loadBoard()
+            } else {
+                setBoard(boards[0])
+                navigate(`/board/${boards[0]._id}`)
+            }
+        }
+>>>>>>> main
     }, [boards])
 
     // useEffect(() => {
@@ -57,18 +83,21 @@ export const TasksApp = () => {
     // }, [boards])
 
     const loadBoard = async () => {
+<<<<<<< HEAD
         console.log(boards);
 
         const currBoard = boardId ? await boardService.getById(boardId) : boards[0]
         if (!currBoard) return navigate('/')
         console.log('currBoard', currBoard);
+=======
+        const currBoard = await boardService.getById(boardId)
+>>>>>>> main
         const filteredBoard = boardService.filterBoard(currBoard, filterBy)
         setBoard(filteredBoard)
     }
 
     const onAddTask = async (task, groupId) => {
         const newBoard = await taskService.addTask(board, task, groupId)
-        console.log('newBoard', newBoard)
         dispatch(saveBoard(newBoard))
     }
 
@@ -126,6 +155,16 @@ export const TasksApp = () => {
         const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
         const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(task => task.id === taskId)
         newBoard.groups[groupIdx].tasks.splice(taskIdx, 1)
+        let statusColIdxs = []
+        newBoard.groups[groupIdx].columns.forEach((col, idx) => {
+            if (col.type === 'status') statusColIdxs.push(idx)
+        })
+        const group = { ...newBoard.groups[groupIdx] }
+        // let progressBars = statusColIdxs.map(((colIdx, idx) => {
+        const progressBars = groupService.getProgress(group, statusColIdxs)
+        // }))
+        newBoard.groups[groupIdx].progress = progressBars
+        console.log(newBoard);
         dispatch(saveBoard(newBoard))
     }
 

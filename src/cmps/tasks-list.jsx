@@ -120,7 +120,7 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
         newTask.columns[colIdx].value = value
         group.tasks[taskIdx] = newTask
         if (status === 'status') {
-            group.progress[colIdx] = groupService.getProgress(group, colIdx)
+            group.progress = groupService.getProgress(group, [colIdx])
         }
         updateGroup(group)
     }
