@@ -22,7 +22,6 @@ export const userService = {
     getAssignedUsers,
     getUnAssignedUsers,
     getAssignedToTask,
-    // getUnassignedToTask,
     getAssign
 }
 
@@ -123,51 +122,19 @@ function checkBoardMember(board, user) {
 }
 
 function getUnAssignedUsers(users, board) {
-    // return users.filter(user => {
-    //     return board.members.every(member => member._id !== user._id)
-    // })
+    return users.filter(user => {
+        return board.members.every(member => member._id !== user._id)
+    })
 }
 
 function getAssignedUsers(users, board) {
+    console.log(users);
+    console.log(board);
     const assginedUsers = users.filter(user => {
         return board.members.find(member => member._id === user._id)
     })
     return assginedUsers
 }
-
-// function getAssignedToTask(users, task, board, isAssigned, colIdx) {
-//     const assignedUsersToBoard = getAssignedUsers(users, board)
-//     const assignedToTask = assignedUsersToBoard.filter(user => {
-//         if (task.columns[colIdx].type !== 'person') return
-//         if (task.columns[colIdx].value.length) {
-//             return task.columns[colIdx].value.find(assignedUser => {
-//                 return assignedUser._id !== user._id
-//             })
-//         }
-
-//     })
-
-//     console.log(assignedToTask);
-//     return assignedToTask
-// }
-
-// function getAssignedToTask(users, task, board, isAssigned, colIdx) {
-//     const assignedUsersToBoard = getAssignedUsers(users, board)
-//     const assignedToTask = assignedUsersToBoard.map(user => {
-//         if (task.columns[colIdx].value.length === 0) {
-//             if (!isAssigned) return user
-//         } else {
-//             return task.columns[colIdx].value.find(taskass => {
-//                 console.log('taskass', taskass);
-//                 if (isAssigned) {
-//                     return taskass._id === user._id
-//                 } else return taskass._id !== user._id
-//             })
-//         }
-//         return
-//     })
-//     return assignedToTask
-// }
 
 function getAssignedToTask(users, task, board, colIdx) {
     if (!task.columns[colIdx].value?.length) return null
@@ -191,23 +158,6 @@ function getAssign(users, task, board, colIdx) {
     })
     return { assign, unassign }
 }
-
-
-
-// function getAssignedToTask(users, task, board, isAssigned, colIdx, userIdx) {
-//     const assignedUsersToBoard = getAssignedUsers(users, board)
-
-//     const assignedToTask = assignedUsersToBoard.filter((user, idx) => {
-//         if (!task.columns[colIdx].value.length && !isAssigned) return user
-//         if (!assignedUsersToBoard.length) return user
-//         return task.columns[colIdx].value.find(assignedUser => {
-//             const isUserFounded = isAssigned ? assignedUser._id === user._id : assignedUser._id !== user._id
-//             if (isUserFounded) assignedUsersToBoard.splice(idx, 1)
-//             return isUserFounded
-//         })
-//     })
-//     return assignedToTask
-// }
 
 // ;(async ()=>{
 //     await userService.signup({fullname: 'Puki Norma', username: 'user1', password:'123',score: 10000, isAdmin: false})
