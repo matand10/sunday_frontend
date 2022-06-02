@@ -34,9 +34,9 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     useEffect(() => {
         document.addEventListener("mousedown", eventListeners)
         return () => {
-            document.addEventListener("mousedown", eventListeners)
+            document.removeEventListener("mousedown", eventListeners)
         }
-    })
+    }, [])
 
     const eventListeners = (ev) => {
         if (!menuRef.current?.contains(ev.target)) {

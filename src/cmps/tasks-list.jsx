@@ -90,7 +90,6 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
     }
 
 
-
     const specialUpdateTask = (value, colIdx, status = null) => {
         let newTask = { ...task }
         newTask.columns[colIdx].value = value
