@@ -47,7 +47,7 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
             setIsTitleBoardClick(false)
         }
     }
-    
+
     useEffect(() => {
         if (!firstFilterUseEffectRef.current) onFilter(handleSearch)
         firstFilterUseEffectRef.current = false

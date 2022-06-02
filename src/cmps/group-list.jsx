@@ -18,7 +18,7 @@ import { MainGroupInput } from "./main-group-menu";
 import { useEffectUpdate } from "../hooks/useEffectUpdate";
 
 
-export const GroupList = ({ updateTask, updateBoard, updateStatistics, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup, updateTaskDate }) => {
+export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup, updateTaskDate }) => {
     const [task, setTask] = useState({ title: '' })
     const [groupIsClick, setGroupIsClick] = useState({})
     const [isClickGroup, setIsClickGroup] = useState(false)
@@ -116,7 +116,7 @@ export const GroupList = ({ updateTask, updateBoard, updateStatistics, board, gr
 
     let columns = group.columns
     columns = columns.sort((a, b) => a.importance - b.importance)
-
+    if (!board) return <h1>Loading...</h1>
     return <div className="board-content-wrapper">
         <div className="group-header-wrapper">
             <div className="group-header-component">
@@ -165,7 +165,7 @@ export const GroupList = ({ updateTask, updateBoard, updateStatistics, board, gr
 
             {group.tasks.map((task, idx) => {
                 return <TasksList key={idx} taskIdx={idx} boardId={boardId} task={task} /*menuRef={menuRef}*/ backgroundColor={group.style.color}
-                    updateGroup={updateGroup} updateBoard={updateBoard} onUpdateGroupBar={onUpdateGroupBar} onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate} />
+                    updateGroup={updateGroup} updates={updates} updateBoard={updateBoard} onUpdateGroupBar={onUpdateGroupBar} onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate} />
             })}
 
             <MainGroupInput onAddTask={onAddTask} group={group} task={task} />

@@ -1,6 +1,6 @@
 .side-panel-modal {
     position: absolute;
-    z-index: 4000;
+    z-index: 6000;
     top: 0;
     width: 100%;
     height: 100%;
@@ -9,6 +9,7 @@
     background-color: rgba(0, 0, 0, 0.4);
     transition-duration: .3s;
     cursor: default;
+    overflow-y: hidden;
 }
 
 .modal-content {

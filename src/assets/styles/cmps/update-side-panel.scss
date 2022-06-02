@@ -1,0 +1,147 @@
+.main-update-list-container {
+    margin-top: 33px;
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    margin: 33px 10px;
+    border-radius: 8px;
+    border: 1px solid #e6e9ef;
+}
+
+.main-update-container {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.side-panel-title {
+    height: 100%;
+}
+
+.testimonials {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.testimonial-heading {
+    letter-spacing: 1px;
+    margin: 30px 0;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+    & h1 {
+        font-size: 2.2rem;
+        font-weight: 500;
+        background-color: $clr1;
+        color: $clr3;
+        padding: 10px 20px;
+    }
+
+    & span {
+        font-size: 1.3rem;
+        color: $clr1;
+        margin-bottom: 10px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+}
+
+.testimonial-box-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+
+    & .testimonial-box {
+        width: 500px;
+        // box-shadow: 2px 2px 30px rgba($color: #000000, $alpha: 0.1);
+        background-color: #ffffff;
+        border: 1px solid #e6e9ef;
+        border-top: 2px solid #1976d2;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 15px;
+        color: #323338;
+    }
+}
+
+.profile-img {
+    width: 33px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.profile {
+    display: flex;
+    align-items: center
+}
+
+.name-user {
+    display: flex;
+    flex-direction: column;
+}
+
+.name-user strong {
+    color: #323338;
+    font-size: 1.1;
+    letter-spacing: 0.5px;
+}
+
+.name-user span {
+    font-size: 0.8rem;
+    color: rgb(179, 179, 179);
+    margin-top: 3px;
+}
+
+.updates {
+    display: flex;
+    justify-content: center;
+    width: 100px;
+}
+
+.updates img {
+    width: 15px;
+}
+
+.box-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.client-comment p {
+    font-size: 0.9rem;
+    line-height: 1.2rem;
+    color: rgb(72, 72, 72);
+}
+
+.delete-update-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    float: right;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    transition: .2s;
+
+    &:hover {
+        background-color: #c7c7c7;
+
+    }
+}
+
+.new-post-side-panel {
+    height: 170px;
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { Header } from '../cmps/header.jsx'
 import { onLogin } from '../store/user/user.actions.js'
 
@@ -32,7 +32,7 @@ class _HomePage extends React.Component {
                                 <div></div>
                                 <div className="main-start-button-container">
                                     <div className="signup-button-wrapper">
-                                        <button className="secondary-signup-button" ><span>Get Started</span></button>
+                                        <Link to="/board" className="get-started-link"><button className="secondary-signup-button" ><span>Get Started</span></button></Link>
                                         <div className="secondary-paragraph-body">
                                             <p>No credit card needed  ✦  Unlimited time on Free plan</p>
                                         </div>

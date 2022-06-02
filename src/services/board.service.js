@@ -161,7 +161,6 @@ function groupHeadSort(sortValue, group, rev, colIdx) {
 }
 
 function isIdOk(boardId, boards) {
-    // if (!boards._id) return
     return boards.some(board => board._id === boardId)
 }
 
@@ -245,6 +244,7 @@ function getLabels() {
         }
     ]
 }
+
 
 function makeBoard(user) {
     return {

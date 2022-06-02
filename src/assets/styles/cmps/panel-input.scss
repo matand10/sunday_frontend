@@ -77,6 +77,8 @@
     color: #0073ea;
     margin: 5px 0px 3px;
     width: 95%;
+    height: 100%;
+    position: relative;
 
     & .upload-file-btn {
         cursor: pointer;
@@ -87,6 +89,9 @@
     }
 
     & .panel-submit-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
         text-align: center;
         background-color: #0066d4;
         color: #ffffff;

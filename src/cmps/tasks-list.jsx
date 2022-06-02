@@ -7,10 +7,12 @@ import { SidePanel } from "./side-panel"
 import { useParams } from "react-router-dom";
 import { boardService } from '../services/board.service'
 import { FaCaretDown } from 'react-icons/fa'
+import { BiMessageRounded } from 'react-icons/bi'
 import { groupService } from '../services/group.service';
 import { InviteToTaskModal } from '../modal/invite-to-task-menu';
 
-export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar, task, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board, removeTask, updateTaskDate }) => {
+
+export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdateGroupBar, task, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board, removeTask, updateTaskDate }) => {
     const [modal, setModal] = useState({})
     const [arrowTask, setArrowTask] = useState({})
     const [updateIsClick, setUpdateIsClick] = useState({})
@@ -129,6 +131,7 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
         setEditText({ colIdx, value })
     }
 
+
     if (!task) return <h1>Loading...</h1>
     let columns = task.columns
     columns = columns.sort((a, b) => a.importance - b.importance)
@@ -153,8 +156,11 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
                                 <div>
                                     {task.title}
                                 </div>
-                                <div>
+                                <div className="edit-button-container">
                                     <button onClick={(event) => onUpdateTask(event, { boardId: board._id, groupId: group.id, task: task })} className="edit-button">Edit</button>
+                                </div>
+                                <div className="activity-main-container">
+                                    <BiMessageRounded className="activities-icon" onClick={onOpenModal} style={{ color: task.comments?.length ? '#1976d2' : '' }} />
                                 </div>
                             </div>
                         }
@@ -168,10 +174,10 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
                             switch (col.type) {
                                 case 'person':
                                     return col.value?.length ?
-                                        <div onClick={() => setInviteUserModal(true)} key={idx} className="flex-row-items user-image-container">{col.value.map((user, idx) => {
-                                            return <div key={idx} className="user-image-wrapper" >
-                                                <img key={idx} style={{ left: `${20 * (idx) + 'px'}`, transform: `translateX(${-80 + '%'})` }} className="user-image-icon-assign" src={user.imgUrl} alt="user image" />
-                                                {inviteUserModal && <InviteToTaskModal statusRef={statusRef} board={board} task={task} />}
+                                        <div onClick={() => setInviteUserModal(true)} key={idx} className="flex-row-items user-image-container">{col.value.map((user, userIdx) => {
+                                            return <div key={userIdx} className="user-image-wrapper" >
+                                                <img key={userIdx} style={{ left: `${20 * (userIdx) + 'px'}`, transform: `translateX(${-80 + '%'})` }} className="user-image-icon-assign" src={col.value.userImg || 'https://cdn.monday.com/icons/dapulse-person-column.svg'} alt="user image" />
+                                                {inviteUserModal && <InviteToTaskModal setInviteUserModal={setInviteUserModal} specialUpdateTask={specialUpdateTask} colIdx={idx} statusRef={statusRef} board={board} task={task} />}
                                             </div>
                                         })}
                                         </div>
@@ -179,7 +185,7 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
                                         <div onClick={() => setInviteUserModal(true)} key={idx} className="flex-row-items">
                                             <div className="user-image-wrapper">
                                                 <img className="user-image-icon-assign" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" />
-                                                {inviteUserModal && <InviteToTaskModal statusRef={statusRef} board={board} task={task} />}
+                                                {inviteUserModal && <InviteToTaskModal setInviteUserModal={setInviteUserModal} specialUpdateTask={specialUpdateTask} colIdx={idx} statusRef={statusRef} board={board} task={task} />}
                                             </div>
                                         </div>
                                 case 'status':
@@ -206,7 +212,7 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
             </div>
         </div >
         {statusActive.value && <StatusModal setStatusActive={setStatusActive} updateGroup={updateGroup} onUpdateGroupBar={onUpdateGroupBar} specialUpdateTask={specialUpdateTask} statusActive={statusActive} statusRef={statusRef} modalPos={modalPos} />}
-        {modal.boardId && <SidePanel statusRef={statusRef} modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}
+        {modal.boardId && <SidePanel group={group} task={task} taskIdx={taskIdx} updateGroup={updateGroup} statusRef={statusRef} modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}
     </section >
 }
 

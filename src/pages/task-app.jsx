@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { loadBoards, setFilter } from "../store/board/board.action"
 import { loadUsers, updateUser } from "../store/user/user.actions"
+import { loadUpdates } from "../store/update/update.action"
 import { SideNav } from '../cmps/side-nav.jsx'
 import { BoardHeader } from "../cmps/board-header"
 import { saveBoard, removeBoard } from '../store/board/board.action'
@@ -14,14 +15,14 @@ import { useEffectUpdate } from "../hooks/useEffectUpdate"
 import { groupService } from "../services/group.service"
 
 export const TasksApp = () => {
-
+    
+    
     const [board, setBoard] = useState(null)
-    const [isMake, setIsMake] = useState(false)
-
     const { boards } = useSelector((storeState) => storeState.boardModule)
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
     const { users, user } = useSelector((storeState) => storeState.userModule)
-
+    const { updates } = useSelector((storeState) => storeState.userModule)
+    const [isMake, setIsMake] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate();
     const { boardId } = useParams()
@@ -32,30 +33,12 @@ export const TasksApp = () => {
         dispatch(loadUsers())
         dispatch(loadBoards(filterBy))
     }, [])
-
+    
     useEffectUpdate(() => {
         console.log('Updated');
+        // dispatch(loadUpdates())
         loadBoard()
     }, [boards])
-
-    // useEffect(() => {
-    //     if (board && board._id === boardId) return
-    //     if (!boards.length > 0) return
-    //     if (boardId && (boardService.isIdOk(boardId, boards))) loadBoard()
-    //     else {
-    //         navigate(`/board/${boards[0]._id}`)
-    //     }
-    // }, [boardId, board])
-
-    // useEffect(() => {
-    //     if (boards.length > 0) {
-    //         if (boardId && (boardService.isIdOk(boardId, boards))) loadBoard()
-    //         else {
-    //             setBoard(boards[0])
-    //             navigate(`/board/${boards[0]._id}`)
-    //         }
-    //     }
-    // }, [boards])
 
     const loadBoard = async () => {
         console.log(boards);
@@ -162,7 +145,7 @@ export const TasksApp = () => {
         <div className="board-container-right">
             <div className="main-app flex-column">
                 <BoardHeader updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
-                <Outlet context={{ board, updateBoard, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
+                <Outlet context={{ board, updates, updateBoard, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
             </div>
         </div>
     </section>
