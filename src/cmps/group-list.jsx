@@ -40,13 +40,13 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
     const dispatch = useDispatch()
 
 
-    useEffectUpdate(() => {
-        updateGroup(groupUpdate)
-        setGroupIsClick({})
-    }, [groupUpdate])
+    // useEffectUpdate(() => {
+    //     updateGroup(groupUpdate)
+    //     setGroupIsClick({})
+    // }, [groupUpdate])
 
     const onUpdateGroupBar = () => {
-        // const newGroup = groupService.getProgress(group)
+        const newGroup = groupService.getProgress(group)
         // updateGroup(newGroup)
     }
 
@@ -56,7 +56,7 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
         return () => {
             document.removeEventListener("mousedown", eventListeners)
         }
-    })
+    }, [])
 
     const eventListeners = (ev) => {
         if (!menuRef.current?.contains(ev.target)) {
@@ -93,17 +93,6 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
         updateGroup(newGroup)
     }
 
-    // const handleGroupCange = ({ target }) => {
-    //     document.addEventListener("keydown", (event) => {
-    //         if (event.key === "Enter") {
-    //             event.preventDefault()
-    //             const value = target.value
-    //             const field = target.name
-    //             setGroupUpdate((prevGroup) => ({ ...prevGroup, [field]: value }))
-    //         }
-    //     })
-    // }
-
     const onHeaderSort = (sortValue, colIdx) => {
         setIsReversedSort(!isReversedSort)
         const newGroup = boardService.groupHeadSort(sortValue, group, isReversedSort, colIdx)
@@ -125,7 +114,6 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
     columns = columns.sort((a, b) => a.importance - b.importance)
 
     if (!board) return <h1>Loading...</h1>
-
     return <div className="board-content-wrapper">
         <div className="group-header-wrapper">
             <div className="group-header-component">

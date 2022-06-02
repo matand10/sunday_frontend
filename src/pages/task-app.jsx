@@ -66,16 +66,16 @@ export const TasksApp = () => {
         dispatch(saveBoard(newBoard))
     }
 
+    const updateBoard = (updatedBoard) => {
+        setBoard(updatedBoard)
+        dispatch(saveBoard(updatedBoard))
+    }
+
     const onDeleteBoard = (boardId) => {
         dispatch(removeBoard(boardId))
         navigate(`/board`)
         // setBoard(null)
         // loadBoard()
-    }
-
-    const updateBoard = (updatedBoard) => {
-        setBoard(updatedBoard)
-        dispatch(saveBoard(updatedBoard))
     }
 
     const onRemoveGroup = (groupId) => {
@@ -117,7 +117,6 @@ export const TasksApp = () => {
         const progressBars = groupService.getProgress(group, statusColIdxs)
         // }))
         newBoard.groups[groupIdx].progress = progressBars
-        console.log(newBoard);
         dispatch(saveBoard(newBoard))
     }
 
@@ -134,7 +133,6 @@ export const TasksApp = () => {
 
 
     if (!boards.length) return <h1>Loading...</h1>
-    // if (!boards.length) return <div style={{ width: 100 + '%', height: 0, paddingBottom: 56 + '%', position: 'relative' }}><iframe ref={ref} src="https://giphy.com/embed/jAYUbVXgESSti" style={{ width: 50 + '%', height: 50 + '%', position: 'absolute', frameBorder: 0 }} className="giphy-embed" allowFullScreen /></div>
     return <section className="task-main-container">
         <div className="board-container-left">
             <SideNav />

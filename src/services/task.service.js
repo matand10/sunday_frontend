@@ -73,7 +73,8 @@ function addTask(board, task, groupId) {
     if (task && groupId) {
         const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
         const columns = [...board.groups[groupIdx].columns]
-        const newTask = getEmptyTask(columns)
+        console.log('board.groups[groupIdx]', board.groups[groupIdx]);
+        const newTask = getEmptyTask([...columns])
 
         newTask.title = task.title
         // newTask.columns[1].value = task.status ? task.status : newTask.columns[1].value
@@ -86,6 +87,7 @@ function addTask(board, task, groupId) {
 }
 
 function getEmptyTask(columns) {
+    console.log(columns);
     return {
         id: utilService.makeId(),
         title: 'item 1',

@@ -39,7 +39,6 @@ function filterBoard(board, filterBy) {
     let newGroups
     // console.log(filterBy);
     if (filterBy.search) {
-        console.log(board)
         newGroups = board.groups.filter(group => {
             return group.tasks = group.tasks.filter(task => {
                 const regex = new RegExp(filterBy.search, 'i')
