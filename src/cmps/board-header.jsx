@@ -53,6 +53,10 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
         firstFilterUseEffectRef.current = false
     }, [handleSearch])
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 931d81757ebe5499b800fab33a6b7d15fe28eb10
     const updateTitleBoard = (ev) => {
         ev.preventDefault()
         board.title = titleBoard.title

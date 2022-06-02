@@ -1,29 +1,59 @@
-import React from "react"
+import React from 'react';
+import { connect } from "react-redux";
 import dotsMenu from '../assets/img/side-nav/ds-menu.svg'
 import { PanelInput } from '../cmps/panel-input.jsx'
+import { UpdateList } from '../cmps/update-list'
+import { addUpdate, removeUpdate } from '../store/update/update.action'
 
 
-export class SidePanel extends React.Component {
+export class _SidePanel extends React.Component {
 
     state = {
         isModalOpen: true,
-        isInputClicked: false
+        isInputClicked: false,
+        users: this.props.users,
+        user: this.props.user,
     }
 
+    componentDidMount() {
+        this.setState({ updates: this.props.updates })
+    }
+
+    // componentDidUpdate() {
+    //     const { task, updates } = this.props
+    //     console.log('tasks', task);
+    //     console.log('updates', updates);
+    //     const taskComment = task.comments.find(update => update.aboutTaskId === task._id)
+    //     // console.log(taskComment);
+    // }
+
+    deleteUpdate = (updateId, updateIdx) => {
+        const { group, taskIdx } = this.props
+        group.tasks[taskIdx].comments.splice(updateIdx, 1)
+        this.props.updateGroup(group)
+        this.props.removeUpdate(updateId)
+    }
 
     closeModal = () => {
         this.props.onCloseModal()
+    }
+
+    onUpdate = async (update) => {
+        const { group, taskIdx } = this.props
+        const addedUpdate = await this.props.addUpdate(update)
+        group.tasks[taskIdx].comments.push(addedUpdate)
+        this.props.updateGroup(group)
     }
 
     toggleInput = (value) => {
         this.setState((prevState) => ({ ...prevState, isInputClicked: value }))
     }
 
-    render() {
-        const { statusRef } = this.props
-        const { isModalOpen, isInputClicked } = this.state
-        const { boardId, groupId, task } = this.props.modal
 
+    render() {
+        const { statusRef, user, updates } = this.props
+        const { isModalOpen, isInputClicked, users } = this.state
+        const { task } = this.props.modal
 
         return <section onClick={() => this.toggleInput(false)} ref={statusRef}>
             {/* <button className="side-panel-btn" onClick={this.toggleModal}>Open Modal</button> */}
@@ -52,9 +82,19 @@ export class SidePanel extends React.Component {
                             </div>
                         </div>
 
-                        <div className="new-post-side-panel">
-                            <PanelInput toggleInput={this.toggleInput} isInputClicked={isInputClicked} />
+                        <div className="main-update-container">
+                            <div className="new-post-side-panel">
+                                <PanelInput toggleInput={this.toggleInput} task={task} user={user} addUpdate={addUpdate} onUpdate={this.onUpdate} isInputClicked={isInputClicked} />
+                            </div>
+                            <div className="main-update-list-container">
+                                {task.comments.map((update, idx) => {
+                                    return <div key={update._id}>
+                                        <UpdateList updateIdx={idx} deleteUpdate={this.deleteUpdate} users={users} task={task} update={update} />
+                                    </div>
+                                })}
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -62,3 +102,21 @@ export class SidePanel extends React.Component {
 
     }
 }
+
+
+function mapStateToProps(state) {
+    return {
+        users: state.userModule.users,
+        user: state.userModule.user,
+        updates: state.updateModule.updates
+    }
+}
+
+const mapDispatchToProps = {
+    addUpdate,
+    removeUpdate
+}
+
+export const SidePanel = connect(
+    mapStateToProps, mapDispatchToProps
+)(_SidePanel)

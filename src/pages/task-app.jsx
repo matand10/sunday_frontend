@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { loadBoards, setFilter } from "../store/board/board.action"
 import { loadUsers, updateUser } from "../store/user/user.actions"
+import { loadUpdates } from "../store/update/update.action"
 import { SideNav } from '../cmps/side-nav.jsx'
 import { BoardHeader } from "../cmps/board-header"
 import { saveBoard, removeBoard } from '../store/board/board.action'
@@ -10,12 +11,14 @@ import { taskService } from "../services/task.service"
 import { boardService } from "../services/board.service"
 import { useNavigate, useParams } from "react-router-dom"
 import { Outlet } from 'react-router-dom'
+import { groupService } from "../services/group.service"
 
 export const TasksApp = () => {
     const [board, setBoard] = useState(null)
     const { boards } = useSelector((storeState) => storeState.boardModule)
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
     const { users, user } = useSelector((storeState) => storeState.userModule)
+    const { updates } = useSelector((storeState) => storeState.userModule)
     const [isMake, setIsMake] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate();
@@ -25,6 +28,7 @@ export const TasksApp = () => {
     useEffect(() => {
         dispatch(loadUsers())
         dispatch(loadBoards(filterBy))
+        dispatch(loadUpdates())
     }, [])
 
     useEffect(() => {
@@ -37,9 +41,11 @@ export const TasksApp = () => {
     }, [boardId, board])
 
     useEffect(() => {
+
         if (boards.length > 0) {
-            if (boardId && (boardService.isIdOk(boardId, boards))) loadBoard()
-            else {
+            if (boardId) {
+                if (boardService.isIdOk(boardId, boards)) loadBoard()
+            } else {
                 setBoard(boards[0])
                 navigate(`/board/${boards[0]._id}`)
             }
@@ -48,14 +54,12 @@ export const TasksApp = () => {
 
     const loadBoard = async () => {
         const currBoard = await boardService.getById(boardId)
-        console.log(currBoard);
         const filteredBoard = boardService.filterBoard(currBoard, filterBy)
         setBoard(filteredBoard)
     }
 
     const onAddTask = async (task, groupId) => {
         const newBoard = await taskService.addTask(board, task, groupId)
-        console.log('newBoard', newBoard)
         dispatch(saveBoard(newBoard))
     }
 
@@ -113,6 +117,16 @@ export const TasksApp = () => {
         const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
         const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(task => task.id === taskId)
         newBoard.groups[groupIdx].tasks.splice(taskIdx, 1)
+        let statusColIdxs = []
+        newBoard.groups[groupIdx].columns.forEach((col, idx) => {
+            if (col.type === 'status') statusColIdxs.push(idx)
+        })
+        const group = { ...newBoard.groups[groupIdx] }
+        // let progressBars = statusColIdxs.map(((colIdx, idx) => {
+        const progressBars = groupService.getProgress(group, statusColIdxs)
+        // }))
+        newBoard.groups[groupIdx].progress = progressBars
+        console.log(newBoard);
         dispatch(saveBoard(newBoard))
     }
 
@@ -126,8 +140,11 @@ export const TasksApp = () => {
         navigate(`/board/${board._id}`)
     }
 
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> 931d81757ebe5499b800fab33a6b7d15fe28eb10
     if (!boards.length) return <h1>Loading...</h1>
     // if (!boards.length) return <div style={{ width: 100 + '%', height: 0, paddingBottom: 56 + '%', position: 'relative' }}><iframe ref={ref} src="https://giphy.com/embed/jAYUbVXgESSti" style={{ width: 50 + '%', height: 50 + '%', position: 'absolute', frameBorder: 0 }} className="giphy-embed" allowFullScreen /></div>
     return <section className="task-main-container">
@@ -138,7 +155,7 @@ export const TasksApp = () => {
         <div className="board-container-right">
             <div className="main-app flex-column">
                 <BoardHeader updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
-                <Outlet context={{ board, updateBoard, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
+                <Outlet context={{ board, updates, updateBoard, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
             </div>
         </div>
     </section>

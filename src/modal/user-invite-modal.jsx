@@ -24,6 +24,7 @@ export const InviteUserMenu = ({ users, updateBoard, setUnAssignedUsers, board, 
     const inviteUserToBoard = (user) => {
         board.members.push(user)
         const newBoard = { ...board }
+        console.log('NewBoard: ', newBoard);
         updateBoard(newBoard)
     }
 
