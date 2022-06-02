@@ -160,7 +160,6 @@ function groupHeadSort(sortValue, group, rev, colIdx) {
 }
 
 function isIdOk(boardId, boards) {
-    // if (!boards._id) return
     return boards.some(board => board._id === boardId)
 }
 
@@ -244,6 +243,7 @@ function getLabels() {
         }
     ]
 }
+
 
 function makeBoard(user) {
     return {
@@ -337,7 +337,18 @@ function makeBoard(user) {
                             {
                                 title: 'Person',
                                 importance: 1,
-                                value: [],
+                                value: [
+                                    {
+                                        _id: "u101",
+                                        fullname: "Tal Tarablus",
+                                        imgUrl: "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg"
+                                    },
+                                    {
+                                        _id: "u102",
+                                        fullname: "Matan Tarif",
+                                        imgUrl: "https://cdn.monday.com/icons/dapulse-person-column.svg"
+                                    }
+                                ],
                                 type: 'person'
                             }
                         ]

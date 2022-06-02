@@ -41,7 +41,6 @@ export const TasksApp = () => {
     }, [boardId, board])
 
     useEffect(() => {
-
         if (boards.length > 0) {
             if (boardId) {
                 if (boardService.isIdOk(boardId, boards)) loadBoard()
@@ -140,11 +139,8 @@ export const TasksApp = () => {
         navigate(`/board/${board._id}`)
     }
 
-<<<<<<< HEAD
-=======
 
 
->>>>>>> 931d81757ebe5499b800fab33a6b7d15fe28eb10
     if (!boards.length) return <h1>Loading...</h1>
     // if (!boards.length) return <div style={{ width: 100 + '%', height: 0, paddingBottom: 56 + '%', position: 'relative' }}><iframe ref={ref} src="https://giphy.com/embed/jAYUbVXgESSti" style={{ width: 50 + '%', height: 50 + '%', position: 'absolute', frameBorder: 0 }} className="giphy-embed" allowFullScreen /></div>
     return <section className="task-main-container">

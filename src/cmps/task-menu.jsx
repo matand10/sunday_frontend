@@ -4,14 +4,8 @@ import React from "react"
 
 export const TaskMenu = ({ arrowTask, statusRef, onOpenMenu, removeTask }) => {
 
-    // const deleteTask = (ev) => {
-    //     ev.preventDefault()
-    //     console.log('hey');
-    //     removeTask(arrowTask.taskId, arrowTask.groupId)
-    // }
 
-
-    return <React.Fragment>
+    return <>
         <section ref={statusRef} className="task-main-menu-inner">
             <div className="task-main-section">
                 <div className="task-menu-item">
@@ -26,5 +20,5 @@ export const TaskMenu = ({ arrowTask, statusRef, onOpenMenu, removeTask }) => {
                 </div>
             </div>
         </section>
-    </React.Fragment>
+    </>
 }
