@@ -6,12 +6,14 @@ import thunk from 'redux-thunk'
 
 import { userReducer } from './user/user.reducer'
 import { boardReducer } from './board/board.reducer'
+import { updateReducer } from './update/update.reducer'
 
 
 const rootReducer = combineReducers({
     userModule: userReducer,
     boardModule: boardReducer,
-   
+    updateModule: updateReducer,
+
 })
 
 

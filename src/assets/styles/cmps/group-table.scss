@@ -250,6 +250,7 @@
     border-radius: 8px;
     color: $table-text-main-color;
     min-width: 1040px;
+    margin-inline-end: 10px;
 
     & form {
         height: 35px;
@@ -320,10 +321,6 @@
     padding: 0 11px;
     min-width: 623px;
     margin-inline-end: 15px;
-}
-
-.coulmn-main-header-container {
-    max-width: 400px;
 }
 
 .group-header-title {
@@ -440,15 +437,23 @@
 .task-title-cell-component {
     display: flex;
     align-items: center;
-    flex-basis: 623px;
+    flex-basis: 400px;
     position: relative;
-    min-width: 623px;
+    min-width: 400px;
 }
 
 .task-title-cell {
     display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
 
-
+.task-title-content {
+    width: 100%;
+    height: 100%;
+    // background-color: aqua;
+    display: flex;
+    align-items: center;
 }
 
 .task-title-cell-component {
@@ -467,6 +472,7 @@
             line-height: 22px;
             text-align: center;
             position: absolute;
+            // left: 40px;
             top: 7px;
 
             &:hover {
@@ -487,9 +493,29 @@
 
 }
 
+.edit-button-container {
+    display: flex;
+    justify-self: flex-start;
+    width: 80%;
+}
+
 .edit-button {
     display: none;
 }
+
+.activities-icon {
+    color: #d7d8de;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: font-size .2s;
+
+    &:hover {
+        font-size: 1.6rem;
+        color: #1976d2;
+    }
+}
+
+.activity-main-container {}
 
 .status {
     display: flex;

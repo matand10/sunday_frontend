@@ -54,16 +54,6 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
         firstFilterUseEffectRef.current = false
     }, [handleSearch])
 
-    // const handleBoardTitleChange = ({ target }) => {
-    //     document.addEventListener("keydown", (event) => {
-    //         if (event.key === "Enter") {
-    //             event.preventDefault()
-    //             const value = target.value
-    //             const field = target.name
-    //             setTitleBoard((prevBoard) => ({ ...prevBoard, [field]: value }))
-    //         }
-    //     })
-    // }
 
     const updateTitleBoard = (ev) => {
         ev.preventDefault()
@@ -172,7 +162,7 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
         </div>
 
         <DsMenu isMenuOpen={isMenuOpen} menuRef={menuRef} />
-        {/* <InviteUserMenu users={users} setUnAssignedUsers={setUnAssignedUsers} updateBoard={updateBoard} board={board} isInviteMenuOpen={isInviteMenuOpen} menuRef={menuRef} /> */}
+        <InviteUserMenu users={users} setUnAssignedUsers={setUnAssignedUsers} updateBoard={updateBoard} board={board} isInviteMenuOpen={isInviteMenuOpen} menuRef={menuRef} />
         <SortMenu onSetFilter={onSetFilter} isSortMenuOpen={isSortMenuOpen} menuRef={menuRef} />
     </div>
 }

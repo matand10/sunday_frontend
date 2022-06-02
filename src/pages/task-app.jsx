@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { loadBoards, setFilter } from "../store/board/board.action"
 import { loadUsers, updateUser } from "../store/user/user.actions"
+import { loadUpdates } from "../store/update/update.action"
 import { SideNav } from '../cmps/side-nav.jsx'
 import { BoardHeader } from "../cmps/board-header"
 import { saveBoard, removeBoard } from '../store/board/board.action'
@@ -17,6 +18,7 @@ export const TasksApp = () => {
     const { boards } = useSelector((storeState) => storeState.boardModule)
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
     const { users, user } = useSelector((storeState) => storeState.userModule)
+    const { updates } = useSelector((storeState) => storeState.userModule)
     const [isMake, setIsMake] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate();
@@ -25,10 +27,10 @@ export const TasksApp = () => {
     useEffect(() => {
         dispatch(loadUsers())
         dispatch(loadBoards(filterBy))
+        dispatch(loadUpdates())
     }, [])
 
     useEffect(() => {
-        console.log(boards);
         if (board && board._id === boardId) return
         if (!boards.length > 0) return
         if (boardId && (boardService.isIdOk(boardId, boards))) loadBoard()
@@ -76,14 +78,12 @@ export const TasksApp = () => {
 
     const loadBoard = async () => {
         const currBoard = await boardService.getById(boardId)
-        console.log(currBoard);
         const filteredBoard = boardService.filterBoard(currBoard, filterBy)
         setBoard(filteredBoard)
     }
 
     const onAddTask = async (task, groupId) => {
         const newBoard = await taskService.addTask(board, task, groupId)
-        console.log('newBoard', newBoard)
         dispatch(saveBoard(newBoard))
     }
 
@@ -157,7 +157,6 @@ export const TasksApp = () => {
         navigate(`/board/${board._id}`)
     }
 
-
     if (!boards.length) return <h1>Loading...</h1>
     return <section className="task-main-container">
         <div className="board-container-left">
@@ -167,7 +166,7 @@ export const TasksApp = () => {
         <div className="board-container-right">
             <div className="main-app flex-column">
                 <BoardHeader updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
-                <Outlet context={{ board, updateBoard, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
+                <Outlet context={{ board, updates, updateBoard, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
             </div>
         </div>
     </section>

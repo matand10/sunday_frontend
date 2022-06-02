@@ -5,21 +5,24 @@ import { FaBold, FaItalic, FaUnderline, FaStrikethrough, FaPalette, FaTextHeight
 export class PanelInput extends React.Component {
 
     state = {
-        note: {
-            title: '',
-            info: { txt: '' },
-            isPinned: false,
-            type: 'note-txt'
+        update: {
+            txt: '',
+            byUser: this.props.user.fullname,
+            aboutTaskId: this.props.task.id
         },
     }
-
 
     onToggleInput = (ev, value) => {
         ev.stopPropagation();
         this.props.toggleInput(value)
     }
 
-    onUpdateSubmit(ev, note) {
+    onUpdateSubmit(ev) {
+        ev.preventDefault()
+        const { update } = this.state
+        update.updateDate = Date.now()
+        this.props.onUpdate(update)
+        this.setState({ update: { txt: '' } })
     }
 
     handleParentClick = (ev) => {
@@ -30,18 +33,23 @@ export class PanelInput extends React.Component {
         await uploadService.uploadImg(ev)
     }
 
+    handleChange = ({ target }) => {
+        const value = target.value
+        this.setState((prevState) => ({ update: { ...prevState.update, txt: value } }))
+    }
+
     render() {
-        const { note } = this.state
+        const { txt } = this.state.update
+        const { task } = this.props
         const { isInputClicked } = this.props
         let isSelected = this.onSelectedType
         let placeHolder = this.onUserGuide
-
 
         return <section>
             {!isInputClicked && <div className="new-post-placeholder-container">
                 <button className="new-post-placeholder" onClick={(ev) => this.onToggleInput(ev, true)}><span className="new-post-placeholder-span">Write an update...</span></button>
             </div>}
-            <form onSubmit={(ev) => this.onUpdateSubmit(ev, note)} className="side-panel-form" autoComplete="off">
+            <form onSubmit={(ev) => this.onUpdateSubmit(ev)} className="side-panel-form" autoComplete="off">
                 {isInputClicked && <div onClick={this.handleParentClick} className="main-panel-wrapper">
                     <div className="main-panel-input-container">
                         <div className="panel-side-input-tools">
@@ -54,7 +62,7 @@ export class PanelInput extends React.Component {
                         </div>
                         <div className="side-panel-textarea-container">
                             <textarea type="text" id="create-note" rows="5" cols="50" placeholder={placeHolder}
-                                className="side-panel-textarea" onChange={this.handleChange} />
+                                value={txt} className="side-panel-textarea" onChange={this.handleChange} />
                         </div>
                         {/* {isInputClicked && <div onClick={() => this.toggleInput(false)} className="close-panel-input-btn">Close</div>} */}
                     </div>
