@@ -22,11 +22,9 @@ export const TasksApp = () => {
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
     const { users, user } = useSelector((storeState) => storeState.userModule)
     const { updates } = useSelector((storeState) => storeState.userModule)
-    const [isMake, setIsMake] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate();
     const { boardId } = useParams()
-    const ref = useRef(null)
 
     useEffect(() => {
         dispatch(loadUsers())
@@ -44,7 +42,8 @@ export const TasksApp = () => {
         if (boards.length === 0) onAddBoard()
         else if (boardId && boardService.isIdOk(boardId, boards)) currBoard = boardService.isIdOk(boardId, boards)
         else currBoard = boards[0]
-        if (!currBoard) return navigate('/board')
+        if (currBoard) navigate(`/board/${currBoard._id}`)
+        else return navigate('/board')
         const filteredBoard = boardService.filterBoard(currBoard, filterBy)
         setBoard(filteredBoard)
     }
