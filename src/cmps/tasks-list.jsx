@@ -180,22 +180,6 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
                                         <label htmlFor="task-date">{col.value ? utilService.getCurrTime(col.value) : ''}</label>
                                         <input id="task-date" type="date" name="archivedAt" defaultValue={col.value} key={idx} onChange={(event) => handleDateChange(event, idx)} ref={dateRef} />
                                     </div>
-<<<<<<< HEAD
-                            case 'status':
-                                return <div key={idx} className="flex-row-items status" style={{ backgroundColor: col.value?.color }} onClick={(ev) => toggleStatus(ev, true, idx)}>{col.value?.title}</div>
-                            case 'date':
-                                return <div key={idx} className="flex-row-items">
-                                    <label htmlFor="task-date">{col.value ? utilService.getCurrTime(col.value) : ''}</label>
-                                    <input id="task-date" type="date" name="archivedAt" defaultValue={col.value} key={idx} onChange={(event) => handleDateChange(event, idx)} ref={dateRef} />
-                                </div>
-                            case 'text':
-                                if (editText.value && editText.colIdx) {
-                                    return <div key={idx} className="title-update-input">
-                                        <input key={idx} type="text" defaultValue={col.value} onChange={(event) => handleTextChange(event, idx)} onClick={(event) => (event.stopPropagation())} /*ref={menuRef}*/ />
-                                    </div>
-                                }
-                                return <div onClick={() => textEdit(idx, true)} key={idx} className="flex-row-items">{col.value}</div>
-=======
                                 case 'text':
                                     if (editText.value && editText.colIdx) {
                                         return <div key={idx} className="title-update-input">
@@ -205,7 +189,6 @@ export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar,
                                     return <div onClick={() => textEdit(idx, true)} key={idx} className="flex-row-items">{col.value}</div>
                             }
                         })
->>>>>>> 0ca31d149033c35e0f52ec23190086acdbf8bc65
                         }
                         <div className="right-indicator-row"></div>
                     </div>

@@ -1,0 +1,147 @@
+.task-details-modal-container {
+    position: fixed;
+    z-index: 4000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    transition-duration: .3s;
+}
+
+
+.task-details-modal-content {
+    background-color: #fefefe;
+    margin: 25%;
+    padding: 32px;
+    border: 1px solid #888;
+    width: 500px;
+    height: 300px;
+    border-radius: 8px;
+    transform: translate(20%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.upper-area-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.task-title {
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.down-area-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.group-details-container {
+    display: flex;
+    gap: 100px;
+
+    & .group-cell {
+        display: flex;
+        gap: 5px;
+    }
+
+    & .group-details-content {
+        display: flex;
+
+        & .group-cell-color {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 12px;
+        }
+    }
+}
+
+.persons-details-container {
+    display: flex;
+    gap: 150px;
+
+    & .persons-cell {
+        display: flex;
+        gap: 5px;
+    }
+
+    & .persons-details-content {
+        & .task-user-image-container {
+            display: flex;
+
+            & img {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+            }
+        }
+    }
+}
+
+.status-details-container {
+    display: flex;
+    gap: 70px;
+
+    & .status-cell {
+        display: flex;
+        gap: 5px;
+    }
+
+    & .status-type {
+        height: 40px;
+        width: 250px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: whitesmoke;
+        font-weight: 500;
+        position: relative;
+        overflow: hidden;
+        transition: border-radius 0s;
+
+
+        &.status-type:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            border-width: 0px;
+            border-style: solid;
+            width: 0;
+            border-color: #e6e9ef #e6e9ef rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.3);
+            transition: border-width .2s;
+        }
+
+        &.status-type:hover:before {
+            border-width: 5px;
+            box-shadow: -5px 5px 10px -6px #000;
+        }
+    }
+}
+
+
+
+.close {
+    color: black;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

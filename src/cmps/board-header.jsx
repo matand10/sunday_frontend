@@ -54,20 +54,6 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
         firstFilterUseEffectRef.current = false
     }, [handleSearch])
 
-<<<<<<< HEAD
-=======
-    // const handleBoardTitleChange = ({ target }) => {
-    //     document.addEventListener("keydown", (event) => {
-    //         if (event.key === "Enter") {
-    //             event.preventDefault()
-    //             const value = target.value
-    //             const field = target.name
-    //             setTitleBoard((prevBoard) => ({ ...prevBoard, [field]: value }))
-    //         }
-    //     })
-    // }
-
->>>>>>> 0ca31d149033c35e0f52ec23190086acdbf8bc65
     const updateTitleBoard = (ev) => {
         ev.preventDefault()
         board.title = titleBoard.title
@@ -120,11 +106,6 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
                         </div>
                         :
                         <div className="board-title-content">
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 0ca31d149033c35e0f52ec23190086acdbf8bc65
                             <h1 className="title" onClick={() => setIsTitleBoardClick(!isTitleBoardClick)}>{board.title}</h1>
                         </div>
                     }
