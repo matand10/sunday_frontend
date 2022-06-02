@@ -200,18 +200,32 @@ function groupColAdd(group, value) {
     group.tasks.forEach((task, idx) => {
         newGroup.tasks[idx].columns.push({ ...column })
     })
+    newGroup.progress.push({
+        value: {
+            'Working on it': null,
+            Done: null,
+            Stuck: null
+        },
+        colIdx: group.columns.length-1
+    })
+    console.log(newGroup);
     return newGroup
 }
 
-function getProgress(group, colIdxs) {
+function getProgress(group) {
+    const colIdxs = group.progress.map(pro => pro.colIdx)
+    group.progress = []
+    console.log(colIdxs);
     colIdxs.forEach(colIdx => {
         const value = group.tasks.reduce((acc, task) => {
             if (acc[task.columns[colIdx].value.title]) acc[task.columns[colIdx].value.title] += 1
             else acc[task.columns[colIdx].value.title] = 1
             return acc
         }, {})
-        const progIdx = group.progress.findIndex(pro => pro.colIdx === colIdx)
-        group.progress[progIdx].value = value
+        // const progIdx = group.progress.findIndex(pro => pro.colIdx === colIdx)
+        // console.log(group);
+        // group.progress[progIdx].value = value
+        group.progress.push({ colIdx, value })
     })
     return group.progress
 }

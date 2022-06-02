@@ -13,11 +13,6 @@ export const ColMenu = ({ removeCol, menuRef, colActions, setcolActions, setGrou
         <section ref={menuRef} className="task-main-menu-inner">
             <div className="task-main-section">
                 <div className="task-menu-item">
-                    {/* <div className="task-content-wrapper" onClick={() => onRenameCol()}>
-                        <div className="task-icon"><AiOutlineUserAdd /></div>
-                        <div className="task-title">Rename Column</div>
-                    </div> */}
-                    {/* <div className="group-content-wrapper" onClick={() => deleteTask(task.id)}> */}
                     <div className="task-content-wrapper" onClick={() => onRemoveCol()}>
                         <div className="task-icon"><BsTrash /></div>
                         <div className="task-title">Delete</div>

@@ -1,4 +1,3 @@
-import { utilService } from "../services/util.service";
 import { Menu } from '../hooks/right-click-menu'
 import { RightClickMenu } from '../modal/right-click-menu'
 import React, { useRef, useEffect, useState } from 'react';
@@ -35,7 +34,7 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
     const { x, y, handleContextMenu } = Menu()
     let menuRef = useRef()
     let groupUpdateRef = useRef()
-    // let groupRef = useRef()
+    let groupRef = useRef()
     const { boardId } = useParams()
     const dispatch = useDispatch()
 
@@ -46,7 +45,7 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
     // }, [groupUpdate])
 
     const onUpdateGroupBar = () => {
-        const newGroup = groupService.getProgress(group)
+        // const newGroup = groupService.getProgress(group)
         // updateGroup(newGroup)
     }
 

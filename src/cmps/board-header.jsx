@@ -15,6 +15,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import { InviteUserMenu } from '../modal/user-invite-modal'
 import { userService } from "../services/user.service";
 import { boardService } from "../services/board.service";
+
 export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, onFilter }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isInviteMenuOpen, setIsInviteMenuOpen] = useState(false)
@@ -22,7 +23,7 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     const [isSortMenuOpen, setIsSortMenu] = useState(false)
     const [handleSearch, setHandleSearch] = useState({ search: '' })
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
-    const [unAssignedUsers, setUnAssignedUsers] = useState('')
+    const [unAssignedUsers, setUnAssignedUsers] = useState([])
     const [titleBoard, setTitleBoard] = useState('')
     const [isTitleBoardClick, setIsTitleBoardClick] = useState(false)
     const dispatch = useDispatch()
@@ -116,7 +117,7 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
                 <div className="board-header-right">
                     <div className="board-header-actions">
                         <button className="panel-button">Last Seen</button>
-                        {/* <button className="panel-button" onClick={() => toggleInviteMenu(true)}>Invite / {unAssignedUsers.length}</button> */}
+                        <button className="panel-button" onClick={() => toggleInviteMenu(true)}>Invite / {unAssignedUsers.length}</button>
                         <button className="panel-button">Activity</button>
                         <button className="panel-button board-add"><span>+</span> Add to board</button>
                         <div onClick={() => toggleMenu(true)} className="ds-menu-side-panel-header"><img src={dotsMenu} alt='dots-menu' /></div>
@@ -137,7 +138,6 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
                 </div>
                 <div className="board-kanban-item">
                     <button className="board-kanban-item-button"><NavLink to={`/board/${board._id}/kanban`}><span><FaTrello /> Kanban</span></NavLink></button>
-                    {/* <button className="board-kanban-item-button" onClick={()=>navigate(`{/board/${board._id}/kanban}`)}><span><FaTrello/> Kanban</span></button> */}
                     <div className="board-kanban-item-line"></div>
                 </div>
             </div>

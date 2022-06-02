@@ -32,12 +32,12 @@ export const TasksApp = () => {
     }, [])
 
     useEffectUpdate(() => {
-        // dispatch(loadUpdates())
-        console.log('load');
+        dispatch(loadUpdates())
         loadBoard()
     }, [boards])
 
     const loadBoard = async () => {
+        console.log('render');
         let currBoard
         if (boards.length === 0) onAddBoard()
         else if (boardId && boardService.isIdOk(boardId, boards)) currBoard = boardService.isIdOk(boardId, boards)
@@ -74,8 +74,6 @@ export const TasksApp = () => {
     const onDeleteBoard = (boardId) => {
         dispatch(removeBoard(boardId))
         navigate(`/board`)
-        // setBoard(null)
-        // loadBoard()
     }
 
     const onRemoveGroup = (groupId) => {
@@ -113,9 +111,7 @@ export const TasksApp = () => {
             if (col.type === 'status') statusColIdxs.push(idx)
         })
         const group = { ...newBoard.groups[groupIdx] }
-        // let progressBars = statusColIdxs.map(((colIdx, idx) => {
-        const progressBars = groupService.getProgress(group, statusColIdxs)
-        // }))
+        const progressBars = groupService.getProgress(group)
         newBoard.groups[groupIdx].progress = progressBars
         dispatch(saveBoard(newBoard))
     }

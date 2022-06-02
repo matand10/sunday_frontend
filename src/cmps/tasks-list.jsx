@@ -94,28 +94,29 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
 
 
     const specialUpdateTask = (value, colIdx, status = null) => {
+        let newGroup = { ...group }
         let newTask = { ...task }
         newTask.columns[colIdx].value = value
-        group.tasks[taskIdx] = newTask
+        newGroup.tasks[taskIdx] = newTask
         if (status === 'status') {
-            group.progress = groupService.getProgress(group, [colIdx])
+            newGroup.progress = groupService.getProgress(newGroup)
         }
-        updateGroup(group)
+        updateGroup(newGroup)
     }
-
-
 
     if (!task) return <h1>Loading...</h1>
     let columns = task.columns
     columns = columns.sort((a, b) => a.importance - b.importance)
-    return <section className="task-row-component" ref={menuRef} onDragOver={(ev) => draggingOver(ev)} onDrop={(ev) => dragDropped(ev, task.id)}>
+
+    return <section className="task-row-component" onDragOver={(ev) => draggingOver(ev)} onDrop={(ev) => dragDropped(ev, task.id)}>
         <div className="task-row-wrapper" onContextMenu={(ev) => onHandleRightClick(ev, task, true)} draggable onDragStart={(ev) => dragStarted(ev, task.id)}>
             <div className="task-row-title">
                 <div className="task-title-cell-component" onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })}>
                     <div className="left-indicator-cell" style={{ backgroundColor }}></div>
-                    <div className="task-arrow-container">
+                    <div className="task-arrow-container" onClick={(event) => event.stopPropagation()}>
                         <div className="task-arrow-div" onClick={(ev) => onOpenMenu(ev, { taskId: task.id, groupId: group.id, board: board })} > <FaCaretDown className="task-arrow" /></div>
-                        {arrowTask.board && arrowTask.groupId === group.id && arrowTask.taskId === task.id && <TaskMenu statusRef={statusRef} removeTask={removeTask} arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
+                        {arrowTask.board && arrowTask.groupId === group.id && arrowTask.taskId === task.id &&
+                            <TaskMenu statusRef={statusRef} removeTask={removeTask} arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
                     </div>
                     <TaskTitleChange setUpdateIsClick={setUpdateIsClick} updateTask={updateTask} updateIsClick={updateIsClick} taskIdx={taskIdx} statusRef={statusRef} task={task} group={group} onUpdateTask={onUpdateTask} onOpenModal={onOpenModal} board={board} />
                 </div>
