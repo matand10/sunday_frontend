@@ -69,6 +69,7 @@ export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setK
     const eventListener = (ev) => {
         if (!groupMenuRef.current?.contains(ev.target)) {
             setGroupMenuOpen(false)
+            setIsTaskNameClick({})
         }
     }
 
@@ -89,9 +90,9 @@ export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setK
                             return <div key={idx} className="kanban-task-content" onClick={(event) => onOpenDetails(event, true, { boardId: board._id, groupId: item.groupId, taskId: item.taskId })}>
                                 <div className="task-name-content">
                                     {(isTaskNameClick.boardId && isTaskNameClick.groupId === item.groupId && isTaskNameClick.taskId === item.taskId) ?
-                                        <div>
-                                            <form onSubmit={(event) => updateTaskName(event, item.taskId, item.groupId)}>
-                                                <input type="text" name="title" defaultValue={item.taskName} onChange={handleTaskNameChange} onClick={(event) => (event.stopPropagation())} />
+                                        <div >
+                                            <form onSubmit={(event) => updateTaskName(event, item.taskId, item.groupId)} >
+                                                <input ref={groupMenuRef} type="text" name="title" defaultValue={item.taskName} onChange={handleTaskNameChange} onClick={(event) => (event.stopPropagation())} />
                                             </form>
                                         </div>
                                         :
@@ -119,9 +120,9 @@ export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setK
                                     </div>
                                     <div className="task-group-name">
                                         <div className='text-group-component'><FaRegCircle /> Group</div>
-                                        <div className='group-color-container'>
+                                        <div className='group-color-container' onClick={(event) => (event.stopPropagation())}>
                                             <div className='color-group-component' style={{ backgroundColor: item.groupColor }}></div>
-                                            <div className='group-cell-component' onClick={(ev) => toggleGroupMenu(ev, true)}>{item.groupName}</div>
+                                            <div className='group-cell-component' onClick={(ev) => toggleGroupMenu(ev, true)} >{item.groupName}</div>
                                         </div>
                                     </div>
                                 </div>

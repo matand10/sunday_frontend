@@ -22,7 +22,7 @@ export const GroupKanbanMenu = ({ board, groupMenuRef, taskId, currGroupId, upda
     return <React.Fragment>
         <section className="group-main-menu-inner" ref={groupMenuRef} style={{ left: modalPos.x - 300, top: modalPos.y - 65 }}>
             <div className="group-main-section">
-                <div className="group-menu-item">
+                <div className="group-menu-item" onClick={(event) => (event.stopPropagation())}>
                     {board.groups.map((group, idx) => {
                         return <div key={idx} className="group-content-wrapper" onClick={() => onChangeGroup(group.id)}>
                             <div className="group-color" style={{ backgroundColor: group.style.color }}></div>

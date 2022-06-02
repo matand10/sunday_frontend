@@ -71,14 +71,14 @@ export function TaskDetails({ board, taskName, status, statusColor, persons, gro
                         <div className="task-person-name">{persons.length ?
                             <div className="task-person-item task-user-image-container">{persons.map((user, idx) => {
                                 return <div key={idx} className="user-image">
-                                    <img key={idx} style={{ left: `${20 * (idx) + 'px'}`, transform: `translateX(${-80 + '%'})` }} className="user-img-icon" src={user.imgUrl} alt="user image" />
+                                    <img key={idx} style={{ left: `${20 * (idx) + 'px'}`, transform: `translateX(${-80 + '%'})` }} className="person-img-icon" src={user.imgUrl} alt="user image" />
                                 </div>
                             })}
                             </div>
                             :
                             <div className="task-person-item">
                                 <div className="user-image">
-                                    <img className="user-image-icon" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" />
+                                    <img className="person-image-icon" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" />
                                 </div>
                             </div>}</div>
                     </div>
