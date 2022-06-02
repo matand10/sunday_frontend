@@ -1,22 +1,28 @@
 import React from 'react'
 import { useEffect, useRef, useState } from 'react';
-import { utilService } from "../services/util.service";
 import { TaskMenu } from './task-menu';
 import { StatusModal } from '../modal/status-modal'
 import { SidePanel } from "./side-panel"
 import { useParams } from "react-router-dom";
 import { boardService } from '../services/board.service'
 import { FaCaretDown } from 'react-icons/fa'
-import { BiMessageRounded } from 'react-icons/bi'
 import { groupService } from '../services/group.service';
 import { InviteToTaskModal } from '../modal/invite-to-task-menu';
+import { TaskTitleChange } from './task-title-change';
+
+
+import { MemberCol } from '../cmps/member-col'
+import { StatCol } from '../cmps/status-col'
+import { DateCol } from '../cmps/date-col'
+import { TextCol } from '../cmps/text-col'
+
+
 
 
 export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdateGroupBar, task, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board, removeTask, updateTaskDate }) => {
     const [modal, setModal] = useState({})
     const [arrowTask, setArrowTask] = useState({})
     const [updateIsClick, setUpdateIsClick] = useState({})
-    const [taskUpdate, setTaskUpdate] = useState(task)
     const [modalPos, setModalPos] = useState({ x: null, y: null })
     const [statusActive, setStatusActive] = useState(false)
     const [inviteUserModal, setInviteUserModal] = useState(false)
@@ -28,11 +34,6 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
     let statusRef = useRef()
     let dateRef = useRef()
     const { boardId } = useParams()
-
-    useEffect(() => {
-        updateTask(taskUpdate, group.id, board)
-        setUpdateIsClick({})
-    }, [taskUpdate])
 
 
     useEffect(() => {
@@ -46,18 +47,6 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
         ev.stopPropagation()
         setArrowTask(params)
     }
-
-    const handleChange = ({ target }) => {
-        document.addEventListener("keydown", (event) => {
-            if (event.key === "Enter") {
-                event.preventDefault()
-                const value = target.value
-                const field = target.name
-                setTaskUpdate((prevTask) => ({ ...prevTask, [field]: value }))
-            }
-        })
-    }
-
 
     const eventListener = (ev) => {
         if (!statusRef.current?.contains(ev.target)) {
@@ -103,23 +92,11 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
         updateBoard(newBoard)
     }
 
-    const handleDateChange = ({ target }, colIdx) => {
-        specialUpdateTask(target.value, colIdx)
-    }
-
-    const handleTextChange = ({ target }, colIdx) => {
-        document.addEventListener("keydown", (event) => {
-            if (event.key === "Enter") {
-                event.preventDefault()
-                specialUpdateTask(target.value, colIdx)
-                setEditText(false)
-            }
-        })
-    }
 
     const specialUpdateTask = (value, colIdx, status = null) => {
         let newGroup = { ...group }
         let newTask = { ...task }
+        console.log(value, colIdx, status);
         newTask.columns[colIdx].value = value
         newGroup.tasks[taskIdx] = newTask
         if (status === 'status') {
@@ -128,82 +105,28 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
         updateGroup(newGroup)
     }
 
-    const textEdit = (colIdx, value) => {
-        setEditText({ colIdx, value })
-    }
-
-
     if (!task) return <h1>Loading...</h1>
     let columns = task.columns
     columns = columns.sort((a, b) => a.importance - b.importance)
+
     return <section className="task-row-component" ref={menuRef} onDragOver={(ev) => draggingOver(ev)} onDrop={(ev) => dragDropped(ev, task.id)}>
         <div className="task-row-wrapper" onContextMenu={(ev) => onHandleRightClick(ev, task, true)} draggable onDragStart={(ev) => dragStarted(ev, task.id)}>
             <div className="task-row-title">
                 <div className="task-title-cell-component" onClick={() => onOpenModal({ boardId: board._id, groupId: group.id, task: task })}>
                     <div className="left-indicator-cell" style={{ backgroundColor }}></div>
-                    <div className="task-arrow-container">
+                    <div className="task-arrow-container" onClick={(event) => event.stopPropagation()}>
                         <div className="task-arrow-div" onClick={(ev) => onOpenMenu(ev, { taskId: task.id, groupId: group.id, board: board })} > <FaCaretDown className="task-arrow" /></div>
-
-                        {arrowTask.board && arrowTask.groupId === group.id && arrowTask.taskId === task.id && <TaskMenu statusRef={statusRef} removeTask={removeTask} arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
-
+                        {arrowTask.board && arrowTask.groupId === group.id && arrowTask.taskId === task.id &&
+                            <TaskMenu statusRef={statusRef} removeTask={removeTask} arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
                     </div>
-                    <div className="task-title-content" >
-                        {(updateIsClick.boardId && updateIsClick.groupId === group.id && updateIsClick.task.id === task.id) ?
-                            <div className="title-update-input">
-                                <input type="text" defaultValue={task.title} onChange={handleChange} name="title" onClick={(event) => (event.stopPropagation())} ref={statusRef} />
-                            </div>
-                            :
-                            <div className="task-title-cell">
-                                <div>
-                                    {task.title}
-                                </div>
-                                <div className="edit-button-container">
-                                    <button onClick={(event) => onUpdateTask(event, { boardId: board._id, groupId: group.id, task: task })} className="edit-button">Edit</button>
-                                </div>
-                                <div className="activity-main-container">
-                                    <BiMessageRounded className="activities-icon" onClick={onOpenModal} style={{ color: task.comments?.length ? '#1976d2' : '' }} />
-                                </div>
-                            </div>
-                        }
-
-                    </div>
+                    <TaskTitleChange setUpdateIsClick={setUpdateIsClick} updateTask={updateTask} updateIsClick={updateIsClick} taskIdx={taskIdx} statusRef={statusRef} task={task} group={group} onUpdateTask={onUpdateTask} onOpenModal={onOpenModal} board={board} />
                 </div>
 
                 <div className="task-column-rows">
                     <div className="task-row-items">
                         {columns.map((col, idx) => {
-                            switch (col.type) {
-                                case 'person':
-                                    return col.value?.length ?
-                                        <div onClick={() => setInviteUserModal(true)} key={idx} className="flex-row-items user-image-container">{col.value.map((user, userIdx) => {
-                                            return <div key={userIdx} className="user-image-wrapper" >
-                                                <img key={userIdx} style={{ left: `${20 * (userIdx) + 'px'}`, transform: `translateX(${-80 + '%'})` }} className="user-image-icon-assign" src={col.value.userImg || 'https://cdn.monday.com/icons/dapulse-person-column.svg'} alt="user image" />
-                                                {inviteUserModal && <InviteToTaskModal setInviteUserModal={setInviteUserModal} specialUpdateTask={specialUpdateTask} colIdx={idx} statusRef={statusRef} board={board} task={task} />}
-                                            </div>
-                                        })}
-                                        </div>
-                                        :
-                                        <div onClick={() => setInviteUserModal(true)} key={idx} className="flex-row-items">
-                                            <div className="user-image-wrapper">
-                                                <img className="user-image-icon-assign" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" />
-                                                {inviteUserModal && <InviteToTaskModal setInviteUserModal={setInviteUserModal} specialUpdateTask={specialUpdateTask} colIdx={idx} statusRef={statusRef} board={board} task={task} />}
-                                            </div>
-                                        </div>
-                                case 'status':
-                                    return <div key={idx} className="flex-row-items status" style={{ backgroundColor: col.value?.color }} onClick={(ev) => toggleStatus(ev, true, idx)}>{col.value?.title}</div>
-                                case 'date':
-                                    return <div key={idx} className="flex-row-items">
-                                        <label htmlFor="task-date">{col.value ? utilService.getCurrTime(col.value) : ''}</label>
-                                        <input id="task-date" type="date" name="archivedAt" defaultValue={col.value} key={idx} onChange={(event) => handleDateChange(event, idx)} ref={dateRef} />
-                                    </div>
-                                case 'text':
-                                    if (editText.value && editText.colIdx) {
-                                        return <div key={idx} className="title-update-input">
-                                            <input type="text" defaultValue={col.value} onChange={(event) => handleTextChange(event, idx)} onClick={(event) => (event.stopPropagation())} /*ref={menuRef}*/ />
-                                        </div>
-                                    }
-                                    return <div onClick={() => textEdit(idx, true)} key={idx} className="flex-row-items">{col.value}</div>
-                            }
+                            return <DynamicCmp key={idx} col={col} idx={idx} task={task} board={board} setInviteUserModal={setInviteUserModal} statusRef={statusRef} specialUpdateTask={specialUpdateTask}
+                                InviteToTaskModal={InviteToTaskModal} inviteUserModal={inviteUserModal} toggleStatus={toggleStatus} editText={editText} setEditText={setEditText} />
                         })
                         }
                         <div className="right-indicator-row"></div>
@@ -217,3 +140,18 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
     </section >
 }
 
+
+
+function DynamicCmp({ col, setEditText, board, task, editText, toggleStatus, idx, colIdx, setInviteUserModal, inviteUserModal, InviteToTaskModal, specialUpdateTask, statusRef }) {
+    switch (col.type) {
+        case 'person':
+            return <MemberCol col={col} idx={idx} colIdx={colIdx} board={board} task={task} setInviteUserModal={setInviteUserModal} inviteUserModal={inviteUserModal}
+                InviteToTaskModal={InviteToTaskModal} specialUpdateTask={specialUpdateTask} statusRef={statusRef} />
+        case 'status':
+            return <StatCol col={col} toggleStatus={toggleStatus} idx={idx} />
+        case 'date':
+            return <DateCol col={col} idx={idx} specialUpdateTask={specialUpdateTask} />
+        case 'text':
+            return <TextCol col={col} idx={idx} editText={editText} colIdx={colIdx} setEditText={setEditText} />
+    }
+}
