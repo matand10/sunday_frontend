@@ -37,7 +37,6 @@ export const TasksApp = () => {
     }, [boards])
 
     const loadBoard = async () => {
-        console.log('render');
         let currBoard
         if (boards.length === 0) onAddBoard()
         else if (boardId && boardService.isIdOk(boardId, boards)) currBoard = boardService.isIdOk(boardId, boards)

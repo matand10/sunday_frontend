@@ -34,7 +34,6 @@ export const InviteToTaskModal = ({ specialUpdateTask, statusRef, task, board, c
             <div className="assigned-to-task-members">
                 <h3>Assigned</h3>
                 {task.columns[colIdx].value.map((user, idx) => {
-                    console.log('task.columns[colIdx].value', task.columns[colIdx].value);
                     return <div className="assigned-members" key={idx}>
                         <div className="user-invite-pic-container">
                             <img className="user-picture" src={user.userImg || useImg} alt="user-img" />

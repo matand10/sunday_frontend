@@ -63,12 +63,10 @@ async function update(user) {
 }
 
 async function login(userCred) {
-    // const users = await storageService.query('user')
-    // const user = users.find(user => user.username === userCred.username)
+
     try {
         const user = await httpService.post('auth/login', userCred)
         if (user) {
-            console.log(user);
             // socketService.login(user._id)
             return saveLocalUser(user)
         }
@@ -78,7 +76,6 @@ async function login(userCred) {
 }
 async function signup(userCred) {
     try {
-        // const user = await storageService.post('user', userCred)
         const user = await httpService.post('auth/signup', userCred)
         // socketService.login(user._id)
         return saveLocalUser(user)
@@ -128,8 +125,6 @@ function getUnAssignedUsers(users, board) {
 }
 
 function getAssignedUsers(users, board) {
-    console.log(users);
-    console.log(board);
     const assginedUsers = users.filter(user => {
         return board.members.find(member => member._id === user._id)
     })

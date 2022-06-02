@@ -126,6 +126,8 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
 
     if (!board) return <h1>Loading...</h1>
 
+    console.log(board);
+
     return <div className="board-content-wrapper">
         <div className="group-header-wrapper">
             <div className="group-header-component">

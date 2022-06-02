@@ -96,7 +96,6 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
     const specialUpdateTask = (value, colIdx, status = null) => {
         let newGroup = { ...group }
         let newTask = { ...task }
-        console.log(value, colIdx, status);
         newTask.columns[colIdx].value = value
         newGroup.tasks[taskIdx] = newTask
         if (status === 'status') {
