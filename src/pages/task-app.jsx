@@ -21,7 +21,7 @@ export const TasksApp = () => {
 
 
     const [board, setBoard] = useState(null)
-    const [isKanban,setIsKanban]=useState(false)
+    const [isKanban, setIsKanban] = useState(false)
     const { boards } = useSelector((storeState) => storeState.boardModule)
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
     const { users, user } = useSelector((storeState) => storeState.userModule)
@@ -31,6 +31,7 @@ export const TasksApp = () => {
     const { boardId } = useParams()
 
     useEffect(() => {
+        console.log('load boards');
         dispatch(loadUsers())
         dispatch(loadBoards(filterBy))
         socketService.on('newBoardUpdate', onBoardUpdate)
@@ -42,6 +43,7 @@ export const TasksApp = () => {
     }, [])
 
     useEffectUpdate(() => {
+        console.log(boards);
         dispatch(loadUpdates())
         loadBoard()
     }, [boards])
@@ -52,15 +54,17 @@ export const TasksApp = () => {
 
     const loadBoard = async () => {
         console.log('render')
+
         let currBoard
         if (boards.length === 0) onAddBoard()
         else if (boardId && boardService.isIdOk(boardId, boards)) currBoard = boardService.isIdOk(boardId, boards)
         else currBoard = boards[0]
-        if (currBoard){
-            if(isKanban)navigate(`/board/${currBoard._id}/kanban`)
+        if (currBoard) {
+            if (isKanban) navigate(`/board/${currBoard._id}/kanban`)
             else navigate(`/board/${currBoard._id}`)
         } else return navigate('/board')
         const filteredBoard = boardService.filterBoard(currBoard, filterBy)
+        console.log('load', filteredBoard);
         setBoard(filteredBoard)
     }
 
@@ -84,9 +88,15 @@ export const TasksApp = () => {
     }
 
     const updateBoard = (newBoard) => {
+        console.log('app', newBoard);
         socketService.emit('boardUpdate', newBoard)
         setBoard(newBoard)
         dispatch(saveBoard(newBoard))
+    }
+
+    const updateGroup = (newGroup) => {
+        const newBoard = boardService.groupUpdate(newGroup, board)
+        updateBoard(newBoard)
     }
 
     const onDeleteBoard = (boardId) => {
@@ -106,10 +116,6 @@ export const TasksApp = () => {
         updateBoard(newBoard)
     }
 
-    const updateGroup = (newGroup) => {
-        const newBoard = boardService.groupUpdate(newGroup, board)
-        updateBoard(newBoard)
-    }
 
     const onFilter = (filterBy) => {
         // dispatch(setFilter(filterBy))

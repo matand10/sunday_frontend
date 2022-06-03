@@ -18,7 +18,7 @@ import { useEffectUpdate } from "../hooks/useEffectUpdate";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 
-export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup, updateTaskDate }) => {
+export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates, updateStatistics, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup, updateTaskDate }) => {
     const [task, setTask] = useState({ title: '' })
     const [groupIsClick, setGroupIsClick] = useState({})
     const [isClickGroup, setIsClickGroup] = useState(false)
@@ -120,14 +120,16 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
         const newTasks = Array.from(group.tasks);
         const [removed] = newTasks.splice(result.source.index, 1);
         newTasks.splice(result.destination.index, 0, removed);
-        console.log('ma kara', newTasks);
         let newGroup = { ...group }
         newGroup.tasks = newTasks
         setGroupUpdate(newGroup)
         updateGroup(newGroup)
     };
 
-    return <div className="board-content-wrapper">
+    return <section ref={provided.innerRef}
+        snapshot={snapshot}
+        {...provided.draggableProps}
+        {...provided.dragHandleProps} className="board-content-wrapper">
         <div className="group-header-wrapper">
             <div className="group-header-component">
                 <div className="group-header-title">
@@ -173,7 +175,7 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
                     {(provided) => (
                         <div {...provided.droppableProps} ref={provided.innerRef}>
                             {group.tasks.map((task, idx) => {
-                                return <Draggable draggableId={task.id.toString()} key={idx} index={idx}>
+                                return <Draggable draggableId={task.id.toString()} key={task.id} index={idx}>
                                     {(provided, snapshot) => (
 
                                         <TasksList provided={provided}
@@ -215,6 +217,6 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
 
             <RightClickMenu x={x} y={y} showMenu={showMenu} />
         </div>
-    </div>
+    </section>
 
 }
