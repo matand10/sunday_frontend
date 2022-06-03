@@ -16,6 +16,7 @@ import { ProgressBar } from '../features/progress-bar';
 import { ColAddMenu } from "../modal/col-add-menu";
 import { MainGroupInput } from "./main-group-menu";
 import { useEffectUpdate } from "../hooks/useEffectUpdate";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 
 export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup, updateTaskDate }) => {
@@ -126,7 +127,16 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
 
     if (!board) return <h1>Loading...</h1>
 
-    console.log(board);
+    const onDragEnd = (result) => {
+        const newTasks = Array.from(group.tasks);
+        const [removed] = newTasks.splice(result.source.index, 1);
+        newTasks.splice(result.destination.index, 0, removed);
+        console.log('ma kara', newTasks);
+        let newGroup = { ...group }
+        newGroup.tasks = newTasks
+        setGroupUpdate(newGroup)
+        updateGroup(newGroup)
+    };
 
     return <div className="board-content-wrapper">
         <div className="group-header-wrapper">
@@ -168,10 +178,26 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
                 </div>
             </div>
 
-            {group.tasks.map((task, idx) => {
-                return <TasksList key={idx} taskIdx={idx} boardId={boardId} task={task} /*menuRef={menuRef}*/ backgroundColor={group.style.color}
-                    updateGroup={updateGroup} updates={updates} updateBoard={updateBoard} onUpdateGroupBar={onUpdateGroupBar} onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate} />
-            })}
+
+            <DragDropContext onDragEnd={onDragEnd}>
+                <Droppable droppableId="list">
+                    {(provided) => (
+                        <div {...provided.droppableProps} ref={provided.innerRef}>
+                            {group.tasks.map((task, idx) => {
+                                return <Draggable draggableId={task.id.toString()} key={idx} index={idx}>
+                                    {(provided, snapshot) => (
+
+                                        <TasksList provided={provided}
+                                            snapshot={snapshot} taskIdx={idx} boardId={boardId} task={task} /*menuRef={menuRef}*/ backgroundColor={group.style.color}
+                                            updateGroup={updateGroup} updates={updates} updateBoard={updateBoard} onUpdateGroupBar={onUpdateGroupBar} onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate} />
+                                    )}
+                                </Draggable>
+                            })}
+                        </div>
+                    )}
+                </Droppable>
+            </DragDropContext>
+
 
             <MainGroupInput onAddTask={onAddTask} group={group} task={task} />
 

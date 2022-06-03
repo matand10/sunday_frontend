@@ -196,7 +196,7 @@ function makeBoard(user) {
         groups: [
             {
                 style: { color: utilService.getRandomColor() },
-                id: "g101",
+                id: utilService.makeId(),
                 title: "Group Title",
                 archivedAt: 1589983468418,
                 progress: [{
@@ -229,7 +229,7 @@ function makeBoard(user) {
                 ],
                 tasks: [
                     {
-                        id: "c101",
+                        id: utilService.makeId(),
                         title: "Item 1",
                         comments: [],
                         archivedAt: 1589983468418,
@@ -255,7 +255,7 @@ function makeBoard(user) {
                         ]
                     },
                     {
-                        id: "c102",
+                        id: utilService.makeId(),
                         title: "Item 2",
                         comments: [],
                         archivedAt: 1589983468418,
@@ -294,7 +294,7 @@ function makeBoard(user) {
                 ],
             },
             {
-                id: "g102",
+                id: utilService.makeId(),
                 title: "Group Title",
                 style: { color: utilService.getRandomColor() },
                 progress: [{
@@ -327,7 +327,7 @@ function makeBoard(user) {
                 ],
                 tasks: [
                     {
-                        id: "c103",
+                        id: utilService.makeId(),
                         title: "Item 3",
                         archivedAt: 1589983468418,
                         columns: [
@@ -352,7 +352,7 @@ function makeBoard(user) {
                         ]
                     },
                     {
-                        id: "c104",
+                        id: utilService.makeId(),
                         title: "Item 4",
                         archivedAt: 1589983468418,
                         columns: [
@@ -379,22 +379,7 @@ function makeBoard(user) {
                 ],
             }
         ],
-        activities: [
-            {
-                id: "a101",
-                txt: "Changed Color",
-                createdAt: 154514,
-                byMember: {
-                    _id: "u101",
-                    fullname: "Abi Abambi",
-                    imgUrl: "http://some-img"
-                },
-                task: {
-                    id: "c101",
-                    title: "Replace Logo"
-                }
-            }
-        ],
+        activities: [],
         cmpsOrder: [
             "status-picker",
             "member-picker",
