@@ -18,6 +18,7 @@ export const KanbanBoard = () => {
     const onUpdatTaskName = (newBoard) => {
         setKanbanBoard(newBoard)
     }
+    console.log('kanbanBoard',kanbanBoard)
     console.log('kanban', kanban)
     if (!kanban['Done']) return <h1>Loading...</h1>
     return (

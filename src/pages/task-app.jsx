@@ -15,37 +15,38 @@ import { useEffectUpdate } from "../hooks/useEffectUpdate"
 import { groupService } from "../services/group.service"
 
 export const TasksApp = () => {
-    
-    
+
+
     const [board, setBoard] = useState(null)
+    const [isKanban,setIsKanban]=useState(false)
     const { boards } = useSelector((storeState) => storeState.boardModule)
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
     const { users, user } = useSelector((storeState) => storeState.userModule)
     const { updates } = useSelector((storeState) => storeState.userModule)
-    const [isMake, setIsMake] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate();
     const { boardId } = useParams()
-    const ref = useRef(null)
 
     useEffect(() => {
-        console.log('Rendered');
         dispatch(loadUsers())
         dispatch(loadBoards(filterBy))
     }, [])
-    
+
     useEffectUpdate(() => {
-        console.log('Updated');
-        // dispatch(loadUpdates())
+        dispatch(loadUpdates())
         loadBoard()
     }, [boards])
 
     const loadBoard = async () => {
-        console.log(boards);
-
-        const currBoard = boardId ? await boardService.getById(boardId) : boards[0]
-        if (!currBoard) return navigate('/')
-        console.log('currBoard', currBoard);
+        console.log('render')
+        let currBoard
+        if (boards.length === 0) onAddBoard()
+        else if (boardId && boardService.isIdOk(boardId, boards)) currBoard = boardService.isIdOk(boardId, boards)
+        else currBoard = boards[0]
+        if (currBoard){
+            if(isKanban)navigate(`/board/${currBoard._id}/kanban`)
+            else navigate(`/board/${currBoard._id}`)
+        } else return navigate('/board')
         const filteredBoard = boardService.filterBoard(currBoard, filterBy)
         setBoard(filteredBoard)
     }
@@ -70,7 +71,6 @@ export const TasksApp = () => {
 
     const onDeleteBoard = (boardId) => {
         dispatch(removeBoard(boardId))
-        setBoard(null)
         navigate(`/board`)
     }
 
@@ -114,11 +114,8 @@ export const TasksApp = () => {
             if (col.type === 'status') statusColIdxs.push(idx)
         })
         const group = { ...newBoard.groups[groupIdx] }
-        // let progressBars = statusColIdxs.map(((colIdx, idx) => {
-        const progressBars = groupService.getProgress(group, statusColIdxs)
-        // }))
+        const progressBars = groupService.getProgress(group)
         newBoard.groups[groupIdx].progress = progressBars
-        console.log(newBoard);
         dispatch(saveBoard(newBoard))
     }
 
@@ -142,7 +139,7 @@ export const TasksApp = () => {
 
         <div className="board-container-right">
             <div className="main-app flex-column">
-                <BoardHeader updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
+                <BoardHeader setIsKanban={setIsKanban} updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
                 <Outlet context={{ board, updates, updateBoard, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
             </div>
         </div>

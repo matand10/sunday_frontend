@@ -15,14 +15,15 @@ import { NavLink, Outlet } from "react-router-dom";
 import { InviteUserMenu } from '../modal/user-invite-modal'
 import { userService } from "../services/user.service";
 import { boardService } from "../services/board.service";
-export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, onFilter }) => {
+
+export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, onFilter,setIsKanban }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isInviteMenuOpen, setIsInviteMenuOpen] = useState(false)
     const [isSearchActive, setIsSearchActive] = useState(false)
     const [isSortMenuOpen, setIsSortMenu] = useState(false)
     const [handleSearch, setHandleSearch] = useState({ search: '' })
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
-    const [unAssignedUsers, setUnAssignedUsers] = useState('')
+    const [unAssignedUsers, setUnAssignedUsers] = useState([])
     const [titleBoard, setTitleBoard] = useState('')
     const [isTitleBoardClick, setIsTitleBoardClick] = useState(false)
     const dispatch = useDispatch()
@@ -34,9 +35,9 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     useEffect(() => {
         document.addEventListener("mousedown", eventListeners)
         return () => {
-            document.addEventListener("mousedown", eventListeners)
+            document.removeEventListener("mousedown", eventListeners)
         }
-    })
+    }, [])
 
     const eventListeners = (ev) => {
         if (!menuRef.current?.contains(ev.target)) {
@@ -91,7 +92,6 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
         const newFilterBy = { ...filterBy, sortBy: label }
         // dispatch(setFilter(newFilterBy))
     }
-
     if (!board) return <h1>Loading...</h1>
     return <div className="board-header">
         <div className="board-header-main">
@@ -116,7 +116,7 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
                 <div className="board-header-right">
                     <div className="board-header-actions">
                         <button className="panel-button">Last Seen</button>
-                        {/* <button className="panel-button" onClick={() => toggleInviteMenu(true)}>Invite / {unAssignedUsers.length}</button> */}
+                        <button className="panel-button" onClick={() => toggleInviteMenu(true)}>Invite / {unAssignedUsers.length}</button>
                         <button className="panel-button">Activity</button>
                         <button className="panel-button board-add"><span>+</span> Add to board</button>
                         <div onClick={() => toggleMenu(true)} className="ds-menu-side-panel-header"><img src={dotsMenu} alt='dots-menu' /></div>
@@ -132,12 +132,11 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
         <div className="board-subsets-toolbar">
             <div className="board-subsets-tabs">
                 <div className="board-subsets-item">
-                    <button className="board-subsets-item-button"><NavLink to={`/board/${board._id}`} className="main-table-nav"><span><BsTable /> Main Table</span></NavLink> </button>
+                    <button className="board-subsets-item-button" onClick={()=>setIsKanban(false)}><NavLink to={`/board/${board._id}`} className="main-table-nav"><span><BsTable /> Main Table</span></NavLink> </button>
                     <div className="board-subsets-item-line"></div>
                 </div>
                 <div className="board-kanban-item">
-                    <button className="board-kanban-item-button"><NavLink to={`/board/${board._id}/kanban`} className="kanban-nav"><span><FaTrello /> Kanban</span></NavLink></button>
-                    {/* <button className="board-kanban-item-button" onClick={()=>navigate(`{/board/${board._id}/kanban}`)}><span><FaTrello/> Kanban</span></button> */}
+                    <button className="board-kanban-item-button" onClick={()=>setIsKanban(true)}><NavLink to={`/board/${board._id}/kanban`} className="kanban-nav"><span><FaTrello /> Kanban</span></NavLink></button>
                     <div className="board-kanban-item-line"></div>
                 </div>
             </div>

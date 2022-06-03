@@ -13,7 +13,9 @@ function getTaskName(board, status) {
         const filter = group.tasks.filter(task => {
             return task.columns.some(col => col.value.title === status)
         })
+        console.log('filter', filter);
         filter.forEach(specific => {
+            console.log('spec',specific)
             done.push({
                 taskName: specific.title,
                 taskId: specific.id,
@@ -25,6 +27,7 @@ function getTaskName(board, status) {
             })
         })
     })
+    console.log('done')
     return done
 
 }

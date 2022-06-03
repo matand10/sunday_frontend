@@ -4,6 +4,9 @@ import React from "react"
 
 export const TaskMenu = ({ arrowTask, statusRef, onOpenMenu, removeTask }) => {
 
+    const onRemoveTask = (ev, taskId, groupId) => {
+        removeTask(taskId, groupId)
+    }
 
     return <>
         <section ref={statusRef} className="task-main-menu-inner">
@@ -13,7 +16,7 @@ export const TaskMenu = ({ arrowTask, statusRef, onOpenMenu, removeTask }) => {
                         <div className="task-icon"><AiOutlineUserAdd /></div>
                         <div className="task-title">Rename item</div>
                     </div>
-                    <div className="task-content-wrapper" onClick={() => removeTask(arrowTask.taskId, arrowTask.groupId)}>
+                    <div className="task-content-wrapper" onClick={(event) => onRemoveTask(event, arrowTask.taskId, arrowTask.groupId)}>
                         <div className="task-icon"><BsTrash /></div>
                         <div className="task-title">Delete</div>
                     </div>

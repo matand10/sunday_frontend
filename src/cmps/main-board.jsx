@@ -7,6 +7,8 @@ export const MainBoard = () => {
 
     if (!board) return <h1>Loading...</h1>
     if (!board.groups) return <h1>Loading...</h1>
+
+
     return <section className="group-main-container">
         {board.groups.map((group, idx) => <GroupList updates={updates} updateBoard={updateBoard} removeTask={removeTask} key={idx} board={board} group={group} onAddTask={onAddTask} onRemoveGroup={onRemoveGroup} updateTask={updateTask} updateGroup={updateGroup} updateTaskDate={updateTaskDate} />)}
     </section>

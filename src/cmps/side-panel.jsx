@@ -19,14 +19,6 @@ export class _SidePanel extends React.Component {
         this.setState({ updates: this.props.updates })
     }
 
-    // componentDidUpdate() {
-    //     const { task, updates } = this.props
-    //     console.log('tasks', task);
-    //     console.log('updates', updates);
-    //     const taskComment = task.comments.find(update => update.aboutTaskId === task._id)
-    //     // console.log(taskComment);
-    // }
-
     deleteUpdate = (updateId, updateIdx) => {
         const { group, taskIdx } = this.props
         group.tasks[taskIdx].comments.splice(updateIdx, 1)

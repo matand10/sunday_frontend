@@ -13,7 +13,6 @@ export const GroupKanbanMenu = ({ board, groupMenuRef, taskId, currGroupId, upda
         let newBoard={...board}
         newBoard.groups[groupIdx].tasks.push(currTask)
         newBoard.groups[currGroupIdx].tasks.splice(currTaskIdx, 1)
-        console.log(newBoard)
         updateBoard(newBoard)
         onUpdatTaskName(newBoard)
         setGroupMenuOpen(false)

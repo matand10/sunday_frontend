@@ -10,16 +10,18 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
     const [showMenu, setShowMenu] = useState('')
     const [isNavOpen, setIsNavOpen] = useState(false)
     const [isClick, setIsClick] = useState(false)
-    const [selectedBoard, setSelectedBoard] = useState({})
+    // const [selectedBoard, setSelectedBoard] = useState({})
     const [renameIsClick, setRenameIsClick] = useState('')
     const [boardUpdate, setBoardUpdate] = useState(board)
     const [isBoardMenuOpen, setIsBoardMenuOpen] = useState(false)
+    const [titleBoard, setTitleBoard] = useState('')
+
     let menuRef = useRef()
     let navigate = useNavigate();
 
-    useEffect(() => {
-        if (boardUpdate) updateBoard(boardUpdate)
-    }, [boardUpdate])
+    // useEffect(() => {
+    //     if (boardUpdate) updateBoard(boardUpdate)
+    // }, [boardUpdate])
 
     useEffect(() => {
         document.addEventListener("mousedown", eventListener)
@@ -38,32 +40,34 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
         setIsNavOpen(!isNavOpen)
     }
 
-    const toggleBoardAction = (board, ev = null) => {
-        ev.stopPropagation()
-        setSelectedBoard(board)
-    }
+    // const toggleBoardAction = (board, ev = null) => {
+    //     ev.stopPropagation()
+    //     setSelectedBoard(board)
+    // }
 
     const handleChange = ({ target }, idx) => {
-        document.addEventListener("keydown", (event) => {
-            if (event.key === "Enter") {
-                event.preventDefault()
-                let newBoard = boards[idx]
-                newBoard.title = target.value
-                setBoardUpdate(newBoard)
-                updateBoard(newBoard)
-                setRenameIsClick('')
-            }
-        })
+        setTitleBoard(target.value)
     }
 
     const onRenameIsClick = (board) => {
-        setSelectedBoard({})
+        // setSelectedBoard({})
+        // setBoardUpdate(board)
         setRenameIsClick(board._id)
-        setBoardUpdate(board)
+        setIsBoardMenuOpen(null)
     }
 
-    const onOpenMenu = (value) => {
-        setIsBoardMenuOpen(value)
+    // const onOpenMenu = (value) => {
+    //     setIsBoardMenuOpen(value)
+    // }
+
+    const updateTitleBoard = (ev) => {
+        ev.preventDefault()
+        ev.stopPropagation()
+        let newBoard = { ...board }
+        newBoard.title = titleBoard
+        // updateBoard(board)
+        // setRenameIsClick('')
+        // setTitleBoard(null)
     }
 
     return <section className={`home-control-component${isNavOpen ? "" : '-closed'}`}>
@@ -98,7 +102,14 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
                         {boards.length && boards.map((board, idx) => {
                             return <div key={idx} onClick={() => boardChange(board)} className='home-control-all-buttons'>
                                 {(renameIsClick === board._id) ? <div className="title-update-input">
-                                    <input type="text" defaultValue={board.title} onChange={(event) => handleChange(event, idx)} name="title" />
+
+                                    <form onSubmit={updateTitleBoard} className="board-title-form">
+                                        <input type="text" defaultValue={board.title} onChange={(event) => handleChange(event, idx)} name="title" />
+                                    </form>
+
+
+
+
                                 </div> :
                                     <button className="home-control-button">
                                         <span className="home-control-button-span">{board.title}</span>
@@ -107,15 +118,16 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
 
 
                                 <div className="ds-menu-button" onClick={(event) => {
-                                    toggleBoardAction(board, event)
-                                    onOpenMenu(true)
+                                    // toggleBoardAction(board, event)
+                                    // onOpenMenu()
+                                    setIsBoardMenuOpen(board._id)
                                 }}>
                                     <img src={dotsMenu} alt="dots-menu" />
 
                                 </div>
+                                {isBoardMenuOpen === board._id && <BoardMenuActions menuRef={menuRef} board={board} onRenameIsClick={onRenameIsClick} onDeleteBoard={onDeleteBoard} />}
                             </div>
                         })}
-                        {isBoardMenuOpen && <BoardMenuActions menuRef={menuRef} board={board} onRenameIsClick={onRenameIsClick} onDeleteBoard={onDeleteBoard} />}
                     </div>
                 </div>
             </div>

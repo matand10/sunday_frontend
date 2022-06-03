@@ -64,7 +64,7 @@ export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setK
         return () => {
             document.removeEventListener("mousedown", eventListener)
         }
-    })
+    },[])
 
     const eventListener = (ev) => {
         if (!groupMenuRef.current?.contains(ev.target)) {
