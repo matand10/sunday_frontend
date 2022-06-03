@@ -1,12 +1,15 @@
-import { useState,useRef,useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { FaCircle, FaRegUserCircle, FaStream } from 'react-icons/fa'
+import { DetailsGroupKanbanMenu } from './kanban-details-group-menu'
 
 
-export function TaskDetails({ board, taskName, status, statusColor, persons, groupName, groupColor, onOpenDetails }) {
-    const [taskTitle, setTaskTitle] = useState('')
+export function TaskDetails({ board, taskName, status, statusColor, persons, groupName, groupColor, onOpenDetails, updateTaskName, taskId, groupId, updateBoard, onUpdatTaskName, modalPos, setModalPos }) {
     const [isTaskClick, setIsTaskClick] = useState(false)
-    const detailsRef=useRef()
-    
+    const [groupMenuOpen, setGroupMenuOpen] = useState(false)
+   
+
+    const detailsRef = useRef()
+
     useEffect(() => {
         document.addEventListener("mousedown", eventListener)
         return () => {
@@ -20,14 +23,16 @@ export function TaskDetails({ board, taskName, status, statusColor, persons, gro
         }
     }
 
-    const handleTaskChange = ({ target }) => {
-        const field = target.name
-        const value = target.value
-        setTaskTitle((prevTask) => ({ ...prevTask, [field]: value }))
+    const onChangeTaskTitle = (ev) => {
+        const value = ev.currentTarget.textContent
+        updateTaskName(ev, taskId, groupId, value)
     }
 
-    const onChangeTaskTitle = (ev) => {
-        ev.preventDefault()
+    const toggleGroupMenu = (ev, value) => {
+        const x = ev.pageX
+        const y = ev.pageY
+        setModalPos({ x: x, y: y })
+        setGroupMenuOpen(value)
     }
 
     return <div id="myModal" className="task-details-modal-container">
@@ -35,17 +40,7 @@ export function TaskDetails({ board, taskName, status, statusColor, persons, gro
             <span className="close" onClick={(event) => onOpenDetails(event, false, {})}>&times;</span>
             <div className="upper-area-modal">
                 <div className="task-title-container">
-                    {isTaskClick ?
-                        <div className="task-input-content" ref={detailsRef}>
-                            <form onSubmit={onChangeTaskTitle} className="task-form-cell">
-                                <input type="text" name="title" defaultValue={taskName} onChange={handleTaskChange} />
-                            </form>
-                        </div>
-                        :
-                        <div className="task-title-content">
-                            <div onClick={() => setIsTaskClick(!isTaskClick)} className="task-title">{taskName}</div>
-                        </div>
-                    }
+                    <h2 ref={detailsRef} contentEditable suppressContentEditableWarning={true} className="task-title" onBlur={(event) => onChangeTaskTitle(event)}>{taskName}</h2>
                 </div>
                 <div className="task-board-details">
                     <h3>in → {board.title} board</h3>
@@ -57,7 +52,7 @@ export function TaskDetails({ board, taskName, status, statusColor, persons, gro
                         <div className="group-icon"><FaCircle /></div>
                         <div className="group-title">Group</div>
                     </div>
-                    <div className="group-details-content">
+                    <div className="group-details-content" onClick={(ev) => toggleGroupMenu(ev, true)}>
                         <div style={{ backgroundColor: groupColor }} className="group-cell-color"></div>
                         <div className="group-name">{groupName}</div>
                     </div>
@@ -89,7 +84,8 @@ export function TaskDetails({ board, taskName, status, statusColor, persons, gro
                         <div className="status-title">Status</div>
                     </div>
                     <div className="status-details-content">
-                        <div className="status-type" style={{backgroundColor:statusColor}}>{(status === 'WorkingOnIt') ? status = 'Working on it' : status}</div>
+                        <div className="status-type" style={{ backgroundColor: statusColor }}>{(status === 'WorkingOnIt') ? status = 'Working on it' : status}</div>
+                        {groupMenuOpen && <DetailsGroupKanbanMenu board={board} groupMenuRef={detailsRef} taskId={taskId} currGroupId={groupId} updateBoard={updateBoard} onUpdatTaskName={onUpdatTaskName} modalPos={modalPos} setGroupMenuOpen={setGroupMenuOpen}/>}
                     </div>
                 </div>
             </div>

@@ -15,6 +15,7 @@ import { ColMenu } from "../modal/col-menu";
 import { ProgressBar } from '../features/progress-bar';
 import { ColAddMenu } from "../modal/col-add-menu";
 import { MainGroupInput } from "./main-group-menu";
+import { useEffectUpdate } from "../hooks/useEffectUpdate";
 
 
 export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup, updateTaskDate }) => {
@@ -39,7 +40,7 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
     const dispatch = useDispatch()
 
 
-    useEffect(() => {
+    useEffectUpdate(() => {
         updateGroup(groupUpdate)
         setGroupIsClick({})
     }, [groupUpdate])

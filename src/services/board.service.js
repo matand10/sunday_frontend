@@ -28,6 +28,7 @@ async function query(filterBy = {}) {
         // const res = await storageService.get(STORAGE_KEY)
         // const res = await storageService.query(STORAGE_KEY)
         // if (!res.length) res = getEmptyBoard()
+        console.log(filterBy);
         const boards = await httpService.get('board', { params: { filterBy } })
         return boards
     } catch (err) {
@@ -160,7 +161,6 @@ function groupHeadSort(sortValue, group, rev, colIdx) {
 }
 
 function isIdOk(boardId, boards) {
-    // if (!boards._id) return
     return boards.some(board => board._id === boardId)
 }
 
@@ -245,16 +245,13 @@ function getLabels() {
     ]
 }
 
+
 function makeBoard(user) {
     return {
         title: "Robot dev proj",
         archivedAt: 1589983468418,
         createdAt: 1589983468418,
-        members: [user, {
-            _id: "u101",
-            fullname: "Guest",
-            imgUrl: "http://some-img"
-        }],
+        members: [user],
         groups: [
             {
                 style: { color: utilService.getRandomColor() },
@@ -337,7 +334,18 @@ function makeBoard(user) {
                             {
                                 title: 'Person',
                                 importance: 1,
-                                value: [],
+                                value: [
+                                    {
+                                        _id: "u101",
+                                        fullname: "Tal Tarablus",
+                                        imgUrl: "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg"
+                                    },
+                                    {
+                                        _id: "u102",
+                                        fullname: "Matan Tarif",
+                                        imgUrl: "https://cdn.monday.com/icons/dapulse-person-column.svg"
+                                    }
+                                ],
                                 type: 'person'
                             }
                         ]

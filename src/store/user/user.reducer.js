@@ -4,7 +4,6 @@ import { userService } from '../../services/user.service'
 const initialState = {
     user: userService.getLoggedinUser(),
     users: userService.getUsers(),
-    isScreenOn: false
 }
 
 export function userReducer(state = initialState, action) {
@@ -30,9 +29,6 @@ export function userReducer(state = initialState, action) {
             return { ...state, users: users }
         default:
     }
-    // For debug:
-    // window.userState = newState;
-    // console.log('State:', newState);
     return newState;
 
 }

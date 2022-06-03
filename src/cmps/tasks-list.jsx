@@ -21,6 +21,10 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
     const [statusActive, setStatusActive] = useState(false)
     const [inviteUserModal, setInviteUserModal] = useState(false)
     const [editText, setEditText] = useState(false)
+    const [modalData, setModalData] = useState(null)
+    // {type: 'status', data: {}, pos: {}}
+
+
     let statusRef = useRef()
     let dateRef = useRef()
     const { boardId } = useParams()
@@ -29,6 +33,14 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
         updateTask(taskUpdate, group.id, board)
         setUpdateIsClick({})
     }, [taskUpdate])
+
+
+    useEffect(() => {
+        document.addEventListener("mousedown", eventListener)
+        return () => {
+            document.removeEventListener("mousedown", eventListener)
+        }
+    }, [])
 
     const onOpenMenu = (ev, params) => {
         ev.stopPropagation()
@@ -46,12 +58,6 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
         })
     }
 
-    useEffect(() => {
-        document.addEventListener("mousedown", eventListener)
-        return () => {
-            document.removeEventListener("mousedown", eventListener)
-        }
-    })
 
     const eventListener = (ev) => {
         if (!statusRef.current?.contains(ev.target)) {

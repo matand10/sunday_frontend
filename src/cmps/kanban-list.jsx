@@ -8,7 +8,7 @@ import { TaskDetails } from '../modal/kanban-task-details'
 
 export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setKanbanBoard, updateTask, onUpdatTaskName }) => {
     const [task, setTask] = useState({ title: '', status })
-    const [taskTitle, setTaskTitle] = useState('')
+    // const [taskTitle, setTaskTitle] = useState('')
     const [isTaskNameClick, setIsTaskNameClick] = useState({})
     const [modalPos, setModalPos] = useState({ x: null, y: null })
     const [groupMenuOpen, setGroupMenuOpen] = useState(false)
@@ -30,18 +30,18 @@ export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setK
         onUpdatTaskName(newBoard)
     }
 
-    const handleTaskNameChange = ({ target }) => {
-        const field = target.name
-        const value = target.value
-        setTaskTitle((prevTask) => ({ ...prevTask, [field]: value }))
-    }
+    // const handleTaskNameChange = ({ target }) => {
+    //     const field = target.name
+    //     const value = target.value
+    //     setTaskTitle((prevTask) => ({ ...prevTask, [field]: value }))
+    // }
 
-    const updateTaskName = (ev, taskId, groupId) => {
+    const updateTaskName = (ev, taskId, groupId,title) => {
         ev.preventDefault()
         const groupIdx = board.groups.findIndex(group => group.id === groupId)
         let taskIdx = board.groups[groupIdx].tasks.findIndex(task => task.id === taskId)
         let newBoard = { ...board }
-        newBoard.groups[groupIdx].tasks[taskIdx].title = taskTitle.title
+        newBoard.groups[groupIdx].tasks[taskIdx].title = title
         updateBoard(newBoard)
         onUpdatTaskName(newBoard)
         setIsTaskNameClick({})
@@ -73,10 +73,15 @@ export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setK
         }
     }
 
-    const onOpenDetails = (ev, value, params) => {
+    const onOpenDetails = (ev,idx) => {
         ev.stopPropagation()
-        setOpenDetails(params)
-        setIsDetailsOpen(value)
+        // setOpenDetails(params)
+        setIsDetailsOpen(idx)
+    }
+
+    const onChangeTaskTitle = (ev,taskId,groupId) => {
+        const value = ev.currentTarget.textContent
+        updateTaskName(ev, taskId, groupId, value)
     }
 
     return (
@@ -87,19 +92,9 @@ export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setK
                     <div className="kanban-tasks-container">
 
                         {kanban[(status.title === 'Working on it') ? status.title = 'WorkingOnIt' : status.title] && kanban[(status.title === 'Working on it') ? status.title = 'WorkingOnIt' : status.title].map((item, idx) => {
-                            return <div key={idx} className="kanban-task-content" onClick={(event) => onOpenDetails(event, true, { boardId: board._id, groupId: item.groupId, taskId: item.taskId })}>
+                            return <div key={idx} className="kanban-task-content" onClick={(event) => onOpenDetails(event,idx/*, { boardId: board._id, groupId: item.groupId, taskId: item.taskId}*/)}>
                                 <div className="task-name-content">
-                                    {(isTaskNameClick.boardId && isTaskNameClick.groupId === item.groupId && isTaskNameClick.taskId === item.taskId) ?
-                                        <div >
-                                            <form onSubmit={(event) => updateTaskName(event, item.taskId, item.groupId)} >
-                                                <input ref={groupMenuRef} type="text" name="title" defaultValue={item.taskName} onChange={handleTaskNameChange} onClick={(event) => (event.stopPropagation())} />
-                                            </form>
-                                        </div>
-                                        :
-                                        <div>
-                                            <div onClick={(event) => setUpdateClick(event, { boardId: board._id, groupId: item.groupId, taskId: item.taskId })}>{item.taskName}</div>
-                                        </div>
-                                    }
+                                    <h4 contentEditable suppressContentEditableWarning={true}  onBlur={(event) => onChangeTaskTitle(event,item.taskId,item.groupId)} onClick={(event) => (event.stopPropagation())}>{item.taskName}</h4>
                                 </div>
                                 <div className="task-down-phase">
                                     <div className='task-person-content'>
@@ -128,8 +123,8 @@ export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setK
                                 </div>
                                 {groupMenuOpen && <GroupKanbanMenu board={board} groupMenuRef={groupMenuRef} taskId={item.taskId} currGroupId={item.groupId} updateBoard={updateBoard}
                                     onUpdatTaskName={onUpdatTaskName} modalPos={modalPos} setGroupMenuOpen={setGroupMenuOpen} />}
-                                {isDetailsOpen &&
-                                    <TaskDetails board={board} taskName={item.taskName} status={status.title} statusColor={status.color} persons={item.persons} groupName={item.groupName} groupColor={item.groupColor}  onOpenDetails={onOpenDetails}/>
+                                {isDetailsOpen===idx &&
+                                    <TaskDetails board={board} taskName={item.taskName} taskId={item.taskId} status={status.title} statusColor={status.color} persons={item.persons} groupName={item.groupName} groupId={item.groupId} groupColor={item.groupColor}  onOpenDetails={onOpenDetails} updateTaskName={updateTaskName} updateBoard={updateBoard} onUpdatTaskName={onUpdatTaskName} modalPos={modalPos} setModalPos={setModalPos}/>
                                 }
                             </div>
                         })}

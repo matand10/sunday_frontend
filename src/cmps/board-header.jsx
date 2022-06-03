@@ -47,16 +47,12 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
             setIsTitleBoardClick(false)
         }
     }
-    
+
     useEffect(() => {
         if (!firstFilterUseEffectRef.current) onFilter(handleSearch)
         firstFilterUseEffectRef.current = false
     }, [handleSearch])
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 931d81757ebe5499b800fab33a6b7d15fe28eb10
     const updateTitleBoard = (ev) => {
         ev.preventDefault()
         board.title = titleBoard.title

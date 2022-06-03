@@ -4,7 +4,6 @@ import { userService } from '../../services/user.service'
 
 const initialState = {
     boards: [],
-    // boards: [],
     filterBy: {
         search: '',
         userId: userService.getLoggedinUser()?._id || null,
@@ -14,8 +13,6 @@ const initialState = {
 
 export function boardReducer(state = initialState, action) {
     var boards
-    var groups
-    var tasks
 
     switch (action.type) {
         case 'SET_BOARDS':
