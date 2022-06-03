@@ -1,0 +1,38 @@
+.group-main-menu-inner {
+    background-color: #ffffff;
+    position: fixed;
+    top: 75px;
+    right: 20px;
+    z-index: 100;
+    border-radius: 4px;
+    box-shadow: -1px 10px 44px -20px #333;;
+    width: 264px;
+    // height: 355px;
+    padding: 6px;
+}
+
+.group-menu-item {
+    line-height: 24px;
+}
+
+.group-content-wrapper {
+    display: flex;
+    gap: 3px;
+    padding: 4px 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: 400;
+    & .group-color{
+        width:24px;
+        height: 24px;
+        border-radius: 50%;
+        text-align: center;
+        margin-inline-end: 8px;
+        flex:none;
+    }
+
+    &:hover {
+        background-color: #dcdfec;
+    }
+}

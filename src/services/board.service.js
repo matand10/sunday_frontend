@@ -387,3 +387,33 @@ function makeBoard(user) {
         ]
     }
 }
+
+
+// function documentActivity(board) {
+//     // type should be, group, task
+    
+//     return {
+//         id: utilService.makeId(),
+//         txt: '',
+//         createdAt: Date.now(),
+//         byMember: {
+
+//         },
+//     }
+// }
+
+
+// {
+//     id: "a101",
+//     txt: "Changed Color",
+//     createdAt: 154514,
+//     byMember: {
+//         _id: "u101",
+//         fullname: "Abi Abambi",
+//         imgUrl: "http://some-img"
+//     },
+//     task: {
+//         id: "c101",
+//         title: "Replace Logo"
+//     }
+// }

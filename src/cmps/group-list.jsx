@@ -1,5 +1,5 @@
-import { utilService } from "../services/util.service";
 import { Menu } from '../hooks/right-click-menu'
+// import { socketService, SOCKET_EMIT_SEND_MSG } from '../services/socket.service.js'
 import { RightClickMenu } from '../modal/right-click-menu'
 import React, { useRef, useEffect, useState } from 'react';
 import { FaChevronCircleDown, FaCaretDown, FaSort } from 'react-icons/fa'
@@ -8,7 +8,6 @@ import { TasksList } from './tasks-list.jsx'
 import { useParams } from "react-router-dom";
 import { EditableColumn } from "./editable-colum";
 import { boardService } from "../services/board.service";
-// import { saveBoard } from '../store/board/board.action'
 import { useDispatch } from "react-redux";
 import { groupService } from "../services/group.service";
 import { ColMenu } from "../modal/col-menu";
@@ -36,9 +35,10 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
     const { x, y, handleContextMenu } = Menu()
     let menuRef = useRef()
     let groupUpdateRef = useRef()
-    // let groupRef = useRef()
+    let groupRef = useRef()
     const { boardId } = useParams()
     const dispatch = useDispatch()
+
 
 
     // useEffectUpdate(() => {
@@ -57,7 +57,7 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
         return () => {
             document.removeEventListener("mousedown", eventListeners)
         }
-    })
+    }, [])
 
     const eventListeners = (ev) => {
         if (!menuRef.current?.contains(ev.target)) {
@@ -93,17 +93,6 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
         const newGroup = groupService.groupColRemove(colIdx, group)
         updateGroup(newGroup)
     }
-
-    // const handleGroupCange = ({ target }) => {
-    //     document.addEventListener("keydown", (event) => {
-    //         if (event.key === "Enter") {
-    //             event.preventDefault()
-    //             const value = target.value
-    //             const field = target.name
-    //             setGroupUpdate((prevGroup) => ({ ...prevGroup, [field]: value }))
-    //         }
-    //     })
-    // }
 
     const onHeaderSort = (sortValue, colIdx) => {
         setIsReversedSort(!isReversedSort)

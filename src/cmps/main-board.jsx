@@ -1,6 +1,5 @@
 import { useOutletContext } from 'react-router-dom'
 import { GroupList } from '../cmps/group-list.jsx'
-import { SidePanel } from '../cmps/side-panel'
 
 export const MainBoard = () => {
     const { board, updateBoard, onAddTask, updates, onRemoveGroup, updateTask, removeTask, updateGroup, updateTaskDate } = useOutletContext()

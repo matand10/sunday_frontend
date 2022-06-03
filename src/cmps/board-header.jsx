@@ -13,10 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFilter } from '../store/board/board.action'
 import { NavLink, Outlet } from "react-router-dom";
 import { InviteUserMenu } from '../modal/user-invite-modal'
-import { userService } from "../services/user.service";
-import { boardService } from "../services/board.service";
 
-export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, onFilter }) => {
+export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, onFilter,setIsKanban }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isInviteMenuOpen, setIsInviteMenuOpen] = useState(false)
     const [isSearchActive, setIsSearchActive] = useState(false)
@@ -50,8 +48,9 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     }
 
     useEffect(() => {
-        if (!firstFilterUseEffectRef.current) onFilter(handleSearch)
-        firstFilterUseEffectRef.current = false
+        // if (!firstFilterUseEffectRef.current) onFilter(handleSearch)
+        // firstFilterUseEffectRef.current = false
+        onFilter(handleSearch)
     }, [handleSearch])
 
     const updateTitleBoard = (ev) => {
@@ -84,14 +83,22 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     }
 
     const onHandleSearch = ({ target }) => {
-        // const value = target.value
-        // setHandleSearch({ search: value })
+        const value = target.value
+        setHandleSearch({ search: value })
     }
 
     const onSetFilter = (label) => {
         const newFilterBy = { ...filterBy, sortBy: label }
         // dispatch(setFilter(newFilterBy))
     }
+
+    const changeBoardDescription = (ev) => {
+        const value = ev.currentTarget.textContent
+        const newBoard = { ...board }
+        newBoard.description = value
+        updateBoard(newBoard)
+    }
+
     if (!board) return <h1>Loading...</h1>
     return <div className="board-header">
         <div className="board-header-main">
@@ -125,18 +132,18 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
             </div>
             <div className="ds-header-component">
                 <div className="ds-header-content">
-                    <span>Add board description</span>
+                    <span contentEditable={true} suppressContentEditableWarning={true} onBlur={(ev) => changeBoardDescription(ev)}>{board.description || 'Add board description'}</span>
                 </div>
             </div>
         </div>
         <div className="board-subsets-toolbar">
             <div className="board-subsets-tabs">
                 <div className="board-subsets-item">
-                    <button className="board-subsets-item-button"><NavLink to={`/board/${board._id}`}><span><BsTable /> Main Table</span></NavLink> </button>
+                    <button className="board-subsets-item-button" onClick={()=>setIsKanban(false)}><NavLink to={`/board/${board._id}`} className="main-table-nav"><span><BsTable /> Main Table</span></NavLink> </button>
                     <div className="board-subsets-item-line"></div>
                 </div>
                 <div className="board-kanban-item">
-                    <button className="board-kanban-item-button"><NavLink to={`/board/${board._id}/kanban`}><span><FaTrello /> Kanban</span></NavLink></button>
+                    <button className="board-kanban-item-button" onClick={()=>setIsKanban(true)}><NavLink to={`/board/${board._id}/kanban`} className="kanban-nav"><span><FaTrello /> Kanban</span></NavLink></button>
                     <div className="board-kanban-item-line"></div>
                 </div>
             </div>

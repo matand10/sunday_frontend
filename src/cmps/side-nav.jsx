@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import workspaceImg from "../assets/img/side-nav/surface-workspace-logo.png"
 import productSwtich from "../assets/img/side-nav/product-switcher-logo.png"
+import userImg from "../assets/img/user-invite/userImg.png"
 import { useEffect, useRef, useState } from "react"
 import { UserSideMenu } from '../modal/user-side-menu'
 
@@ -55,7 +56,7 @@ export const SideNav = () => {
                     <img onClick={() => toggleDialog(true)} src={productSwtich} alt="dots-logo" />
                 </div>
                 <div className="user-img">
-                    <img className="user-logout-button" onClick={() => toggleUserMenu(true)} src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="workspace img" />
+                    <img className="user-logout-button" onClick={() => toggleUserMenu(true)} src={userImg} alt="workspace img" />
                 </div>
             </div>
         </div>

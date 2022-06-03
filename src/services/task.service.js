@@ -67,7 +67,7 @@ function addTask(board, task, groupId) {
         const newTask = getEmptyTask(newColumns)
 
         newTask.title = task.title
-        // newTask.columns[1].value = task.status ? task.status : newTask.columns[1].value
+        newTask.columns[1].value = task.status ? task.status : newTask.columns[1].value
         newBoard.groups[groupIdx].tasks.push(newTask)
     } else {
         const newTask = getEmptyTask(board.groups[0].columns)
