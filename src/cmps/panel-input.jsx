@@ -40,9 +40,7 @@ export class PanelInput extends React.Component {
 
     render() {
         const { txt } = this.state.update
-        const { task } = this.props
         const { isInputClicked } = this.props
-        let isSelected = this.onSelectedType
         let placeHolder = this.onUserGuide
 
         return <section>

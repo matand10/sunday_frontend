@@ -1,4 +1,5 @@
 import { boardService } from '../../services/board.service'
+import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
 
 
 
@@ -27,10 +28,11 @@ export function removeBoard(boardId) {
         await boardService.remove(boardId)
         try {
             dispatch({ type: 'REMOVE_BOARD', boardId })
+            showSuccessMsg('Board removed successfully!')
         } catch (err) {
+            showErrorMsg('Cannot delete board')
             console.log(err)
         }
-
     }
 }
 
@@ -49,33 +51,3 @@ export function saveBoard(board) {
         }
     }
 }
-
-// export function loadBoards(filterBy) {
-//     return (dispatch, getState) => {
-//         // const filterBy = getState().boardModule.filterBy
-//         return boardService.query(filterBy)
-//             .then(boards => {
-//                 const action = {
-//                     type: 'SET_BOARDS',
-//                     boards
-//                 }
-//                 dispatch(action)
-//             })
-//     }
-// }
-
-
-// export function removeBoard(boardId) {
-//     return dispatch => {
-//         boardService.remove(boardId)
-//             .then(() => {
-//                 dispatch({
-//                     type: 'REMOVE_BOARD',
-//                     boardId
-//                 })
-//             })
-//             .catch(err => {
-//                 console.log(err)
-//             })
-//     }
-// }

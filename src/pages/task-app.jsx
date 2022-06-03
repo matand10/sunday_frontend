@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react"
+import { socketService, SOCKET_EMIT_SEND_MSG } from '../services/socket.service'
 import { useDispatch, useSelector } from "react-redux"
 import { loadBoards, setFilter } from "../store/board/board.action"
 import { loadUsers, updateUser } from "../store/user/user.actions"
@@ -13,6 +14,8 @@ import { useNavigate, useParams } from "react-router-dom"
 import { Outlet } from 'react-router-dom'
 import { useEffectUpdate } from "../hooks/useEffectUpdate"
 import { groupService } from "../services/group.service"
+
+import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 
 export const TasksApp = () => {
 
@@ -29,6 +32,12 @@ export const TasksApp = () => {
     useEffect(() => {
         dispatch(loadUsers())
         dispatch(loadBoards(filterBy))
+        socketService.on('newBoardUpdate', onBoardUpdate)
+        socketService.emit('registerToBoardUpdates', boardId)
+
+        return () => {
+            socketService.off('newBoardUpdate', onBoardUpdate)
+        }
     }, [])
 
     useEffectUpdate(() => {
@@ -36,8 +45,11 @@ export const TasksApp = () => {
         loadBoard()
     }, [boards])
 
+    const onBoardUpdate = (board) => {
+        setBoard(board)
+    }
+
     const loadBoard = async () => {
-        console.log('render');
         let currBoard
         if (boards.length === 0) onAddBoard()
         else if (boardId && boardService.isIdOk(boardId, boards)) currBoard = boardService.isIdOk(boardId, boards)
@@ -50,12 +62,13 @@ export const TasksApp = () => {
 
     const onAddTask = async (task, groupId) => {
         const newBoard = await taskService.addTask(board, task, groupId)
-        dispatch(saveBoard(newBoard))
+        updateBoard(newBoard)
     }
 
     const onAddGroup = (group) => {
+        showSuccessMsg('Group added successfully!')
         board.groups.push(group)
-        dispatch(saveBoard(board))
+        updateBoard(board)
     }
 
     const onAddBoard = async (board = { title: 'First Board' }) => {
@@ -66,9 +79,10 @@ export const TasksApp = () => {
         dispatch(saveBoard(newBoard))
     }
 
-    const updateBoard = (updatedBoard) => {
-        setBoard(updatedBoard)
-        dispatch(saveBoard(updatedBoard))
+    const updateBoard = (newBoard) => {
+        socketService.emit('boardUpdate', newBoard)
+        setBoard(newBoard)
+        dispatch(saveBoard(newBoard))
     }
 
     const onDeleteBoard = (boardId) => {
@@ -79,21 +93,22 @@ export const TasksApp = () => {
     const onRemoveGroup = (groupId) => {
         const groupIdx = board.groups.findIndex(group => group.id === groupId)
         board.groups.splice(groupIdx, 1)
-        dispatch(saveBoard(board))
+        showSuccessMsg('Group removed successfully!')
+        updateBoard(board)
     }
 
     const updateTask = (updateTask, groupId) => {
         const newBoard = boardService.taskUpdate(updateTask, groupId, board)
-        dispatch(saveBoard(newBoard))
+        updateBoard(newBoard)
     }
 
-    const updateGroup = (newdGroup) => {
-        const newBoard = boardService.groupUpdate(newdGroup, board)
-        dispatch(saveBoard(newBoard))
+    const updateGroup = (newGroup) => {
+        const newBoard = boardService.groupUpdate(newGroup, board)
+        updateBoard(newBoard)
     }
 
     const onFilter = (filterBy) => {
-        dispatch(setFilter(filterBy))
+        // dispatch(setFilter(filterBy))
     }
 
     const openBoard = (board) => {
@@ -113,20 +128,20 @@ export const TasksApp = () => {
         const group = { ...newBoard.groups[groupIdx] }
         const progressBars = groupService.getProgress(group)
         newBoard.groups[groupIdx].progress = progressBars
-        dispatch(saveBoard(newBoard))
+        console.log(newBoard);
+        showSuccessMsg('Task removed successfully!')
+        updateBoard(newBoard)
     }
 
     const updateTaskDate = (updateDate, groupId, board) => {
         const newBoard = boardService.taskUpdate(updateDate, groupId, board)
-        dispatch(saveBoard(newBoard))
+        updateBoard(newBoard)
     }
 
     const boardChange = (board) => {
         setBoard(board)
         navigate(`/board/${board._id}`)
     }
-
-
 
     if (!boards.length) return <h1>Loading...</h1>
     return <section className="task-main-container">

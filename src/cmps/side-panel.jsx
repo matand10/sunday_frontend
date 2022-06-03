@@ -4,7 +4,7 @@ import dotsMenu from '../assets/img/side-nav/ds-menu.svg'
 import { PanelInput } from '../cmps/panel-input.jsx'
 import { UpdateList } from '../cmps/update-list'
 import { addUpdate, removeUpdate } from '../store/update/update.action'
-
+import userImg from '../assets/img/user-invite/userImg.png'
 
 export class _SidePanel extends React.Component {
 
@@ -19,14 +19,6 @@ export class _SidePanel extends React.Component {
         this.setState({ updates: this.props.updates })
     }
 
-    // componentDidUpdate() {
-    //     const { task, updates } = this.props
-    //     console.log('tasks', task);
-    //     console.log('updates', updates);
-    //     const taskComment = task.comments.find(update => update.aboutTaskId === task._id)
-    //     // console.log(taskComment);
-    // }
-
     deleteUpdate = (updateId, updateIdx) => {
         const { group, taskIdx } = this.props
         group.tasks[taskIdx].comments.splice(updateIdx, 1)
@@ -39,10 +31,12 @@ export class _SidePanel extends React.Component {
     }
 
     onUpdate = async (update) => {
-        const { group, taskIdx } = this.props
+        const { group, taskIdx, board } = this.props
+        const newGroup = { ...group }
         const addedUpdate = await this.props.addUpdate(update)
-        group.tasks[taskIdx].comments.push(addedUpdate)
-        this.props.updateGroup(group)
+        newGroup.tasks[taskIdx].comments.push(addedUpdate)
+        // this.props.updateGroup(newGroup)
+        this.props.updateBoard(board)
     }
 
     toggleInput = (value) => {
@@ -51,12 +45,10 @@ export class _SidePanel extends React.Component {
 
 
     render() {
-        const { statusRef, user, updates } = this.props
+        const { statusRef, user, task } = this.props
         const { isModalOpen, isInputClicked, users } = this.state
-        const { task } = this.props.modal
 
         return <section onClick={() => this.toggleInput(false)} ref={statusRef}>
-            {/* <button className="side-panel-btn" onClick={this.toggleModal}>Open Modal</button> */}
             <div className="side-panel-modal" style={{ left: isModalOpen ? '0px' : '3000px' }}>
                 <div className="modal-content">
                     <div className="side-panel-title">
@@ -68,7 +60,9 @@ export class _SidePanel extends React.Component {
                                 <h1>{task.title}</h1>
                             </div>
                             <div className="panel-subscribers-wrapper">
-                                <span>Members icon</span>
+                                <div className="user-img-side-pannel">
+                                    <img src={userImg} alt="user image" />
+                                </div>
                                 <span>|</span>
                                 <div className="ds-menu-side-panel"><img src={dotsMenu} alt="dots-menu-logo" /></div>
                             </div>
@@ -89,7 +83,7 @@ export class _SidePanel extends React.Component {
                             <div className="main-update-list-container">
                                 {task.comments.map((update, idx) => {
                                     return <div key={update._id}>
-                                        <UpdateList updateIdx={idx} deleteUpdate={this.deleteUpdate} users={users} task={task} update={update} />
+                                        <UpdateList updateIdx={idx} deleteUpdate={this.deleteUpdate} users={users} update={update} />
                                     </div>
                                 })}
                             </div>

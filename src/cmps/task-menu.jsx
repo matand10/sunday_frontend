@@ -5,8 +5,6 @@ import React from "react"
 export const TaskMenu = ({ arrowTask, statusRef, onOpenMenu, removeTask }) => {
 
     const onRemoveTask = (ev, taskId, groupId) => {
-        // ev.stopPropogation()
-        // ev.preventDefault()
         removeTask(taskId, groupId)
     }
 

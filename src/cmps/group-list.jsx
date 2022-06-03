@@ -1,4 +1,5 @@
 import { Menu } from '../hooks/right-click-menu'
+// import { socketService, SOCKET_EMIT_SEND_MSG } from '../services/socket.service.js'
 import { RightClickMenu } from '../modal/right-click-menu'
 import React, { useRef, useEffect, useState } from 'react';
 import { FaChevronCircleDown, FaCaretDown, FaSort } from 'react-icons/fa'
@@ -7,7 +8,6 @@ import { TasksList } from './tasks-list.jsx'
 import { useParams } from "react-router-dom";
 import { EditableColumn } from "./editable-colum";
 import { boardService } from "../services/board.service";
-// import { saveBoard } from '../store/board/board.action'
 import { useDispatch } from "react-redux";
 import { groupService } from "../services/group.service";
 import { ColMenu } from "../modal/col-menu";
@@ -37,6 +37,7 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
     let groupRef = useRef()
     const { boardId } = useParams()
     const dispatch = useDispatch()
+
 
 
     // useEffectUpdate(() => {
@@ -113,6 +114,7 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
     columns = columns.sort((a, b) => a.importance - b.importance)
 
     if (!board) return <h1>Loading...</h1>
+
     return <div className="board-content-wrapper">
         <div className="group-header-wrapper">
             <div className="group-header-component">

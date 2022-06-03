@@ -37,7 +37,6 @@ async function query(filterBy = {}) {
 
 function filterBoard(board, filterBy) {
     let newGroups
-    // console.log(filterBy);
     if (filterBy.search) {
         newGroups = board.groups.filter(group => {
             return group.tasks = group.tasks.filter(task => {
@@ -162,62 +161,6 @@ function isIdOk(boardId, boards) {
     return boards.find(board => board._id === boardId)
 }
 
-// function getEmptyBoard() {
-//     return {
-//         title: '',
-//         archivedAt: '',
-//         createdAt: Date.now(),
-//         createdBy: {},
-//         members: [],
-//         groups: [
-//             {
-//                 style: { color: utilService.getRandomColor() },
-//                 title: 'Group Title',
-//                 archivedAt: '',
-//                 tasks: [
-//                     {
-//                         title: 'Item 1',
-//                         assignedTo: [],
-//                         comments: [],
-//                         status: utilService.getLabel(),
-//                         archivedAt: ''
-//                     },
-//                     {
-//                         title: 'Item 2',
-//                         assignedTo: [],
-//                         comments: [],
-//                         status: utilService.getLabel(),
-//                         archivedAt: ''
-//                     }
-//                 ]
-//             },
-//             {
-//                 style: { color: utilService.getRandomColor() },
-//                 title: 'Group Title',
-//                 archivedAt: '',
-//                 tasks: [
-//                     {
-//                         title: 'Item 3',
-//                         assignedTo: [],
-//                         comments: [],
-//                         status: '',
-//                         archivedAt: ''
-//                     },
-//                     {
-//                         title: 'Item 4',
-//                         assignedTo: [],
-//                         comments: [],
-//                         status: '',
-//                         archivedAt: ''
-//                     }
-//                 ]
-//             }
-//         ],
-//         style: {}
-//     }
-// }
-
-
 function getLabels() {
     return [
         {
@@ -267,19 +210,19 @@ function makeBoard(user) {
                 columns: [
                     {
                         title: 'Person',
-                        importance: 1,
+                        importance: 0,
                         value: [],
                         type: 'person'
                     },
                     {
                         title: 'Status',
-                        importance: 2,
+                        importance: 1,
                         value: utilService.getLabel(''),
                         type: 'status'
                     },
                     {
                         title: 'Date',
-                        importance: 3,
+                        importance: 2,
                         value: new Date(),
                         type: 'date'
                     }
@@ -293,19 +236,19 @@ function makeBoard(user) {
                         columns: [
                             {
                                 title: 'Status',
-                                importance: 2,
+                                importance: 1,
                                 value: utilService.getLabel(''),
                                 type: 'status'
                             },
                             {
                                 title: 'Date',
-                                importance: 3,
+                                importance: 2,
                                 value: 1589983468418,
                                 type: 'date'
                             },
                             {
                                 title: 'Person',
-                                importance: 1,
+                                importance: 0,
                                 value: [],
                                 type: 'person'
                             }
@@ -319,19 +262,19 @@ function makeBoard(user) {
                         columns: [
                             {
                                 title: 'Status',
-                                importance: 2,
+                                importance: 1,
                                 value: utilService.getLabel(''),
                                 type: 'status'
                             },
                             {
                                 title: 'Date',
-                                importance: 3,
+                                importance: 2,
                                 value: 1589983468418,
                                 type: 'date'
                             },
                             {
                                 title: 'Person',
-                                importance: 1,
+                                importance: 0,
                                 value: [
                                     {
                                         _id: "u101",
@@ -365,19 +308,19 @@ function makeBoard(user) {
                 columns: [
                     {
                         title: 'Person',
-                        importance: 1,
+                        importance: 0,
                         value: [],
                         type: 'person'
                     },
                     {
                         title: 'Status',
-                        importance: 2,
+                        importance: 1,
                         value: utilService.getLabel(''),
                         type: 'status'
                     },
                     {
                         title: 'Date',
-                        importance: 3,
+                        importance: 2,
                         value: new Date(),
                         type: 'date'
                     }
@@ -390,19 +333,19 @@ function makeBoard(user) {
                         columns: [
                             {
                                 title: 'Status',
-                                importance: 2,
+                                importance: 1,
                                 value: utilService.getLabel(''),
                                 type: 'status'
                             },
                             {
                                 title: 'Date',
-                                importance: 3,
+                                importance: 2,
                                 value: 1589983468418,
                                 type: 'date'
                             },
                             {
                                 title: 'Person',
-                                importance: 1,
+                                importance: 0,
                                 value: [],
                                 type: 'person'
                             }
@@ -415,19 +358,19 @@ function makeBoard(user) {
                         columns: [
                             {
                                 title: 'Status',
-                                importance: 2,
+                                importance: 1,
                                 value: utilService.getLabel(''),
                                 type: 'status'
                             },
                             {
                                 title: 'Date',
-                                importance: 3,
+                                importance: 2,
                                 value: 1589983468418,
                                 type: 'date'
                             },
                             {
                                 title: 'Person',
-                                importance: 1,
+                                importance: 0,
                                 value: [],
                                 type: 'person'
                             }
@@ -436,22 +379,7 @@ function makeBoard(user) {
                 ],
             }
         ],
-        activities: [
-            {
-                id: "a101",
-                txt: "Changed Color",
-                createdAt: 154514,
-                byMember: {
-                    _id: "u101",
-                    fullname: "Abi Abambi",
-                    imgUrl: "http://some-img"
-                },
-                task: {
-                    id: "c101",
-                    title: "Replace Logo"
-                }
-            }
-        ],
+        activities: [],
         cmpsOrder: [
             "status-picker",
             "member-picker",
@@ -459,3 +387,33 @@ function makeBoard(user) {
         ]
     }
 }
+
+
+// function documentActivity(board) {
+//     // type should be, group, task
+    
+//     return {
+//         id: utilService.makeId(),
+//         txt: '',
+//         createdAt: Date.now(),
+//         byMember: {
+
+//         },
+//     }
+// }
+
+
+// {
+//     id: "a101",
+//     txt: "Changed Color",
+//     createdAt: 154514,
+//     byMember: {
+//         _id: "u101",
+//         fullname: "Abi Abambi",
+//         imgUrl: "http://some-img"
+//     },
+//     task: {
+//         id: "c101",
+//         title: "Replace Logo"
+//     }
+// }

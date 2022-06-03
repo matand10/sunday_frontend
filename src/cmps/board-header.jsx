@@ -13,8 +13,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFilter } from '../store/board/board.action'
 import { NavLink, Outlet } from "react-router-dom";
 import { InviteUserMenu } from '../modal/user-invite-modal'
-import { userService } from "../services/user.service";
-import { boardService } from "../services/board.service";
 
 export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, onFilter }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -50,8 +48,9 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     }
 
     useEffect(() => {
-        if (!firstFilterUseEffectRef.current) onFilter(handleSearch)
-        firstFilterUseEffectRef.current = false
+        // if (!firstFilterUseEffectRef.current) onFilter(handleSearch)
+        // firstFilterUseEffectRef.current = false
+        onFilter(handleSearch)
     }, [handleSearch])
 
     const updateTitleBoard = (ev) => {
@@ -84,13 +83,20 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     }
 
     const onHandleSearch = ({ target }) => {
-        // const value = target.value
-        // setHandleSearch({ search: value })
+        const value = target.value
+        setHandleSearch({ search: value })
     }
 
     const onSetFilter = (label) => {
         const newFilterBy = { ...filterBy, sortBy: label }
         // dispatch(setFilter(newFilterBy))
+    }
+
+    const changeBoardDescription = (ev) => {
+        const value = ev.currentTarget.textContent
+        const newBoard = { ...board }
+        newBoard.description = value
+        updateBoard(newBoard)
     }
 
     if (!board) return <h1>Loading...</h1>
@@ -126,7 +132,7 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
             </div>
             <div className="ds-header-component">
                 <div className="ds-header-content">
-                    <span>Add board description</span>
+                    <span contentEditable={true} suppressContentEditableWarning={true} onBlur={(ev) => changeBoardDescription(ev)}>{board.description || 'Add board description'}</span>
                 </div>
             </div>
         </div>
