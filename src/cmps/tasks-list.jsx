@@ -19,14 +19,13 @@ import { TextCol } from '../cmps/text-col'
 
 
 
-export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdateGroupBar, task, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board, removeTask, updateTaskDate }) => {
+export const TasksList = ({ updateBoard, updateGroup, taskIdx, onUpdateGroupBar, task, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board, removeTask, updateTaskDate }) => {
     const [modal, setModal] = useState({})
     const [arrowTask, setArrowTask] = useState({})
     const [updateIsClick, setUpdateIsClick] = useState({})
     const [modalPos, setModalPos] = useState({ x: null, y: null })
     const [statusActive, setStatusActive] = useState(false)
     const [inviteUserModal, setInviteUserModal] = useState(false)
-    const [editText, setEditText] = useState(false)
     const [modalData, setModalData] = useState(null)
     // {type: 'status', data: {}, pos: {}}
 
@@ -94,13 +93,17 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
 
 
     const specialUpdateTask = (value, colIdx, status = null) => {
-        let newGroup = { ...group }
-        let newTask = { ...task }
-        newTask.columns[colIdx].value = value
+        const newGroup = { ...group }
+        const newTask = { ...task }
+        const col = newTask.columns[colIdx]
+        const previewCol = { ...col }
+        col.value = value
         newGroup.tasks[taskIdx] = newTask
         if (status === 'status') {
             newGroup.progress = groupService.getProgress(newGroup)
         }
+        const activity = boardService.documentActivities(col, previewCol.value)
+        console.log(activity)
         updateGroup(newGroup)
     }
 
@@ -125,7 +128,7 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
                     <div className="task-row-items">
                         {columns.map((col, idx) => {
                             return <DynamicCmp key={idx} col={col} idx={idx} task={task} board={board} setInviteUserModal={setInviteUserModal} statusRef={statusRef} specialUpdateTask={specialUpdateTask}
-                                InviteToTaskModal={InviteToTaskModal} inviteUserModal={inviteUserModal} toggleStatus={toggleStatus} editText={editText} setEditText={setEditText} />
+                                InviteToTaskModal={InviteToTaskModal} inviteUserModal={inviteUserModal} toggleStatus={toggleStatus} />
                         })
                         }
                         <div className="right-indicator-row"></div>
@@ -141,7 +144,7 @@ export const TasksList = ({ updateBoard, updateGroup, updates, taskIdx, onUpdate
 
 
 
-function DynamicCmp({ col, setEditText, board, task, editText, toggleStatus, idx, colIdx, setInviteUserModal, inviteUserModal, InviteToTaskModal, specialUpdateTask, statusRef }) {
+function DynamicCmp({ col, board, task, toggleStatus, idx, colIdx, setInviteUserModal, inviteUserModal, InviteToTaskModal, specialUpdateTask, statusRef }) {
     switch (col.type) {
         case 'person':
             return <MemberCol col={col} idx={idx} colIdx={colIdx} board={board} task={task} setInviteUserModal={setInviteUserModal} inviteUserModal={inviteUserModal}
@@ -151,6 +154,6 @@ function DynamicCmp({ col, setEditText, board, task, editText, toggleStatus, idx
         case 'date':
             return <DateCol col={col} idx={idx} specialUpdateTask={specialUpdateTask} />
         case 'text':
-            return <TextCol col={col} idx={idx} editText={editText} colIdx={colIdx} setEditText={setEditText} />
+            return <TextCol col={col} idx={idx} specialUpdateTask={specialUpdateTask} />
     }
 }

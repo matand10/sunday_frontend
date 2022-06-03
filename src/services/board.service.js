@@ -1,6 +1,7 @@
 import { storageService } from './async-storage.service'
 import { utilService } from './util.service'
 import { httpService } from './http.service'
+import { userService } from './user.service'
 
 const STORAGE_KEY = 'group_db'
 
@@ -10,7 +11,6 @@ export const boardService = {
     getById,
     save,
     remove,
-    // getEmptyBoard,
     filterBoard,
     taskUpdate,
     groupUpdate,
@@ -21,6 +21,7 @@ export const boardService = {
     groupHeadSort,
     changeTaskPosition,
     isIdOk,
+    documentActivities,
 }
 
 async function query(filterBy = {}) {
@@ -389,31 +390,27 @@ function makeBoard(user) {
 }
 
 
-// function documentActivity(board) {
-//     // type should be, group, task
-    
-//     return {
-//         id: utilService.makeId(),
-//         txt: '',
-//         createdAt: Date.now(),
-//         byMember: {
-
-//         },
-//     }
-// }
-
-
-// {
-//     id: "a101",
-//     txt: "Changed Color",
-//     createdAt: 154514,
-//     byMember: {
-//         _id: "u101",
-//         fullname: "Abi Abambi",
-//         imgUrl: "http://some-img"
-//     },
-//     task: {
-//         id: "c101",
-//         title: "Replace Logo"
-//     }
-// }
+function documentActivities(column, previewColVal) {
+    const user = userService.getLoggedinUser()
+    let msg
+    switch (column.type) {
+        case 'person':
+            msg = `Added ${column.value[column.value.length - 1].fullname}`
+            break;
+        case 'status':
+            msg = `Changed status from ${previewColVal.title} to ${column.value.title}`
+            break
+        case 'date':
+            msg = `Changed date from ${previewColVal} to ${column.value}`
+            break
+        case 'text':
+            msg = `Changed text from ${previewColVal} to ${column.value}`
+            break
+    }
+    return {
+        id: utilService.makeId(),
+        msg,
+        createdAt: Date.now(),
+        byMember: { ...user },
+    }
+}

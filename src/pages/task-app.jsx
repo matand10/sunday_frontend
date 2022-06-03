@@ -21,7 +21,7 @@ export const TasksApp = () => {
 
 
     const [board, setBoard] = useState(null)
-    const [isKanban,setIsKanban]=useState(false)
+    const [isKanban, setIsKanban] = useState(false)
     const { boards } = useSelector((storeState) => storeState.boardModule)
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
     const { users, user } = useSelector((storeState) => storeState.userModule)
@@ -51,13 +51,12 @@ export const TasksApp = () => {
     }
 
     const loadBoard = async () => {
-        console.log('render')
         let currBoard
         if (boards.length === 0) onAddBoard()
         else if (boardId && boardService.isIdOk(boardId, boards)) currBoard = boardService.isIdOk(boardId, boards)
         else currBoard = boards[0]
-        if (currBoard){
-            if(isKanban)navigate(`/board/${currBoard._id}/kanban`)
+        if (currBoard) {
+            if (isKanban) navigate(`/board/${currBoard._id}/kanban`)
             else navigate(`/board/${currBoard._id}`)
         } else return navigate('/board')
         const filteredBoard = boardService.filterBoard(currBoard, filterBy)
@@ -132,7 +131,6 @@ export const TasksApp = () => {
         const group = { ...newBoard.groups[groupIdx] }
         const progressBars = groupService.getProgress(group)
         newBoard.groups[groupIdx].progress = progressBars
-        console.log(newBoard);
         showSuccessMsg('Task removed successfully!')
         updateBoard(newBoard)
     }

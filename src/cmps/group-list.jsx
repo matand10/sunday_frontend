@@ -128,7 +128,6 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
                         <div onClick={() => onHeaderSort('title')} className="sort-header-menu hide-sort"><FaSort /></div>
                     </div>
                 </div>
-
                 <div className="flex coulmn-main-header-container">
                     <div className="group-header-items">
                         {columns.map((col, idx) => {
@@ -154,16 +153,11 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
                     </div>
                 </div>
             </div>
-
             {group.tasks.map((task, idx) => {
                 return <TasksList key={idx} taskIdx={idx} boardId={boardId} task={task} /*menuRef={menuRef}*/ backgroundColor={group.style.color}
                     updateGroup={updateGroup} updates={updates} updateBoard={updateBoard} onUpdateGroupBar={onUpdateGroupBar} onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate} />
             })}
-
             <MainGroupInput onAddTask={onAddTask} group={group} task={task} />
-
-
-
             <div className="columns-footer-component">
                 <div className="group-footer-container">
                     {/* <div className="group-header-title">
@@ -184,7 +178,6 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
                     </div>
                 </div>
             </div>
-
             <RightClickMenu x={x} y={y} showMenu={showMenu} />
         </div>
     </div>
