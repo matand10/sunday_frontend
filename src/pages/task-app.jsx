@@ -21,6 +21,7 @@ export const TasksApp = () => {
 
 
     const [board, setBoard] = useState(null)
+    const [isKanban,setIsKanban]=useState(false)
     const { boards } = useSelector((storeState) => storeState.boardModule)
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
     const { users, user } = useSelector((storeState) => storeState.userModule)
@@ -50,12 +51,15 @@ export const TasksApp = () => {
     }
 
     const loadBoard = async () => {
+        console.log('render')
         let currBoard
         if (boards.length === 0) onAddBoard()
         else if (boardId && boardService.isIdOk(boardId, boards)) currBoard = boardService.isIdOk(boardId, boards)
         else currBoard = boards[0]
-        if (currBoard) navigate(`/board/${currBoard._id}`)
-        else return navigate('/board')
+        if (currBoard){
+            if(isKanban)navigate(`/board/${currBoard._id}/kanban`)
+            else navigate(`/board/${currBoard._id}`)
+        } else return navigate('/board')
         const filteredBoard = boardService.filterBoard(currBoard, filterBy)
         setBoard(filteredBoard)
     }
@@ -152,7 +156,7 @@ export const TasksApp = () => {
 
         <div className="board-container-right">
             <div className="main-app flex-column">
-                <BoardHeader updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
+                <BoardHeader setIsKanban={setIsKanban} updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
                 <Outlet context={{ board, updates, updateBoard, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
             </div>
         </div>

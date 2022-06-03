@@ -1,14 +1,20 @@
 import { FaRegUserCircle, FaRegCircle } from 'react-icons/fa'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { boardService } from '../services/board.service'
 import { taskService } from '../services/task.service'
+import { GroupKanbanMenu } from '../modal/kanban-group-modal'
+import { TaskDetails } from '../modal/kanban-task-details'
 
 
-export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setKanbanBoard, updateTask,onUpdatTaskName }) => {
+export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setKanbanBoard, updateTask, onUpdatTaskName }) => {
     const [task, setTask] = useState({ title: '', status })
-    const [taskTitle, setTaskTitle] = useState('')
+    // const [taskTitle, setTaskTitle] = useState('')
     const [isTaskNameClick, setIsTaskNameClick] = useState({})
-
+    const [modalPos, setModalPos] = useState({ x: null, y: null })
+    const [groupMenuOpen, setGroupMenuOpen] = useState(false)
+    const [openDetails, setOpenDetails] = useState({})
+    const [isDetailsOpen, setIsDetailsOpen] = useState(false)
+    let groupMenuRef = useRef()
 
     const handleAddChange = ({ target }) => {
         const field = target.name
@@ -24,18 +30,18 @@ export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setK
         onUpdatTaskName(newBoard)
     }
 
-    const handleTaskNameChange = ({ target }) => {
-        const field = target.name
-        const value = target.value
-        setTaskTitle((prevTask) => ({ ...prevTask, [field]: value }))
-    }
+    // const handleTaskNameChange = ({ target }) => {
+    //     const field = target.name
+    //     const value = target.value
+    //     setTaskTitle((prevTask) => ({ ...prevTask, [field]: value }))
+    // }
 
-    const updateTaskName = (ev, taskId, groupId) => {
+    const updateTaskName = (ev, taskId, groupId,title) => {
         ev.preventDefault()
-        const groupIdx=board.groups.findIndex(group=>group.id===groupId)
-        let taskIdx=board.groups[groupIdx].tasks.findIndex(task=>task.id===taskId)
-        let newBoard = {...board}
-        newBoard.groups[groupIdx].tasks[taskIdx].title=taskTitle.title
+        const groupIdx = board.groups.findIndex(group => group.id === groupId)
+        let taskIdx = board.groups[groupIdx].tasks.findIndex(task => task.id === taskId)
+        let newBoard = { ...board }
+        newBoard.groups[groupIdx].tasks[taskIdx].title = title
         updateBoard(newBoard)
         onUpdatTaskName(newBoard)
         setIsTaskNameClick({})
@@ -46,6 +52,38 @@ export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setK
         setIsTaskNameClick(params)
     }
 
+    const toggleGroupMenu = (ev, value) => {
+        const x = ev.pageX
+        const y = ev.pageY
+        setModalPos({ x: x, y: y })
+        setGroupMenuOpen(value)
+    }
+
+    useEffect(() => {
+        document.addEventListener("mousedown", eventListener)
+        return () => {
+            document.removeEventListener("mousedown", eventListener)
+        }
+    },[])
+
+    const eventListener = (ev) => {
+        if (!groupMenuRef.current?.contains(ev.target)) {
+            setGroupMenuOpen(false)
+            setIsTaskNameClick({})
+        }
+    }
+
+    const onOpenDetails = (ev,idx) => {
+        ev.stopPropagation()
+        // setOpenDetails(params)
+        setIsDetailsOpen(idx)
+    }
+
+    const onChangeTaskTitle = (ev,taskId,groupId) => {
+        const value = ev.currentTarget.textContent
+        updateTaskName(ev, taskId, groupId, value)
+    }
+
     return (
         <section>
             <div className="kanban-container">
@@ -54,19 +92,9 @@ export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setK
                     <div className="kanban-tasks-container">
 
                         {kanban[(status.title === 'Working on it') ? status.title = 'WorkingOnIt' : status.title] && kanban[(status.title === 'Working on it') ? status.title = 'WorkingOnIt' : status.title].map((item, idx) => {
-                            return <div key={idx} className="kanban-task-content">
+                            return <div key={idx} className="kanban-task-content" onClick={(event) => onOpenDetails(event,idx/*, { boardId: board._id, groupId: item.groupId, taskId: item.taskId}*/)}>
                                 <div className="task-name-content">
-                                    {(isTaskNameClick.boardId && isTaskNameClick.groupId === item.groupId && isTaskNameClick.taskId === item.taskId) ?
-                                        <div>
-                                            <form onSubmit={(event) => updateTaskName(event, item.taskId, item.groupId)}>
-                                                <input type="text" name="title" defaultValue={item.taskName} onChange={handleTaskNameChange} onClick={(event) => (event.stopPropagation())}/>
-                                            </form>
-                                        </div>
-                                        :
-                                        <div>
-                                            <div onClick={(event) => setUpdateClick(event, { boardId: board._id, groupId: item.groupId, taskId: item.taskId })}>{item.taskName}</div>
-                                        </div>
-                                    }
+                                    <h4 contentEditable suppressContentEditableWarning={true}  onBlur={(event) => onChangeTaskTitle(event,item.taskId,item.groupId)} onClick={(event) => (event.stopPropagation())}>{item.taskName}</h4>
                                 </div>
                                 <div className="task-down-phase">
                                     <div className='task-person-content'>
@@ -87,12 +115,17 @@ export const KanbanList = ({ kanban, status, onAddTask, board, updateBoard, setK
                                     </div>
                                     <div className="task-group-name">
                                         <div className='text-group-component'><FaRegCircle /> Group</div>
-                                        <div className='group-color-container'>
+                                        <div className='group-color-container' onClick={(event) => (event.stopPropagation())}>
                                             <div className='color-group-component' style={{ backgroundColor: item.groupColor }}></div>
-                                            <div className='group-cell-component'>{item.groupName}</div>
+                                            <div className='group-cell-component' onClick={(ev) => toggleGroupMenu(ev, true)} >{item.groupName}</div>
                                         </div>
                                     </div>
                                 </div>
+                                {groupMenuOpen && <GroupKanbanMenu board={board} groupMenuRef={groupMenuRef} taskId={item.taskId} currGroupId={item.groupId} updateBoard={updateBoard}
+                                    onUpdatTaskName={onUpdatTaskName} modalPos={modalPos} setGroupMenuOpen={setGroupMenuOpen} />}
+                                {isDetailsOpen===idx &&
+                                    <TaskDetails board={board} taskName={item.taskName} taskId={item.taskId} status={status.title} statusColor={status.color} persons={item.persons} groupName={item.groupName} groupId={item.groupId} groupColor={item.groupColor}  onOpenDetails={onOpenDetails} updateTaskName={updateTaskName} updateBoard={updateBoard} onUpdatTaskName={onUpdatTaskName} modalPos={modalPos} setModalPos={setModalPos}/>
+                                }
                             </div>
                         })}
                         <div className="column-main-input-container">

@@ -14,7 +14,7 @@ import { setFilter } from '../store/board/board.action'
 import { NavLink, Outlet } from "react-router-dom";
 import { InviteUserMenu } from '../modal/user-invite-modal'
 
-export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, onFilter }) => {
+export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, onFilter,setIsKanban }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isInviteMenuOpen, setIsInviteMenuOpen] = useState(false)
     const [isSearchActive, setIsSearchActive] = useState(false)
@@ -139,11 +139,11 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
         <div className="board-subsets-toolbar">
             <div className="board-subsets-tabs">
                 <div className="board-subsets-item">
-                    <button className="board-subsets-item-button"><NavLink to={`/board/${board._id}`}><span><BsTable /> Main Table</span></NavLink> </button>
+                    <button className="board-subsets-item-button" onClick={()=>setIsKanban(false)}><NavLink to={`/board/${board._id}`} className="main-table-nav"><span><BsTable /> Main Table</span></NavLink> </button>
                     <div className="board-subsets-item-line"></div>
                 </div>
                 <div className="board-kanban-item">
-                    <button className="board-kanban-item-button"><NavLink to={`/board/${board._id}/kanban`}><span><FaTrello /> Kanban</span></NavLink></button>
+                    <button className="board-kanban-item-button" onClick={()=>setIsKanban(true)}><NavLink to={`/board/${board._id}/kanban`} className="kanban-nav"><span><FaTrello /> Kanban</span></NavLink></button>
                     <div className="board-kanban-item-line"></div>
                 </div>
             </div>
