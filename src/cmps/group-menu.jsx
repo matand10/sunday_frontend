@@ -9,16 +9,14 @@ export const GroupMenu = ({ group, menuRef, onRemoveGroup, boardId }) => {
         onRemoveGroup(groupId, boardId)
     }
 
-    return <React.Fragment>
-        <section ref={menuRef} className="group-main-menu-inner">
-            <div className="group-main-section">
-                <div className="group-menu-item">
-                    <div className="group-content-wrapper" onClick={() => deleteGroup(group.id)}>
-                        <div className="group-icon"><BsTrash /></div>
-                        <div className="group-title">Delete group</div>
-                    </div>
+    return <section ref={menuRef} className="group-main-menu-inner">
+        <div className="group-main-section">
+            <div className="group-menu-item">
+                <div className="group-content-wrapper" onClick={() => deleteGroup(group.id)}>
+                    <div className="group-icon"><BsTrash /></div>
+                    <div className="group-title">Delete group</div>
                 </div>
             </div>
-        </section>
-    </React.Fragment>
+        </div>
+    </section>
 }

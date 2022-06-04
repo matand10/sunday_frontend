@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect, useRef, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
+import { AvatarGroup } from '@mui/material'
 
 import { TaskMenu } from './task-menu';
 import { StatusModal } from '../modal/status-modal'
@@ -30,7 +30,7 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
     const [statusActive, setStatusActive] = useState(false)
     const [inviteUserModal, setInviteUserModal] = useState(false)
     const [modalData, setModalData] = useState(null)
-    // {type: 'status', data: {}, pos: {}}
+
 
 
     let statusRef = useRef()
@@ -90,8 +90,8 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
         if (status === 'status') {
             newGroup.progress = groupService.getProgress(newGroup)
         }
-        const activity = boardService.documentActivities(col, previewCol.value)
-        console.log(activity)
+        const activity = boardService.documentActivities(col, previewCol.value, task.title)
+        board.activities.unshift(activity)
         updateGroup(newGroup)
     }
 
@@ -118,10 +118,11 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
                 <div className="task-column-rows">
                     <div className="task-row-items">
                         {columns.map((col, idx) => {
-                            return <DynamicCmp key={idx} col={col} idx={idx} task={task} board={board} setInviteUserModal={setInviteUserModal} statusRef={statusRef} specialUpdateTask={specialUpdateTask}
-                                InviteToTaskModal={InviteToTaskModal} inviteUserModal={inviteUserModal} toggleStatus={toggleStatus} />
+                            return <DynamicCmp key={idx} col={col} idx={idx} task={task} group={group} board={board} setInviteUserModal={setInviteUserModal} statusRef={statusRef} specialUpdateTask={specialUpdateTask}
+                                InviteToTaskModal={InviteToTaskModal} updateTask={updateTask} inviteUserModal={inviteUserModal} toggleStatus={toggleStatus} />
                         })
                         }
+                        <div style={{ width: '15px', height: '15px' }}></div>
                         <div className="right-indicator-row"></div>
                     </div>
                 </div>
@@ -129,17 +130,17 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
             </div>
         </div >
         {statusActive.value && <StatusModal setStatusActive={setStatusActive} updateGroup={updateGroup} onUpdateGroupBar={onUpdateGroupBar} specialUpdateTask={specialUpdateTask} statusActive={statusActive} statusRef={statusRef} modalPos={modalPos} />}
-        {modal.boardId && <SidePanel board={board} updateBoard={updateBoard} group={group} task={task} taskIdx={taskIdx} updateGroup={updateGroup} statusRef={statusRef} modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}
+        {modal.boardId && <SidePanel board={board} updateGroup={updateGroup} updateBoard={updateBoard} group={group} task={task} taskIdx={taskIdx} updateGroup={updateGroup} statusRef={statusRef} modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}
     </section >
 }
 
 
 
-function DynamicCmp({ col, board, task, toggleStatus, idx, colIdx, setInviteUserModal, inviteUserModal, InviteToTaskModal, specialUpdateTask, statusRef }) {
+function DynamicCmp({ col, board, task, group, toggleStatus, idx, colIdx, setInviteUserModal, inviteUserModal, InviteToTaskModal, specialUpdateTask, statusRef, updateTask }) {
     switch (col.type) {
         case 'person':
-            return <MemberCol col={col} idx={idx} colIdx={colIdx} board={board} task={task} setInviteUserModal={setInviteUserModal} inviteUserModal={inviteUserModal}
-                InviteToTaskModal={InviteToTaskModal} specialUpdateTask={specialUpdateTask} statusRef={statusRef} />
+            return <MemberCol col={col} idx={idx} colIdx={colIdx} board={board} group={group} task={task} setInviteUserModal={setInviteUserModal} inviteUserModal={inviteUserModal}
+                InviteToTaskModal={InviteToTaskModal} specialUpdateTask={specialUpdateTask} statusRef={statusRef} updateTask={updateTask} />
         case 'status':
             return <StatCol col={col} toggleStatus={toggleStatus} idx={idx} />
         case 'date':

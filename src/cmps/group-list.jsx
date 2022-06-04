@@ -136,7 +136,9 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
                     <div className="group-arrow-div" style={{ color: group.style.color }}>
                         <FaChevronCircleDown className="group-arrow" onClick={() => setIsClickGroup(!isClickGroup)} />
                     </div>
-                    <div>{isClickGroup && <GroupMenu menuRef={menuRef} group={group} onRemoveGroup={onRemoveGroup} />}</div>
+                    <div>
+                        {isClickGroup && <GroupMenu menuRef={menuRef} group={group} onRemoveGroup={onRemoveGroup} />}
+                    </div>
                     <div className="column-header column-header-title">
                         <div {...provided.dragHandleProps} className="drag-handle-group"><MdDragIndicator /></div>
                         <h3 style={{ color: group.style.color }} contentEditable={true} suppressContentEditableWarning={true} onBlur={(ev) => changeGroupTitle(ev)}>{group.title}</h3>
@@ -207,8 +209,10 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
                         {/* <button className="add-colomn-column-button" onClick={() => onNewCol()}><span>+</span></button> */}
                     </div>
                 </div>
+                <div style={{ width: '15px', height: '15px' }}></div>
             </div>
             <RightClickMenu x={x} y={y} showMenu={showMenu} />
+
         </div>
     </section>
 

@@ -119,6 +119,7 @@ function checkBoardMember(board, user) {
 }
 
 function getUnAssignedUsers(users, board) {
+    console.log(users);
     return users.filter(user => {
         return board.members.every(member => member._id !== user._id)
     })
@@ -137,7 +138,7 @@ function getAssignedToTask(users, task, board, colIdx) {
 
     return assignedUsersToBoard.filter(user => {
         return task.columns[colIdx].value.find(assignedUser => {
-            return assignedUser._id === user._id
+            return assignedUser._id !== user._id
         })
     })
 
@@ -151,7 +152,7 @@ function getAssign(users, task, board, colIdx) {
         if (task.columns[colIdx].value.includes(taskass => taskass._id === user._id)) assign.push(user)
         else unassign.push(user)
     })
-    return { assign, unassign }
+    return assign
 }
 
 // ;(async ()=>{
