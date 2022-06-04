@@ -98,24 +98,28 @@ function _getColumn(value) {
     switch (value) {
         case 'text':
             return {
+                id: utilService.makeId(),
                 title: 'Text',
                 type: 'text',
                 value: ''
             }
         case 'status':
             return {
+                id: utilService.makeId(),
                 title: 'Status',
                 value: utilService.getLabel(''),
                 type: 'status'
             }
         case 'person':
             return {
+                id: utilService.makeId(),
                 title: 'Person',
                 value: [],
                 type: 'person'
             }
         case 'date':
             return {
+                id: utilService.makeId(),
                 title: 'Date',
                 value: new Date(),
                 type: 'date'

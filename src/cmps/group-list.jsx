@@ -18,11 +18,12 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { MdDragIndicator } from 'react-icons/md'
 
 
-export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates, updateStatistics, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup, updateTaskDate }) => {
+export const GroupList = ({ snapshot, provided, onDragColEnd, updateTask, updateBoard, updates, updateStatistics, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup, updateTaskDate }) => {
     const [task, setTask] = useState({ title: '' })
     const [groupIsClick, setGroupIsClick] = useState({})
     const [isClickGroup, setIsClickGroup] = useState(false)
     const [groupUpdate, setGroupUpdate] = useState(group)
+    const [boardUpdate, setBoardUpdate] = useState(board)
     const [arrowTask, setArrowTask] = useState({})
     const [clickTask, setClickTask] = useState({ task: '', isOpen: false })
     const [modal, setModal] = useState({})
@@ -68,6 +69,7 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
             // setGroupIsClick({})
             setColActions(false)
             setIsAddCol(false)
+            setIsTitleChange(false)
         }
     }
 
@@ -89,11 +91,6 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
         updateBoard(newBoard)
         setIsAddCol(false)
     }
-    // const onNewCol = (value) => {
-    //     const newGroup = groupService.groupColAdd(group, value)
-    //     updateGroup(newGroup)
-    //     setIsAddCol(false)
-    // }
 
     const removeCol = (colIdx) => {
         const newBoard = groupService.groupColRemove(colIdx, board)
@@ -130,12 +127,10 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
     }
 
     let columns = board.columns
-    // let columns = group.columns
-    // columns = columns.sort((a, b) => a.importance - b.importance)
 
     if (!board) return <h1>Loading...</h1>
 
-    const onDragEnd = (result) => {
+    const onDragTaskEnd = (result) => {
         const newTasks = Array.from(group.tasks);
         const [removed] = newTasks.splice(result.source.index, 1);
         newTasks.splice(result.destination.index, 0, removed);
@@ -144,10 +139,6 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
         setGroupUpdate(newGroup)
         updateGroup(newGroup)
     };
-
-
-
-    // console.log('group list', columns);
 
     return <section ref={provided.innerRef}
         snapshot={snapshot}
@@ -168,31 +159,56 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
                         <div onClick={() => onHeaderSort('title')} className="sort-header-menu hide-sort"><FaSort /></div>
                     </div>
                 </div>
+
                 <div className="flex coulmn-main-header-container">
-                    <div className="group-header-items">
-                        {columns.map((col, idx) => {
-                            return <div key={idx} className="column-header">
-                                <div onClick={() => onHeaderSort(col.type, idx)} className="sort-header-menu hide-sort">
-                                    <FaSort />
+                    <DragDropContext onDragEnd={onDragColEnd}>
+                        <Droppable droppableId="droppable" direction="horizontal">
+                            {(provided) => (
+
+                                <div className="group-header-items" {...provided.droppableProps} ref={provided.innerRef}>
+
+                                    {columns.map((col, idx) => {
+                                        return <Draggable draggableId={col.id.toString()} key={col.id} index={idx}>
+                                            {(provided, snapshot) => (
+
+                                                <div ref={provided.innerRef}
+                                                    snapshot={snapshot}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps} className="column-header">
+                                                    <div onClick={() => onHeaderSort(col.type, idx)} className="sort-header-menu hide-sort">
+                                                        <FaSort />
+                                                    </div>
+                                                    <div className="flex column-header-bottom">
+                                                        <div {...provided.dragHandleProps} className="drag-handle-col"><MdDragIndicator /></div>
+                                                        {isTitleChange && col.id === isTitleChange ?
+                                                            <div className="header-editable-container">
+                                                                <form onSubmit={(event) => changeColTitle(event, idx)} className="header-editable-input">
+                                                                    <input type="text" name="title" defaultValue={col.title} onChange={handleColTitleChange} ref={menuRef} />
+                                                                </form>
+                                                            </div>
+                                                            :
+                                                            <div onClick={() => setIsTitleChange(col.id)}>
+                                                                {col.title}
+                                                            </div>
+                                                        }
+                                                        {/* </span> */}
+                                                        <div className="col-arrow-container">
+                                                            <div className="col-arrow-div" onClick={() => onOpenColActions(idx, group.id)} > <FaCaretDown className="col-arrow" /></div>
+                                                        </div>
+                                                        {colActions.colIdx === idx && colActions.groupId === group.id && <ColMenu setGroupIsClick={setGroupIsClick} setcolActions={setColActions} menuRef={menuRef} removeCol={removeCol} colActions={colActions} />}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    })}
+                                    {provided.placeholder}
                                 </div>
-                                {isTitleChange ?
-                                    <div className="header-editable-container">
-                                        <form onSubmit={(event) => changeColTitle(event, idx)} className="header-editable-input">
-                                            <input type="text" name="title" defaultValue={col.title} onChange={handleColTitleChange} />
-                                        </form>
-                                    </div>
-                                    :
-                                    <div onClick={() => setIsTitleChange(true)}>
-                                        {col.title}
-                                    </div>
-                                }
-                                <div className="col-arrow-container">
-                                    <div className="col-arrow-div" onClick={() => onOpenColActions(idx, group.id)} > <FaCaretDown className="col-arrow" /></div>
-                                </div>
-                                {colActions.colIdx === idx && colActions.groupId === group.id && <ColMenu setGroupIsClick={setGroupIsClick} setcolActions={setColActions} menuRef={menuRef} removeCol={removeCol} colActions={colActions} />}
-                            </div>
-                        })}
-                    </div>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
+
+
+
                     <div className="add-colomn-column-button-container">
                         <button className="add-colomn-column-button" onClick={() => {
                             setIsAddCol(!isAddCol)
@@ -202,7 +218,7 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
                 </div>
             </div>
 
-            <DragDropContext onDragEnd={onDragEnd}>
+            <DragDropContext onDragEnd={onDragTaskEnd}>
                 <Droppable droppableId="list">
                     {(provided) => (
                         <div {...provided.droppableProps} ref={provided.innerRef}>

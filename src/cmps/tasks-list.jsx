@@ -98,7 +98,6 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
 
     if (!task) return <h1>Loading...</h1>
     let columns = task.columns
-    columns = columns.sort((a, b) => a.importance - b.importance)
 
     return <section ref={provided.innerRef}
         snapshot={snapshot}
