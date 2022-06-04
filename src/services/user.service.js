@@ -120,6 +120,7 @@ function checkBoardMember(board, user) {
 
 function getUnAssignedUsers(users, board) {
     console.log(users);
+    console.log(board);
     return users.filter(user => {
         return board.members.every(member => member._id !== user._id)
     })

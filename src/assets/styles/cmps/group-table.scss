@@ -605,8 +605,26 @@
 .column-header {
     position: relative;
 
+    .column-header-bottom {
+        justify-content: center;
+        width: 100%;
+
+        .drag-handle-col {
+            display: none;
+        }
+    }
+
+
     &:hover {
         background-color: #f5f6f8;
+
+        .column-header-bottom {
+            justify-content: space-between;
+        }
+
+        .drag-handle-col {
+            display: block;
+        }
 
         .hide-sort {
             display: block;
@@ -644,9 +662,9 @@
 
 .col-arrow-container {
     display: none;
-    float: right;
-    position: absolute;
-    right: 5px;
+    // float: right;
+    // position: absolute;
+    // right: 5px;
     border-radius: 4px;
     transition: .1s;
     cursor: pointer;
