@@ -1,5 +1,4 @@
 import { Menu } from '../hooks/right-click-menu'
-// import { socketService, SOCKET_EMIT_SEND_MSG } from '../services/socket.service.js'
 import { RightClickMenu } from '../modal/right-click-menu'
 import React, { useRef, useEffect, useState } from 'react';
 import { FaChevronCircleDown, FaCaretDown, FaSort } from 'react-icons/fa'
@@ -16,9 +15,10 @@ import { ColAddMenu } from "../modal/col-add-menu";
 import { MainGroupInput } from "./main-group-menu";
 import { useEffectUpdate } from "../hooks/useEffectUpdate";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { MdDragIndicator } from 'react-icons/md'
 
 
-export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup, updateTaskDate }) => {
+export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates, updateStatistics, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup, updateTaskDate }) => {
     const [task, setTask] = useState({ title: '' })
     const [groupIsClick, setGroupIsClick] = useState({})
     const [isClickGroup, setIsClickGroup] = useState(false)
@@ -120,14 +120,16 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
         const newTasks = Array.from(group.tasks);
         const [removed] = newTasks.splice(result.source.index, 1);
         newTasks.splice(result.destination.index, 0, removed);
-        console.log('ma kara', newTasks);
         let newGroup = { ...group }
         newGroup.tasks = newTasks
         setGroupUpdate(newGroup)
         updateGroup(newGroup)
     };
 
-    return <div className="board-content-wrapper">
+    return <section ref={provided.innerRef}
+        snapshot={snapshot}
+        {...provided.draggableProps}
+        className="board-content-wrapper">
         <div className="group-header-wrapper">
             <div className="group-header-component">
                 <div className="group-header-title">
@@ -136,6 +138,7 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
                     </div>
                     <div>{isClickGroup && <GroupMenu menuRef={menuRef} group={group} onRemoveGroup={onRemoveGroup} />}</div>
                     <div className="column-header column-header-title">
+                        <div {...provided.dragHandleProps} className="drag-handle-group"><MdDragIndicator /></div>
                         <h3 style={{ color: group.style.color }} contentEditable={true} suppressContentEditableWarning={true} onBlur={(ev) => changeGroupTitle(ev)}>{group.title}</h3>
                         <div onClick={() => onHeaderSort('title')} className="sort-header-menu hide-sort"><FaSort /></div>
                     </div>
@@ -166,7 +169,6 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
                 </div>
             </div>
 
-
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="list">
                     {(provided) => (
@@ -174,7 +176,6 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
                             {group.tasks.map((task, idx) => {
                                 return <Draggable draggableId={task.id.toString()} key={task.id} index={idx}>
                                     {(provided, snapshot) => (
-
                                         <TasksList provided={provided}
                                             snapshot={snapshot} taskIdx={idx} boardId={boardId} task={task} /*menuRef={menuRef}*/ backgroundColor={group.style.color}
                                             updateGroup={updateGroup} updates={updates} updateBoard={updateBoard} onUpdateGroupBar={onUpdateGroupBar} onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate} />
@@ -185,7 +186,6 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
                     )}
                 </Droppable>
             </DragDropContext>
-
 
             <MainGroupInput onAddTask={onAddTask} group={group} task={task} />
             <div className="columns-footer-component">
@@ -210,6 +210,6 @@ export const GroupList = ({ updateTask, updateBoard, updates, updateStatistics, 
             </div>
             <RightClickMenu x={x} y={y} showMenu={showMenu} />
         </div>
-    </div>
+    </section>
 
 }

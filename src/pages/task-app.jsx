@@ -19,7 +19,6 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 
 export const TasksApp = () => {
 
-
     const [board, setBoard] = useState(null)
     const [isKanban, setIsKanban] = useState(false)
     const { boards } = useSelector((storeState) => storeState.boardModule)
@@ -35,7 +34,6 @@ export const TasksApp = () => {
         dispatch(loadBoards(filterBy))
         socketService.on('newBoardUpdate', onBoardUpdate)
         socketService.emit('registerToBoardUpdates', boardId)
-
         return () => {
             socketService.off('newBoardUpdate', onBoardUpdate)
         }
@@ -51,6 +49,8 @@ export const TasksApp = () => {
     }
 
     const loadBoard = async () => {
+        console.log('render')
+
         let currBoard
         if (boards.length === 0) onAddBoard()
         else if (boardId && boardService.isIdOk(boardId, boards)) currBoard = boardService.isIdOk(boardId, boards)
@@ -83,9 +83,15 @@ export const TasksApp = () => {
     }
 
     const updateBoard = (newBoard) => {
+        console.log('app', newBoard);
         socketService.emit('boardUpdate', newBoard)
         setBoard(newBoard)
         dispatch(saveBoard(newBoard))
+    }
+
+    const updateGroup = (newGroup) => {
+        const newBoard = boardService.groupUpdate(newGroup, board)
+        updateBoard(newBoard)
     }
 
     const onDeleteBoard = (boardId) => {
@@ -105,10 +111,6 @@ export const TasksApp = () => {
         updateBoard(newBoard)
     }
 
-    const updateGroup = (newGroup) => {
-        const newBoard = boardService.groupUpdate(newGroup, board)
-        updateBoard(newBoard)
-    }
 
     const onFilter = (filterBy) => {
         // dispatch(setFilter(filterBy))

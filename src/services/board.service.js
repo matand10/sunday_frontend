@@ -1,10 +1,6 @@
-import { storageService } from './async-storage.service'
 import { utilService } from './util.service'
 import { httpService } from './http.service'
 import { userService } from './user.service'
-
-const STORAGE_KEY = 'group_db'
-
 
 export const boardService = {
     query,
@@ -26,11 +22,7 @@ export const boardService = {
 
 async function query(filterBy = {}) {
     try {
-        // const res = await storageService.get(STORAGE_KEY)
-        // const res = await storageService.query(STORAGE_KEY)
-        // if (!res.length) res = getEmptyBoard()
-        const boards = await httpService.get('board', { params: { filterBy } })
-        return boards
+        return await httpService.get('board', { params: { filterBy } })
     } catch (err) {
         console.log('err', err)
     }
@@ -210,18 +202,21 @@ function makeBoard(user) {
                 }],
                 columns: [
                     {
+                        id: utilService.makeId(),
                         title: 'Person',
                         importance: 0,
                         value: [],
                         type: 'person'
                     },
                     {
+                        id: utilService.makeId(),
                         title: 'Status',
                         importance: 1,
                         value: utilService.getLabel(''),
                         type: 'status'
                     },
                     {
+                        id: utilService.makeId(),
                         title: 'Date',
                         importance: 2,
                         value: new Date(),
@@ -236,18 +231,21 @@ function makeBoard(user) {
                         archivedAt: 1589983468418,
                         columns: [
                             {
+                                id: utilService.makeId(),
                                 title: 'Status',
                                 importance: 1,
                                 value: utilService.getLabel(''),
                                 type: 'status'
                             },
                             {
+                                id: utilService.makeId(),
                                 title: 'Date',
                                 importance: 2,
                                 value: 1589983468418,
                                 type: 'date'
                             },
                             {
+                                id: utilService.makeId(),
                                 title: 'Person',
                                 importance: 0,
                                 value: [],
@@ -262,18 +260,21 @@ function makeBoard(user) {
                         archivedAt: 1589983468418,
                         columns: [
                             {
+                                id: utilService.makeId(),
                                 title: 'Status',
                                 importance: 1,
                                 value: utilService.getLabel(''),
                                 type: 'status'
                             },
                             {
+                                id: utilService.makeId(),
                                 title: 'Date',
                                 importance: 2,
                                 value: 1589983468418,
                                 type: 'date'
                             },
                             {
+                                id: utilService.makeId(),
                                 title: 'Person',
                                 importance: 0,
                                 value: [
@@ -308,18 +309,21 @@ function makeBoard(user) {
                 }],
                 columns: [
                     {
+                        id: utilService.makeId(),
                         title: 'Person',
                         importance: 0,
                         value: [],
                         type: 'person'
                     },
                     {
+                        id: utilService.makeId(),
                         title: 'Status',
                         importance: 1,
                         value: utilService.getLabel(''),
                         type: 'status'
                     },
                     {
+                        id: utilService.makeId(),
                         title: 'Date',
                         importance: 2,
                         value: new Date(),
@@ -333,18 +337,21 @@ function makeBoard(user) {
                         archivedAt: 1589983468418,
                         columns: [
                             {
+                                id: utilService.makeId(),
                                 title: 'Status',
                                 importance: 1,
                                 value: utilService.getLabel(''),
                                 type: 'status'
                             },
                             {
+                                id: utilService.makeId(),
                                 title: 'Date',
                                 importance: 2,
                                 value: 1589983468418,
                                 type: 'date'
                             },
                             {
+                                id: utilService.makeId(),
                                 title: 'Person',
                                 importance: 0,
                                 value: [],
@@ -358,18 +365,21 @@ function makeBoard(user) {
                         archivedAt: 1589983468418,
                         columns: [
                             {
+                                id: utilService.makeId(),
                                 title: 'Status',
                                 importance: 1,
                                 value: utilService.getLabel(''),
                                 type: 'status'
                             },
                             {
+                                id: utilService.makeId(),
                                 title: 'Date',
                                 importance: 2,
                                 value: 1589983468418,
                                 type: 'date'
                             },
                             {
+                                id: utilService.makeId(),
                                 title: 'Person',
                                 importance: 0,
                                 value: [],
