@@ -31,7 +31,6 @@ export class _SidePanel extends React.Component {
         const { group, taskIdx, board } = this.props
         const newGroup = { ...group }
         const addedUpdate = await this.props.addUpdate(update)
-        console.log('addedUpdate', addedUpdate);
         newGroup.tasks[taskIdx].comments.push(addedUpdate)
         this.props.updateGroup(newGroup)
     }
@@ -94,7 +93,6 @@ export class _SidePanel extends React.Component {
 
                         {!isUpdateOpen && <div className="main-activity-container">
                             {board.activities.map((activity, idx) => {
-                                console.log(new Date(Date.now() - activity.createdAt).getHours());
                                 return <div key={idx} className="activity-row">
                                     <div className="activity-time"><BiTime /><span>{new Date(Date.now() - activity.createdAt).getHours()}h</span></div>
                                     <div>{activity.taskTitle}</div>

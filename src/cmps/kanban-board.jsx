@@ -11,19 +11,23 @@ export const KanbanBoard = () => {
 
 
     useEffect(() => {
-        if (!kanbanBoard) return
+        // if (!kanbanBoard) return
+        console.log(board);
+        if (!board) return
         setKanban(kanbanService.getKanban(board))
-    }, [kanbanBoard])
+    }, [])
 
-    const onUpdatTaskName = (newBoard) => {
-        setKanbanBoard(newBoard)
+    const onUpdate = (newBoard) => {
+        setKanban(kanbanService.getKanban(newBoard))
     }
-    console.log('kanbanBoard',kanbanBoard)
-    console.log('kanban', kanban)
-    if (!kanban['Done']) return <h1>Loading...</h1>
+
+
+    if (!board) return <h1>Loading...</h1>
+    // console.log(kanban);
     return (
         <section className="kanban-board-container">
-            {boardService.getLabels().map((status, idx) => <KanbanList onUpdatTaskName={onUpdatTaskName} setKanbanBoard={setKanbanBoard} updateBoard={updateBoard} key={idx} kanban={kanban} status={status} onAddTask={onAddTask} board={board} updateTask={updateTask} />)}
+            {Object.keys(kanban).map((status, idx) => <KanbanList onUpdate={onUpdate} setKanbanBoard={setKanbanBoard} updateBoard={updateBoard} key={idx} kanban={kanban} status={status} onAddTask={onAddTask} board={board} updateTask={updateTask} />)}
+            {/* {boardService.getLabels().map((status, idx) => <KanbanList onUpdatTaskName={onUpdatTaskName} setKanbanBoard={setKanbanBoard} updateBoard={updateBoard} key={idx} kanban={kanban} status={status} onAddTask={onAddTask} board={board} updateTask={updateTask} />)} */}
         </section>
     )
 }

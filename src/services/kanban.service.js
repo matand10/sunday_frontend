@@ -13,9 +13,7 @@ function getTaskName(board, status) {
         const filter = group.tasks.filter(task => {
             return task.columns.some(col => col.value.title === status)
         })
-        console.log('filter', filter);
         filter.forEach(specific => {
-            console.log('spec',specific)
             done.push({
                 taskName: specific.title,
                 taskId: specific.id,
@@ -23,21 +21,37 @@ function getTaskName(board, status) {
                 groupName: group.title,
                 groupColor: group.style.color,
                 groupId: group.id,
-                color: specific.columns[1].value.color
+                color: specific.columns[1].value.color,
+                status: status ? status : 'Empty'
             })
         })
     })
-    console.log('done')
     return done
 
 }
 
 function getKanban(board) {
     return {
-        Done: getTaskName(board, 'Done'),
-        WorkingOnIt: getTaskName(board, 'Working on it'),
-        Stuck: getTaskName(board, 'Stuck'),
-        Empty: getTaskName(board, '')
+        Done: {
+            kanban: getTaskName(board, 'Done'),
+            status: 'Done',
+            color: '#00c875',
+        },
+        WorkingOnIt: {
+            kanban: getTaskName(board, 'Working on it'),
+            status: 'Working on it',
+            color: '#fdab3d'
+        },
+        Stuck: {
+            kanban: getTaskName(board, 'Stuck'),
+            status: 'Stuck',
+            color: '#e2445c'
+        },
+        Empty: {
+            kanban: getTaskName(board, ''),
+            status: 'Empty',
+            color: '#c4c4c4'
+        }
     }
 }
 

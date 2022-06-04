@@ -19,7 +19,8 @@ export const GroupKanbanMenu = ({ board, groupMenuRef, taskId, currGroupId, upda
     }
 
     return <React.Fragment>
-        <section className="group-main-menu-inner" ref={groupMenuRef} style={{ left: modalPos.x - 300, top: modalPos.y -60 }}>
+        {/* <section className="group-main-menu-inner" ref={groupMenuRef} style={{ left: modalPos.x - 300, top: modalPos.y -60 }}> */}
+        <section className="group-main-menu-inner" ref={groupMenuRef}>
             <div className="group-main-section">
                 <div className="group-menu-item" onClick={(event) => (event.stopPropagation())}>
                     {board.groups.map((group, idx) => {

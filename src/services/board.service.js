@@ -160,22 +160,26 @@ function getLabels() {
         {
             id: 'l101',
             title: 'Done',
-            color: '#00c875'
+            color: '#00c875',
+            type:'Done'
         },
         {
             id: 'l102',
             title: 'Working on it',
-            color: '#fdab3d'
+            color: '#fdab3d',
+            type:'Working on it'
         },
         {
             id: 'l103',
             title: 'Stuck',
-            color: '#e2445c'
+            color: '#e2445c',
+            type:'Stuck'
         },
         {
             id: 'l104',
-            title: 'Empty',
-            color: '#c4c4c4'
+            title: '',
+            color: '#c4c4c4',
+            type:'Empty'
         }
     ]
 }
