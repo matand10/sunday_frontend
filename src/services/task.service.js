@@ -14,7 +14,8 @@ export const taskService = {
     save,
     remove,
     getEmptyTask,
-    addTask
+    addTask,
+    getColumns
 }
 
 async function getById(taskId) {
@@ -60,23 +61,24 @@ async function save(task, groupId, boardId) {
 
 function addTask(board, task, groupId) {
     const newBoard = { ...board }
+    const columns = board.columns
+    // const columns = board.groups[groupIdx].columns
+    const newColumns = getColumns(columns)
+    const newTask = getEmptyTask(newColumns)
     if (task && groupId) {
         const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
-        const columns = board.groups[groupIdx].columns
-        const newColumns = _getColumns(columns)
-        const newTask = getEmptyTask(newColumns)
 
         newTask.title = task.title
         newTask.columns[1].value = task.status ? task.status : newTask.columns[1].value
         newBoard.groups[groupIdx].tasks.push(newTask)
     } else {
-        const newTask = getEmptyTask(board.groups[0].columns)
+        // newTask = getEmptyTask(board.columns)
         newBoard.groups[0].tasks.push(newTask)
     }
     return newBoard
 }
 
-function _getColumns(columns) {
+function getColumns(columns) {
     return columns.map(col => {
         switch (col.type) {
             case 'status':

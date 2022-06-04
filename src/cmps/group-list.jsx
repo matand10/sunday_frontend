@@ -84,14 +84,19 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
     }
 
     const onNewCol = (value) => {
-        const newGroup = groupService.groupColAdd(group, value)
-        updateGroup(newGroup)
+        const newBoard = groupService.groupColAdd(board, value)
+        updateBoard(newBoard)
         setIsAddCol(false)
     }
+    // const onNewCol = (value) => {
+    //     const newGroup = groupService.groupColAdd(group, value)
+    //     updateGroup(newGroup)
+    //     setIsAddCol(false)
+    // }
 
     const removeCol = (colIdx) => {
-        const newGroup = groupService.groupColRemove(colIdx, group)
-        updateGroup(newGroup)
+        const newBoard = groupService.groupColRemove(colIdx, board)
+        updateBoard(newBoard)
     }
 
     const onHeaderSort = (sortValue, colIdx) => {
@@ -111,8 +116,9 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
         updateGroup(newGroup)
     }
 
-    let columns = group.columns
-    columns = columns.sort((a, b) => a.importance - b.importance)
+    let columns = board.columns
+    // let columns = group.columns
+    // columns = columns.sort((a, b) => a.importance - b.importance)
 
     if (!board) return <h1>Loading...</h1>
 
@@ -202,13 +208,21 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
                     </div> */}
 
                     <div className="group-footer-items">
-                        {group.columns && group.columns.map((col, idx) => {
+                        {columns && columns.map((col, idx) => {
                             if (col.type === 'status') return <div key={idx} className="column-footer">
                                 <ProgressBar group={group} colIdx={idx} />
                             </div>
                             else return <div key={idx}></div>
                         })}
                     </div>
+                    {/* <div className="group-footer-items">
+                        {group.columns && group.columns.map((col, idx) => {
+                            if (col.type === 'status') return <div key={idx} className="column-footer">
+                                <ProgressBar group={group} colIdx={idx} />
+                            </div>
+                            else return <div key={idx}></div>
+                        })}
+                    </div> */}
                     <div className="add-colomn-column-button-container">
                         {/* <button className="add-colomn-column-button" onClick={() => onNewCol()}><span>+</span></button> */}
                     </div>

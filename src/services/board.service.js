@@ -193,6 +193,26 @@ function makeBoard(user) {
         archivedAt: 1589983468418,
         createdAt: 1589983468418,
         members: [user],
+        columns: [
+            {
+                title: 'Person',
+                importance: 0,
+                value: [],
+                type: 'person'
+            },
+            {
+                title: 'Status',
+                importance: 1,
+                value: utilService.getLabel(''),
+                type: 'status'
+            },
+            {
+                title: 'Date',
+                importance: 2,
+                value: new Date(),
+                type: 'date'
+            }
+        ],
         groups: [
             {
                 style: { color: utilService.getRandomColor() },
@@ -207,26 +227,6 @@ function makeBoard(user) {
                     },
                     colIdx: 1
                 }],
-                columns: [
-                    {
-                        title: 'Person',
-                        importance: 0,
-                        value: [],
-                        type: 'person'
-                    },
-                    {
-                        title: 'Status',
-                        importance: 1,
-                        value: utilService.getLabel(''),
-                        type: 'status'
-                    },
-                    {
-                        title: 'Date',
-                        importance: 2,
-                        value: new Date(),
-                        type: 'date'
-                    }
-                ],
                 tasks: [
                     {
                         id: utilService.makeId(),
@@ -235,6 +235,12 @@ function makeBoard(user) {
                         archivedAt: 1589983468418,
                         columns: [
                             {
+                                title: 'Person',
+                                importance: 0,
+                                value: [],
+                                type: 'person'
+                            },
+                            {
                                 title: 'Status',
                                 importance: 1,
                                 value: utilService.getLabel(''),
@@ -246,12 +252,6 @@ function makeBoard(user) {
                                 value: 1589983468418,
                                 type: 'date'
                             },
-                            {
-                                title: 'Person',
-                                importance: 0,
-                                value: [],
-                                type: 'person'
-                            }
                         ]
                     },
                     {
@@ -260,18 +260,6 @@ function makeBoard(user) {
                         comments: [],
                         archivedAt: 1589983468418,
                         columns: [
-                            {
-                                title: 'Status',
-                                importance: 1,
-                                value: utilService.getLabel(''),
-                                type: 'status'
-                            },
-                            {
-                                title: 'Date',
-                                importance: 2,
-                                value: 1589983468418,
-                                type: 'date'
-                            },
                             {
                                 title: 'Person',
                                 importance: 0,
@@ -288,7 +276,19 @@ function makeBoard(user) {
                                     }
                                 ],
                                 type: 'person'
-                            }
+                            },
+                            {
+                                title: 'Status',
+                                importance: 1,
+                                value: utilService.getLabel(''),
+                                type: 'status'
+                            },
+                            {
+                                title: 'Date',
+                                importance: 2,
+                                value: 1589983468418,
+                                type: 'date'
+                            },
                         ]
                     }
                 ],
@@ -305,32 +305,38 @@ function makeBoard(user) {
                     },
                     colIdx: 1
                 }],
-                columns: [
-                    {
-                        title: 'Person',
-                        importance: 0,
-                        value: [],
-                        type: 'person'
-                    },
-                    {
-                        title: 'Status',
-                        importance: 1,
-                        value: utilService.getLabel(''),
-                        type: 'status'
-                    },
-                    {
-                        title: 'Date',
-                        importance: 2,
-                        value: new Date(),
-                        type: 'date'
-                    }
-                ],
+                // columns: [
+                //     {
+                //         title: 'Person',
+                //         importance: 0,
+                //         value: [],
+                //         type: 'person'
+                //     },
+                //     {
+                //         title: 'Status',
+                //         importance: 1,
+                //         value: utilService.getLabel(''),
+                //         type: 'status'
+                //     },
+                //     {
+                //         title: 'Date',
+                //         importance: 2,
+                //         value: new Date(),
+                //         type: 'date'
+                //     }
+                // ],
                 tasks: [
                     {
                         id: utilService.makeId(),
                         title: "Item 3",
                         archivedAt: 1589983468418,
                         columns: [
+                            {
+                                title: 'Person',
+                                importance: 0,
+                                value: [],
+                                type: 'person'
+                            },
                             {
                                 title: 'Status',
                                 importance: 1,
@@ -343,12 +349,6 @@ function makeBoard(user) {
                                 value: 1589983468418,
                                 type: 'date'
                             },
-                            {
-                                title: 'Person',
-                                importance: 0,
-                                value: [],
-                                type: 'person'
-                            }
                         ]
                     },
                     {
@@ -357,6 +357,12 @@ function makeBoard(user) {
                         archivedAt: 1589983468418,
                         columns: [
                             {
+                                title: 'Person',
+                                importance: 0,
+                                value: [],
+                                type: 'person'
+                            },
+                            {
                                 title: 'Status',
                                 importance: 1,
                                 value: utilService.getLabel(''),
@@ -368,12 +374,6 @@ function makeBoard(user) {
                                 value: 1589983468418,
                                 type: 'date'
                             },
-                            {
-                                title: 'Person',
-                                importance: 0,
-                                value: [],
-                                type: 'person'
-                            }
                         ]
                     }
                 ],
@@ -387,6 +387,206 @@ function makeBoard(user) {
         ]
     }
 }
+// function makeBoard(user) {
+//     return {
+//         title: "Robot dev proj",
+//         archivedAt: 1589983468418,
+//         createdAt: 1589983468418,
+//         members: [user],
+//         groups: [
+//             {
+//                 style: { color: utilService.getRandomColor() },
+//                 id: utilService.makeId(),
+//                 title: "Group Title",
+//                 archivedAt: 1589983468418,
+//                 progress: [{
+//                     value: {
+//                         'Working on it': null,
+//                         Done: null,
+//                         Stuck: null
+//                     },
+//                     colIdx: 1
+//                 }],
+//                 columns: [
+//                     {
+//                         title: 'Person',
+//                         importance: 0,
+//                         value: [],
+//                         type: 'person'
+//                     },
+//                     {
+//                         title: 'Status',
+//                         importance: 1,
+//                         value: utilService.getLabel(''),
+//                         type: 'status'
+//                     },
+//                     {
+//                         title: 'Date',
+//                         importance: 2,
+//                         value: new Date(),
+//                         type: 'date'
+//                     }
+//                 ],
+//                 tasks: [
+//                     {
+//                         id: utilService.makeId(),
+//                         title: "Item 1",
+//                         comments: [],
+//                         archivedAt: 1589983468418,
+//                         columns: [
+//                             {
+//                                 title: 'Status',
+//                                 importance: 1,
+//                                 value: utilService.getLabel(''),
+//                                 type: 'status'
+//                             },
+//                             {
+//                                 title: 'Date',
+//                                 importance: 2,
+//                                 value: 1589983468418,
+//                                 type: 'date'
+//                             },
+//                             {
+//                                 title: 'Person',
+//                                 importance: 0,
+//                                 value: [],
+//                                 type: 'person'
+//                             }
+//                         ]
+//                     },
+//                     {
+//                         id: utilService.makeId(),
+//                         title: "Item 2",
+//                         comments: [],
+//                         archivedAt: 1589983468418,
+//                         columns: [
+//                             {
+//                                 title: 'Status',
+//                                 importance: 1,
+//                                 value: utilService.getLabel(''),
+//                                 type: 'status'
+//                             },
+//                             {
+//                                 title: 'Date',
+//                                 importance: 2,
+//                                 value: 1589983468418,
+//                                 type: 'date'
+//                             },
+//                             {
+//                                 title: 'Person',
+//                                 importance: 0,
+//                                 value: [
+//                                     {
+//                                         _id: "u101",
+//                                         fullname: "Tal Tarablus",
+//                                         imgUrl: "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg"
+//                                     },
+//                                     {
+//                                         _id: "u102",
+//                                         fullname: "Matan Tarif",
+//                                         imgUrl: "https://cdn.monday.com/icons/dapulse-person-column.svg"
+//                                     }
+//                                 ],
+//                                 type: 'person'
+//                             }
+//                         ]
+//                     }
+//                 ],
+//             },
+//             {
+//                 id: utilService.makeId(),
+//                 title: "Group Title",
+//                 style: { color: utilService.getRandomColor() },
+//                 progress: [{
+//                     value: {
+//                         'Working on it': null,
+//                         Done: null,
+//                         Stuck: null
+//                     },
+//                     colIdx: 1
+//                 }],
+//                 columns: [
+//                     {
+//                         title: 'Person',
+//                         importance: 0,
+//                         value: [],
+//                         type: 'person'
+//                     },
+//                     {
+//                         title: 'Status',
+//                         importance: 1,
+//                         value: utilService.getLabel(''),
+//                         type: 'status'
+//                     },
+//                     {
+//                         title: 'Date',
+//                         importance: 2,
+//                         value: new Date(),
+//                         type: 'date'
+//                     }
+//                 ],
+//                 tasks: [
+//                     {
+//                         id: utilService.makeId(),
+//                         title: "Item 3",
+//                         archivedAt: 1589983468418,
+//                         columns: [
+//                             {
+//                                 title: 'Status',
+//                                 importance: 1,
+//                                 value: utilService.getLabel(''),
+//                                 type: 'status'
+//                             },
+//                             {
+//                                 title: 'Date',
+//                                 importance: 2,
+//                                 value: 1589983468418,
+//                                 type: 'date'
+//                             },
+//                             {
+//                                 title: 'Person',
+//                                 importance: 0,
+//                                 value: [],
+//                                 type: 'person'
+//                             }
+//                         ]
+//                     },
+//                     {
+//                         id: utilService.makeId(),
+//                         title: "Item 4",
+//                         archivedAt: 1589983468418,
+//                         columns: [
+//                             {
+//                                 title: 'Status',
+//                                 importance: 1,
+//                                 value: utilService.getLabel(''),
+//                                 type: 'status'
+//                             },
+//                             {
+//                                 title: 'Date',
+//                                 importance: 2,
+//                                 value: 1589983468418,
+//                                 type: 'date'
+//                             },
+//                             {
+//                                 title: 'Person',
+//                                 importance: 0,
+//                                 value: [],
+//                                 type: 'person'
+//                             }
+//                         ]
+//                     }
+//                 ],
+//             }
+//         ],
+//         activities: [],
+//         cmpsOrder: [
+//             "status-picker",
+//             "member-picker",
+//             "date-picker"
+//         ]
+//     }
+// }
 
 
 // function documentActivity(board) {
