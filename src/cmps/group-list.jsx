@@ -130,8 +130,6 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
     }
 
     let columns = board.columns
-    // let columns = group.columns
-    // columns = columns.sort((a, b) => a.importance - b.importance)
 
     if (!board) return <h1>Loading...</h1>
 
@@ -174,9 +172,6 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
                                 <div onClick={() => onHeaderSort(col.type, idx)} className="sort-header-menu hide-sort">
                                     <FaSort />
                                 </div>
-                                {/* <span className="editable-column-header"> */}
-                                {/* <EditableColumn colIdx={idx} board={board} updateBoard={updateBoard} text={col.title} />
-                                    {col.title} */}
                                 {isTitleChange ?
                                     <div className="header-editable-container">
                                         <form onSubmit={(event) => changeColTitle(event, idx)} className="header-editable-input">
@@ -185,7 +180,6 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
                                         </form>
                                     </div>
                                     :
-                                    // <div className="board-title-content">
                                     <div onClick={() => setIsTitleChange(true)}>
                                         {col.title}
                                     </div>
