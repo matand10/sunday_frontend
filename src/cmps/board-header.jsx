@@ -11,10 +11,10 @@ import { useState, useRef, useEffect, useNavigate } from "react"
 import React from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { setFilter } from '../store/board/board.action'
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { InviteUserMenu } from '../modal/user-invite-modal'
 
-export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, onFilter,setIsKanban }) => {
+export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, onFilter, setIsKanban }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isInviteMenuOpen, setIsInviteMenuOpen] = useState(false)
     const [isSearchActive, setIsSearchActive] = useState(false)
@@ -124,6 +124,7 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
                     <div className="board-header-actions">
                         <button className="panel-button">Last Seen</button>
                         <button className="panel-button" onClick={() => toggleInviteMenu(true)}>Invite / {unAssignedUsers.length}</button>
+                        <InviteUserMenu users={users} setUnAssignedUsers={setUnAssignedUsers} updateBoard={updateBoard} board={board} isInviteMenuOpen={isInviteMenuOpen} menuRef={menuRef} />
                         <button className="panel-button">Activity</button>
                         <button className="panel-button board-add"><span>+</span> Add to board</button>
                         <div onClick={() => toggleMenu(true)} className="ds-menu-side-panel-header"><img src={dotsMenu} alt='dots-menu' /></div>
@@ -139,11 +140,11 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
         <div className="board-subsets-toolbar">
             <div className="board-subsets-tabs">
                 <div className="board-subsets-item">
-                    <button className="board-subsets-item-button" onClick={()=>setIsKanban(false)}><NavLink to={`/board/${board._id}`} className="main-table-nav"><span><BsTable /> Main Table</span></NavLink> </button>
+                    <button className="board-subsets-item-button" onClick={() => setIsKanban(false)}><NavLink to={`/board/${board._id}`} className="main-table-nav"><span><BsTable /> Main Table</span></NavLink> </button>
                     <div className="board-subsets-item-line"></div>
                 </div>
                 <div className="board-kanban-item">
-                    <button className="board-kanban-item-button" onClick={()=>setIsKanban(true)}><NavLink to={`/board/${board._id}/kanban`} className="kanban-nav"><span><FaTrello /> Kanban</span></NavLink></button>
+                    <button className="board-kanban-item-button" onClick={() => setIsKanban(true)}><NavLink to={`/board/${board._id}/kanban`} className="kanban-nav"><span><FaTrello /> Kanban</span></NavLink></button>
                     <div className="board-kanban-item-line"></div>
                 </div>
             </div>
@@ -159,7 +160,6 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
             <button className="panel-button-v2"><BsPinAngle /> <span>Pin</span></button>
         </div>
         <DsMenu isMenuOpen={isMenuOpen} menuRef={menuRef} />
-        <InviteUserMenu users={users} setUnAssignedUsers={setUnAssignedUsers} updateBoard={updateBoard} board={board} isInviteMenuOpen={isInviteMenuOpen} menuRef={menuRef} />
         <SortMenu onSetFilter={onSetFilter} isSortMenuOpen={isSortMenuOpen} menuRef={menuRef} />
     </div>
 }

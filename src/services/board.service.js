@@ -322,6 +322,7 @@ function makeBoard(user) {
                 tasks: [
                     {
                         id: utilService.makeId(),
+                        comments: [],
                         title: "Item 3",
                         archivedAt: 1589983468418,
                         columns: [
@@ -351,6 +352,7 @@ function makeBoard(user) {
                     },
                     {
                         id: utilService.makeId(),
+                        comments: [],
                         title: "Item 4",
                         archivedAt: 1589983468418,
                         columns: [
@@ -591,27 +593,30 @@ function makeBoard(user) {
 // }
 
 
-function documentActivities(column, previewColVal) {
+function documentActivities(column, previewColVal, taskTitle) {
     const user = userService.getLoggedinUser()
     let msg
+
     switch (column.type) {
         case 'person':
             msg = `Added ${column.value[column.value.length - 1].fullname}`
             break;
         case 'status':
-            msg = `Changed status from ${previewColVal.title} to ${column.value.title}`
+            msg = `Changed status from ${previewColVal.title || 'None'} to ${column.value.title}`
             break
         case 'date':
-            msg = `Changed date from ${previewColVal} to ${column.value}`
+            msg = `Changed date from ${utilService.getCurrTime(previewColVal)} to ${utilService.getCurrTime(column.value)}`
             break
         case 'text':
             msg = `Changed text from ${previewColVal} to ${column.value}`
             break
     }
+
     return {
         id: utilService.makeId(),
         msg,
         createdAt: Date.now(),
         byMember: { ...user },
+        taskTitle
     }
 }

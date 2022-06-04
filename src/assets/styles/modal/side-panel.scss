@@ -93,17 +93,26 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 10px;
     margin-top: 10px;
+    // background-color: aqua;
 
     & .panel-nav-button {
         padding: 7px 16px;
         width: 80px;
         height: 30px;
         text-align: center;
+
+        &:hover {
+            border-radius: 4px;
+            background-color: #dcdfec;
+        }
+
+        &-active {}
     }
 
-    &:hover {
-        border-radius: 4px;
-        background-color: #dcdfec;
-    }
+}
+
+.panel-nav-button.active {
+    box-shadow: 0px 2px 0px 0px #1976d2;
 }

@@ -1,8 +1,11 @@
 .invite-member-task-wrapper {
+    position: relative;
+}
+
+.invite-member-task-container {
     background-color: #ffffff;
     position: absolute;
-    right: -119px;
-    top: 110%;
+    left: -170px;
     border-radius: 7px;
     box-shadow: 1px 1px 5px rgba($color: #000000, $alpha: 0.2);
     padding: 16px;
@@ -43,26 +46,37 @@
     padding: 10px 0;
 }
 
-.unassigned-to-task-members {
-    padding: 10px 0;
-}
-
 .assigned-members {
-    padding: 5px 0px;
-    border-radius: 4px;
+    margin-top: 10px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-
-    &:hover {
-        background-color: #e6e9ef;
-    }
+    justify-content: space-between;
 
     & span {
         margin-inline-start: 5px;
     }
+
+    & .assigned-users {
+        width: 70%;
+        padding: 5px 0px;
+        border-radius: 4px;
+
+        &:hover {
+            background-color: $button-hover;
+        }
+    }
 }
 
-.user-invite-pic-container {
-    width: 33px;
+.remove-assigned-user-btn {
+    padding: 2px;
+    border-radius: 4px;
+    transition: .1s;
+
+    &:hover {
+        background-color: $button-hover;
+    }
+
+    & button {
+        font-size: 1.8rem;
+    }
 }

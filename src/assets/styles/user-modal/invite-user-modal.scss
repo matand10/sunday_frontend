@@ -1,8 +1,12 @@
+.user-invite-modal {
+    position: relative;
+}
+
 .user-invite-menu {
     background-color: #ffffff;
-    position: fixed;
-    right: 275px;
-    top: 70px;
+    position: absolute;
+    right: 0;
+    top: 10px;
     border-radius: 7px;
     box-shadow: 1px 1px 5px rgba($color: #000000, $alpha: 0.2);
     width: 300px;

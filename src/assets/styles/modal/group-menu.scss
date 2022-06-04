@@ -3,14 +3,16 @@
     height: 100%;
     width: 100%;
     padding: 18px 0px 0px 18px;
-    // overflow: auto;
-    // height: 100%;
-    // padding: 18px 0 0 18px;
 }
 
-.group-main-menu-inner {
+
+
+.group-main-section {
     background-color: #ffffff;
     position: absolute;
+    right: 0;
+    bottom: -500px;
+
     z-index: 100;
     border-radius: 7px;
     box-shadow: 1px 1px 5px rgba($color: #000000, $alpha: 0.2);

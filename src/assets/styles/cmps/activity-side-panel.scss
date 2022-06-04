@@ -1,0 +1,32 @@
+.main-activity-container {
+    height: 100%;
+}
+
+.activity-row {
+    height: 4.375em;
+    padding: 0px 10px;
+    margin: 0px 10px;
+    margin-top: em(10px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.6em;
+    border-bottom: 1px solid $divider-backgroud-color;
+}
+
+.activity-time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.activity-msg {
+    height: 100%;
+    width: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.5em;
+}

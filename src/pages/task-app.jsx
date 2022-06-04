@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from "react"
-import { socketService, SOCKET_EMIT_SEND_MSG } from '../services/socket.service'
+import React, { useEffect, useState } from "react"
+import { socketService } from '../services/socket.service'
 import { useDispatch, useSelector } from "react-redux"
 import { loadBoards, setFilter } from "../store/board/board.action"
 import { loadUsers, updateUser } from "../store/user/user.actions"
@@ -51,7 +51,6 @@ export const TasksApp = () => {
     const loadBoard = async () => {
         console.log('render')
         const newBoards = await boardService.query(filterBy)
-        console.log(newBoards);
         let currBoard
         if (newBoards.length === 0) onAddBoard()
         else if (boardId && boardService.isIdOk(boardId, newBoards)) currBoard = { ...boardService.isIdOk(boardId, newBoards) }
@@ -84,7 +83,6 @@ export const TasksApp = () => {
     }
 
     const updateBoard = (newBoard) => {
-        console.log('app', newBoard);
         socketService.emit('boardUpdate', newBoard)
         setBoard(newBoard)
         dispatch(saveBoard(newBoard))

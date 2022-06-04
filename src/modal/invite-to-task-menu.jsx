@@ -1,32 +1,42 @@
 import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { userService } from "../services/user.service"
 import useImg from '../assets/img/user-invite/userImg.png'
+import { TiDelete } from 'react-icons/ti'
 
-export const InviteToTaskModal = ({ specialUpdateTask, statusRef, task, board, colIdx, setInviteUserModal }) => {
-    const { users, user } = useSelector((storeState) => storeState.userModule)
+export const InviteToTaskModal = ({ specialUpdateTask, statusRef, task, board, colIdx, setInviteUserModal, updateTask, group }) => {
+    const { users } = useSelector((storeState) => storeState.userModule)
     const [unAssignedUsers, setUnAssignedUsers] = useState([])
-    const [assignedUsers, setAssignedUsers] = useState([])
-    const dispatch = useDispatch()
-
 
     useEffect(() => {
-        const object = userService.getAssign(users, task, board, colIdx)
-        setUnAssignedUsers(object.unassign)
-        setAssignedUsers(object.assign)
+        let unAssigned = userService.getAssignedToTask(users, task, board, colIdx)
+        if (!unAssigned) unAssigned = userService.getAssignedUsers(users, board)
+        setUnAssignedUsers(unAssigned)
     }, [])
 
-
-
-    const assignUserToTask = (user, idx) => {
+    const assignUserToTask = (user, userIdx) => {
+        deleteUnassignedUser(userIdx)
         let newTask = { ...task }
         let users = [...newTask.columns[colIdx].value]
         users.push(user)
         specialUpdateTask(users, colIdx)
-        let newAssigned = unAssignedUsers
-        newAssigned.splice(idx, 1)
-        setUnAssignedUsers(newAssigned)
         setInviteUserModal(false)
+    }
+
+    const deleteUnassignedUser = (userIdx) => {
+        const newUnAssignedUsers = [...unAssignedUsers]
+        newUnAssignedUsers.splice(userIdx, 1)
+        setUnAssignedUsers(newUnAssignedUsers)
+    }
+
+    const removeFromAssign = (ev, user, userIdx) => {
+        ev.stopPropagation()
+        const newUnAssignedUsers = [...unAssignedUsers]
+        newUnAssignedUsers.push(user)
+        setUnAssignedUsers(newUnAssignedUsers)
+        const newTask = { ...task }
+        newTask.columns[colIdx].value.splice(userIdx, 1)
+        updateTask(newTask, group.id)
     }
 
     return <section className="invite-member-task-wrapper" ref={statusRef}>
@@ -35,26 +45,35 @@ export const InviteToTaskModal = ({ specialUpdateTask, statusRef, task, board, c
                 <h3>Assigned</h3>
                 {task.columns[colIdx].value.map((user, idx) => {
                     return <div className="assigned-members" key={idx}>
-                        <div className="user-invite-pic-container">
-                            <img className="user-picture" src={user.userImg || useImg} alt="user-img" />
+                        <div className="flex align-items assigned-users">
+                            <div>
+                                <img style={{ width: '28px' }} src={user.userImg || useImg} alt="user-img" />
+                            </div>
+                            <span>{user.fullname}</span>
                         </div>
-                        <span>{user.fullname}</span>
+                        <div className="remove-assigned-user-btn">
+                            <button onClick={(ev) => removeFromAssign(ev, user, idx)}><TiDelete /></button>
+                        </div>
                     </div>
                 })}
             </div>
+
             <div className="invite-member-divider-modal">
                 <div className="divider-invite"></div>
                 <span>People</span>
                 <div className="divider-invite"></div>
             </div>
-            <div className="unassigned-to-task-members">
+
+            <div className="assigned-to-task-members">
                 <h3>Unassigned</h3>
                 {unAssignedUsers.map((user, idx) => {
-                    return <div onClick={() => assignUserToTask(user, idx)} className="assigned-members" key={idx}>
-                        <div className="user-invite-pic-container">
-                            <img className="user-picture" src={user.userImg || useImg} alt="user-img" />
+                    return <div className="assigned-members" key={idx} onClick={() => assignUserToTask(user, idx)}>
+                        <div className="flex align-items assigned-users">
+                            <div>
+                                <img style={{ width: '28px' }} src={user.userImg || useImg} alt="user-img" />
+                            </div>
+                            <span>{user.fullname}</span>
                         </div>
-                        <span>{user.fullname}</span>
                     </div>
                 })}
             </div>

@@ -27,7 +27,7 @@ export const InviteUserMenu = ({ users, updateBoard, setUnAssignedUsers, board, 
         updateBoard(newBoard)
     }
 
-    return <section>
+    return <section className="user-invite-modal">
         {filteredUsers.length && isInviteMenuOpen && <section ref={menuRef} className="user-invite-menu">
             <div className="user-invite-menu-container">
                 {filteredUsers.map((user, idx) => {
