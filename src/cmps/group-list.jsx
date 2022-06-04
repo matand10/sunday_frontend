@@ -30,7 +30,8 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
     const [isReversedSort, setIsReversedSort] = useState(false)
     const [colActions, setColActions] = useState({ colIdx: '', groupId: '' })
     const [isAddCol, setIsAddCol] = useState(false)
-
+    const [isTitleChange, setIsTitleChange] = useState(false)
+    const [colTitle, setColTitle] = useState('')
 
     const { x, y, handleContextMenu } = Menu()
     let menuRef = useRef()
@@ -84,14 +85,19 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
     }
 
     const onNewCol = (value) => {
-        const newGroup = groupService.groupColAdd(group, value)
-        updateGroup(newGroup)
+        const newBoard = groupService.groupColAdd(board, value)
+        updateBoard(newBoard)
         setIsAddCol(false)
     }
+    // const onNewCol = (value) => {
+    //     const newGroup = groupService.groupColAdd(group, value)
+    //     updateGroup(newGroup)
+    //     setIsAddCol(false)
+    // }
 
     const removeCol = (colIdx) => {
-        const newGroup = groupService.groupColRemove(colIdx, group)
-        updateGroup(newGroup)
+        const newBoard = groupService.groupColRemove(colIdx, board)
+        updateBoard(newBoard)
     }
 
     const onHeaderSort = (sortValue, colIdx) => {
@@ -111,8 +117,21 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
         updateGroup(newGroup)
     }
 
-    let columns = group.columns
-    columns = columns.sort((a, b) => a.importance - b.importance)
+    const changeColTitle = (ev, colIdx) => {
+        ev.preventDefault()
+        const newBoard = boardService.changeColTitle(colIdx, colTitle, board)
+
+        updateBoard(board)
+        setIsTitleChange(false)
+    }
+
+    const handleColTitleChange = ({ target }) => {
+        setColTitle(target.value)
+    }
+
+    let columns = board.columns
+    // let columns = group.columns
+    // columns = columns.sort((a, b) => a.importance - b.importance)
 
     if (!board) return <h1>Loading...</h1>
 
@@ -125,6 +144,10 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
         setGroupUpdate(newGroup)
         updateGroup(newGroup)
     };
+
+
+
+    // console.log('group list', columns);
 
     return <section ref={provided.innerRef}
         snapshot={snapshot}
@@ -148,13 +171,28 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
                 <div className="flex coulmn-main-header-container">
                     <div className="group-header-items">
                         {columns.map((col, idx) => {
+                            console.log('columns', col.title);
                             return <div key={idx} className="column-header">
                                 <div onClick={() => onHeaderSort(col.type, idx)} className="sort-header-menu hide-sort">
                                     <FaSort />
                                 </div>
-                                <span className="editable-column-header">
-                                    <EditableColumn colIdx={idx} group={group} updateGroup={updateGroup} text={col.title} />
-                                </span>
+                                {/* <span className="editable-column-header"> */}
+                                {/* <EditableColumn colIdx={idx} board={board} updateBoard={updateBoard} text={col.title} />
+                                    {col.title} */}
+                                {isTitleChange ?
+                                    <div className="header-editable-container">
+                                        <form onSubmit={(event) => changeColTitle(event, idx)} className="header-editable-input">
+                                            <input type="text" name="title" defaultValue={col.title} onChange={handleColTitleChange} />
+                                            {/* <input type="text" name="title" defaultValue={col.title} onChange={handleColTitleChange} ref={menuRef} /> */}
+                                        </form>
+                                    </div>
+                                    :
+                                    // <div className="board-title-content">
+                                    <div onClick={() => setIsTitleChange(true)}>
+                                        {col.title}
+                                    </div>
+                                }
+                                {/* </span> */}
                                 <div className="col-arrow-container">
                                     <div className="col-arrow-div" onClick={() => onOpenColActions(idx, group.id)} > <FaCaretDown className="col-arrow" /></div>
                                 </div>
@@ -198,13 +236,21 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
                     </div> */}
 
                     <div className="group-footer-items">
-                        {group.columns && group.columns.map((col, idx) => {
+                        {columns && columns.map((col, idx) => {
                             if (col.type === 'status') return <div key={idx} className="column-footer">
                                 <ProgressBar group={group} colIdx={idx} />
                             </div>
                             else return <div key={idx}></div>
                         })}
                     </div>
+                    {/* <div className="group-footer-items">
+                        {group.columns && group.columns.map((col, idx) => {
+                            if (col.type === 'status') return <div key={idx} className="column-footer">
+                                <ProgressBar group={group} colIdx={idx} />
+                            </div>
+                            else return <div key={idx}></div>
+                        })}
+                    </div> */}
                     <div className="add-colomn-column-button-container">
                         {/* <button className="add-colomn-column-button" onClick={() => onNewCol()}><span>+</span></button> */}
                     </div>

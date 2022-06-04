@@ -15,7 +15,7 @@ import { groupService } from '../services/group.service';
 const options = ['New group of Tasks', 'import Tasks'];
 
 
-export const BoardNav = ({ onAddTask, onAddGroup,board }) => {
+export const BoardNav = ({ onAddTask, onAddGroup, board }) => {
 
 
 
@@ -30,7 +30,7 @@ export const BoardNav = ({ onAddTask, onAddGroup,board }) => {
 
     const handleMenuItemClick = (event, index) => {
         if (event.target.innerText === 'New group of Tasks') {
-            const group = groupService.getEmptyGroup()
+            const group = groupService.getEmptyGroup(board)
             onAddGroup(group)
         }
         setSelectedIndex(index);

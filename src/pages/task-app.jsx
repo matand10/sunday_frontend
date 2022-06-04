@@ -50,10 +50,11 @@ export const TasksApp = () => {
 
     const loadBoard = async () => {
         console.log('render')
+        const newBoards = await boardService.query(filterBy)
         let currBoard
-        if (boards.length === 0) onAddBoard()
-        else if (boardId && boardService.isIdOk(boardId, boards)) currBoard = boardService.isIdOk(boardId, boards)
-        else currBoard = boards[0]
+        if (newBoards.length === 0) onAddBoard()
+        else if (boardId && boardService.isIdOk(boardId, newBoards)) currBoard = { ...boardService.isIdOk(boardId, newBoards) }
+        else currBoard = { ...newBoards[0] }
         if (currBoard) {
             if (isKanban) navigate(`/board/${currBoard._id}/kanban`)
             else navigate(`/board/${currBoard._id}`)
