@@ -15,10 +15,6 @@ export class _SidePanel extends React.Component {
         user: this.props.user,
     }
 
-    componentDidMount() {
-        this.setState({ updates: this.props.updates })
-    }
-
     deleteUpdate = (updateId, updateIdx) => {
         const { group, taskIdx } = this.props
         group.tasks[taskIdx].comments.splice(updateIdx, 1)
@@ -35,14 +31,12 @@ export class _SidePanel extends React.Component {
         const newGroup = { ...group }
         const addedUpdate = await this.props.addUpdate(update)
         newGroup.tasks[taskIdx].comments.push(addedUpdate)
-        // this.props.updateGroup(newGroup)
         this.props.updateBoard(board)
     }
 
     toggleInput = (value) => {
         this.setState((prevState) => ({ ...prevState, isInputClicked: value }))
     }
-
 
     render() {
         const { statusRef, user, task } = this.props
@@ -72,6 +66,7 @@ export class _SidePanel extends React.Component {
                             <div className="side-panel-nav-container">
                                 <div className="side-panel-nav-item">
                                     <button className="panel-nav-button"><span>Update</span></button>
+                                    <button className="panel-nav-button"><span>Activity</span></button>
                                 </div>
                             </div>
                         </div>

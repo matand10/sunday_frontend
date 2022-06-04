@@ -6,9 +6,7 @@ import React, { useState } from 'react';
 
 export const MainBoard = () => {
     const { board, updateBoard, onAddTask, updates, onRemoveGroup, updateTask, removeTask, updateGroup, updateTaskDate } = useOutletContext()
-
     const [boardUpdate, setBoardUpdate] = useState(board)
-    // const [groups, setGroups] = useState(board.groups)
 
     if (!board) return <h1>Loading...</h1>
     if (!board.groups) return <h1>Loading...</h1>
@@ -19,17 +17,14 @@ export const MainBoard = () => {
         newGroups.splice(result.destination.index, 0, removed);
         let newBoard = { ...board }
         newBoard.groups = newGroups
-        // setGroupUpdate(newBoard)
-        console.log('main', newBoard);
         setBoardUpdate(newBoard)
         updateBoard(newBoard)
-        // setGroups(newGroups)
     };
 
     return <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="list">
             {(provided) => (
-                <div className="group-main-container" {...provided.droppableProps} ref={provided.innerRef}>
+                <div className="group-main-container" ref={provided.innerRef}>
 
                     {board.groups.map((group, idx) => {
                         return <Draggable draggableId={group.id.toString()} key={group.id} index={idx}>

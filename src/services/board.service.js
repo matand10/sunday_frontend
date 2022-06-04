@@ -1,16 +1,12 @@
-import { storageService } from './async-storage.service'
 import { utilService } from './util.service'
 import { httpService } from './http.service'
-
-const STORAGE_KEY = 'group_db'
-
+import { userService } from './user.service'
 
 export const boardService = {
     query,
     getById,
     save,
     remove,
-    // getEmptyBoard,
     filterBoard,
     taskUpdate,
     groupUpdate,
@@ -21,15 +17,13 @@ export const boardService = {
     groupHeadSort,
     changeTaskPosition,
     isIdOk,
+    documentActivities,
+    changeColTitle
 }
 
 async function query(filterBy = {}) {
     try {
-        // const res = await storageService.get(STORAGE_KEY)
-        // const res = await storageService.query(STORAGE_KEY)
-        // if (!res.length) res = getEmptyBoard()
-        const boards = await httpService.get('board', { params: { filterBy } })
-        return boards
+        return await httpService.get('board', { params: { filterBy } })
     } catch (err) {
         console.log('err', err)
     }
@@ -186,6 +180,17 @@ function getLabels() {
     ]
 }
 
+function changeColTitle(colIdx, value, board) {
+    let newBoard = { ...board }
+    newBoard.columns[colIdx].title = value
+    board.groups.forEach((group, gIdx) => {
+        group.tasks.forEach((task, tIdx) => {
+            newBoard.groups[gIdx].tasks[tIdx].columns[colIdx].title = value
+        })
+    })
+    return newBoard
+}
+
 
 function makeBoard(user) {
     return {
@@ -195,18 +200,21 @@ function makeBoard(user) {
         members: [user],
         columns: [
             {
+                id: 'col1',
                 title: 'Person',
                 importance: 0,
                 value: [],
                 type: 'person'
             },
             {
+                id: 'col2',
                 title: 'Status',
                 importance: 1,
                 value: utilService.getLabel(''),
                 type: 'status'
             },
             {
+                id: 'col3',
                 title: 'Date',
                 importance: 2,
                 value: new Date(),
@@ -235,18 +243,21 @@ function makeBoard(user) {
                         archivedAt: 1589983468418,
                         columns: [
                             {
+                                id: 'col1',
                                 title: 'Person',
                                 importance: 0,
                                 value: [],
                                 type: 'person'
                             },
                             {
+                                id: 'col2',
                                 title: 'Status',
                                 importance: 1,
                                 value: utilService.getLabel(''),
                                 type: 'status'
                             },
                             {
+                                id: 'col3',
                                 title: 'Date',
                                 importance: 2,
                                 value: 1589983468418,
@@ -261,6 +272,7 @@ function makeBoard(user) {
                         archivedAt: 1589983468418,
                         columns: [
                             {
+                                id: 'col1',
                                 title: 'Person',
                                 importance: 0,
                                 value: [
@@ -278,12 +290,14 @@ function makeBoard(user) {
                                 type: 'person'
                             },
                             {
+                                id: 'col2',
                                 title: 'Status',
                                 importance: 1,
                                 value: utilService.getLabel(''),
                                 type: 'status'
                             },
                             {
+                                id: 'col3',
                                 title: 'Date',
                                 importance: 2,
                                 value: 1589983468418,
@@ -305,26 +319,6 @@ function makeBoard(user) {
                     },
                     colIdx: 1
                 }],
-                // columns: [
-                //     {
-                //         title: 'Person',
-                //         importance: 0,
-                //         value: [],
-                //         type: 'person'
-                //     },
-                //     {
-                //         title: 'Status',
-                //         importance: 1,
-                //         value: utilService.getLabel(''),
-                //         type: 'status'
-                //     },
-                //     {
-                //         title: 'Date',
-                //         importance: 2,
-                //         value: new Date(),
-                //         type: 'date'
-                //     }
-                // ],
                 tasks: [
                     {
                         id: utilService.makeId(),
@@ -332,18 +326,22 @@ function makeBoard(user) {
                         archivedAt: 1589983468418,
                         columns: [
                             {
+                                id: 'col1',
                                 title: 'Person',
                                 importance: 0,
                                 value: [],
                                 type: 'person'
                             },
                             {
+                                id: 'col2',
                                 title: 'Status',
                                 importance: 1,
                                 value: utilService.getLabel(''),
                                 type: 'status'
                             },
                             {
+                                id: 'col3',
+                                id: utilService.makeId(),
                                 title: 'Date',
                                 importance: 2,
                                 value: 1589983468418,
@@ -357,18 +355,22 @@ function makeBoard(user) {
                         archivedAt: 1589983468418,
                         columns: [
                             {
+                                id: 'col1',
                                 title: 'Person',
                                 importance: 0,
                                 value: [],
                                 type: 'person'
                             },
                             {
+                                id: 'col2',
                                 title: 'Status',
                                 importance: 1,
                                 value: utilService.getLabel(''),
                                 type: 'status'
                             },
                             {
+                                id: 'col3',
+                                id: utilService.makeId(),
                                 title: 'Date',
                                 importance: 2,
                                 value: 1589983468418,
@@ -589,31 +591,27 @@ function makeBoard(user) {
 // }
 
 
-// function documentActivity(board) {
-//     // type should be, group, task
-    
-//     return {
-//         id: utilService.makeId(),
-//         txt: '',
-//         createdAt: Date.now(),
-//         byMember: {
-
-//         },
-//     }
-// }
-
-
-// {
-//     id: "a101",
-//     txt: "Changed Color",
-//     createdAt: 154514,
-//     byMember: {
-//         _id: "u101",
-//         fullname: "Abi Abambi",
-//         imgUrl: "http://some-img"
-//     },
-//     task: {
-//         id: "c101",
-//         title: "Replace Logo"
-//     }
-// }
+function documentActivities(column, previewColVal) {
+    const user = userService.getLoggedinUser()
+    let msg
+    switch (column.type) {
+        case 'person':
+            msg = `Added ${column.value[column.value.length - 1].fullname}`
+            break;
+        case 'status':
+            msg = `Changed status from ${previewColVal.title} to ${column.value.title}`
+            break
+        case 'date':
+            msg = `Changed date from ${previewColVal} to ${column.value}`
+            break
+        case 'text':
+            msg = `Changed text from ${previewColVal} to ${column.value}`
+            break
+    }
+    return {
+        id: utilService.makeId(),
+        msg,
+        createdAt: Date.now(),
+        byMember: { ...user },
+    }
+}

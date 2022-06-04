@@ -1,5 +1,4 @@
 import { Menu } from '../hooks/right-click-menu'
-// import { socketService, SOCKET_EMIT_SEND_MSG } from '../services/socket.service.js'
 import { RightClickMenu } from '../modal/right-click-menu'
 import React, { useRef, useEffect, useState } from 'react';
 import { FaChevronCircleDown, FaCaretDown, FaSort } from 'react-icons/fa'
@@ -16,6 +15,7 @@ import { ColAddMenu } from "../modal/col-add-menu";
 import { MainGroupInput } from "./main-group-menu";
 import { useEffectUpdate } from "../hooks/useEffectUpdate";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { MdDragIndicator } from 'react-icons/md'
 
 
 export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates, updateStatistics, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup, updateTaskDate }) => {
@@ -30,7 +30,8 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
     const [isReversedSort, setIsReversedSort] = useState(false)
     const [colActions, setColActions] = useState({ colIdx: '', groupId: '' })
     const [isAddCol, setIsAddCol] = useState(false)
-
+    const [isTitleChange, setIsTitleChange] = useState(false)
+    const [colTitle, setColTitle] = useState('')
 
     const { x, y, handleContextMenu } = Menu()
     let menuRef = useRef()
@@ -116,6 +117,18 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
         updateGroup(newGroup)
     }
 
+    const changeColTitle = (ev, colIdx) => {
+        ev.preventDefault()
+        const newBoard = boardService.changeColTitle(colIdx, colTitle, board)
+
+        updateBoard(board)
+        setIsTitleChange(false)
+    }
+
+    const handleColTitleChange = ({ target }) => {
+        setColTitle(target.value)
+    }
+
     let columns = board.columns
     // let columns = group.columns
     // columns = columns.sort((a, b) => a.importance - b.importance)
@@ -132,10 +145,14 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
         updateGroup(newGroup)
     };
 
+
+
+    // console.log('group list', columns);
+
     return <section ref={provided.innerRef}
         snapshot={snapshot}
         {...provided.draggableProps}
-        {...provided.dragHandleProps} className="board-content-wrapper">
+        className="board-content-wrapper">
         <div className="group-header-wrapper">
             <div className="group-header-component">
                 <div className="group-header-title">
@@ -144,21 +161,36 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
                     </div>
                     <div>{isClickGroup && <GroupMenu menuRef={menuRef} group={group} onRemoveGroup={onRemoveGroup} />}</div>
                     <div className="column-header column-header-title">
+                        <div {...provided.dragHandleProps} className="drag-handle-group"><MdDragIndicator /></div>
                         <h3 style={{ color: group.style.color }} contentEditable={true} suppressContentEditableWarning={true} onBlur={(ev) => changeGroupTitle(ev)}>{group.title}</h3>
                         <div onClick={() => onHeaderSort('title')} className="sort-header-menu hide-sort"><FaSort /></div>
                     </div>
                 </div>
-
                 <div className="flex coulmn-main-header-container">
                     <div className="group-header-items">
                         {columns.map((col, idx) => {
+                            console.log('columns', col.title);
                             return <div key={idx} className="column-header">
                                 <div onClick={() => onHeaderSort(col.type, idx)} className="sort-header-menu hide-sort">
                                     <FaSort />
                                 </div>
-                                <span className="editable-column-header">
-                                    <EditableColumn colIdx={idx} group={group} updateGroup={updateGroup} text={col.title} />
-                                </span>
+                                {/* <span className="editable-column-header"> */}
+                                {/* <EditableColumn colIdx={idx} board={board} updateBoard={updateBoard} text={col.title} />
+                                    {col.title} */}
+                                {isTitleChange ?
+                                    <div className="header-editable-container">
+                                        <form onSubmit={(event) => changeColTitle(event, idx)} className="header-editable-input">
+                                            <input type="text" name="title" defaultValue={col.title} onChange={handleColTitleChange} />
+                                            {/* <input type="text" name="title" defaultValue={col.title} onChange={handleColTitleChange} ref={menuRef} /> */}
+                                        </form>
+                                    </div>
+                                    :
+                                    // <div className="board-title-content">
+                                    <div onClick={() => setIsTitleChange(true)}>
+                                        {col.title}
+                                    </div>
+                                }
+                                {/* </span> */}
                                 <div className="col-arrow-container">
                                     <div className="col-arrow-div" onClick={() => onOpenColActions(idx, group.id)} > <FaCaretDown className="col-arrow" /></div>
                                 </div>
@@ -175,7 +207,6 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
                 </div>
             </div>
 
-
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="list">
                     {(provided) => (
@@ -183,7 +214,6 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
                             {group.tasks.map((task, idx) => {
                                 return <Draggable draggableId={task.id.toString()} key={task.id} index={idx}>
                                     {(provided, snapshot) => (
-
                                         <TasksList provided={provided}
                                             snapshot={snapshot} taskIdx={idx} boardId={boardId} task={task} /*menuRef={menuRef}*/ backgroundColor={group.style.color}
                                             updateGroup={updateGroup} updates={updates} updateBoard={updateBoard} onUpdateGroupBar={onUpdateGroupBar} onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate} />
@@ -195,11 +225,7 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
                 </Droppable>
             </DragDropContext>
 
-
             <MainGroupInput onAddTask={onAddTask} group={group} task={task} />
-
-
-
             <div className="columns-footer-component">
                 <div className="group-footer-container">
                     {/* <div className="group-header-title">
@@ -228,7 +254,6 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
                     </div>
                 </div>
             </div>
-
             <RightClickMenu x={x} y={y} showMenu={showMenu} />
         </div>
     </section>

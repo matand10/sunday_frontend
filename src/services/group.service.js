@@ -175,13 +175,15 @@ function getEmptyGroup(board) {
 //     }
 // }
 
-function groupColUpdate(inputValue, colIdx, group) {
-    let newGroup = group
-    newGroup.columns[colIdx].title = inputValue
-    group.tasks.forEach((task, idx) => {
-        newGroup.tasks[idx].columns[colIdx].title = inputValue
+function groupColUpdate(inputValue, colIdx, board) {
+    let newBoard = board
+    newBoard.columns[colIdx].title = inputValue
+    board.groups.forEach((group, gIdx) => {
+        group.tasks.forEach((task, tIdx) => {
+            newBoard.groups[gIdx].tasks[tIdx].columns[colIdx].title = inputValue
+        })
     })
-    return newGroup
+    return newBoard
 }
 
 function _getColumn(value) {
@@ -271,6 +273,7 @@ function getProgress(group) {
 
 function groupColRemove(colIdx, board) {
     let newBoard = { ...board }
+    newBoard.columns.splice(colIdx, 1)
     board.groups.forEach((group, gIdx) => {
         console.log(board.columns[colIdx].type);
         // if (board.columns[colIdx].type === 'status') {
@@ -284,6 +287,5 @@ function groupColRemove(colIdx, board) {
         })
         newBoard.groups[gIdx].progress = getProgress(newBoard.groups[gIdx])
     })
-    newBoard.columns.splice(colIdx, 1)
     return newBoard
 }

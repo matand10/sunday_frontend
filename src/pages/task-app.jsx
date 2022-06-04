@@ -19,7 +19,6 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 
 export const TasksApp = () => {
 
-
     const [board, setBoard] = useState(null)
     const [isKanban, setIsKanban] = useState(false)
     const { boards } = useSelector((storeState) => storeState.boardModule)
@@ -31,19 +30,16 @@ export const TasksApp = () => {
     const { boardId } = useParams()
 
     useEffect(() => {
-        console.log('load boards');
         dispatch(loadUsers())
         dispatch(loadBoards(filterBy))
         socketService.on('newBoardUpdate', onBoardUpdate)
         socketService.emit('registerToBoardUpdates', boardId)
-
         return () => {
             socketService.off('newBoardUpdate', onBoardUpdate)
         }
     }, [])
 
     useEffectUpdate(() => {
-        console.log(boards);
         dispatch(loadUpdates())
         loadBoard()
     }, [boards])
@@ -54,17 +50,17 @@ export const TasksApp = () => {
 
     const loadBoard = async () => {
         console.log('render')
-
+        const newBoards = await boardService.query(filterBy)
+        console.log(newBoards);
         let currBoard
-        if (boards.length === 0) onAddBoard()
-        else if (boardId && boardService.isIdOk(boardId, boards)) currBoard = boardService.isIdOk(boardId, boards)
-        else currBoard = boards[0]
+        if (newBoards.length === 0) onAddBoard()
+        else if (boardId && boardService.isIdOk(boardId, newBoards)) currBoard = { ...boardService.isIdOk(boardId, newBoards) }
+        else currBoard = { ...newBoards[0] }
         if (currBoard) {
             if (isKanban) navigate(`/board/${currBoard._id}/kanban`)
             else navigate(`/board/${currBoard._id}`)
         } else return navigate('/board')
         const filteredBoard = boardService.filterBoard(currBoard, filterBy)
-        console.log('load', filteredBoard);
         setBoard(filteredBoard)
     }
 
@@ -138,7 +134,6 @@ export const TasksApp = () => {
         const group = { ...newBoard.groups[groupIdx] }
         const progressBars = groupService.getProgress(group)
         newBoard.groups[groupIdx].progress = progressBars
-        console.log(newBoard);
         showSuccessMsg('Task removed successfully!')
         updateBoard(newBoard)
     }
