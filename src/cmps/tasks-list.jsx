@@ -18,6 +18,7 @@ import { MemberCol } from '../cmps/member-col'
 import { StatCol } from '../cmps/status-col'
 import { DateCol } from '../cmps/date-col'
 import { TextCol } from '../cmps/text-col'
+import { TimelineCol } from '../cmps/timeline-col'
 
 
 
@@ -130,7 +131,7 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
             </div>
         </div >
         {statusActive.value && <StatusModal setStatusActive={setStatusActive} updateGroup={updateGroup} onUpdateGroupBar={onUpdateGroupBar} specialUpdateTask={specialUpdateTask} statusActive={statusActive} statusRef={statusRef} modalPos={modalPos} />}
-        {modal.boardId && <SidePanel board={board} updateGroup={updateGroup} updateBoard={updateBoard} group={group} task={task} taskIdx={taskIdx} updateGroup={updateGroup} statusRef={statusRef} modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}
+        {modal.boardId && <SidePanel board={board} updateGroup={updateGroup} updateBoard={updateBoard} group={group} task={task} taskIdx={taskIdx} statusRef={statusRef} modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}
     </section >
 }
 
@@ -147,5 +148,7 @@ function DynamicCmp({ col, board, task, group, toggleStatus, idx, colIdx, setInv
             return <DateCol col={col} idx={idx} specialUpdateTask={specialUpdateTask} />
         case 'text':
             return <TextCol col={col} idx={idx} specialUpdateTask={specialUpdateTask} />
+        case 'timeline':
+            return <TimelineCol />
     }
 }

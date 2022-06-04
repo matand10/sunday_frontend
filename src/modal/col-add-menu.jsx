@@ -20,6 +20,10 @@ export const ColAddMenu = ({ menuRef, onNewCol }) => {
                         <div className="task-icon"><BsTrash /></div>
                         <div className="task-title">Date</div>
                     </div>
+                    <div className="task-content-wrapper" onClick={() => onNewCol('timeline')}>
+                        <div className="task-icon"><BsTrash /></div>
+                        <div className="task-title">Timeline</div>
+                    </div>
                 </div>
             </div>
         </section>

@@ -171,28 +171,21 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
                 <div className="flex coulmn-main-header-container">
                     <div className="group-header-items">
                         {columns.map((col, idx) => {
-                            console.log('columns', col.title);
                             return <div key={idx} className="column-header">
                                 <div onClick={() => onHeaderSort(col.type, idx)} className="sort-header-menu hide-sort">
                                     <FaSort />
                                 </div>
-                                {/* <span className="editable-column-header"> */}
-                                {/* <EditableColumn colIdx={idx} board={board} updateBoard={updateBoard} text={col.title} />
-                                    {col.title} */}
                                 {isTitleChange ?
                                     <div className="header-editable-container">
                                         <form onSubmit={(event) => changeColTitle(event, idx)} className="header-editable-input">
                                             <input type="text" name="title" defaultValue={col.title} onChange={handleColTitleChange} />
-                                            {/* <input type="text" name="title" defaultValue={col.title} onChange={handleColTitleChange} ref={menuRef} /> */}
                                         </form>
                                     </div>
                                     :
-                                    // <div className="board-title-content">
                                     <div onClick={() => setIsTitleChange(true)}>
                                         {col.title}
                                     </div>
                                 }
-                                {/* </span> */}
                                 <div className="col-arrow-container">
                                     <div className="col-arrow-div" onClick={() => onOpenColActions(idx, group.id)} > <FaCaretDown className="col-arrow" /></div>
                                 </div>
@@ -222,6 +215,7 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
                                     )}
                                 </Draggable>
                             })}
+                            {provided.placeholder}
                         </div>
                     )}
                 </Droppable>
@@ -230,11 +224,6 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
             <MainGroupInput onAddTask={onAddTask} group={group} task={task} />
             <div className="columns-footer-component">
                 <div className="group-footer-container">
-                    {/* <div className="group-header-title">
-                        <div className="group-arrow-div" style={{ color: group.style.color }}>
-                        </div>
-                    </div> */}
-
                     <div className="group-footer-items">
                         {columns && columns.map((col, idx) => {
                             if (col.type === 'status') return <div key={idx} className="column-footer">
@@ -243,14 +232,6 @@ export const GroupList = ({ snapshot, provided, updateTask, updateBoard, updates
                             else return <div key={idx}></div>
                         })}
                     </div>
-                    {/* <div className="group-footer-items">
-                        {group.columns && group.columns.map((col, idx) => {
-                            if (col.type === 'status') return <div key={idx} className="column-footer">
-                                <ProgressBar group={group} colIdx={idx} />
-                            </div>
-                            else return <div key={idx}></div>
-                        })}
-                    </div> */}
                     <div className="add-colomn-column-button-container">
                         {/* <button className="add-colomn-column-button" onClick={() => onNewCol()}><span>+</span></button> */}
                     </div>
