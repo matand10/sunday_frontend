@@ -1,12 +1,25 @@
-import { useState } from "react"
+import { useRef, useState, useEffect } from "react"
 
 export const TextCol = ({ col, idx, specialUpdateTask }) => {
     const [txt, setTxt] = useState('')
     const [editText, setEditText] = useState(false)
-
+    const menuRef = useRef()
     const handleChange = ({ target }) => {
         const value = target.value
         setTxt(value)
+    }
+
+    useEffect(() => {
+        document.addEventListener("mousedown", eventListener)
+        return () => {
+            document.removeEventListener("mousedown", eventListener)
+        }
+    }, [])
+
+    const eventListener = (ev) => {
+        if (!menuRef.current?.contains(ev.target)) {
+            setEditText(false)
+        }
     }
 
     const onChangeText = (ev) => {
@@ -17,9 +30,9 @@ export const TextCol = ({ col, idx, specialUpdateTask }) => {
     }
 
     if (editText) {
-        return <div className="title-update-input">
+        return <div className="col-text-container" ref={menuRef}>
             <form onSubmit={onChangeText}>
-                <input type="text" value={txt} onChange={handleChange} onClick={(event) => (event.stopPropagation())} />
+                <input className="col-text-input" type="text" value={col.value} onChange={handleChange} onClick={(event) => (event.stopPropagation())} />
             </form>
         </div>
     } else return <div onClick={() => setEditText(true)} className="flex-row-items">{col.value}</div>

@@ -180,10 +180,10 @@ function getProgress(group) {
 }
 
 function groupColRemove(colIdx, board) {
+    console.log(board)
     let newBoard = { ...board }
     newBoard.columns.splice(colIdx, 1)
     board.groups.forEach((group, gIdx) => {
-        console.log(board.columns[colIdx].type);
         // if (board.columns[colIdx].type === 'status') {
         //     console.log('hey');
         //     const statCol = group.progress.findIndex(pro => pro.colIdx === colIdx)

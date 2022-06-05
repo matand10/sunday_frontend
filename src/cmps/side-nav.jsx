@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import logo from "../assets/img/app-logo/side-logo.png"
 import workspaceImg from "../assets/img/side-nav/surface-workspace-logo.png"
 import productSwtich from "../assets/img/side-nav/product-switcher-logo.png"
 import userImg from "../assets/img/user-invite/userImg.png"
@@ -36,7 +37,7 @@ export const SideNav = () => {
         <div className="side-nav-upper">
             <div className="icon-wrapper">
                 <div className="surface-homepage-button">
-                    <Link className="surface-homepage-navigation-button" to="/board"><img className="surface-item-image" src="https://cdn.monday.com/images/logos/monday_logo_icon.png" alt="Logo-img" /></Link>
+                    <Link className="surface-homepage-navigation-button" to="/board"><img className="surface-item-image" src={logo} alt="Logo-img" /></Link>
                 </div>
             </div>
             <div className="surfice-divider"></div>

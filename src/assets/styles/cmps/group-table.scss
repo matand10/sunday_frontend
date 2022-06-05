@@ -3,7 +3,6 @@
 }
 
 .board-content-wrapper {
-    // padding: 18px 20px 0 16px;
     background-color: $primary-background-color;
     border-radius: 8px;
     color: $table-text-main-color;
@@ -11,8 +10,7 @@
     margin-inline-end: 10px;
 
     & form {
-        height: 35px;
-        padding: 0 20px;
+
 
         & input {
             width: 100%;
@@ -173,6 +171,7 @@
 
 .task-column-rows {
     width: 100%;
+    flex: 1;
 
 }
 
@@ -193,15 +192,17 @@
 .task-title-cell-component {
     display: flex;
     align-items: center;
-    flex-basis: 400px;
     position: relative;
-    min-width: 400px;
+    flex: 2;
 }
 
 .task-title-cell {
     display: flex;
     width: 100%;
     justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    padding-inline-end: 10px;
 }
 
 .task-title-content {
@@ -522,6 +523,8 @@
 .main-group-input {
     display: flex;
     position: relative;
+    height: 35px;
+    padding: 0 20px;
 }
 
 .group-input-indicator {
@@ -548,4 +551,30 @@
     border-inline-end: 1px solid #d0d4e4;
     border-bottom: 1px solid #d0d4e4;
     padding-left: 10px;
+}
+
+.title-update-input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-inline-end: 10px;
+
+    & .group-title-form {
+        width: 70%;
+    }
+}
+
+.col-text-container {
+    background-color: #1976d2;
+    display: flex;
+    margin: 0;
+
+    & .col-text-input {
+        padding-inline-start: em(5px);
+
+        &:focus {
+            border: 1px solid #1976d2;
+        }
+    }
 }

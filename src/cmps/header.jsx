@@ -1,18 +1,20 @@
 import { Link } from "react-router-dom"
-import MainLogo from '../assets/img/app-logo/logo.png'
+import sunday from '../assets/img/app-logo/Sunday.png'
 
 
 
-export const Header = ({ gusetMode }) => {
+export const Header = ({ guestMode }) => {
     return <section className="main-header">
         <div className="main-header-container">
             <div className="left-header">
-                <div className="logo">Logo</div>
+                <div className="logo">
+                    <img src={sunday} alt="main-logo" />
+                </div>
             </div>
             <div className="right-header">
                 <nav className="main-header-nav">
                     <ul className="main-nav clean-list">
-                        <li className="header-list"><button onClick={gusetMode} className="header-list-link" >Guest</button></li>
+                        <li className="header-list"><button onClick={guestMode} className="header-list-link" >Guest</button></li>
                         <li className="header-list"><Link className="header-list-link" to="/login">Log in</Link></li>
                         <li className="header-list-signup"><button className="main-signup-button" ><span>Get Started</span></button></li>
                     </ul>

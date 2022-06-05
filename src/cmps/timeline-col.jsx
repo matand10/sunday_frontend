@@ -45,8 +45,8 @@ export const TimelineCol = ({ task, group, updateTask, idx }) => {
     return <section className="timeline">
         <div onClick={() => setIsOpen(true)} className="timeline-bar-container" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
             <div className="timeline-bar-wrapper">
-                <div className="timeline-bar" style={{ backgroundcolor: 'red', width: `${colInfo.precent}` + '%' }}></div>
-                <div className="days-indicate">{hover ? colInfo.daysToGo + ' d' : ''}</div>
+                <div className="timeline-bar" style={{ backgroundcolor: 'red', width: `${colInfo.precent || 0}` + '%' }}></div>
+                <div className="days-indicate">{hover ? (colInfo.daysToGo || '') + ' d' : ''}</div>
             </div>
         </div>
 

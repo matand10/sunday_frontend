@@ -1,14 +1,12 @@
+import React from "react"
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { BsGraphUp, BsTrash } from "react-icons/bs";
-import { useState } from "react"
-import React from "react"
 
 export const DsMenu = ({ isMenuOpen, menuRef }) => {
 
 
 
-
-    return <React.Fragment>
+    return <>
         {isMenuOpen && <section ref={menuRef} className="ds-main-menu-inner">
             <div className="ds-main-section">
                 <div className="ds-menu-item">
@@ -27,5 +25,5 @@ export const DsMenu = ({ isMenuOpen, menuRef }) => {
                 </div>
             </div>
         </section>}
-    </React.Fragment>
+    </>
 }

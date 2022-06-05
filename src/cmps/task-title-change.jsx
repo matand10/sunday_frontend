@@ -34,9 +34,12 @@ export class TaskTitleChange extends React.Component {
         return <div className="task-title-content" >
             {(updateIsClick.boardId && updateIsClick.groupId === group.id && updateIsClick.task.id === task.id) ?
                 <div className="title-update-input">
-                    <form onSubmit={this.onChangeTitle}>
+                    <form onSubmit={this.onChangeTitle} className="group-title-form">
                         <input value={title} type="text" onChange={this.handleChange} name="title" onClick={(event) => (event.stopPropagation())} ref={statusRef} />
                     </form>
+                    <div className="activity-main-container">
+                        <BiMessageRounded className="activities-icon" onClick={onOpenModal} style={{ color: task.comments?.length ? '#1976d2' : '' }} />
+                    </div>
                 </div>
                 :
                 <div className="task-title-cell">
