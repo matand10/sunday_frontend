@@ -14,7 +14,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { Outlet } from 'react-router-dom'
 import { useEffectUpdate } from "../hooks/useEffectUpdate"
 import { groupService } from "../services/group.service"
-
+import { TimelineCol } from '../cmps/timeline-col'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 
 export const TasksApp = () => {
@@ -157,6 +157,7 @@ export const TasksApp = () => {
             <div className="main-app flex-column">
                 <BoardHeader setIsKanban={setIsKanban} updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
                 <Outlet context={{ board, updates, updateBoard, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
+
             </div>
         </div>
     </section>

@@ -18,6 +18,7 @@ import { MemberCol } from '../cmps/member-col'
 import { StatCol } from '../cmps/status-col'
 import { DateCol } from '../cmps/date-col'
 import { TextCol } from '../cmps/text-col'
+import { TimelineCol } from '../cmps/timeline-col'
 
 
 
@@ -146,5 +147,7 @@ function DynamicCmp({ col, board, task, group, toggleStatus, idx, colIdx, setInv
             return <DateCol col={col} idx={idx} specialUpdateTask={specialUpdateTask} />
         case 'text':
             return <TextCol col={col} idx={idx} specialUpdateTask={specialUpdateTask} />
+        case 'timeline':
+            return <TimelineCol />
     }
 }

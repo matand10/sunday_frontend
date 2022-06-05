@@ -240,11 +240,6 @@ export const GroupList = ({ snapshot, provided, onDragColEnd, updateTask, update
             <MainGroupInput onAddTask={onAddTask} group={group} task={task} />
             <div className="columns-footer-component">
                 <div className="group-footer-container">
-                    {/* <div className="group-header-title">
-                        <div className="group-arrow-div" style={{ color: group.style.color }}>
-                        </div>
-                    </div> */}
-
                     <div className="group-footer-items">
                         {columns && columns.map((col, idx) => {
                             if (col.type === 'status') return <div key={idx} className="column-footer">
@@ -253,14 +248,6 @@ export const GroupList = ({ snapshot, provided, onDragColEnd, updateTask, update
                             else return <div key={idx}></div>
                         })}
                     </div>
-                    {/* <div className="group-footer-items">
-                        {group.columns && group.columns.map((col, idx) => {
-                            if (col.type === 'status') return <div key={idx} className="column-footer">
-                                <ProgressBar group={group} colIdx={idx} />
-                            </div>
-                            else return <div key={idx}></div>
-                        })}
-                    </div> */}
                     <div className="add-colomn-column-button-container">
                         {/* <button className="add-colomn-column-button" onClick={() => onNewCol()}><span>+</span></button> */}
                     </div>

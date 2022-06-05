@@ -5,7 +5,7 @@ import { GroupKanbanMenu } from './kanban-group-modal'
 import { StatusModal } from './status-modal'
 
 
-export function TaskDetails({ board, updateStatus, taskName, kanban, item, statusColor, persons, groupName, groupColor, onOpenDetails, updateTaskName, taskId, groupId, updateBoard, onUpdatTaskName, modalPos, setModalPos }) {
+export function TaskDetails({ board, updateStatus, kanban, item, groupColor, onOpenDetails, updateTaskName, modalPos, setModalPos, onChangeGroup }) {
     const [isTaskClick, setIsTaskClick] = useState(false)
     const [groupMenuOpen, setGroupMenuOpen] = useState(false)
     const [statusActive, setStatusActive] = useState(false)
@@ -65,6 +65,7 @@ export function TaskDetails({ board, updateStatus, taskName, kanban, item, statu
                         <div style={{ backgroundColor: groupColor }} className="group-cell-color"></div>
                         <div className="group-name">{item.groupName}</div>
                     </div>
+                    {groupMenuOpen && <GroupKanbanMenu board={board} taskId={item.taskId} onChangeGroup={onChangeGroup} />}
                 </div>
                 <div className="persons-details-container">
                     <div className="persons-cell">
@@ -98,8 +99,6 @@ export function TaskDetails({ board, updateStatus, taskName, kanban, item, statu
                 </div>
             </div>
         </div>
-        {groupMenuOpen && <GroupKanbanMenu board={board} groupMenuRef={detailsRef} taskId={item.taskId} currGroupId={item.groupId} updateBoard={updateBoard}
-            onUpdatTaskName={onUpdatTaskName} modalPos={modalPos} setGroupMenuOpen={setGroupMenuOpen} />}
         {statusActive && <StatusModal setStatusActive={setStatusActive} specialUpdateTask={specialUpdateTask} statusActive={statusActive} statusRef={detailsRef} modalPos={modalPos} />}
     </div>
 

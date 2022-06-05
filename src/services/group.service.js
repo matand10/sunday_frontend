@@ -72,98 +72,6 @@ function getEmptyGroup(board) {
         ]
     }
 }
-// function getEmptyGroup() {
-//     return {
-//         id: utilService.makeId(),
-//         style: { color: utilService.getRandomColor() },
-//         title: 'Group Title',
-//         archivedAt: '',
-//         progress: [{
-//             value: {
-//                 'Working on it': null,
-//                 Done: null,
-//                 Stuck: null
-//             },
-//             colIdx: 1
-//         }],
-//         columns: [
-//             {
-//                 title: 'Person',
-//                 importance: 1,
-//                 value: [],
-//                 type: 'person'
-//             },
-//             {
-//                 title: 'Status',
-//                 importance: 2,
-//                 value: utilService.getLabel(''),
-//                 type: 'status'
-//             },
-//             {
-//                 title: 'Date',
-//                 importance: 3,
-//                 value: new Date(),
-//                 type: 'date'
-//             }
-//         ],
-//         tasks: [
-//             {
-//                 id: utilService.makeId(),
-//                 title: 'item 1',
-//                 comments: [],
-//                 // status: utilService.getLabel(),
-//                 archivedAt: new Date(),
-//                 columns: [
-//                     {
-//                         title: 'Person',
-//                         importance: 1,
-//                         value: [],
-//                         type: 'person'
-//                     },
-//                     {
-//                         title: 'Status',
-//                         importance: 2,
-//                         value: utilService.getLabel(''),
-//                         type: 'status'
-//                     },
-//                     {
-//                         title: 'Date',
-//                         importance: 3,
-//                         value: new Date(),
-//                         type: 'date'
-//                     }
-//                 ]
-//             },
-//             {
-//                 id: utilService.makeId(),
-//                 title: 'item 2',
-//                 comments: [],
-//                 status: utilService.getLabel(),
-//                 archivedAt: new Date(),
-//                 columns: [
-//                     {
-//                         title: 'Person',
-//                         importance: 1,
-//                         value: [],
-//                         type: 'person'
-//                     },
-//                     {
-//                         title: 'Status',
-//                         importance: 2,
-//                         value: utilService.getLabel(''),
-//                         type: 'status'
-//                     },
-//                     {
-//                         title: 'Date',
-//                         importance: 3,
-//                         value: new Date(),
-//                         type: 'date'
-//                     }
-//                 ]
-//             }
-//         ]
-//     }
-// }
 
 function groupColUpdate(inputValue, colIdx, board) {
     let newBoard = board
@@ -206,6 +114,12 @@ function _getColumn(value) {
                 value: new Date(),
                 type: 'date'
             }
+        case 'timeline':
+            return {
+                title: 'Timeline',
+                value: [],
+                type: 'timeline'
+            }
     }
 }
 
@@ -227,26 +141,9 @@ function groupColAdd(board, value) {
             colIdx: board.columns.length - 1
         })
     })
+    console.log(newBoard)
     return newBoard
 }
-// function groupColAdd(group, value) {
-//     let newGroup = { ...group }
-//     let column = _getColumn(value)
-//     column.importance = group.columns.length
-//     newGroup.columns.push(column)
-//     group.tasks.forEach((task, idx) => {
-//         newGroup.tasks[idx].columns.push({ ...column })
-//     })
-//     newGroup.progress.push({
-//         value: {
-//             'Working on it': null,
-//             Done: null,
-//             Stuck: null
-//         },
-//         colIdx: group.columns.length-1
-//     })
-//     return newGroup
-// }
 
 function getProgress(group) {
     console.log(group);
