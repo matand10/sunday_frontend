@@ -24,11 +24,10 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     const [unAssignedUsers, setUnAssignedUsers] = useState([])
     const [titleBoard, setTitleBoard] = useState('')
     const [isTitleBoardClick, setIsTitleBoardClick] = useState(false)
-    const dispatch = useDispatch()
-    // const navigate=useNavigate()
     let menuRef = useRef()
     const firstFilterUseEffectRef = useRef()
     firstFilterUseEffectRef.current = true
+    const dispatch = useDispatch()
 
     useEffect(() => {
         document.addEventListener("mousedown", eventListeners)
@@ -88,8 +87,9 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     }
 
     const onSetFilter = (label) => {
+        console.log(label);
         const newFilterBy = { ...filterBy, sortBy: label }
-        // dispatch(setFilter(newFilterBy))
+        dispatch(setFilter(newFilterBy))
     }
 
     const changeBoardDescription = (ev) => {

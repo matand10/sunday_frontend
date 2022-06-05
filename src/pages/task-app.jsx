@@ -15,6 +15,7 @@ import { Outlet } from 'react-router-dom'
 import { useEffectUpdate } from "../hooks/useEffectUpdate"
 import { groupService } from "../services/group.service"
 import { TimelineCol } from '../cmps/timeline-col'
+import loader from '../assets/img/loader/loader.gif'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 
 export const TasksApp = () => {
@@ -23,6 +24,7 @@ export const TasksApp = () => {
     const [isKanban, setIsKanban] = useState(false)
     const { boards } = useSelector((storeState) => storeState.boardModule)
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
+    const [frontFilter, setFrontFilter] = useState({})
     const { users, user } = useSelector((storeState) => storeState.userModule)
     const { updates } = useSelector((storeState) => storeState.userModule)
     const dispatch = useDispatch()
@@ -44,9 +46,9 @@ export const TasksApp = () => {
         loadBoard()
     }, [boards])
 
-    const onBoardUpdate = (board) => {
-        setBoard(board)
-    }
+    useEffectUpdate(() => {
+        loadBoard()
+    }, [frontFilter])
 
     const loadBoard = async () => {
         console.log('render')
@@ -59,8 +61,12 @@ export const TasksApp = () => {
             if (isKanban) navigate(`/board/${currBoard._id}/kanban`)
             else navigate(`/board/${currBoard._id}`)
         } else return navigate('/board')
-        const filteredBoard = boardService.filterBoard(currBoard, filterBy)
+        const filteredBoard = boardService.filterBoard(currBoard, frontFilter)
         setBoard(filteredBoard)
+    }
+
+    const onBoardUpdate = (board) => {
+        setBoard(board)
     }
 
     const onAddTask = async (task, groupId) => {
@@ -112,7 +118,7 @@ export const TasksApp = () => {
 
 
     const onFilter = (filterBy) => {
-        // dispatch(setFilter(filterBy))
+        setFrontFilter(filterBy)
     }
 
     const openBoard = (board) => {
@@ -126,7 +132,7 @@ export const TasksApp = () => {
         const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(task => task.id === taskId)
         newBoard.groups[groupIdx].tasks.splice(taskIdx, 1)
         let statusColIdxs = []
-        newBoard.groups[groupIdx].columns.forEach((col, idx) => {
+        newBoard.columns.forEach((col, idx) => {
             if (col.type === 'status') statusColIdxs.push(idx)
         })
         const group = { ...newBoard.groups[groupIdx] }
@@ -146,7 +152,7 @@ export const TasksApp = () => {
         navigate(`/board/${board._id}`)
     }
 
-    if (!boards.length) return <h1>Loading...</h1>
+    if (!boards.length || !board) return <div className="loader-container"><img src={loader} className="loader" /></div>
     return <section className="task-main-container">
         <div className="board-container-left">
             <SideNav />
@@ -157,7 +163,6 @@ export const TasksApp = () => {
             <div className="main-app flex-column">
                 <BoardHeader setIsKanban={setIsKanban} updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
                 <Outlet context={{ board, updates, updateBoard, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
-
             </div>
         </div>
     </section>

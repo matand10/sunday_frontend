@@ -16,7 +16,8 @@ export const groupService = {
     groupColUpdate,
     groupColAdd,
     groupColRemove,
-    getProgress
+    getProgress,
+    getColors
 }
 
 // async function query() {
@@ -196,4 +197,20 @@ function groupColRemove(colIdx, board) {
         newBoard.groups[gIdx].progress = getProgress(newBoard.groups[gIdx])
     })
     return newBoard
+}
+
+function getColors(num) {
+    let colors = []
+    for (let i = 0; i < num; i++) {
+        colors.push(_getColorPallete())
+    }
+    return colors
+}
+
+function _getColorPallete() {
+    return {
+        id: utilService.makeId(),
+        color: utilService.getRandomColor()
+    }
+
 }

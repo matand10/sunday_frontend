@@ -32,15 +32,16 @@ async function query(filterBy = {}) {
 
 function filterBoard(board, filterBy) {
     let newGroups
+    const newBoard = { ...board }
     if (filterBy.search) {
-        newGroups = board.groups.filter(group => {
-            return group.tasks = group.tasks.filter(task => {
-                const regex = new RegExp(filterBy.search, 'i')
-                return regex.test(task.title)
+        console.log('Filtering');
+        newBoard.groups.forEach((group, idx) => {
+            const tasks = group.tasks.filter(task => {
+                if (task.title.toLowerCase().includes(filterBy.search.toLowerCase())) return task
             })
+            newBoard.groups[idx].tasks = tasks
         })
-        return { ...board, groups: newGroups }
-
+        return newBoard
     } else if (filterBy.sortBy) {
         let colIdx
         newGroups = board.groups.filter(group => {
@@ -52,28 +53,25 @@ function filterBoard(board, filterBy) {
                     return group.tasks.sort((a, b) => (a.columns[colIdx].value.importance) - (b.columns[colIdx].value.importance))
                 case 'person':
                     group.tasks.forEach(task => colIdx = task.columns.findIndex(column => column.type === 'person'))
-                    return group.tasks.sort((a, b) => (a.columns[colIdx].value.length) - (b.columns[colIdx].value.length))
+                    return group.tasks.sort((a, b) => (b.columns[colIdx].value.length) - (a.columns[colIdx].value.length))
             }
         })
         return { ...board, groups: newGroups }
-    } else {
-        return board
     }
+    return board
 }
+
+
 
 async function getById(boardId) {
     try {
-        // const res = await storageService.get(STORAGE_KEY, boardId)
-        // if (!boardId) return
-        const res = await httpService.get(`board/${boardId}`)
-        return res
+        return await httpService.get(`board/${boardId}`)
     } catch (err) {
         console.log('err', err)
     }
 }
 
 async function remove(boardId) {
-    // await storageService.remove(STORAGE_KEY, boardId)
     await httpService.delete(`board/${boardId}`)
 }
 
@@ -81,11 +79,8 @@ async function save(board) {
     var savedBoard
     try {
         if (board._id) {
-            // savedBoard = await storageService.put(STORAGE_KEY, board)
             savedBoard = await httpService.put(`board/${board._id}`, board)
         } else {
-            // task.owner = userService.getLoggedinUser();
-            // savedBoard = await storageService.post(STORAGE_KEY, board)
             savedBoard = await httpService.post('board', board)
         }
         return savedBoard

@@ -1,0 +1,13 @@
+.task-arrow-modal {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 100;
+    animation: open-mini-modal .2s;
+}
+
+.task-arrow {
+    background-color: #ffffff;
+    border-radius: 4px;
+    box-shadow: 1px 1px 5px rgba($color: #000000, $alpha: 0.2);
+}

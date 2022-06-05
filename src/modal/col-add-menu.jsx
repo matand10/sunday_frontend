@@ -1,5 +1,7 @@
 import { AiOutlineUserAdd } from "react-icons/ai";
-import { BsGraphUp, BsTrash } from "react-icons/bs";
+import { BiTask } from "react-icons/bi";
+import { MdDateRange, MdPriorityHigh } from "react-icons/md";
+import { RiTimeLine } from "react-icons/ri";
 import React from "react"
 
 export const ColAddMenu = ({ menuRef, onNewCol }) => {
@@ -13,19 +15,19 @@ export const ColAddMenu = ({ menuRef, onNewCol }) => {
                         <div className="task-title">Text</div>
                     </div>
                     <div className="task-content-wrapper" onClick={() => onNewCol('status')}>
-                        <div className="task-icon"><BsTrash /></div>
+                        <div className="task-icon"><BiTask /></div>
                         <div className="task-title">Status</div>
                     </div>
                     <div className="task-content-wrapper" onClick={() => onNewCol('date')}>
-                        <div className="task-icon"><BsTrash /></div>
+                        <div className="task-icon"><MdDateRange /></div>
                         <div className="task-title">Date</div>
                     </div>
                     <div className="task-content-wrapper" onClick={() => onNewCol('timeline')}>
-                        <div className="task-icon"><BsTrash /></div>
+                        <div className="task-icon"><RiTimeLine /></div>
                         <div className="task-title">Timeline</div>
                     </div>
                     <div className="task-content-wrapper" onClick={() => onNewCol('priority')}>
-                        <div className="task-icon"><BsTrash /></div>
+                        <div className="task-icon"><MdPriorityHigh /></div>
                         <div className="task-title">Priority</div>
                     </div>
                 </div>
