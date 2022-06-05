@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import userImg from '../assets/img/user-invite/userImg.png'
 import { userService } from "../services/user.service"
+import { Avatar, AvatarGroup } from '@mui/material'
 
 export const InviteUserMenu = ({ users, updateBoard, setUnAssignedUsers, board, isInviteMenuOpen, menuRef }) => {
     const [filteredUsers, setFilteredUsers] = useState([])
@@ -33,7 +34,7 @@ export const InviteUserMenu = ({ users, updateBoard, setUnAssignedUsers, board, 
                 <div className="user-invite-menu-container">
                     {filteredUsers.map((user, idx) => {
                         return <div onClick={() => deleteUserFromInvite(user)} className="users-invitation-container" key={idx}>
-                            <div className="user-img-invite"><img src={user.userImg || userImg} /></div>
+                            <div className="user-img-invite"><Avatar key={idx} alt={user.fullname} src={user.userImg} sx={{ width: 28, height: 28 }} /></div>
                             <h4>{user.fullname}</h4>
                         </div>
                     })}

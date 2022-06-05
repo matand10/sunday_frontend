@@ -1,13 +1,19 @@
+.board-menu-container {
+    position: absolute;
+}
+
 .board-menu-actions {
     display: block;
     background-color: #ffffff;
     position: absolute;
-    right: -50%;
+    left: 100px;
+    top: 10px;
     z-index: 1000;
     border-radius: 7px;
     box-shadow: 1px 1px 5px rgba($color: #000000, $alpha: 0.2);
     width: fit-content;
     padding: 8px;
+    width: 200px;
     animation: open-mini-modal .2s;
 
     >* {

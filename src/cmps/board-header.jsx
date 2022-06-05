@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFilter } from '../store/board/board.action'
 import { NavLink } from "react-router-dom";
 import { InviteUserMenu } from '../modal/user-invite-modal'
+import { SidePanel } from '../cmps/header-activity-panel'
 
 export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, onFilter, setIsKanban }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -24,6 +25,8 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     const [unAssignedUsers, setUnAssignedUsers] = useState([])
     const [titleBoard, setTitleBoard] = useState('')
     const [isTitleBoardClick, setIsTitleBoardClick] = useState(false)
+    const [isActivityModal, setIsActivityModal] = useState(false)
+
     let menuRef = useRef()
     const firstFilterUseEffectRef = useRef()
     firstFilterUseEffectRef.current = true
@@ -125,7 +128,7 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
                         <button className="panel-button">Last Seen</button>
                         <button className="panel-button" onClick={() => toggleInviteMenu(true)}>Invite / {unAssignedUsers.length}</button>
                         <InviteUserMenu users={users} setUnAssignedUsers={setUnAssignedUsers} updateBoard={updateBoard} board={board} isInviteMenuOpen={isInviteMenuOpen} menuRef={menuRef} />
-                        <button className="panel-button">Activity</button>
+                        <button className="panel-button" onClick={() => setIsActivityModal(true)}>Activity</button>
                         <button className="panel-button board-add"><span>+</span> Add to board</button>
                         <div onClick={() => toggleMenu(true)} className="ds-menu-side-panel-header"><img src={dotsMenu} alt='dots-menu' /></div>
                     </div>
@@ -161,5 +164,7 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
         </div>
         <DsMenu isMenuOpen={isMenuOpen} menuRef={menuRef} />
         <SortMenu onSetFilter={onSetFilter} isSortMenuOpen={isSortMenuOpen} menuRef={menuRef} />
+        {isActivityModal && <SidePanel menuRef={menuRef} board={board} setIsActivityModal={setIsActivityModal} />}
+
     </div>
 }

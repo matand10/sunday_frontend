@@ -5,7 +5,7 @@ export const utilService = {
     getCurrTime,
     getLabel,
     getRandomColor,
-    getPriority
+    getPriority,
 }
 
 function makeId(length = 6) {

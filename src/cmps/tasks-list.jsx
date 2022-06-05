@@ -92,6 +92,7 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
             newGroup.progress = groupService.getProgress(newGroup)
         }
         const activity = boardService.documentActivities(col, previewCol.value, task.title)
+        newTask.activities.unshift(activity)
         board.activities.unshift(activity)
         updateGroup(newGroup)
     }
@@ -110,7 +111,7 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
                     <div className="task-arrow-container" onClick={(event) => event.stopPropagation()}>
                         <div className="task-arrow-div" onClick={(ev) => onOpenMenu(ev, { taskId: task.id, groupId: group.id, board: board })} > <FaCaretDown className="task-arrow" /></div>
                         {arrowTask.board && arrowTask.groupId === group.id && arrowTask.taskId === task.id &&
-                            <TaskMenu statusRef={statusRef} removeTask={removeTask} arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
+                            <TaskMenu statusRef={statusRef} setArrowTask={setArrowTask} setUpdateIsClick={setUpdateIsClick} task={task} board={board} removeTask={removeTask} arrowTask={arrowTask} onOpenMenu={onOpenMenu} />}
                     </div>
                     <TaskTitleChange setUpdateIsClick={setUpdateIsClick} updateTask={updateTask} updateIsClick={updateIsClick} taskIdx={taskIdx} statusRef={statusRef} task={task} group={group} onUpdateTask={onUpdateTask} onOpenModal={onOpenModal} board={board} />
                 </div>
@@ -148,7 +149,7 @@ function DynamicCmp({ col, board, task, group, toggleStatus, idx, colIdx, setInv
         case 'text':
             return <TextCol col={col} idx={idx} specialUpdateTask={specialUpdateTask} />
         case 'timeline':
-            return <TimelineCol idx={idx} task={task} group={group} updateTask={updateTask} />
+            return <TimelineCol idx={idx} task={task} group={group} updateTask={updateTask} specialUpdateTask={specialUpdateTask} />
         case 'priority':
             return <PriorityCol col={col} idx={idx} toggleStatus={toggleStatus} />
     }

@@ -35,7 +35,6 @@ export class _SidePanel extends React.Component {
         const addedUpdate = await this.props.addUpdate(update)
         console.log('addedUpdate', addedUpdate);
         newGroup.tasks[taskIdx].comments.push(addedUpdate)
-        board.comments.push(update)
         this.props.updateGroup(newGroup)
     }
 
@@ -49,20 +48,20 @@ export class _SidePanel extends React.Component {
 
 
     render() {
-        const { statusRef, user, task, board } = this.props
+        const { menuRef, user, task, board, setIsActivityModal } = this.props
         const { isModalOpen, isInputClicked, users, isUpdateOpen } = this.state
 
 
-        return <section onClick={() => this.toggleInput(false)} ref={statusRef}>
+        return <section onClick={() => this.toggleInput(false)} ref={menuRef}>
             <div className="side-panel-modal" style={{ left: isModalOpen ? '0px' : '3000px' }}>
                 <div className="modal-content">
                     <div className="side-panel-title">
                         <div className="close-action-wrapper">
-                            <span className="close-side-panel" onClick={() => this.closeModal()}>&times;</span>
+                            <span className="close-side-panel" onClick={() => setIsActivityModal(false)}>&times;</span>
                         </div>
                         <div className="side-panel-header-container">
                             <div className="side-panel-title-wrapper">
-                                <h1>{task.title}</h1>
+                                <h1>{board.title}</h1>
                             </div>
                             <div className="panel-subscribers-wrapper">
                                 <AvatarGroup>
@@ -78,19 +77,16 @@ export class _SidePanel extends React.Component {
                         <div className="side-panel-nav-wrapper">
                             <div className="side-panel-nav-container">
                                 <div className="side-panel-nav-item">
-                                    <button className={`panel-nav-button ${isUpdateOpen ? 'active' : ''}`} onClick={() => this.togglePaging(true)}><span>Update</span></button>
+                                    <button className={`panel-nav-button ${isUpdateOpen ? 'active' : ''}`} onClick={() => this.togglePaging(true)}><span>Updates</span></button>
                                     <button className={`panel-nav-button ${isUpdateOpen ? '' : 'active'}`} onClick={() => this.togglePaging(false)}><span>Activity</span></button>
                                 </div>
                             </div>
                         </div>
 
                         {isUpdateOpen && <div className="main-update-container">
-                            <div className="new-post-side-panel">
-                                <PanelInput toggleInput={this.toggleInput} task={task} user={user} addUpdate={addUpdate} onUpdate={this.onUpdate} isInputClicked={isInputClicked} />
-                            </div>
                             <div className="main-update-list-container">
-                                {task.comments && task.comments.map((update, idx) => {
-                                    return <div key={update._id}>
+                                {board.comments && board.comments.map((update, idx) => {
+                                    return <div key={idx}>
                                         <UpdateList updateIdx={idx} deleteUpdate={this.deleteUpdate} users={users} update={update} />
                                     </div>
                                 })}
@@ -98,7 +94,8 @@ export class _SidePanel extends React.Component {
                         </div>}
 
                         {!isUpdateOpen && <div className="main-activity-container">
-                            {task.activities.map((activity, idx) => {
+                            {board.activities.map((activity, idx) => {
+                                console.log(activity);
                                 return <div key={idx} className="activity-row">
                                     <div className="activity-time"><BiTime /><span>{moment(activity.createdAt).fromNow()}</span></div>
                                     <div>{activity.taskTitle}</div>

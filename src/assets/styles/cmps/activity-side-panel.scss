@@ -1,5 +1,6 @@
 .main-activity-container {
-    height: 100%;
+    height: 78%;
+    overflow-y: auto
 }
 
 .activity-row {
@@ -19,6 +20,11 @@
     align-items: center;
     justify-content: center;
     gap: 5px;
+    width: 100px;
+
+    & span {
+        text-align: center;
+    }
 }
 
 .activity-msg {
@@ -29,4 +35,8 @@
     justify-content: center;
     text-align: center;
     line-height: 1.5em;
+}
+
+.activity-member {
+    gap: 10px;
 }

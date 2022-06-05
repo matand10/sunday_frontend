@@ -8,7 +8,7 @@ import 'react-date-range/dist/theme/default.css'
 
 
 
-export const TimelineCol = ({ task, group, updateTask, idx }) => {
+export const TimelineCol = ({ task, group, updateTask, idx, specialUpdateTask }) => {
     const refOne = useRef(null)
     const [hover, setHover] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
@@ -31,8 +31,11 @@ export const TimelineCol = ({ task, group, updateTask, idx }) => {
         const today = new Date(Date.now())
         const precent = (today - start) / (target - start) * 100
         const daysToGo = target.getDay() - today.getDay()
-        task.columns[idx].value = { precent, daysToGo }
-        updateTask(task, group.id)
+        // task.columns[idx].value = { precent, daysToGo,  }
+        const newRange = { start: range[0].startDate.getTime(), end: range[0].endDate.getTime() }
+        const value = { precent, daysToGo, newRange }
+        specialUpdateTask(value, idx)
+        // updateTask(task, group.id)
     }, [range])
 
     const handleOnClickOutside = (ev) => {

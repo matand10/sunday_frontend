@@ -91,12 +91,10 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
                                     </button>
                                 }
                                 <div className="ds-menu-button" onClick={(event) => {
-                                    // toggleBoardAction(board, event)
-                                    // onOpenMenu()
                                     setIsBoardMenuOpen(board._id)
+                                    event.stopPropagation()
                                 }}>
                                     <img src={dotsMenu} alt="dots-menu" />
-
                                 </div>
                                 {isBoardMenuOpen === board._id && <BoardMenuActions menuRef={menuRef} board={board} onRenameIsClick={onRenameIsClick} onDeleteBoard={onDeleteBoard} />}
                             </div>

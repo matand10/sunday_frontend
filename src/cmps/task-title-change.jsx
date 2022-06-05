@@ -28,6 +28,7 @@ export class TaskTitleChange extends React.Component {
         setUpdateIsClick({})
     }
 
+
     render() {
         const { statusRef, task, group, onUpdateTask, onOpenModal, board, updateIsClick } = this.props
         const { title } = this.state

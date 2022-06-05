@@ -3,14 +3,17 @@ import { IoIosColorPalette } from "react-icons/io";
 import { BsTrash } from "react-icons/bs";
 import { groupService } from "../services/group.service";
 
-export const GroupMenu = ({ group, menuRef, onRemoveGroup, boardId }) => {
+export const GroupMenu = ({ group, menuRef, onRemoveGroup, boardId, updateGroup, setIsClickGroup }) => {
     const [isColorModal, setIsColorModal] = useState(false)
     const deleteGroup = (groupId) => {
         onRemoveGroup(groupId, boardId)
     }
 
     const onChangeGroupColor = (color) => {
-        console.log(color)
+        const newGroup = { ...group }
+        newGroup.style.color = color.color
+        updateGroup(newGroup)
+        setIsClickGroup(false)
     }
 
 
@@ -31,7 +34,7 @@ export const GroupMenu = ({ group, menuRef, onRemoveGroup, boardId }) => {
 
         {isColorModal && <div className="colors-grid-container">
             {colors.map(color => {
-                return <div className="color-pallete" key={color.id} style={{ backgroundColor: color.color }} onClick={onChangeGroupColor(color)}></div>
+                return <div className="color-pallete" key={color.id} style={{ backgroundColor: color.color }} onClick={() => onChangeGroupColor(color)}></div>
             })}
         </div>}
     </section>

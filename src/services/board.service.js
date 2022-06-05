@@ -218,6 +218,7 @@ function makeBoard(user) {
         title: "Robot dev proj",
         archivedAt: 1589983468418,
         createdAt: 1589983468418,
+        comments: [],
         members: [user],
         columns: [
             {
@@ -260,6 +261,7 @@ function makeBoard(user) {
                     {
                         id: utilService.makeId(),
                         title: "Item 1",
+                        activities: [],
                         comments: [],
                         archivedAt: 1589983468418,
                         columns: [
@@ -289,6 +291,7 @@ function makeBoard(user) {
                     {
                         id: utilService.makeId(),
                         title: "Item 2",
+                        activities: [],
                         comments: [],
                         archivedAt: 1589983468418,
                         columns: [
@@ -343,6 +346,7 @@ function makeBoard(user) {
                 tasks: [
                     {
                         id: utilService.makeId(),
+                        activities: [],
                         comments: [],
                         title: "Item 3",
                         archivedAt: 1589983468418,
@@ -373,6 +377,7 @@ function makeBoard(user) {
                     },
                     {
                         id: utilService.makeId(),
+                        activities: [],
                         comments: [],
                         title: "Item 4",
                         archivedAt: 1589983468418,
@@ -631,10 +636,18 @@ function documentActivities(column, previewColVal, taskTitle) {
         case 'text':
             msg = `Changed text from ${previewColVal} to ${column.value}`
             break
+        case 'timeline':
+            msg = `Changed timeline to ${utilService.getCurrTime(column.value.newRange.start)} - ${utilService.getCurrTime(column.value.newRange.end)}`
+            break
+        case 'priority':
+            msg = `Changed priority from ${previewColVal.title} to ${column.value.title}`
+            break
     }
+
 
     return {
         id: utilService.makeId(),
+        type: column.type,
         msg,
         createdAt: Date.now(),
         byMember: { ...user },

@@ -42,18 +42,6 @@ export const GroupList = ({ snapshot, provided, onDragColEnd, updateTask, update
     const dispatch = useDispatch()
 
 
-
-    // useEffectUpdate(() => {
-    //     updateGroup(groupUpdate)
-    //     setGroupIsClick({})
-    // }, [groupUpdate])
-
-    const onUpdateGroupBar = () => {
-        // const newGroup = groupService.getProgress(group)
-        // updateGroup(newGroup)
-    }
-
-
     useEffect(() => {
         document.addEventListener("mousedown", eventListeners)
         return () => {
@@ -155,7 +143,7 @@ export const GroupList = ({ snapshot, provided, onDragColEnd, updateTask, update
                         <FaChevronCircleDown className="group-arrow" onClick={() => setIsClickGroup(!isClickGroup)} />
                     </div>
                     <div>
-                        {isClickGroup && <GroupMenu menuRef={menuRef} group={group} onRemoveGroup={onRemoveGroup} />}
+                        {isClickGroup && <GroupMenu setIsClickGroup={setIsClickGroup} updateGroup={updateGroup} menuRef={menuRef} group={group} onRemoveGroup={onRemoveGroup} />}
                     </div>
                     <div className="column-header column-header-title">
                         <div {...provided.dragHandleProps} className="drag-handle-group"><MdDragIndicator /></div>
@@ -230,7 +218,7 @@ export const GroupList = ({ snapshot, provided, onDragColEnd, updateTask, update
                                     {(provided, snapshot) => (
                                         <TasksList provided={provided}
                                             snapshot={snapshot} taskIdx={idx} boardId={boardId} task={task} /*menuRef={menuRef}*/ backgroundColor={group.style.color}
-                                            updateGroup={updateGroup} updates={updates} updateBoard={updateBoard} onUpdateGroupBar={onUpdateGroupBar} onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate} />
+                                            updateGroup={updateGroup} updates={updates} updateBoard={updateBoard} onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate} />
                                     )}
                                 </Draggable>
                             })}
