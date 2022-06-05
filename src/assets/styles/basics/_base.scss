@@ -167,3 +167,19 @@ select:focus {
 .relative {
     position: relative;
 }
+
+.loader-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.loader {
+    object-fit: contain;
+    width: 150px;
+}
+
+[contenteditable]:focus {
+    outline: 0px solid transparent;
+}
