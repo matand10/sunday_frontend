@@ -1,20 +1,23 @@
 import { useEffect, useRef, useState } from 'react'
+import { useEffectUpdate } from "../hooks/useEffectUpdate";
 import { DateRange } from 'react-date-range'
 import { addDays } from 'date-fns'
-
 
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
 
-export const TimelineCol = () => {
+
+
+export const TimelineCol = ({ task, group, updateTask, col, idx }) => {
+    const refOne = useRef(null)
+    const [hover, setHover] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
+    const [timelineDate, setTimelineDate] = useState({})
     const [range, setRange] = useState([{
         startDate: new Date(),
         endDate: addDays(new Date(), 7),
         key: 'selection'
     }])
-    const [hover, setHover] = useState(false)
-    const [isOpen, setIsOpen] = useState(false)
-    const refOne = useRef(null)
 
     useEffect(() => {
         document.addEventListener("mousedown", handleOnClickOutside)
@@ -23,32 +26,28 @@ export const TimelineCol = () => {
         }
     }, [])
 
+    useEffectUpdate(() => {
+        const start = new Date(range[0].startDate.getTime())
+        const target = new Date(range[0].endDate.getTime())
+        const today = new Date(Date.now())
+        const precent = (today - start) / (target - start) * 100
+        const daysToGo = target.getDay() - today.getDay()
+        task.columns[idx].value = { precent, daysToGo }
+        updateTask(task, group.id)
+    }, [range])
+
     const handleOnClickOutside = (ev) => {
         if (refOne.current && !refOne.current.contains(ev.target)) {
             setIsOpen(false)
         }
     }
 
-    // console.log(range.startDate)
-    // const Diffrence_In_Time = range[0].endDate.getTime() - range[0].startDate.getTime()
-    // const Difference_In_Days = Diffrence_In_Time / (1000 * 3600 * 24);
-    // console.log(Difference_In_Days);
-
-    const target = new Date(range[0].endDate.getTime()).getDay()
-    const currDay = new Date(range[0].startDate.getTime()).getDay()
-    const daysToGo = Math.ceil((target - currDay) / (1000 * 60 * 60 * 24))
-    const percent = (currDay / target) * 100
-    const totalDays = target - currDay
-    // console.log('Total days to work: ', totalDays);
-    // console.log('current day : ', currDay);
-
-
+    const colInfo = task.columns[idx].value
     return <section className="timeline">
         <div onClick={() => setIsOpen(true)} className="timeline-bar-container" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
             <div className="timeline-bar-wrapper">
-                <div className="timeline-bar" style={{ backgroundcolor: 'red', width: `${percent}` + '%' }}>
-                    {hover ? daysToGo + ' d' : ''}
-                </div>
+                <div className="timeline-bar" style={{ backgroundcolor: 'red', width: `${colInfo.precent}` + '%' }}></div>
+                <div className="days-indicate">{hover ? colInfo.daysToGo + ' d' : ''}</div>
             </div>
         </div>
 

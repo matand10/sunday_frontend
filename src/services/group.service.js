@@ -126,6 +126,7 @@ function _getColumn(value) {
             }
         case 'timeline':
             return {
+                id: utilService.makeId(),
                 title: 'Timeline',
                 value: [],
                 type: 'timeline'
@@ -151,7 +152,6 @@ function groupColAdd(board, value) {
             colIdx: board.columns.length - 1
         })
     })
-    console.log(newBoard)
     return newBoard
 }
 

@@ -148,6 +148,6 @@ function DynamicCmp({ col, board, task, group, toggleStatus, idx, colIdx, setInv
         case 'text':
             return <TextCol col={col} idx={idx} specialUpdateTask={specialUpdateTask} />
         case 'timeline':
-            return <TimelineCol />
+            return <TimelineCol col={col} idx={idx} task={task} group={group} updateTask={updateTask} />
     }
 }

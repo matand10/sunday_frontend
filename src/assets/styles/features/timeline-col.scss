@@ -36,6 +36,7 @@
     border-radius: 40px;
     width: 90%;
     height: 20px;
+    overflow: hidden;
 }
 
 .timeline-bar {
@@ -45,6 +46,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.days-indicate {
+    position: absolute;
+    z-index: 6000;
+    top: 18%;
+    right: 41%;
     color: #ffffff;
-    font-size: 1rem;
+    font-size: 1.1rem;
 }
