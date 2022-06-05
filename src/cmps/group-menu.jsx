@@ -9,8 +9,8 @@ export const GroupMenu = ({ group, menuRef, onRemoveGroup, boardId }) => {
         onRemoveGroup(groupId, boardId)
     }
 
-    return <section ref={menuRef} className="group-main-menu-inner">
-        <div className="group-main-section">
+    return <section ref={menuRef} className="group-arrow-modal">
+        <div className="group-arrow-modal-container">
             <div className="group-menu-item">
                 <div className="group-content-wrapper" onClick={() => deleteGroup(group.id)}>
                     <div className="group-icon"><BsTrash /></div>

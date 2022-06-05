@@ -130,10 +130,14 @@ export const GroupList = ({ snapshot, provided, onDragColEnd, updateTask, update
 
     if (!board) return <h1>Loading...</h1>
 
-    const onDragTaskEnd = (result) => {
+    const onDragTaskEnd = (res) => {
+        console.log('res', res);
+        const newBoard = { ...board }
+        const groupSource = newBoard.groups.find(group => group.id === res.source.droppableId)
+        console.log('groupSource', groupSource);
         const newTasks = Array.from(group.tasks);
-        const [removed] = newTasks.splice(result.source.index, 1);
-        newTasks.splice(result.destination.index, 0, removed);
+        const [removed] = newTasks.splice(res.source.index, 1);
+        newTasks.splice(res.destination.index, 0, removed);
         let newGroup = { ...group }
         newGroup.tasks = newTasks
         setGroupUpdate(newGroup)
@@ -191,7 +195,6 @@ export const GroupList = ({ snapshot, provided, onDragColEnd, updateTask, update
                                                                 {col.title}
                                                             </div>
                                                         }
-                                                        {/* </span> */}
                                                         <div className="col-arrow-container">
                                                             <div className="col-arrow-div" onClick={() => onOpenColActions(idx, group.id)} > <FaCaretDown className="col-arrow" /></div>
                                                         </div>

@@ -116,9 +116,17 @@ function _getColumn(value) {
             }
         case 'timeline':
             return {
+                id: utilService.makeId(),
                 title: 'Timeline',
                 value: [],
                 type: 'timeline'
+            }
+        case 'priority':
+            return {
+                id: utilService.makeId(),
+                title: 'Priority',
+                value: utilService.getPriority(''),
+                type: 'priority'
             }
     }
 }
@@ -141,7 +149,6 @@ function groupColAdd(board, value) {
             colIdx: board.columns.length - 1
         })
     })
-    console.log(newBoard)
     return newBoard
 }
 
@@ -164,10 +171,10 @@ function getProgress(group) {
 }
 
 function groupColRemove(colIdx, board) {
+    console.log(board)
     let newBoard = { ...board }
     newBoard.columns.splice(colIdx, 1)
     board.groups.forEach((group, gIdx) => {
-
         group.tasks.forEach((task, tIdx) => {
             newBoard.groups[gIdx].tasks[tIdx].columns.splice(colIdx, 1)
         })

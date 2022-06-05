@@ -34,6 +34,7 @@
 
 //Modal
 @import "modal/side-panel.scss";
+@import "modal/col-menu.scss";
 @import "modal/create-board.scss";
 @import "modal/dots-dialog-modal.scss";
 @import "modal/dots-modal.scss";
@@ -45,6 +46,7 @@
 @import "modal/userMsg.scss";
 @import "modal/kanban-group-modal.scss";
 @import "modal/kanban-task-details.scss";
+@import "modal/priority-modal.scss";
 
 // User Modals
 @import "user-modal/user-side-menu.scss";

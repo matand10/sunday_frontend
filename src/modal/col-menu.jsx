@@ -10,8 +10,8 @@ export const ColMenu = ({ removeCol, menuRef, colActions, setcolActions, setGrou
     }
 
     return <React.Fragment>
-        <section ref={menuRef} className="task-main-menu-inner">
-            <div className="task-main-section">
+        <section ref={menuRef} className="group-col-menu">
+            <div className="col-main-section">
                 <div className="task-menu-item">
                     <div className="task-content-wrapper" onClick={() => onRemoveCol()}>
                         <div className="task-icon"><BsTrash /></div>

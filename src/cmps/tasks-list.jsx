@@ -19,6 +19,7 @@ import { StatCol } from '../cmps/status-col'
 import { DateCol } from '../cmps/date-col'
 import { TextCol } from '../cmps/text-col'
 import { TimelineCol } from '../cmps/timeline-col'
+import { PriorityCol } from '../cmps/priority-col'
 
 
 
@@ -60,11 +61,11 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
         }
     }
 
-    const toggleStatus = (ev, value, colIdx) => {
+    const toggleStatus = (ev, value, colIdx, labels) => {
         const x = ev.pageX
         const y = ev.pageY
         setModalPos({ x: x, y: y })
-        setStatusActive({ value, colIdx })
+        setStatusActive({ value, colIdx, labels })
     }
 
     const onUpdateTask = (ev, params) => {
@@ -79,7 +80,6 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
     const onCloseModal = () => {
         setModal({ boardId: null })
     }
-
 
     const specialUpdateTask = (value, colIdx, status = null) => {
         const newGroup = { ...group }
@@ -148,6 +148,8 @@ function DynamicCmp({ col, board, task, group, toggleStatus, idx, colIdx, setInv
         case 'text':
             return <TextCol col={col} idx={idx} specialUpdateTask={specialUpdateTask} />
         case 'timeline':
-            return <TimelineCol />
+            return <TimelineCol idx={idx} task={task} group={group} updateTask={updateTask} />
+        case 'priority':
+            return <PriorityCol col={col} idx={idx} toggleStatus={toggleStatus} />
     }
 }

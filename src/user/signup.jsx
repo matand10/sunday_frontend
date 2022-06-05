@@ -30,7 +30,7 @@ class _Signup extends React.Component {
         const { credential } = this.state
         this.props.onSignup(credential)
         this.setState({ credential: { password: '', username: '', fullname: '' } })
-        // window.location.href = '/login'
+        window.location.href = '/board'
     }
 
 

@@ -6,7 +6,7 @@ import { onLogin } from '../store/user/user.actions.js'
 
 class _HomePage extends React.Component {
 
-    gusetMode = async (ev) => {
+    guestMode = async (ev) => {
         ev.preventDefault()
         const credential = { username: 'guest@guest', password: 'guest' }
         let user = await this.props.onLogin(credential)
@@ -17,7 +17,7 @@ class _HomePage extends React.Component {
         return (
             <section>
                 <header>
-                    <Header gusetMode={this.gusetMode} />
+                    <Header guestMode={this.guestMode} />
                 </header>
                 <main>
                     <section className="sunday-first-homepage-header">
@@ -31,7 +31,7 @@ class _HomePage extends React.Component {
                                 <div></div>
                                 <div className="main-start-button-container">
                                     <div className="signup-button-wrapper">
-                                        <Link to="/board" className="get-started-link"><button className="secondary-signup-button" ><span>Get Started</span></button></Link>
+                                        <button className="secondary-signup-button" onClick={this.guestMode}><span>Get Started</span></button>
                                         <div className="secondary-paragraph-body">
                                             <p>No credit card needed  ✦  Unlimited time on Free plan</p>
                                         </div>

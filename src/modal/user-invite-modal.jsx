@@ -27,17 +27,19 @@ export const InviteUserMenu = ({ users, updateBoard, setUnAssignedUsers, board, 
         updateBoard(newBoard)
     }
 
-    return <section className="user-invite-modal">
-        {filteredUsers.length && isInviteMenuOpen && <section ref={menuRef} className="user-invite-menu">
-            <div className="user-invite-menu-container">
-                {filteredUsers.map((user, idx) => {
-                    return <div onClick={() => deleteUserFromInvite(user)} className="users-invitation-container" key={idx}>
-                        <div className="user-img-invite"><img src={user.userImg || userImg} /></div>
-                        <h4>{user.fullname}</h4>
-                    </div>
-                })}
-            </div>
+    return <>
+        {isInviteMenuOpen && <section className="user-invite-modal">
+            <section ref={menuRef} className="user-invite-menu">
+                <div className="user-invite-menu-container">
+                    {filteredUsers.map((user, idx) => {
+                        return <div onClick={() => deleteUserFromInvite(user)} className="users-invitation-container" key={idx}>
+                            <div className="user-img-invite"><img src={user.userImg || userImg} /></div>
+                            <h4>{user.fullname}</h4>
+                        </div>
+                    })}
+                </div>
+            </section>
         </section>}
-    </section>
+    </>
 
 }

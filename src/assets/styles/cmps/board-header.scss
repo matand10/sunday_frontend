@@ -57,7 +57,7 @@
         & input {
             line-height: 40px;
             border-radius: 4px;
-            font-weight: 500px;
+            font-weight: 500;
             border: 1px solid #1976d2;
             font-size: rem(30px)
         }
@@ -174,22 +174,24 @@
     height: 40px;
     width: 80.875px;
     cursor: pointer;
-    & .kanban-nav{
+
+    & .kanban-nav {
         text-decoration: none;
-        padding:7px 16px;
-        
+        padding: 7px 16px;
+
     }
-    
+
     &:hover {
         background-color: #dcdfec;
     }
-    
+
     & span {
         display: flex;
         color: #575757;
-        gap:3px;
+        gap: 3px;
     }
-    &:focus+.board-kanban-item-line{
+
+    &:focus+.board-kanban-item-line {
         background-color: #1976D2;
         height: 2.4px;
         position: relative;
@@ -202,13 +204,15 @@
     padding-bottom: 4px;
 
 }
-.board-subsets-item{
+
+.board-subsets-item {
     &:focus+.board-subsets-item-line {
         background-color: #1976D2;
         height: 2.4px;
         position: relative;
         top: 4px;
     }
+
     .board-subsets-item-button {
         display: flex;
         align-items: center;
@@ -217,19 +221,20 @@
         height: 40px;
         width: 128px;
         cursor: pointer;
-        .main-table-nav{
+
+        .main-table-nav {
             text-decoration: none;
-            padding:7px 16px;
+            padding: 7px 16px;
         }
-    
+
         &:hover {
             background-color: #dcdfec;
         }
-    
+
         & span {
             color: #575757;
         }
-    
+
     }
 
 }

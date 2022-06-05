@@ -23,7 +23,11 @@ export const ColAddMenu = ({ menuRef, onNewCol }) => {
                     <div className="task-icon"><BsTrash /></div>
                     <div className="task-title">Timeline</div>
                 </div>
+                <div className="task-content-wrapper" onClick={() => onNewCol('priority')}>
+                    <div className="task-icon"><BsTrash /></div>
+                    <div className="task-title">Priority</div>
+                </div>
             </div>
         </div>
-    </section>
+    </section >
 }

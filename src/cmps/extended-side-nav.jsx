@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
 import dotsMenu from '../assets/img/side-nav/ds-menu.svg'
-import { useNavigate } from 'react-router-dom'
 import { CreatBoard } from './create-board'
 import { BoardMenuActions } from '../modal/board-menu-actions'
 import { MdOutlineArrowForwardIos } from 'react-icons/md'
@@ -10,18 +9,11 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
     const [showMenu, setShowMenu] = useState('')
     const [isNavOpen, setIsNavOpen] = useState(false)
     const [isClick, setIsClick] = useState(false)
-    // const [selectedBoard, setSelectedBoard] = useState({})
     const [renameIsClick, setRenameIsClick] = useState('')
     const [boardUpdate, setBoardUpdate] = useState(board)
     const [isBoardMenuOpen, setIsBoardMenuOpen] = useState(false)
     const [titleBoard, setTitleBoard] = useState('')
-
     let menuRef = useRef()
-    let navigate = useNavigate();
-
-    // useEffect(() => {
-    //     if (boardUpdate) updateBoard(boardUpdate)
-    // }, [boardUpdate])
 
     useEffect(() => {
         document.addEventListener("mousedown", eventListener)
@@ -40,34 +32,20 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
         setIsNavOpen(!isNavOpen)
     }
 
-    // const toggleBoardAction = (board, ev = null) => {
-    //     ev.stopPropagation()
-    //     setSelectedBoard(board)
-    // }
-
     const handleChange = ({ target }, idx) => {
         setTitleBoard(target.value)
     }
 
     const onRenameIsClick = (board) => {
-        // setSelectedBoard({})
-        // setBoardUpdate(board)
         setRenameIsClick(board._id)
         setIsBoardMenuOpen(null)
     }
-
-    // const onOpenMenu = (value) => {
-    //     setIsBoardMenuOpen(value)
-    // }
 
     const updateTitleBoard = (ev) => {
         ev.preventDefault()
         ev.stopPropagation()
         let newBoard = { ...board }
         newBoard.title = titleBoard
-        // updateBoard(board)
-        // setRenameIsClick('')
-        // setTitleBoard(null)
     }
 
     return <section className={`home-control-component${isNavOpen ? "" : '-closed'}`}>
@@ -83,7 +61,9 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
                     <img src={dotsMenu} alt="dots-menu" />
                 </div>
             </div>
+            <div>
 
+            </div>
             <div className="home-control-sub-header">
                 <div className="sub-header-button-container">
                     <button className="home-control-button" onClick={() => setIsClick(!isClick)}><span className="home-control-button-span">Add</span></button>
@@ -102,21 +82,14 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
                         {boards.length && boards.map((board, idx) => {
                             return <div key={idx} onClick={() => boardChange(board)} className='home-control-all-buttons'>
                                 {(renameIsClick === board._id) ? <div className="title-update-input">
-
                                     <form onSubmit={updateTitleBoard} className="board-title-form">
                                         <input type="text" defaultValue={board.title} onChange={(event) => handleChange(event, idx)} name="title" />
                                     </form>
-
-
-
-
                                 </div> :
                                     <button className="home-control-button">
                                         <span className="home-control-button-span">{board.title}</span>
                                     </button>
                                 }
-
-
                                 <div className="ds-menu-button" onClick={(event) => {
                                     // toggleBoardAction(board, event)
                                     // onOpenMenu()

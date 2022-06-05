@@ -33,7 +33,6 @@
 }
 
 .task-title {
-    font-size: 30px;
     font-weight: 500;
 }
 
@@ -77,12 +76,14 @@
         & .task-user-image-container {
             display: flex;
         }
+
         & .person-image-icon {
             width: 30px;
             height: 30px;
             border-radius: 50%;
         }
-        & img{
+
+        & img {
             width: 30px;
             height: 30px;
             border-radius: 50%;
