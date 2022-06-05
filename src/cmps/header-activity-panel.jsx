@@ -77,13 +77,13 @@ export class _SidePanel extends React.Component {
                         <div className="side-panel-nav-wrapper">
                             <div className="side-panel-nav-container">
                                 <div className="side-panel-nav-item">
-                                    <button className={`panel-nav-button ${isUpdateOpen ? 'active' : ''}`} onClick={() => this.togglePaging(true)}><span>Updates</span></button>
-                                    <button className={`panel-nav-button ${isUpdateOpen ? '' : 'active'}`} onClick={() => this.togglePaging(false)}><span>Activity</span></button>
+                                    <button className={`panel-nav-button ${isUpdateOpen ? 'active' : ''}`} onClick={() => this.togglePaging(true)}><span>Activity</span></button>
+                                    {/* <button className={`panel-nav-button ${isUpdateOpen ? '' : 'active'}`} onClick={() => this.togglePaging(false)}><span>Activity</span></button> */}
                                 </div>
                             </div>
                         </div>
 
-                        {isUpdateOpen && <div className="main-update-container">
+                        {/* {isUpdateOpen && <div className="main-update-container">
                             <div className="main-update-list-container">
                                 {board.comments && board.comments.map((update, idx) => {
                                     return <div key={idx}>
@@ -91,9 +91,9 @@ export class _SidePanel extends React.Component {
                                     </div>
                                 })}
                             </div>
-                        </div>}
+                        </div>} */}
 
-                        {!isUpdateOpen && <div className="main-activity-container">
+                        {isUpdateOpen && <div className="main-activity-container">
                             {board.activities.map((activity, idx) => {
                                 console.log(activity);
                                 return <div key={idx} className="activity-row">

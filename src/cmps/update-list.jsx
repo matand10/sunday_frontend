@@ -2,6 +2,10 @@ import React from 'react';
 import userImg from '../assets/img/user-invite/userImg.png'
 
 export const UpdateList = ({ update, deleteUpdate, updateIdx }) => {
+
+
+
+    console.log(update);
     return <section className="testimonials">
         <div className="testimonial-box-container">
             <div className="testimonial-box">
