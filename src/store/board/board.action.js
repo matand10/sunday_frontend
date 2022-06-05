@@ -28,9 +28,9 @@ export function removeBoard(boardId) {
         await boardService.remove(boardId)
         try {
             dispatch({ type: 'REMOVE_BOARD', boardId })
-            showSuccessMsg('Board removed successfully!')
+            showSuccessMsg('Board Removed Successfully!')
         } catch (err) {
-            showErrorMsg('Cannot delete board')
+            showErrorMsg('Cannot Delete Board')
             console.log(err)
         }
     }

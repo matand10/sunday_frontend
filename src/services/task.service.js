@@ -112,7 +112,20 @@ function getColumns(columns) {
                     type: "text",
                     value: ""
                 }
-
+            case 'timeline':
+                return {
+                    id: utilService.makeId(),
+                    title: 'Timeline',
+                    value: [],
+                    type: 'timeline'
+                }
+            case 'priority':
+                return {
+                    id: utilService.makeId(),
+                    title: 'Priority',
+                    value: utilService.getPriority(''),
+                    type: 'priority'
+                }
         }
     })
 }
@@ -120,7 +133,7 @@ function getColumns(columns) {
 function getEmptyTask(columns) {
     return {
         id: utilService.makeId(),
-        title: 'item 1',
+        title: 'item',
         comments: [],
         // status: utilService.getLabel(),
         archivedAt: new Date(),

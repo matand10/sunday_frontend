@@ -131,6 +131,8 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
         </div >
         {statusActive.value && <StatusModal setStatusActive={setStatusActive} updateGroup={updateGroup} onUpdateGroupBar={onUpdateGroupBar} specialUpdateTask={specialUpdateTask} statusActive={statusActive} statusRef={statusRef} modalPos={modalPos} />}
         {modal.boardId && <SidePanel board={board} updateGroup={updateGroup} updateBoard={updateBoard} group={group} task={task} taskIdx={taskIdx} statusRef={statusRef} modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}
+        {provided.placeholder}
+
     </section >
 }
 

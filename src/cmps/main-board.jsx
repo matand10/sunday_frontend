@@ -37,16 +37,48 @@ export const MainBoard = () => {
                 newTaskColumns.splice(result.destination.index, 0, taskRemoved)
                 newBoard.groups[gIdx].tasks[tIdx].columns = [...newTaskColumns]
             })
-            // const statIdx = group.progress.findIndex(pro => pro.colIdx === result.source.index)
-            // if (statIdx > -1) newBoard.groups[gIdx].progress[statIdx].colIdx = result.destination.index
+
             newBoard.groups[gIdx].progress = groupService.getProgress(group)
         })
         updateBoard(newBoard)
     }
 
-    return <DragDropContext onDragEnd={onDragGroupEnd}>
-        <Droppable droppableId="list">
-            {(provided) => (
+    const onDragTaskEnd = (res) => {
+        const { source, destination } = res
+        const sourceGroupId = source.droppableId
+        const destGroupId = destination.droppableId
+        const newBoard = { ...board }
+        const groupSourceIdx = newBoard.groups.findIndex(group => group.id === source.droppableId)
+        const groupDestIdx = newBoard.groups.findIndex(group => group.id === destination.droppableId)
+
+        console.log(sourceGroupId);
+        console.log(destGroupId);
+        console.log(source.index);
+        console.log(destination.index);
+
+        const [removed] = newBoard.groups[groupSourceIdx].tasks.splice(source.index, 1);
+
+        newBoard.groups[groupDestIdx].tasks.splice(destination.index, 0, removed);
+
+        newBoard.groups[groupSourceIdx].progress = groupService.getProgress(newBoard.groups[groupSourceIdx])
+        newBoard.groups[groupDestIdx].progress = groupService.getProgress(newBoard.groups[groupDestIdx])
+        updateBoard(newBoard)
+
+        // setGroupUpdate(newGroup)
+        // updateGroup(newGroup)
+    };
+
+    const onDragEnd = (res) => {
+        if (!res.destination) return
+        if (res.type === 'droppableGroup') {
+            onDragGroupEnd(res)
+            return
+        } else if (res.type === 'droppableTask') onDragTaskEnd(res)
+    }
+
+    return <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="droppable" type="droppableGroup">
+            {(provided, snapshot) => (
                 <div className="group-main-container" ref={provided.innerRef}>
 
                     {board.groups.map((group, idx) => {
@@ -58,6 +90,8 @@ export const MainBoard = () => {
                         </Draggable>
                     }
                     )}
+                    {provided.placeholder}
+
                 </div>
             )}
         </Droppable>

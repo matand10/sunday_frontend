@@ -107,7 +107,7 @@ export const TasksApp = () => {
     const onRemoveGroup = (groupId) => {
         const groupIdx = board.groups.findIndex(group => group.id === groupId)
         board.groups.splice(groupIdx, 1)
-        showSuccessMsg('Group removed successfully!')
+        showSuccessMsg('Group Removed Successfully!')
         updateBoard(board)
     }
 
@@ -138,7 +138,7 @@ export const TasksApp = () => {
         const group = { ...newBoard.groups[groupIdx] }
         const progressBars = groupService.getProgress(group)
         newBoard.groups[groupIdx].progress = progressBars
-        showSuccessMsg('Task removed successfully!')
+        showSuccessMsg('Task Removed Successfully!')
         updateBoard(newBoard)
     }
 
