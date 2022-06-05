@@ -5,6 +5,7 @@ import { addDays } from 'date-fns'
 
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
+import { utilService } from '../services/util.service';
 
 
 
@@ -30,8 +31,16 @@ export const TimelineCol = ({ task, group, updateTask, idx }) => {
         const target = new Date(range[0].endDate.getTime())
         const today = new Date(Date.now())
         const precent = (today - start) / (target - start) * 100
-        const daysToGo = target.getDay() - today.getDay()
-        task.columns[idx].value = { precent, daysToGo }
+        const daysToGo = (target - start) / (1000 * 60 * 60 * 24)
+        // task.columns[idx].value = { precent, daysToGo }
+        let dateStr
+        if (start.getMonth() === target.getMonth()) {
+            dateStr = `${utilService.getShortMonth(start.getMonth())} ${start.getDate()}-${target.getDate()}`
+        } else {
+            dateStr = `${utilService.getShortMonth(start.getMonth())} ${start.getDate()}-${utilService.getShortMonth(target.getMonth())} ${target.getDate()}`
+        }
+        const value = { precent, daysToGo, dateStr }
+        task.columns[idx].value = { ...value }
         updateTask(task, group.id)
     }, [range])
 
@@ -41,12 +50,15 @@ export const TimelineCol = ({ task, group, updateTask, idx }) => {
         }
     }
 
-    const colInfo = task.columns[idx].value
+    // const colInfo = task.columns[idx].value
+
     return <section className="timeline">
         <div onClick={() => setIsOpen(true)} className="timeline-bar-container" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
             <div className="timeline-bar-wrapper">
-                <div className="timeline-bar" style={{ backgroundcolor: 'red', width: `${colInfo.precent || 0}` + '%' }}></div>
-                <div className="days-indicate">{hover ? (colInfo.daysToGo || '') + ' d' : ''}</div>
+                <div className="timeline-bar" style={{ backgroundcolor: 'red', width: `${task.columns[idx].value.precent || 0}` + '%' }}></div>
+                <div className="days-indicate">
+                    {hover ? (task.columns[idx].value.daysToGo ? task.columns[idx].value.daysToGo + ' d' : 'Set Dates') : task.columns[idx].value.dateStr ? task.columns[idx].value.dateStr : '-'}
+                </div>
             </div>
         </div>
 

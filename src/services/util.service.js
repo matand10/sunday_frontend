@@ -5,7 +5,8 @@ export const utilService = {
     getCurrTime,
     getLabel,
     getRandomColor,
-    getPriority
+    getPriority,
+    getShortMonth
 }
 
 function makeId(length = 6) {
@@ -60,28 +61,28 @@ function getLabel(status) {
                 id: 'l101',
                 title: 'Done',
                 color: '#00c875',
-                type:'Done'
+                type: 'Done'
             }
         case 'WorkingOnIt':
             return {
                 id: 'l102',
                 title: 'Working on it',
                 color: '#fdab3d',
-                type:'Working on it'
+                type: 'Working on it'
             }
         case 'Stuck':
             return {
                 id: 'l103',
                 title: 'Stuck',
                 color: '#e2445c',
-                type:'Stuck'
+                type: 'Stuck'
             }
         default:
             return {
                 id: 'l104',
                 title: '',
                 color: '#c4c4c4',
-                type:'Empty'
+                type: 'Empty'
             }
     }
 }
@@ -127,4 +128,9 @@ function getRandomColor() {
         color += letters[Math.floor(Math.random() * 16)]
     }
     return color
+}
+
+function getShortMonth(monthIdx) {
+    const monthes = ['Jun', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    return monthes[monthIdx]
 }

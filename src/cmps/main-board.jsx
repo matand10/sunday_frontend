@@ -50,22 +50,11 @@ export const MainBoard = () => {
         const newBoard = { ...board }
         const groupSourceIdx = newBoard.groups.findIndex(group => group.id === source.droppableId)
         const groupDestIdx = newBoard.groups.findIndex(group => group.id === destination.droppableId)
-
-        console.log(sourceGroupId);
-        console.log(destGroupId);
-        console.log(source.index);
-        console.log(destination.index);
-
         const [removed] = newBoard.groups[groupSourceIdx].tasks.splice(source.index, 1);
-
         newBoard.groups[groupDestIdx].tasks.splice(destination.index, 0, removed);
-
         newBoard.groups[groupSourceIdx].progress = groupService.getProgress(newBoard.groups[groupSourceIdx])
         newBoard.groups[groupDestIdx].progress = groupService.getProgress(newBoard.groups[groupDestIdx])
         updateBoard(newBoard)
-
-        // setGroupUpdate(newGroup)
-        // updateGroup(newGroup)
     };
 
     const onDragEnd = (res) => {
