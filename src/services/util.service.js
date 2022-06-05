@@ -4,7 +4,8 @@ export const utilService = {
     getRandomIntInclusive,
     getCurrTime,
     getLabel,
-    getRandomColor
+    getRandomColor,
+    getPriority
 }
 
 function makeId(length = 6) {
@@ -37,18 +38,18 @@ function getRandomIntInclusive(min, max) {
 
 
 function getCurrTime(time) {
-    const mounthName=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+    const mounthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     const date = new Date(time)
-    const mounth=mounthName[date.getMonth()]
+    const mounth = mounthName[date.getMonth()]
     // const seconds = date.getSeconds() > 9 ? date.getSeconds() : '0' + date.getSeconds().toString()
     // const minutes = date.getMinutes() > 9 ? date.getMinutes() : '0' + date.getMinutes().toString()
     // const mounths = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1).toString()
     return date.getDate() +
-        " " + mounth ;
-        // "/" + date.getFullYear() +
-        // " " + date.getHours() +
-        // ":" + minutes;
-        // ":" + seconds;
+        " " + mounth;
+    // "/" + date.getFullYear() +
+    // " " + date.getHours() +
+    // ":" + minutes;
+    // ":" + seconds;
 }
 
 
@@ -78,6 +79,39 @@ function getLabel(status) {
         default:
             return {
                 importance: 3,
+                id: 'l104',
+                title: '',
+                color: '#c4c4c4'
+            }
+    }
+}
+
+function getPriority(priority) {
+    switch (priority) {
+        case 'high':
+            return {
+                importence: 1,
+                id: 'l101',
+                title: 'High',
+                color: '#e2445d'
+            }
+        case 'medium':
+            return {
+                importence: 2,
+                id: 'l102',
+                title: 'Medium',
+                color: '#a25edc'
+            }
+        case 'low':
+            return {
+                importance: 3,
+                id: 'l103',
+                title: 'Low',
+                color: '#589bfc'
+            }
+        default:
+            return {
+                importance: 4,
                 id: 'l104',
                 title: '',
                 color: '#c4c4c4'

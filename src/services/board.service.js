@@ -18,7 +18,8 @@ export const boardService = {
     changeTaskPosition,
     isIdOk,
     documentActivities,
-    changeColTitle
+    changeColTitle,
+    getPriority
 }
 
 async function query(filterBy = {}) {
@@ -171,6 +172,31 @@ function getLabels() {
             id: 'l103',
             title: 'Stuck',
             color: '#e2445c'
+        },
+        {
+            id: 'l104',
+            title: 'Empty',
+            color: '#c4c4c4'
+        }
+    ]
+}
+
+function getPriority() {
+    return [
+        {
+            id: 'l101',
+            title: 'High',
+            color: '#e2445d'
+        },
+        {
+            id: 'l102',
+            title: 'Medium',
+            color: '#a25edc'
+        },
+        {
+            id: 'l103',
+            title: 'Low',
+            color: '#589bfc'
         },
         {
             id: 'l104',

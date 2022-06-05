@@ -5,13 +5,12 @@ import { boardService } from '../services/board.service'
 export const StatusModal = ({ statusActive, setStatusActive, statusRef, modalPos, changeStatus, specialUpdateTask }) => {
 
     const onChangeStatus = (value) => {
+        console.log(value);
         specialUpdateTask(value, statusActive.colIdx, 'status')
         setStatusActive(false)
     }
 
-
-    const labels = boardService.getLabels()
-
+    const labels = statusActive.labels
     return <section className="main-status-modal" style={{ left: modalPos.x - 75, top: modalPos.y + 15 }} ref={statusRef}>
         <div className="status-modal-container">
             {labels.map(label => {

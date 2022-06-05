@@ -8,11 +8,10 @@ import 'react-date-range/dist/theme/default.css'
 
 
 
-export const TimelineCol = ({ task, group, updateTask, col, idx }) => {
+export const TimelineCol = ({ task, group, updateTask, idx }) => {
     const refOne = useRef(null)
     const [hover, setHover] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
-    const [timelineDate, setTimelineDate] = useState({})
     const [range, setRange] = useState([{
         startDate: new Date(),
         endDate: addDays(new Date(), 7),

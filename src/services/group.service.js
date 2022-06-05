@@ -131,6 +131,13 @@ function _getColumn(value) {
                 value: [],
                 type: 'timeline'
             }
+        case 'priority':
+            return {
+                id: utilService.makeId(),
+                title: 'Priority',
+                value: utilService.getPriority(''),
+                type: 'priority'
+            }
     }
 }
 
