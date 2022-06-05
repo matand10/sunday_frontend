@@ -128,7 +128,6 @@
     justify-content: center;
     align-items: center;
     width: 130px;
-    // margin: 0 5px;
 }
 
 .task-row-component {
@@ -143,10 +142,6 @@
         .task-arrow-div {
             display: flex;
         }
-    }
-
-    &>* {
-        min-height: 30px;
     }
 }
 

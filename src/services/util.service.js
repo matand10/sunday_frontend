@@ -6,6 +6,7 @@ export const utilService = {
     getLabel,
     getRandomColor,
     getPriority,
+    getShortMonth
 }
 
 function makeId(length = 6) {
@@ -131,4 +132,9 @@ function getRandomColor() {
         color += letters[Math.floor(Math.random() * 16)]
     }
     return color
+}
+
+function getShortMonth(monthIdx) {
+    const monthes = ['Jun', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    return monthes[monthIdx]
 }
