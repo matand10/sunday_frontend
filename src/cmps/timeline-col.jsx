@@ -18,12 +18,12 @@ export const TimelineCol = ({ task, group, updateTask, idx }) => {
         key: 'selection'
     }])
 
-//     useEffect(() => {
-//         document.addEventListener("mousedown", handleOnClickOutside)
-//         return () => {
-//             document.removeEventListener("mousedown", handleOnClickOutside)
-//         }
-//     }, [])
+    useEffect(() => {
+        document.addEventListener("mousedown", handleOnClickOutside)
+        return () => {
+            document.removeEventListener("mousedown", handleOnClickOutside)
+        }
+    }, [])
 
     useEffectUpdate(() => {
         const start = new Date(range[0].startDate.getTime())
@@ -64,20 +64,4 @@ export const TimelineCol = ({ task, group, updateTask, idx }) => {
         </div>
     </section>
 }
-
-
-//         <div ref={refOne} className="daterange-modal-container">
-//             {isOpen &&
-//                 <DateRange
-//                     onChange={item => setRange([item.selection])}
-//                     editableDateInputs={true}
-//                     moveRangeOnFirstSelection={false}
-//                     ranges={range}
-//                     months={1}
-//                     direction="horizontal"
-//                     className="calendarElement"
-//                 />}
-//         </div>
-//     </section>
-// }
 

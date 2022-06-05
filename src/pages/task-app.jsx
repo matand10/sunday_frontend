@@ -147,8 +147,9 @@ export const TasksApp = () => {
         updateBoard(newBoard)
     }
 
-    const boardChange = (board) => {
-        setBoard(board)
+    const boardChange = async (board) => {
+        const newBoard = await boardService.getById(board._id)
+        setBoard(newBoard)
         navigate(`/board/${board._id}`)
     }
 

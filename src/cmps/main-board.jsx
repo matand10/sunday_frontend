@@ -2,6 +2,7 @@ import { useOutletContext } from 'react-router-dom'
 import { GroupList } from '../cmps/group-list.jsx'
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import React, { useState } from 'react';
+import { groupService } from '../services/group.service.js';
 
 
 export const MainBoard = () => {
@@ -36,8 +37,9 @@ export const MainBoard = () => {
                 newTaskColumns.splice(result.destination.index, 0, taskRemoved)
                 newBoard.groups[gIdx].tasks[tIdx].columns = [...newTaskColumns]
             })
-            const statIdx = group.progress.findIndex(pro => pro.colIdx === result.source.index)
-            if (statIdx > -1) newBoard.groups[gIdx].progress[statIdx].colIdx = result.destination.index
+            // const statIdx = group.progress.findIndex(pro => pro.colIdx === result.source.index)
+            // if (statIdx > -1) newBoard.groups[gIdx].progress[statIdx].colIdx = result.destination.index
+            newBoard.groups[gIdx].progress = groupService.getProgress(group)
         })
         updateBoard(newBoard)
     }
