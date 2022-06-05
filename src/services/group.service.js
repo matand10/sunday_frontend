@@ -20,16 +20,6 @@ export const groupService = {
     getColors
 }
 
-// async function query() {
-//     try {
-//         // const res = await storageService.get(STORAGE_KEY)
-//         const res = await storageService.query(STORAGE_KEY)
-//         return res
-//     } catch (err) {
-//         console.log('err', err)
-//     }
-// }
-
 async function remove(groupId, boardId) {
     let currBoard = await boardService.getById(boardId)
     let currGroup = currBoard.groups.filter(group => group.id !== groupId)
@@ -164,6 +154,7 @@ function groupColAdd(board, value) {
 }
 
 function getProgress(group) {
+    console.log(group);
     let colIdxs = []
     group.tasks[0].columns.forEach((col, idx) => {
         if (col.type === 'status') colIdxs.push(idx)
@@ -185,14 +176,8 @@ function groupColRemove(colIdx, board) {
     let newBoard = { ...board }
     newBoard.columns.splice(colIdx, 1)
     board.groups.forEach((group, gIdx) => {
-        // if (board.columns[colIdx].type === 'status') {
-        //     console.log('hey');
-        //     const statCol = group.progress.findIndex(pro => pro.colIdx === colIdx)
-        //     newBoard.groups[gIdx].progress.splice(statCol, 1)
-        // }
         group.tasks.forEach((task, tIdx) => {
             newBoard.groups[gIdx].tasks[tIdx].columns.splice(colIdx, 1)
-            // newBoard.tasks[tIdx] = task
         })
         newBoard.groups[gIdx].progress = getProgress(newBoard.groups[gIdx])
     })

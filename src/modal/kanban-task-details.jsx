@@ -1,12 +1,15 @@
 import { useState, useRef, useEffect } from 'react'
 import { FaCircle, FaRegUserCircle, FaStream } from 'react-icons/fa'
 import { DetailsGroupKanbanMenu } from './kanban-details-group-menu'
+import { GroupKanbanMenu } from './kanban-group-modal'
+import { StatusModal } from './status-modal'
 
 
-export function TaskDetails({ board, taskName, status, statusColor, persons, groupName, groupColor, onOpenDetails, updateTaskName, taskId, groupId, updateBoard, onUpdatTaskName, modalPos, setModalPos }) {
+export function TaskDetails({ board, updateStatus, kanban, item, groupColor, onOpenDetails, updateTaskName, modalPos, setModalPos, onChangeGroup }) {
     const [isTaskClick, setIsTaskClick] = useState(false)
     const [groupMenuOpen, setGroupMenuOpen] = useState(false)
-   
+    const [statusActive, setStatusActive] = useState(false)
+
 
     const detailsRef = useRef()
 
@@ -20,12 +23,14 @@ export function TaskDetails({ board, taskName, status, statusColor, persons, gro
     const eventListener = (ev) => {
         if (!detailsRef.current?.contains(ev.target)) {
             setIsTaskClick(false)
+            setGroupMenuOpen(false)
+            setStatusActive(false)
         }
     }
 
     const onChangeTaskTitle = (ev) => {
         const value = ev.currentTarget.textContent
-        updateTaskName(ev, taskId, groupId, value)
+        updateTaskName(ev, item.taskId, item.groupId, value)
     }
 
     const toggleGroupMenu = (ev, value) => {
@@ -35,12 +40,16 @@ export function TaskDetails({ board, taskName, status, statusColor, persons, gro
         setGroupMenuOpen(value)
     }
 
+    const specialUpdateTask = (value, colIdx = null, status = null) => {
+        updateStatus(item.taskId, item.groupId, value)
+    }
+
     return <div id="myModal" className="task-details-modal-container">
         <div className="task-details-modal-content">
             <span className="close" onClick={(event) => onOpenDetails(event, false, {})}>&times;</span>
             <div className="upper-area-modal">
                 <div className="task-title-container">
-                    <h2 ref={detailsRef} contentEditable suppressContentEditableWarning={true} className="task-title" onBlur={(event) => onChangeTaskTitle(event)}>{taskName}</h2>
+                    <h2 ref={detailsRef} contentEditable suppressContentEditableWarning={true} className="task-title" onBlur={(event) => onChangeTaskTitle(event)}>{item.taskName}</h2>
                 </div>
                 <div className="task-board-details">
                     <h3>in → {board.title} board</h3>
@@ -54,8 +63,9 @@ export function TaskDetails({ board, taskName, status, statusColor, persons, gro
                     </div>
                     <div className="group-details-content" onClick={(ev) => toggleGroupMenu(ev, true)}>
                         <div style={{ backgroundColor: groupColor }} className="group-cell-color"></div>
-                        <div className="group-name">{groupName}</div>
+                        <div className="group-name">{item.groupName}</div>
                     </div>
+                    {groupMenuOpen && <GroupKanbanMenu board={board} taskId={item.taskId} onChangeGroup={onChangeGroup} />}
                 </div>
                 <div className="persons-details-container">
                     <div className="persons-cell">
@@ -63,8 +73,8 @@ export function TaskDetails({ board, taskName, status, statusColor, persons, gro
                         <div className="presons-title">Persons</div>
                     </div>
                     <div className='persons-details-content'>
-                        <div className="task-person-name">{persons.length ?
-                            <div className="task-person-item task-user-image-container">{persons.map((user, idx) => {
+                        <div className="task-person-name">{item.persons.length ?
+                            <div className="task-person-item task-user-image-container">{item.persons.map((user, idx) => {
                                 return <div key={idx} className="user-image">
                                     <img key={idx} style={{ left: `${20 * (idx) + 'px'}`, transform: `translateX(${-80 + '%'})` }} className="person-img-icon" src={user.imgUrl} alt="user image" />
                                 </div>
@@ -83,14 +93,13 @@ export function TaskDetails({ board, taskName, status, statusColor, persons, gro
                         <div className="status-icon"><FaStream /></div>
                         <div className="status-title">Status</div>
                     </div>
-                    <div className="status-details-content">
-                        <div className="status-type" style={{ backgroundColor: statusColor }}>{(status === 'WorkingOnIt') ? status = 'Working on it' : status}</div>
-                        {groupMenuOpen && <DetailsGroupKanbanMenu board={board} groupMenuRef={detailsRef} taskId={taskId} currGroupId={groupId} updateBoard={updateBoard} onUpdatTaskName={onUpdatTaskName} modalPos={modalPos} setGroupMenuOpen={setGroupMenuOpen}/>}
+                    <div className="status-details-content" onClick={() => setStatusActive({ colIdx: 'colIdx' })}>
+                        <div className="status-type" style={{ backgroundColor: kanban.color }}>{kanban.status}</div>
                     </div>
                 </div>
             </div>
         </div>
-
+        {statusActive && <StatusModal setStatusActive={setStatusActive} specialUpdateTask={specialUpdateTask} statusActive={statusActive} statusRef={detailsRef} modalPos={modalPos} />}
     </div>
 
 }

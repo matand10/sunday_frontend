@@ -9,7 +9,6 @@ const STORAGE_KEY = 'group_db'
 
 
 export const taskService = {
-    // query,
     getById,
     save,
     remove,
@@ -67,9 +66,12 @@ function addTask(board, task, groupId) {
     const newTask = getEmptyTask(newColumns)
     if (task && groupId) {
         const groupIdx = newBoard.groups.findIndex(group => group.id === groupId)
-
         newTask.title = task.title
-        newTask.columns[1].value = task.status ? task.status : newTask.columns[1].value
+        if (task.status) {
+            const statIdx = board.columns.findIndex(col => col.id === 'col2')
+            console.log(task.status);
+            if (statIdx > -1) newTask.columns[statIdx].value = utilService.getLabel(task.status)
+        }
         newBoard.groups[groupIdx].tasks.push(newTask)
     } else {
         // newTask = getEmptyTask(board.columns)
@@ -109,7 +111,20 @@ function getColumns(columns) {
                     type: "text",
                     value: ""
                 }
-
+            case 'timeline':
+                return {
+                    id: utilService.makeId(),
+                    title: 'Timeline',
+                    value: [],
+                    type: 'timeline'
+                }
+            case 'priority':
+                return {
+                    id: utilService.makeId(),
+                    title: 'Priority',
+                    value: utilService.getPriority(''),
+                    type: 'priority'
+                }
         }
     })
 }
@@ -117,8 +132,9 @@ function getColumns(columns) {
 function getEmptyTask(columns) {
     return {
         id: utilService.makeId(),
-        title: 'item 1',
+        title: 'item',
         comments: [],
+        activities: [],
         // status: utilService.getLabel(),
         archivedAt: new Date(),
         columns

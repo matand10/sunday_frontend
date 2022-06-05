@@ -2,7 +2,7 @@ import { utilService } from '../services/util.service'
 import { boardService } from '../services/board.service'
 
 
-export const StatusModal = ({ statusActive, setStatusActive, statusRef, modalPos, changeStatus, specialUpdateTask }) => {
+export const StatusModal = ({ statusActive, setStatusActive, statusRef, modalPos, specialUpdateTask }) => {
 
     const onChangeStatus = (value) => {
         console.log(value);

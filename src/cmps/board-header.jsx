@@ -15,7 +15,7 @@ import { NavLink } from "react-router-dom";
 import { InviteUserMenu } from '../modal/user-invite-modal'
 import { SidePanel } from '../cmps/header-activity-panel'
 
-export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, onFilter, setIsKanban }) => {
+export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, onFilter, setIsKanban, setFrontFilter }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isInviteMenuOpen, setIsInviteMenuOpen] = useState(false)
     const [isSearchActive, setIsSearchActive] = useState(false)
@@ -90,9 +90,8 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     }
 
     const onSetFilter = (label) => {
-        console.log(label);
         const newFilterBy = { ...filterBy, sortBy: label }
-        dispatch(setFilter(newFilterBy))
+        setFrontFilter(newFilterBy)
     }
 
     const changeBoardDescription = (ev) => {

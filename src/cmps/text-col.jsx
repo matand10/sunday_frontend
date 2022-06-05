@@ -24,7 +24,6 @@ export const TextCol = ({ col, idx, specialUpdateTask }) => {
 
     const onChangeText = (ev) => {
         ev.preventDefault()
-        console.log(idx);
         specialUpdateTask(txt, idx)
         setEditText(false)
     }

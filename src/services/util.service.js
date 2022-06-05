@@ -55,33 +55,37 @@ function getCurrTime(time) {
 
 function getLabel(status) {
     switch (status) {
-        case 'done':
+        case 'Done':
             return {
-                importence: 4,
+                importence: 3,
                 id: 'l101',
                 title: 'Done',
-                color: '#00c875'
+                color: '#00c875',
+                type: 'Done'
             }
-        case 'working':
+        case 'WorkingOnIt':
             return {
                 importence: 1,
                 id: 'l102',
                 title: 'Working on it',
-                color: '#fdab3d'
+                color: '#fdab3d',
+                type: 'Working on it'
             }
-        case 'stuck':
+        case 'Stuck':
             return {
-                importance: 2,
+                importence: 2,
                 id: 'l103',
                 title: 'Stuck',
-                color: '#e2445c'
+                color: '#e2445c',
+                type: 'Stuck'
             }
         default:
             return {
-                importance: 3,
+                importence: 4,
                 id: 'l104',
                 title: '',
-                color: '#c4c4c4'
+                color: '#c4c4c4',
+                type: 'Empty'
             }
     }
 }

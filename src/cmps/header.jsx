@@ -14,9 +14,8 @@ export const Header = ({ guestMode }) => {
             <div className="right-header">
                 <nav className="main-header-nav">
                     <ul className="main-nav clean-list">
-                        <li className="header-list"><button onClick={guestMode} className="header-list-link" >Guest</button></li>
                         <li className="header-list"><Link className="header-list-link" to="/login">Log in</Link></li>
-                        <li className="header-list-signup"><button className="main-signup-button" ><span>Get Started</span></button></li>
+                        <li className="header-list-signup"><button className="main-signup-button" onClick={guestMode}><span>Get Started</span></button></li>
                     </ul>
                 </nav>
             </div>

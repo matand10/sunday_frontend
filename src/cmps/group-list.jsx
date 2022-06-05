@@ -118,19 +118,7 @@ export const GroupList = ({ snapshot, provided, onDragColEnd, updateTask, update
 
     if (!board) return <h1>Loading...</h1>
 
-    const onDragTaskEnd = (res) => {
-        console.log('res', res);
-        const newBoard = { ...board }
-        const groupSource = newBoard.groups.find(group => group.id === res.source.droppableId)
-        console.log('groupSource', groupSource);
-        const newTasks = Array.from(group.tasks);
-        const [removed] = newTasks.splice(res.source.index, 1);
-        newTasks.splice(res.destination.index, 0, removed);
-        let newGroup = { ...group }
-        newGroup.tasks = newTasks
-        setGroupUpdate(newGroup)
-        updateGroup(newGroup)
-    };
+
 
     return <section ref={provided.innerRef}
         snapshot={snapshot}
@@ -209,24 +197,25 @@ export const GroupList = ({ snapshot, provided, onDragColEnd, updateTask, update
                 </div>
             </div>
 
-            <DragDropContext onDragEnd={onDragTaskEnd}>
-                <Droppable droppableId="list">
-                    {(provided) => (
-                        <div {...provided.droppableProps} ref={provided.innerRef}>
-                            {group.tasks.map((task, idx) => {
-                                return <Draggable draggableId={task.id.toString()} key={task.id} index={idx}>
-                                    {(provided, snapshot) => (
-                                        <TasksList provided={provided}
-                                            snapshot={snapshot} taskIdx={idx} boardId={boardId} task={task} /*menuRef={menuRef}*/ backgroundColor={group.style.color}
-                                            updateGroup={updateGroup} updates={updates} updateBoard={updateBoard} onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate} />
-                                    )}
-                                </Draggable>
-                            })}
-                            {provided.placeholder}
-                        </div>
-                    )}
-                </Droppable>
-            </DragDropContext>
+            {/* <DragDropContext onDragEnd={onDragTaskEnd}> */}
+            <Droppable droppableId={group.id} type='droppableTask'>
+                {(provided, snapshot) => (
+                    <div ref={provided.innerRef}>
+                        {/* <div {...provided.droppableProps} ref={provided.innerRef}> */}
+                        {group.tasks.map((task, idx) => {
+                            return <Draggable draggableId={task.id.toString()} key={task.id} index={idx}>
+                                {(provided, snapshot) => (
+                                    <TasksList provided={provided}
+                                        snapshot={snapshot} taskIdx={idx} boardId={boardId} task={task} /*menuRef={menuRef}*/ backgroundColor={group.style.color}
+                                        updateGroup={updateGroup} updates={updates} updateBoard={updateBoard} onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate} />
+                                )}
+                            </Draggable>
+                        })}
+                        {provided.placeholder}
+                    </div>
+                )}
+            </Droppable>
+            {/* </DragDropContext> */}
 
             <MainGroupInput onAddTask={onAddTask} group={group} task={task} />
             <div className="columns-footer-component">

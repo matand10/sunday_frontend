@@ -193,7 +193,7 @@
     display: flex;
     align-items: center;
     position: relative;
-    flex: 2;
+    flex: 3;
 }
 
 .task-title-cell {
@@ -267,7 +267,6 @@
     transition: font-size .2s;
 
     &:hover {
-        font-size: 1.6rem;
         color: #1976d2;
     }
 }

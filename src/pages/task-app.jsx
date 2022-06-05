@@ -107,7 +107,7 @@ export const TasksApp = () => {
     const onRemoveGroup = (groupId) => {
         const groupIdx = board.groups.findIndex(group => group.id === groupId)
         board.groups.splice(groupIdx, 1)
-        showSuccessMsg('Group removed successfully!')
+        showSuccessMsg('Group Removed Successfully!')
         updateBoard(board)
     }
 
@@ -138,7 +138,7 @@ export const TasksApp = () => {
         const group = { ...newBoard.groups[groupIdx] }
         const progressBars = groupService.getProgress(group)
         newBoard.groups[groupIdx].progress = progressBars
-        showSuccessMsg('Task removed successfully!')
+        showSuccessMsg('Task Removed Successfully!')
         updateBoard(newBoard)
     }
 
@@ -147,8 +147,9 @@ export const TasksApp = () => {
         updateBoard(newBoard)
     }
 
-    const boardChange = (board) => {
-        setBoard(board)
+    const boardChange = async (board) => {
+        const newBoard = await boardService.getById(board._id)
+        setBoard(newBoard)
         navigate(`/board/${board._id}`)
     }
 
@@ -161,8 +162,8 @@ export const TasksApp = () => {
 
         <div className="board-container-right">
             <div className="main-app flex-column">
-                <BoardHeader setIsKanban={setIsKanban} updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
-                <Outlet context={{ board, updates, updateBoard, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
+                <BoardHeader setFrontFilter={setFrontFilter} setIsKanban={setIsKanban} updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
+                <Outlet context={{ board, onFilter, frontFilter, updates, updateBoard, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
             </div>
         </div>
     </section>

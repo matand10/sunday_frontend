@@ -34,7 +34,6 @@ function filterBoard(board, filterBy) {
     let newGroups
     const newBoard = { ...board }
     if (filterBy.search) {
-        console.log('Filtering');
         newBoard.groups.forEach((group, idx) => {
             const tasks = group.tasks.filter(task => {
                 if (task.title.toLowerCase().includes(filterBy.search.toLowerCase())) return task
@@ -45,15 +44,18 @@ function filterBoard(board, filterBy) {
     } else if (filterBy.sortBy) {
         let colIdx
         newGroups = board.groups.filter(group => {
+            console.log('filterBy.sortBy', filterBy.sortBy)
             switch (filterBy.sortBy) {
                 case 'title':
                     return group.tasks.sort((a, b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
                 case 'status':
                     group.tasks.forEach(task => colIdx = task.columns.findIndex(column => column.type === 'status'))
-                    return group.tasks.sort((a, b) => (a.columns[colIdx].value.importance) - (b.columns[colIdx].value.importance))
+                    return group.tasks.sort((a, b) => (a.columns[colIdx].value.importence) - (b.columns[colIdx].value.importence))
                 case 'person':
                     group.tasks.forEach(task => colIdx = task.columns.findIndex(column => column.type === 'person'))
                     return group.tasks.sort((a, b) => (b.columns[colIdx].value.length) - (a.columns[colIdx].value.length))
+                case 'clear':
+                    return group
             }
         })
         return { ...board, groups: newGroups }
@@ -154,24 +156,32 @@ function isIdOk(boardId, boards) {
 function getLabels() {
     return [
         {
+            importence: 3,
             id: 'l101',
             title: 'Done',
-            color: '#00c875'
+            color: '#00c875',
+            type: 'Done'
         },
         {
+            importence: 1,
             id: 'l102',
             title: 'Working on it',
-            color: '#fdab3d'
+            color: '#fdab3d',
+            type: 'Working on it'
         },
         {
+            importence: 2,
             id: 'l103',
             title: 'Stuck',
-            color: '#e2445c'
+            color: '#e2445c',
+            type: 'Stuck'
         },
         {
+            importence: 4,
             id: 'l104',
-            title: 'Empty',
-            color: '#c4c4c4'
+            title: '',
+            color: '#c4c4c4',
+            type: 'Empty'
         }
     ]
 }
@@ -179,21 +189,25 @@ function getLabels() {
 function getPriority() {
     return [
         {
+            importence: 1,
             id: 'l101',
             title: 'High',
             color: '#e2445d'
         },
         {
+            importence: 2,
             id: 'l102',
             title: 'Medium',
             color: '#a25edc'
         },
         {
+            importance: 3,
             id: 'l103',
             title: 'Low',
             color: '#589bfc'
         },
         {
+            importance: 4,
             id: 'l104',
             title: 'Empty',
             color: '#c4c4c4'

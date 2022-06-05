@@ -68,5 +68,3 @@ export const TimelineCol = ({ task, group, updateTask, idx, specialUpdateTask })
     </section>
 }
 
-
-

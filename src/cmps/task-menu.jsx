@@ -1,5 +1,6 @@
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { BsGraphUp, BsTrash } from "react-icons/bs";
+import { MdDriveFileRenameOutline } from "react-icons/md";
 import React from "react"
 
 export const TaskMenu = ({ arrowTask, statusRef, removeTask, setUpdateIsClick, task, board, setArrowTask }) => {
@@ -17,7 +18,7 @@ export const TaskMenu = ({ arrowTask, statusRef, removeTask, setUpdateIsClick, t
         <div className="task-arrow">
             <div className="task-menu-item">
                 <div className="task-content-wrapper" onClick={(ev) => onChangeTaskTitle(arrowTask.groupId)}>
-                    <div className="task-icon"><AiOutlineUserAdd /></div>
+                    <div className="task-icon"><MdDriveFileRenameOutline /></div>
                     <div className="task-title">Rename item</div>
                 </div>
                 <div className="task-content-wrapper" onClick={(event) => onRemoveTask(event, arrowTask.taskId, arrowTask.groupId)}>
