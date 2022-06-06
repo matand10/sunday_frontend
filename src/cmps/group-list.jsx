@@ -18,7 +18,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { MdDragIndicator } from 'react-icons/md'
 
 
-export const GroupList = ({ snapshot, provided, onDragColEnd, updateTask, updateBoard, updates, updateStatistics, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup, updateTaskDate }) => {
+export const GroupList = ({ snapshot, provided, onDragEnd, onDragColEnd, updateTask, updateBoard, updates, updateStatistics, board, group, onAddTask, onRemoveGroup, removeTask, updateGroup, updateTaskDate }) => {
     const [task, setTask] = useState({ title: '' })
     const [groupIsClick, setGroupIsClick] = useState({})
     const [isClickGroup, setIsClickGroup] = useState(false)
@@ -141,8 +141,8 @@ export const GroupList = ({ snapshot, provided, onDragColEnd, updateTask, update
                 </div>
 
                 <div className="flex coulmn-main-header-container">
-                    <DragDropContext onDragEnd={onDragColEnd}>
-                        <Droppable droppableId="droppable" direction="horizontal">
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        <Droppable droppableId="droppable" direction="horizontal" type="droppableCol">
                             {(provided) => (
 
                                 <div className="group-header-items" {...provided.droppableProps} ref={provided.innerRef}>
