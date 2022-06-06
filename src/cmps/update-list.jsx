@@ -3,6 +3,7 @@ import { Avatar } from '@mui/material';
 
 export const UpdateList = ({ update }) => {
 
+
     return <section className="testimonials">
         <div className="testimonial-box-container">
             <div className="testimonial-box">

@@ -17,7 +17,7 @@ import { SidePanel } from '../cmps/header-activity-panel'
 import { Avatar, AvatarGroup } from "@mui/material";
 import { userService } from "../services/user.service";
 
-export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, onFilter, setIsKanban, setFrontFilter }) => {
+export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, onFilter, setIsKanban, setFrontFilter, user }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isInviteMenuOpen, setIsInviteMenuOpen] = useState(false)
     const [isSearchActive, setIsSearchActive] = useState(false)
@@ -60,8 +60,10 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
 
     const updateTitleBoard = (ev) => {
         ev.preventDefault()
-        board.title = titleBoard.title
-        updateBoard(board)
+        const newBoard = { ...board }
+        newBoard.title = titleBoard.title
+        console.log(newBoard)
+        updateBoard(newBoard)
         setIsTitleBoardClick(!isTitleBoardClick)
     }
 
@@ -103,6 +105,8 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
         newBoard.description = value
         updateBoard(newBoard)
     }
+
+
 
     if (!board) return <h1>Loading...</h1>
     return <div className="board-header">

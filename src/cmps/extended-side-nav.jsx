@@ -6,11 +6,9 @@ import { MdOutlineArrowForwardIos } from 'react-icons/md'
 
 
 export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDeleteBoard, updateBoard }) => {
-    const [showMenu, setShowMenu] = useState('')
     const [isNavOpen, setIsNavOpen] = useState(false)
     const [isClick, setIsClick] = useState(false)
     const [renameIsClick, setRenameIsClick] = useState('')
-    const [boardUpdate, setBoardUpdate] = useState(board)
     const [isBoardMenuOpen, setIsBoardMenuOpen] = useState(false)
     const [titleBoard, setTitleBoard] = useState('')
     let menuRef = useRef()
@@ -44,9 +42,11 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
     const updateTitleBoard = (ev) => {
         ev.preventDefault()
         ev.stopPropagation()
-        let newBoard = { ...board }
+        const newBoard = { ...board }
         newBoard.title = titleBoard
+        updateBoard(newBoard)
     }
+
 
     return <section className={`home-control-component${isNavOpen ? "" : '-closed'}`}>
         <div className="control-nav-expend">
@@ -79,7 +79,7 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
             <div className="user-projects-main-container">
                 <div className="user-projects-container">
                     <div className="project-side-link">
-                        {boards.length && boards.map((board, idx) => {
+                        {boards.map((board, idx) => {
                             return <div key={idx} onClick={() => boardChange(board)} className='home-control-all-buttons'>
                                 {(renameIsClick === board._id) ? <div className="title-update-input">
                                     <form onSubmit={updateTitleBoard} className="board-title-form">

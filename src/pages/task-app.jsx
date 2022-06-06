@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { socketService } from '../services/socket.service'
 import { useDispatch, useSelector } from "react-redux"
-import { loadBoards, setFilter } from "../store/board/board.action"
-import { loadUsers, updateUser } from "../store/user/user.actions"
+import { loadBoards } from "../store/board/board.action"
+import { loadUsers } from "../store/user/user.actions"
 import { loadUpdates } from "../store/update/update.action"
 import { SideNav } from '../cmps/side-nav.jsx'
 import { BoardHeader } from "../cmps/board-header"
@@ -14,12 +14,11 @@ import { useNavigate, useParams } from "react-router-dom"
 import { Outlet } from 'react-router-dom'
 import { useEffectUpdate } from "../hooks/useEffectUpdate"
 import { groupService } from "../services/group.service"
-import { TimelineCol } from '../cmps/timeline-col'
 import loader from '../assets/img/loader/loader.gif'
-import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
+import { showSuccessMsg } from '../services/event-bus.service'
+
 
 export const TasksApp = () => {
-
     const [board, setBoard] = useState(null)
     const [isKanban, setIsKanban] = useState(false)
     const { boards } = useSelector((storeState) => storeState.boardModule)
@@ -84,7 +83,6 @@ export const TasksApp = () => {
         let newUser = { ...user }
         let newBoard = boardService.makeBoard(newUser)
         newBoard.title = board.title
-        newBoard.members.push(newUser)
         dispatch(saveBoard(newBoard))
     }
 
@@ -162,7 +160,7 @@ export const TasksApp = () => {
 
         <div className="board-container-right">
             <div className="main-app flex-column">
-                <BoardHeader setFrontFilter={setFrontFilter} setIsKanban={setIsKanban} updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
+                <BoardHeader setFrontFilter={setFrontFilter} user={user} setIsKanban={setIsKanban} updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
                 <Outlet context={{ board, onFilter, frontFilter, updates, updateBoard, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
             </div>
         </div>

@@ -19,32 +19,13 @@ export class _SidePanel extends React.Component {
         isUpdateOpen: true
     }
 
-    deleteUpdate = (updateId, updateIdx) => {
-        const { group, taskIdx } = this.props
-        group.tasks[taskIdx].comments.splice(updateIdx, 1)
-        this.props.updateGroup(group)
-        this.props.removeUpdate(updateId)
-    }
 
     closeModal = () => {
         this.props.onCloseModal()
     }
 
-    onUpdate = async (update) => {
-        const { group, taskIdx, board } = this.props
-        const newGroup = { ...group }
-        const addedUpdate = await this.props.addUpdate(update)
-        console.log('addedUpdate', addedUpdate);
-        newGroup.tasks[taskIdx].comments.push(addedUpdate)
-        this.props.updateGroup(newGroup)
-    }
-
     togglePaging = (value) => {
         this.setState((prevState) => ({ ...prevState, isUpdateOpen: value }))
-    }
-
-    toggleInput = (value) => {
-        this.setState((prevState) => ({ ...prevState, isInputClicked: value }))
     }
 
 
@@ -52,7 +33,7 @@ export class _SidePanel extends React.Component {
         const { menuRef, user, task, board, setIsActivityModal } = this.props
         const { isModalOpen, isInputClicked, users, isUpdateOpen } = this.state
 
-        return <section onClick={() => this.toggleInput(false)} ref={menuRef}>
+        return <section ref={menuRef}>
             <div className="side-panel-modal" style={{ left: isModalOpen ? '0px' : '3000px' }}>
                 <div className="modal-content">
                     <div className="side-panel-title">
@@ -85,7 +66,7 @@ export class _SidePanel extends React.Component {
 
                         {isUpdateOpen && <div className="main-update-container">
                             <div className="main-update-list-container">
-                                {board.comments && board.comments.map((update, idx) => {
+                                {board.comments.map((update, idx) => {
                                     return <div key={idx}>
                                         <UpdateList updateIdx={idx} deleteUpdate={this.deleteUpdate} users={users} update={update} />
                                     </div>

@@ -50,9 +50,9 @@
 
 .days-indicate {
     position: absolute;
-    z-index: 6000;
+    transform: translateX(25%);
     top: 18%;
-    right: 41%;
+    // right: 25%;
     color: #ffffff;
     font-size: 1.1rem;
 }

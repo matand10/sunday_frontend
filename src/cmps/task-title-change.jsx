@@ -12,10 +12,6 @@ export class _TaskTitleChange extends React.Component {
 
     }
 
-    componentDidMount() {
-
-    }
-
     handleChange = ({ target }) => {
         const value = target.value
         this.setState((prevState) => ({ ...prevState, title: value }))
@@ -49,7 +45,6 @@ export class _TaskTitleChange extends React.Component {
     render() {
         const { statusRef, task, group, onUpdateTask, onOpenModal, board, updateIsClick, updates } = this.props
         const { title } = this.state
-        console.log(task);
 
         return <div className="task-title-content" >
             {(updateIsClick.boardId && updateIsClick.groupId === group.id && updateIsClick.task.id === task.id) ?

@@ -69,7 +69,7 @@ export const TimelineCol = ({ task, group, updateTask, idx, specialUpdateTask })
                     editableDateInputs={true}
                     moveRangeOnFirstSelection={false}
                     ranges={range}
-                    months={1}
+                    months={2}
                     direction="horizontal"
                     className="calendarElement"
                 />}

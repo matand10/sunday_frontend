@@ -154,7 +154,6 @@ function groupColAdd(board, value) {
 }
 
 function getProgress(group) {
-    console.log(group);
     let colIdxs = []
     group.tasks[0].columns.forEach((col, idx) => {
         if (col.type === 'status') colIdxs.push(idx)

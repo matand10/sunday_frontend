@@ -92,7 +92,6 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
             newGroup.progress = groupService.getProgress(newGroup)
         }
         const activity = boardService.documentActivities(col, previewCol.value, task.title)
-        console.log(activity);
         newTask.activities.unshift(activity)
         board.activities.unshift(activity)
         updateGroup(newGroup)

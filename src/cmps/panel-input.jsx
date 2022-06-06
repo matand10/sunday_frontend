@@ -7,7 +7,7 @@ export class PanelInput extends React.Component {
     state = {
         update: {
             txt: '',
-            byUser: userService.getLoggedinUser() || null,
+            byUser: this.props.user || null,
             aboutTaskId: this.props.task.id
         },
     }
@@ -22,7 +22,7 @@ export class PanelInput extends React.Component {
         const { update } = this.state
         update.updateDate = Date.now()
         this.props.onUpdate(update)
-        this.setState({ update: { txt: '' } })
+        this.setState((prevState) => ({ update: { ...prevState.update, txt: '' } }))
     }
 
     handleParentClick = (ev) => {

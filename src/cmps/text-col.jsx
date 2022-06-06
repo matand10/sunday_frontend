@@ -31,7 +31,7 @@ export const TextCol = ({ col, idx, specialUpdateTask }) => {
     if (editText) {
         return <div className="col-text-container" ref={menuRef}>
             <form onSubmit={onChangeText}>
-                <input className="col-text-input" type="text" onChange={handleChange} onClick={(event) => (event.stopPropagation())} />
+                <input defaultValue={col.value} className="col-text-input" type="text" onChange={handleChange} onClick={(event) => (event.stopPropagation())} />
             </form>
         </div>
     } else return <div onClick={() => setEditText(true)} className="flex-row-items">{col.value}</div>

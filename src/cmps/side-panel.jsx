@@ -35,7 +35,7 @@ export class _SidePanel extends React.Component {
         const newGroup = { ...group }
         const addedUpdate = await this.props.addUpdate(update)
         newGroup.tasks[taskIdx].comments.push(addedUpdate)
-        board.comments.push(update)
+        board.comments.push(addedUpdate)
         this.props.updateGroup(newGroup)
     }
 
@@ -89,7 +89,7 @@ export class _SidePanel extends React.Component {
                                 <PanelInput toggleInput={this.toggleInput} task={task} user={user} addUpdate={addUpdate} onUpdate={this.onUpdate} isInputClicked={isInputClicked} />
                             </div>
                             <div className="main-update-list-container">
-                                {task.comments && task.comments.map((update, idx) => {
+                                {task.comments.map((update, idx) => {
                                     return <div key={update._id}>
                                         <UpdateList updateIdx={idx} deleteUpdate={this.deleteUpdate} users={users} update={update} />
                                     </div>
