@@ -7,7 +7,7 @@ import { TaskDetails } from '../modal/kanban-task-details'
 import { groupService } from '../services/group.service'
 
 
-export const KanbanList = ({ status, board, updateBoard, onUpdate, item, idx, onOpenDetails, setGroupMenuOpen }) => {
+export const KanbanList = ({ provided, snapshot, status, board, setUpdatedBoard, onUpdate, item, idx, onOpenDetails, setGroupMenuOpen }) => {
     const [task, setTask] = useState({ title: '', status })
     const [isTaskNameClick, setIsTaskNameClick] = useState({})
     const [modalPos, setModalPos] = useState({ x: null, y: null })
@@ -19,7 +19,7 @@ export const KanbanList = ({ status, board, updateBoard, onUpdate, item, idx, on
         let taskIdx = board.groups[groupIdx].tasks.findIndex(task => task.id === taskId)
         let newBoard = { ...board }
         newBoard.groups[groupIdx].tasks[taskIdx].title = title
-        updateBoard(newBoard)
+        setUpdatedBoard(newBoard)
         onUpdate(newBoard)
         setIsTaskNameClick({})
     }
@@ -38,7 +38,10 @@ export const KanbanList = ({ status, board, updateBoard, onUpdate, item, idx, on
     }
 
     return (
-        <section>
+        <section ref={provided.innerRef}
+            snapshot={snapshot}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}>
             <div key={idx} className="kanban-task-content" onClick={(event) => onOpenDetails(event, item)}>
                 <div className="task-name-content">
                     <h4 contentEditable suppressContentEditableWarning={true} onBlur={(event) => onChangeTaskTitle(event, item.taskId, item.groupId)} onClick={(event) => (event.stopPropagation())}>{item.taskName}</h4>
@@ -68,74 +71,11 @@ export const KanbanList = ({ status, board, updateBoard, onUpdate, item, idx, on
                         </div>
                     </div>
                 </div>
-                {/* {groupMenuOpen === item.taskId && <GroupKanbanMenu board={board} groupMenuRef={groupMenuRef} taskId={item.taskId} currGroupId={item.groupId} updateBoard={updateBoard}
-                        onUpdatTaskName={onUpdate} modalPos={modalPos} setGroupMenuOpen={setGroupMenuOpen} />}
-                    {isDetailsOpen.taskId === item.taskId &&
-                        <TaskDetails updateStatus={updateStatus} board={board} item={item} kanban={kanban[status]} onOpenDetails={onOpenDetails} updateTaskName={updateTaskName} updateBoard={updateBoard} onUpdatTaskName={onUpdate} modalPos={modalPos} setModalPos={setModalPos} />
-                        // <TaskDetails board={board} taskName={item.taskName} taskId={item.taskId} status={status.title} statusColor={status.color} persons={item.persons} groupName={item.groupName} groupId={item.groupId} groupColor={item.groupColor} onOpenDetails={onOpenDetails} updateTaskName={updateTaskName} updateBoard={updateBoard} onUpdatTaskName={onUpdatTaskName} modalPos={modalPos} setModalPos={setModalPos} />
-                    } */}
+                
             </div>
-            {/* <div className="column-main-input-container">
-                <form className="main-column-input" onSubmit={addTaskKanban}>
-                    <input className="column-input" type="text" placeholder="+Add Item" name="title" onChange={handleAddChange} />
-                    {task.title && <button className="add-task-button" style={{ backgroundColor: kanban[status].color }}>Add</button>}
-                </form>
-            </div> */}
+            
+            {provided.placeholder}
+
         </section >
     )
-    // return (
-    //     <section>
-    //         <div className="kanban-container">
-    //             <div className="kanban-column-content" style={{ backgroundColor: status.color }}>
-    //                 <div className="kanban-column-name">{status.type} / {(!kanban[status.type]?.length) ? '0' : kanban[status.type].length}</div>
-    //                 <div className="kanban-tasks-container">
-
-    //                     {kanban[(status.type === 'Working on it') ? status.type = 'WorkingOnIt' : status.type] && kanban[(status.type === 'Working on it') ? status.type = 'WorkingOnIt' : status.type].map((item, idx) => {
-    //                         return <div key={idx} className="kanban-task-content" onClick={(event) => onOpenDetails(event, idx/*, { boardId: board._id, groupId: item.groupId, taskId: item.taskId}*/)}>
-    //                             <div className="task-name-content">
-    //                                 <h4 contentEditable suppressContentEditableWarning={true} onBlur={(event) => onChangeTaskTitle(event, item.taskId, item.groupId)} onClick={(event) => (event.stopPropagation())}>{item.taskName}</h4>
-    //                             </div>
-    //                             <div className="task-down-phase">
-    //                                 <div className='task-person-content'>
-    //                                     <div className='text-component'><FaRegUserCircle /> Persons</div>
-    //                                     <div className="task-person-name">{item.persons.length ?
-    //                                         <div className="task-person-item task-user-image-container">{item.persons.map((user, idx) => {
-    //                                             return <div key={idx} className="user-image">
-    //                                                 <img key={idx} style={{ left: `${20 * (idx) + 'px'}`, transform: `translateX(${-80 + '%'})` }} className="user-img-icon" src={user.imgUrl} alt="user image" />
-    //                                             </div>
-    //                                         })}
-    //                                         </div>
-    //                                         :
-    //                                         <div className="task-person-item">
-    //                                             <div className="user-image">
-    //                                                 <img className="user-image-icon" src="https://cdn.monday.com/icons/dapulse-person-column.svg" alt="user image" />
-    //                                             </div>
-    //                                         </div>}</div>
-    //                                 </div>
-    //                                 <div className="task-group-name">
-    //                                     <div className='text-group-component'><FaRegCircle /> Group</div>
-    //                                     <div className='group-color-container' onClick={(event) => (event.stopPropagation())}>
-    //                                         <div className='color-group-component' style={{ backgroundColor: item.groupColor }}></div>
-    //                                         <div className='group-cell-component' onClick={(ev) => toggleGroupMenu(ev, true)} >{item.groupName}</div>
-    //                                     </div>
-    //                                 </div>
-    //                             </div>
-    //                             {groupMenuOpen && <GroupKanbanMenu board={board} groupMenuRef={groupMenuRef} taskId={item.taskId} currGroupId={item.groupId} updateBoard={updateBoard}
-    //                                 onUpdatTaskName={onUpdatTaskName} modalPos={modalPos} setGroupMenuOpen={setGroupMenuOpen} />}
-    //                             {isDetailsOpen === idx &&
-    //                                 <TaskDetails board={board} taskName={item.taskName} taskId={item.taskId} status={status.title} statusColor={status.color} persons={item.persons} groupName={item.groupName} groupId={item.groupId} groupColor={item.groupColor} onOpenDetails={onOpenDetails} updateTaskName={updateTaskName} updateBoard={updateBoard} onUpdatTaskName={onUpdatTaskName} modalPos={modalPos} setModalPos={setModalPos} />
-    //                             }
-    //                         </div>
-    //                     })}
-    //                     <div className="column-main-input-container">
-    //                         <form className="main-column-input" onSubmit={addTaskKanban}>
-    //                             <input className="column-input" type="text" placeholder="+Add Item" name="title" onChange={handleAddChange} />
-    //                             {task.title && <button className="add-task-button" style={{ backgroundColor: status.color }}>Add</button>}
-    //                         </form>
-    //                     </div>
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     </section>
-    // )
 }

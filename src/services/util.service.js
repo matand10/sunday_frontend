@@ -64,13 +64,13 @@ function getLabel(status) {
                 color: '#00c875',
                 type: 'Done'
             }
-        case 'WorkingOnIt':
+        case 'Working On It':
             return {
                 importence: 1,
                 id: 'l102',
-                title: 'Working on it',
+                title: 'Working On It',
                 color: '#fdab3d',
-                type: 'Working on it'
+                type: 'Working On It'
             }
         case 'Stuck':
             return {

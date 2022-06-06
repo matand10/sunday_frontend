@@ -17,6 +17,7 @@ import { groupService } from "../services/group.service"
 import { TimelineCol } from '../cmps/timeline-col'
 import loader from '../assets/img/loader/loader.gif'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
+import { kanbanService } from "../services/kanban.service"
 
 export const TasksApp = () => {
 
@@ -30,6 +31,8 @@ export const TasksApp = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate();
     const { boardId } = useParams()
+    const [kanban, setKanban] = useState(false)
+
 
     useEffect(() => {
         dispatch(loadUsers())
@@ -91,6 +94,7 @@ export const TasksApp = () => {
     const updateBoard = (newBoard) => {
         socketService.emit('boardUpdate', newBoard)
         setBoard(newBoard)
+        setKanban(kanbanService.getKanban(newBoard))
         dispatch(saveBoard(newBoard))
     }
 
@@ -163,7 +167,7 @@ export const TasksApp = () => {
         <div className="board-container-right">
             <div className="main-app flex-column">
                 <BoardHeader setFrontFilter={setFrontFilter} setIsKanban={setIsKanban} updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
-                <Outlet context={{ board, onFilter, frontFilter, updates, updateBoard, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
+                <Outlet context={{ setKanban, kanban, board, onFilter, frontFilter, updates, updateBoard, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
             </div>
         </div>
     </section>
