@@ -8,6 +8,8 @@
     cursor: default;
     overflow-y: hidden;
     animation: side-panel .2s;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 @keyframes side-panel {
