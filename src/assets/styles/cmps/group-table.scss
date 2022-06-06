@@ -56,6 +56,8 @@
     border-radius: 8px;
 }
 
+
+
 .group-header-wrapper {
     display: flex;
     flex-direction: column;
@@ -562,6 +564,20 @@
         &:focus {
             border: 1px solid #1976d2;
         }
+    }
+}
+
+@media(max-width:1150px) {
+    .group-main-container{
+        width: 90vw;
+        height: 100vh;
+        overflow-x: scroll;
+        padding-left: 15px;
+    }
+    .task-row-title{
+        display: grid;
+        grid-template-columns: 450px 1fr;
+        justify-content:unset ;
     }
 }
 

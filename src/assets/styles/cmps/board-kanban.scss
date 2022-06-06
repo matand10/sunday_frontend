@@ -1,6 +1,7 @@
 .kanban-board-container {
     display: flex;
     gap: 15px;
+    padding: 16px 30px 10px 18px
 }
 
 .kanban-container {
@@ -9,7 +10,7 @@
 }
 
 .kanban-column-content {
-    height: 388px;
+    // height: 388px;
     // position: absolute;
     left: 276px;
     top: 0;
@@ -17,11 +18,26 @@
     border-radius: 8px;
     border-bottom-left-radius: 4px;
     vertical-align: top;
-    height: 100%;
+    // height: 100%;
     display: flex;
     flex-direction: column;
 
-    & .kanban-column-name {
+    &:hover {
+        // background-color: unset;
+        // border-inline-end: 4px solid #f5f6f8;
+
+        .drag-handle-status {
+            visibility: visible;
+        }
+
+
+
+        // .kanban-column-name {
+        //     display: flex;
+        // }
+    }
+
+    .kanban-column-name {
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
         padding-bottom: 8px;
@@ -30,15 +46,28 @@
         cursor: pointer;
         text-align: center;
         color: #ffffff;
+        display: flex;
     }
 }
+
+.kanban-status-title {
+    flex-grow: 1;
+}
+
+.drag-handle-status {
+    // display: none;
+    visibility: hidden;
+    margin-inline-end: 5px;
+    flex-shrink: 0;
+}
+
 
 .kanban-tasks-container {
     background-color: white;
     min-height: 110px;
     max-height: 100%;
     padding: 0 4px 0 6px;
-    margin: 8px 4px 0 5px;
+    margin: 8px 0 0 5px;
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -184,4 +213,3 @@
 .kanban-main-input-container {
     margin-bottom: 5px;
 }
-

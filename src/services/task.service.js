@@ -85,6 +85,7 @@ function getColumns(columns) {
         switch (col.type) {
             case 'status':
                 return {
+                    id: col.id === 'col2' ? 'col2' : '',
                     title: 'Status',
                     importance: col.importance,
                     value: utilService.getLabel(''),

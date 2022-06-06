@@ -15,8 +15,13 @@ import { Outlet } from 'react-router-dom'
 import { useEffectUpdate } from "../hooks/useEffectUpdate"
 import { groupService } from "../services/group.service"
 import loader from '../assets/img/loader/loader.gif'
+<<<<<<< HEAD
 import { showSuccessMsg } from '../services/event-bus.service'
 
+=======
+import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
+import { kanbanService } from "../services/kanban.service"
+>>>>>>> 5f2ca98ad76cef9bbe4e1b0aa05c57c4dea11ca2
 
 export const TasksApp = () => {
     const [board, setBoard] = useState(null)
@@ -29,6 +34,8 @@ export const TasksApp = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate();
     const { boardId } = useParams()
+    const [kanban, setKanban] = useState(false)
+
 
     useEffect(() => {
         dispatch(loadUsers())
@@ -89,6 +96,7 @@ export const TasksApp = () => {
     const updateBoard = (newBoard) => {
         socketService.emit('boardUpdate', newBoard)
         setBoard(newBoard)
+        setKanban(kanbanService.getKanban(newBoard))
         dispatch(saveBoard(newBoard))
     }
 
@@ -160,8 +168,13 @@ export const TasksApp = () => {
 
         <div className="board-container-right">
             <div className="main-app flex-column">
+<<<<<<< HEAD
                 <BoardHeader setFrontFilter={setFrontFilter} user={user} setIsKanban={setIsKanban} updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
                 <Outlet context={{ board, onFilter, frontFilter, updates, updateBoard, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
+=======
+                <BoardHeader setFrontFilter={setFrontFilter} setIsKanban={setIsKanban} updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
+                <Outlet context={{ setKanban, kanban, board, onFilter, frontFilter, updates, updateBoard, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
+>>>>>>> 5f2ca98ad76cef9bbe4e1b0aa05c57c4dea11ca2
             </div>
         </div>
     </section>

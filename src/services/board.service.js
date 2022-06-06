@@ -168,9 +168,9 @@ function getLabels() {
         {
             importence: 1,
             id: 'l102',
-            title: 'Working on it',
+            title: 'Working On It',
             color: '#fdab3d',
-            type: 'Working on it'
+            type: 'Working On It'
         },
         {
             importence: 2,
