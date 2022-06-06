@@ -14,6 +14,8 @@ import { setFilter } from '../store/board/board.action'
 import { NavLink } from "react-router-dom";
 import { InviteUserMenu } from '../modal/user-invite-modal'
 import { SidePanel } from '../cmps/header-activity-panel'
+import { Avatar, AvatarGroup } from "@mui/material";
+import { userService } from "../services/user.service";
 
 export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, onFilter, setIsKanban, setFrontFilter }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -23,6 +25,7 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     const [handleSearch, setHandleSearch] = useState({ search: '' })
     const { filterBy } = useSelector((storeState) => storeState.boardModule)
     const [unAssignedUsers, setUnAssignedUsers] = useState([])
+    const [assignedUsers, setAssignedUsers] = useState([])
     const [titleBoard, setTitleBoard] = useState('')
     const [isTitleBoardClick, setIsTitleBoardClick] = useState(false)
     const [isActivityModal, setIsActivityModal] = useState(false)
@@ -30,10 +33,12 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     let menuRef = useRef()
     const firstFilterUseEffectRef = useRef()
     firstFilterUseEffectRef.current = true
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
     useEffect(() => {
         document.addEventListener("mousedown", eventListeners)
+        const assignedToBoard = userService.getAssignedUsers(users, board)
+        setAssignedUsers(assignedToBoard)
         return () => {
             document.removeEventListener("mousedown", eventListeners)
         }
@@ -50,8 +55,6 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     }
 
     useEffect(() => {
-        // if (!firstFilterUseEffectRef.current) onFilter(handleSearch)
-        // firstFilterUseEffectRef.current = false
         onFilter(handleSearch)
     }, [handleSearch])
 
@@ -124,9 +127,18 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
                 </div>
                 <div className="board-header-right">
                     <div className="board-header-actions">
-                        <button className="panel-button">Last Seen</button>
+                        <button className="flex align-items panel-button">
+                            <AvatarGroup className="flex">
+                                {assignedUsers.map((user, userIdx) => {
+                                    return <Avatar key={userIdx} alt={user.fullname} src={user.userImg} sx={{ width: 25, height: 25 }} />
+                                })}
+                                <div className="flex align-items gap" style={{ marginInlineStart: '5px' }}>
+                                    <p>Last Seen</p>
+                                </div>
+                            </AvatarGroup>
+                        </button>
                         <button className="panel-button" onClick={() => toggleInviteMenu(true)}>Invite / {unAssignedUsers.length}</button>
-                        <InviteUserMenu users={users} setUnAssignedUsers={setUnAssignedUsers} updateBoard={updateBoard} board={board} isInviteMenuOpen={isInviteMenuOpen} menuRef={menuRef} />
+                        <InviteUserMenu users={users} setAssignedUsers={setAssignedUsers} setUnAssignedUsers={setUnAssignedUsers} updateBoard={updateBoard} board={board} isInviteMenuOpen={isInviteMenuOpen} menuRef={menuRef} />
                         <button className="panel-button" onClick={() => setIsActivityModal(true)}>Activity</button>
                         <button className="panel-button board-add"><span>+</span> Add to board</button>
                         <div onClick={() => toggleMenu(true)} className="ds-menu-side-panel-header"><img src={dotsMenu} alt='dots-menu' /></div>

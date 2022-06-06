@@ -3,6 +3,7 @@ import { useSelector } from "react-redux"
 import { userService } from "../services/user.service"
 import useImg from '../assets/img/user-invite/userImg.png'
 import { TiDelete } from 'react-icons/ti'
+import { Avatar } from "@mui/material"
 
 export const InviteToTaskModal = ({ specialUpdateTask, statusRef, task, board, colIdx, setInviteUserModal, updateTask, group }) => {
     const { users } = useSelector((storeState) => storeState.userModule)
@@ -47,7 +48,7 @@ export const InviteToTaskModal = ({ specialUpdateTask, statusRef, task, board, c
                     return <div className="assigned-members" key={idx}>
                         <div className="flex align-items assigned-users">
                             <div>
-                                <img style={{ width: '28px' }} src={user.userImg || useImg} alt="user-img" />
+                                <Avatar key={idx} alt={user.fullname} src={user.userImg} sx={{ width: 28, height: 28 }} />
                             </div>
                             <span>{user.fullname}</span>
                         </div>
@@ -70,7 +71,7 @@ export const InviteToTaskModal = ({ specialUpdateTask, statusRef, task, board, c
                     return <div className="assigned-members" key={idx} onClick={() => assignUserToTask(user, idx)}>
                         <div className="flex align-items assigned-users">
                             <div>
-                                <img style={{ width: '28px' }} src={user.userImg || useImg} alt="user-img" />
+                                <Avatar key={idx} alt={user.fullname} src={user.userImg} sx={{ width: 28, height: 28 }} />
                             </div>
                             <span>{user.fullname}</span>
                         </div>

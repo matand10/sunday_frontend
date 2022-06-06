@@ -82,7 +82,6 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
     }
 
     const specialUpdateTask = (value, colIdx, status = null) => {
-        console.log('value', value);
         const newGroup = { ...group }
         const newTask = { ...task }
         const col = newTask.columns[colIdx]
@@ -93,6 +92,7 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
             newGroup.progress = groupService.getProgress(newGroup)
         }
         const activity = boardService.documentActivities(col, previewCol.value, task.title)
+        console.log(activity);
         newTask.activities.unshift(activity)
         board.activities.unshift(activity)
         updateGroup(newGroup)
@@ -116,7 +116,6 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
                     </div>
                     <TaskTitleChange setUpdateIsClick={setUpdateIsClick} updateTask={updateTask} updateIsClick={updateIsClick} taskIdx={taskIdx} statusRef={statusRef} task={task} group={group} onUpdateTask={onUpdateTask} onOpenModal={onOpenModal} board={board} />
                 </div>
-
                 <div className="task-column-rows">
                     <div className="task-row-items">
                         {columns.map((col, idx) => {
@@ -134,7 +133,6 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
         {statusActive.value && <StatusModal setStatusActive={setStatusActive} updateGroup={updateGroup} onUpdateGroupBar={onUpdateGroupBar} specialUpdateTask={specialUpdateTask} statusActive={statusActive} statusRef={statusRef} modalPos={modalPos} />}
         {modal.boardId && <SidePanel board={board} updateGroup={updateGroup} updateBoard={updateBoard} group={group} task={task} taskIdx={taskIdx} statusRef={statusRef} modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}
         {provided.placeholder}
-
     </section >
 }
 

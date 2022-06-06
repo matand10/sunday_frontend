@@ -28,7 +28,6 @@ async function remove(updateId) {
 }
 
 async function add(update) {
-
     const addedUpdate = await httpService.post(`update`, update)
     // update.byUser = userService.getLoggedinUser()
     // update.aboutUser = await userService.getById(update.aboutUserId)

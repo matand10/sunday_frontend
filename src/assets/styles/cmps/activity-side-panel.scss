@@ -3,40 +3,76 @@
     overflow-y: auto;
 }
 
-.activity-row {
-    height: 4.375em;
-    padding: 0px 10px;
-    margin: 0px 10px;
-    margin-top: em(10px);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.6em;
-    border-bottom: 1px solid $divider-backgroud-color;
+.content-table-activity {
+    border-collapse: collapse;
+    margin: 0 0;
+    font-size: 0.9em;
+    width: 100%;
+    overflow: hidden;
 }
 
-.activity-time {
+.content-table-activity th,
+.content-table-activity td {
+    padding: 6px 15px;
+    line-height: 20px;
+}
+
+.content-table-activity tbody {}
+
+.content-table-activity tbody tr {
+    height: 55px;
+    border-bottom: 1px solid #dddddd;
+}
+
+.content-table-activity tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.user-table-row {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 5px;
-    width: 100px;
+    height: 100%;
+}
 
-    & span {
-        text-align: center;
+.table-task-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 10px;
+}
+
+.table-status-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #ffffff;
+
+    &>* {
+        height: 40px;
+        width: 90px;
     }
 }
 
-.activity-msg {
-    height: 100%;
-    width: 25%;
+.table-status {
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    line-height: 1.5em;
+    border-radius: 4px;
 }
 
-.activity-member {
-    gap: 10px;
+.table-task-time {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.user-assigned-table {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 75%;
+    gap: 5px;
+    height: 100%;
 }
