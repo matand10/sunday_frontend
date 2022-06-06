@@ -9,29 +9,9 @@ import { groupService } from '../services/group.service'
 
 export const KanbanList = ({ status, board, updateBoard, onUpdate, item, idx, onOpenDetails, setGroupMenuOpen }) => {
     const [task, setTask] = useState({ title: '', status })
-    // const [taskTitle, setTaskTitle] = useState('')
     const [isTaskNameClick, setIsTaskNameClick] = useState({})
     const [modalPos, setModalPos] = useState({ x: null, y: null })
-    // const [groupMenuOpen, setGroupMenuOpen] = useState(false)
-    // const [openDetails, setOpenDetails] = useState({})
-    // const [isDetailsOpen, setIsDetailsOpen] = useState(false)
     let groupMenuRef = useRef()
-
-
-
-    // const addTaskKanban = async (ev) => {
-    //     ev.preventDefault()
-    //     const groupId = board.groups[0].id
-    //     let newBoard = await taskService.addTask(board, task, groupId)
-    //     updateBoard(newBoard)
-    //     onUpdate(newBoard)
-    // }
-
-    // const handleTaskNameChange = ({ target }) => {
-    //     const field = target.name
-    //     const value = target.value
-    //     setTaskTitle((prevTask) => ({ ...prevTask, [field]: value }))
-    // }
 
     const updateTaskName = (ev, taskId, groupId, title) => {
         ev.preventDefault()
@@ -44,27 +24,6 @@ export const KanbanList = ({ status, board, updateBoard, onUpdate, item, idx, on
         setIsTaskNameClick({})
     }
 
-    // const updateStatus = (taskId, groupId, value) => {
-    //     const groupIdx = board.groups.findIndex(group => group.id === groupId)
-    //     let taskIdx = board.groups[groupIdx].tasks.findIndex(task => task.id === taskId)
-    //     let newBoard = { ...board }
-    //     const colIdx = board.columns.findIndex(col => col.id === 'col2')
-    //     const col = board.groups[groupIdx].tasks[taskIdx].columns[colIdx]
-    //     const previewCol = { ...col }
-    //     col.value = value
-    //     newBoard.groups[groupIdx].tasks[taskIdx].columns[colIdx].value = value
-    //     newBoard.groups[groupIdx].progress = groupService.getProgress(newBoard.groups[groupIdx])
-    //     const activity = boardService.documentActivities(col, previewCol.value, task.title)
-    //     board.activities.unshift(activity)
-    //     updateBoard(newBoard)
-    //     onUpdate(newBoard)
-    // }
-
-    // const setUpdateClick = (ev, params) => {
-    //     ev.stopPropagation()
-    //     setIsTaskNameClick(params)
-    // }
-
     const toggleGroupMenu = (ev, value) => {
         ev.stopPropagation()
         const x = ev.pageX
@@ -72,22 +31,6 @@ export const KanbanList = ({ status, board, updateBoard, onUpdate, item, idx, on
         setModalPos({ x: x, y: y })
         setGroupMenuOpen(value)
     }
-
-    // useEffect(() => {
-    //     document.addEventListener("mousedown", eventListener)
-    //     return () => {
-    //         document.removeEventListener("mousedown", eventListener)
-    //     }
-    // }, [])
-
-    // const eventListener = (ev) => {
-    //     if (!groupMenuRef.current?.contains(ev.target)) {
-    //         setGroupMenuOpen(false)
-    //         setIsTaskNameClick({})
-    //     }
-    // }
-
-
 
     const onChangeTaskTitle = (ev, taskId, groupId) => {
         const value = ev.currentTarget.textContent
