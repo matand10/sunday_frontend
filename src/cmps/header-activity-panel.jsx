@@ -8,6 +8,7 @@ import { addUpdate, removeUpdate } from '../store/update/update.action'
 import { Avatar, AvatarGroup } from '@mui/material'
 import { BiTime } from 'react-icons/bi'
 import { utilService } from '../services/util.service';
+import { IoIosArrowForward } from 'react-icons/io'
 export class _SidePanel extends React.Component {
 
     state = {
@@ -51,7 +52,6 @@ export class _SidePanel extends React.Component {
         const { menuRef, user, task, board, setIsActivityModal } = this.props
         const { isModalOpen, isInputClicked, users, isUpdateOpen } = this.state
 
-
         return <section onClick={() => this.toggleInput(false)} ref={menuRef}>
             <div className="side-panel-modal" style={{ left: isModalOpen ? '0px' : '3000px' }}>
                 <div className="modal-content">
@@ -77,13 +77,13 @@ export class _SidePanel extends React.Component {
                         <div className="side-panel-nav-wrapper">
                             <div className="side-panel-nav-container">
                                 <div className="side-panel-nav-item">
-                                    <button className={`panel-nav-button ${isUpdateOpen ? 'active' : ''}`} onClick={() => this.togglePaging(true)}><span>Activity</span></button>
-                                    {/* <button className={`panel-nav-button ${isUpdateOpen ? '' : 'active'}`} onClick={() => this.togglePaging(false)}><span>Activity</span></button> */}
+                                    <button className={`panel-nav-button ${isUpdateOpen ? 'active' : ''}`} onClick={() => this.togglePaging(true)}><span>Updates</span></button>
+                                    <button className={`panel-nav-button ${isUpdateOpen ? '' : 'active'}`} onClick={() => this.togglePaging(false)}><span>Activity</span></button>
                                 </div>
                             </div>
                         </div>
 
-                        {/* {isUpdateOpen && <div className="main-update-container">
+                        {isUpdateOpen && <div className="main-update-container">
                             <div className="main-update-list-container">
                                 {board.comments && board.comments.map((update, idx) => {
                                     return <div key={idx}>
@@ -91,21 +91,51 @@ export class _SidePanel extends React.Component {
                                     </div>
                                 })}
                             </div>
-                        </div>} */}
+                        </div>}
 
-                        {isUpdateOpen && <div className="main-activity-container">
-                            {board.activities.map((activity, idx) => {
-                                console.log(activity);
-                                return <div key={idx} className="activity-row">
-                                    <div className="activity-time"><BiTime /><span>{moment(activity.createdAt).fromNow()}</span></div>
-                                    <div>{activity.taskTitle}</div>
-                                    <div className="flex align-items activity-member">
-                                        <Avatar key={idx} alt={activity.byMember.fullname} src={activity.byMember.userImg} sx={{ width: 28, height: 28 }} />
-                                        {activity.byMember.fullname}
-                                    </div>
-                                    <div className="activity-msg">{activity.msg}</div>
-                                </div>
-                            })}
+                        {!isUpdateOpen && <div className="main-activity-container">
+                            <table className="content-table-activity">
+                                <tbody>
+                                    {board.activities.map((activity, idx) => {
+                                        return <tr key={idx}>
+                                            <td>
+                                                <div className="table-task-time">
+                                                    <BiTime />{moment(activity.createdAt).fromNow()}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="user-table-row">
+                                                    <Avatar key={idx} alt={activity.byMember.fullname} src={activity.byMember.userImg} sx={{ width: 28, height: 28 }} />
+                                                    {activity.byMember.fullname}
+                                                </div>
+                                            </td>
+                                            <td className="table-task-title">{activity.taskTitle}</td>
+
+                                            {activity.type === 'status' || activity.type === 'priority' ?
+                                                <td>
+                                                    <div className="table-status-row">
+                                                        <div className="table-status" style={{ backgroundColor: activity.msg.prevStat.color }}>{activity.msg.prevStat.title || 'Empty'}</div>
+                                                        <IoIosArrowForward style={{ color: '#d0d4e4', width: '15px' }} />
+                                                        <div className="table-status" style={{ backgroundColor: activity.msg.currStat.color }}>{activity.msg.currStat.title}</div>
+                                                    </div>
+                                                </td>
+                                                :
+                                                <td>{activity.type === 'person' ?
+                                                    <div className="user-assigned-table">
+                                                        <div>Assigned</div>
+                                                        <div className="flex align-items gap">
+                                                            <Avatar key={idx} alt={activity.msg.fullname} src={activity.msg.userImg} sx={{ width: 28, height: 28 }} />
+                                                            {activity.msg.fullname}
+                                                        </div>
+                                                    </div>
+                                                    :
+                                                    <div>{activity.msg}</div>}
+                                                </td>
+                                            }
+                                        </tr>
+                                    })}
+                                </tbody>
+                            </table>
                         </div>}
                     </div>
                 </div>

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react"
-import userImg from '../assets/img/user-invite/userImg.png'
 import { userService } from "../services/user.service"
-import { Avatar, AvatarGroup } from '@mui/material'
+import { Avatar } from '@mui/material'
 
-export const InviteUserMenu = ({ users, updateBoard, setUnAssignedUsers, board, isInviteMenuOpen, menuRef }) => {
+export const InviteUserMenu = ({ users, updateBoard, setUnAssignedUsers, board, isInviteMenuOpen, menuRef, setAssignedUsers }) => {
     const [filteredUsers, setFilteredUsers] = useState([])
 
     useEffect(() => {
