@@ -1,6 +1,7 @@
 import { utilService } from './util.service'
 import { httpService } from './http.service'
 import { userService } from './user.service'
+import { groupService } from './group.service'
 
 export const boardService = {
     query,
@@ -19,7 +20,10 @@ export const boardService = {
     isIdOk,
     documentActivities,
     changeColTitle,
-    getPriority
+    getPriority,
+    onDragTask,
+    onDragCol,
+    onDragGroup
 }
 
 async function query(filterBy = {}) {
@@ -223,6 +227,45 @@ function changeColTitle(colIdx, value, board) {
             newBoard.groups[gIdx].tasks[tIdx].columns[colIdx].title = value
         })
     })
+    return newBoard
+}
+
+function onDragTask(res, board) {
+    const { source, destination } = res
+    const newBoard = { ...board }
+    const groupSourceIdx = newBoard.groups.findIndex(group => group.id === source.droppableId)
+    const groupDestIdx = newBoard.groups.findIndex(group => group.id === destination.droppableId)
+    const [removed] = newBoard.groups[groupSourceIdx].tasks.splice(source.index, 1);
+    newBoard.groups[groupDestIdx].tasks.splice(destination.index, 0, removed);
+    newBoard.groups[groupSourceIdx].progress = groupService.getProgress(newBoard.groups[groupSourceIdx])
+    newBoard.groups[groupDestIdx].progress = groupService.getProgress(newBoard.groups[groupDestIdx])
+    return newBoard
+}
+
+function onDragCol(res, board) {
+    let newBoard = { ...board }
+    const newColumns = Array.from(board.columns)
+    const [removed] = newColumns.splice(res.source.index, 1)
+    newColumns.splice(res.destination.index, 0, removed)
+    newBoard.columns = newColumns
+    board.groups.forEach((group, gIdx) => {
+        group.tasks.forEach((task, tIdx) => {
+            const newTaskColumns = Array.from(task.columns)
+            const [taskRemoved] = newTaskColumns.splice(res.source.index, 1)
+            newTaskColumns.splice(res.destination.index, 0, taskRemoved)
+            newBoard.groups[gIdx].tasks[tIdx].columns = [...newTaskColumns]
+        })
+        newBoard.groups[gIdx].progress = groupService.getProgress(group)
+    })
+    return newBoard
+}
+
+function onDragGroup(res, board) {
+    const newGroups = Array.from(board.groups);
+    const [removed] = newGroups.splice(res.source.index, 1);
+    newGroups.splice(res.destination.index, 0, removed);
+    let newBoard = { ...board }
+    newBoard.groups = newGroups
     return newBoard
 }
 

@@ -16,11 +16,10 @@ export const KanbanBoard = () => {
     const [groupMenuOpen, setGroupMenuOpen] = useState(false)
     const [isDetailsOpen, setIsDetailsOpen] = useState(false)
     const [isWriteNew, setIsWriteNew] = useState(false)
+    const [isEditNewTask, setIsEditNewTask] = useState(false)
 
 
     useEffect(() => {
-        // if (!kanbanBoard) return
-        console.log(board);
         if (!board) return
         setKanban(kanbanService.getKanban(board))
     }, [])
@@ -35,7 +34,7 @@ export const KanbanBoard = () => {
         let newBoard = await taskService.addTask(board, { title: task.title, status }, groupId,)
         updateBoard(newBoard)
         onUpdate(newBoard)
-        setIsWriteNew(false)
+        setIsEditNewTask(false)
 
     }
 
@@ -64,7 +63,6 @@ export const KanbanBoard = () => {
 
     const onOpenDetails = (ev, idx) => {
         ev.stopPropagation()
-        // setOpenDetails(params)
         setIsDetailsOpen(idx)
     }
 
@@ -118,11 +116,18 @@ export const KanbanBoard = () => {
                                     }
                                 </section>
                             })}
-                            <div className="column-main-input-container">
-                                <form className="main-column-input" onSubmit={(event) => addTaskKanban(event, status)}>
-                                    <input className="column-input" type="text" placeholder="+Add Item" name="title" onChange={(event) => handleAddChange(event, status)} />
-                                    {task.title && isWriteNew === status && < button className="add-task-button" style={{ backgroundColor: kanban[status].color }}>Add</button>}
+                            <div className="column-main-input-container kanban-main-input-container">
+                                {isEditNewTask !== status && <div className="kanban-add-pulse-component" onClick={() => setIsEditNewTask(status)}>
+                                    <div className="kanban-add-pulse-component kanban-add-pulse-text">
+                                        +Add Item
+                                    </div>
+                                </div>}
+                                {isEditNewTask === status && <form className="kanban-add-pulse-input" onSubmit={(event) => addTaskKanban(event, status)}>
+                                    <input className="column-input kanban-input" type="text" name="title" onChange={(event) => handleAddChange(event, status)} />
+                                    {< button className="add-task-button kanban-add-button" style={{ backgroundColor: kanban[status].color }}>+Add</button>}
+                                    {/* {task.title && isWriteNew === status && < button className="add-task-button" style={{ backgroundColor: kanban[status].color }}>Add</button>} */}
                                 </form>
+                                }
                             </div>
                         </div>
                     </div>
