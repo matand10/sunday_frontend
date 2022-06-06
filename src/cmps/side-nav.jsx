@@ -1,15 +1,18 @@
+import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import logo from "../assets/img/app-logo/side-logo.png"
 import workspaceImg from "../assets/img/side-nav/surface-workspace-logo.png"
 import productSwtich from "../assets/img/side-nav/product-switcher-logo.png"
-import userImg from "../assets/img/user-invite/userImg.png"
 import { useEffect, useRef, useState } from "react"
 import { UserSideMenu } from '../modal/user-side-menu'
+import { Avatar } from "@mui/material"
 
 export const SideNav = () => {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const [isUserSideMenuOpen, setIsUserSideMenuOpen] = useState(false)
+    const { user } = useSelector((storeState) => storeState.userModule)
     let menuRef = useRef()
+
 
     useEffect(() => {
         document.addEventListener("mousedown", eventListeners)
@@ -32,6 +35,7 @@ export const SideNav = () => {
     const toggleUserMenu = (value) => {
         setIsUserSideMenuOpen(value)
     }
+
 
     return <section className="main-side-nav-container">
         <div className="side-nav-upper">
@@ -57,7 +61,8 @@ export const SideNav = () => {
                     <img onClick={() => toggleDialog(true)} src={productSwtich} alt="dots-logo" />
                 </div>
                 <div className="user-img">
-                    <img className="user-logout-button" onClick={() => toggleUserMenu(true)} src={userImg} alt="workspace img" />
+                    {/* <img className="user-logout-button" onClick={() => toggleUserMenu(true)} src={userImg} alt="workspace img" /> */}
+                    <Avatar alt={user.fullname} src={user.userImg} sx={{ width: 33, height: 33 }} onClick={() => toggleUserMenu(true)} />
                 </div>
             </div>
         </div>

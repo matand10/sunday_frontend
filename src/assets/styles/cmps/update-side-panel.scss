@@ -72,17 +72,10 @@
     }
 }
 
-.profile-img {
-    width: 33px;
-    height: 50px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-right: 10px;
-}
-
 .profile {
     display: flex;
-    align-items: center
+    align-items: center;
+    gap: 5px;
 }
 
 .name-user {

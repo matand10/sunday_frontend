@@ -1,8 +1,6 @@
 import { boardService } from '../../services/board.service'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
 
-
-
 export function loadBoards(filterBy) {
     return async dispatch => {
         try {
@@ -41,7 +39,7 @@ export function saveBoard(board) {
         try {
             const actionType = (board._id) ? 'UPDATE_BOARD' : 'ADD_BOARD'
             let savedBoard = await boardService.save(board)
-            if (typeof savedBoard === 'string') savedBoard = await boardService.getById(savedBoard)
+            // if (typeof savedBoard === 'string') savedBoard = await boardService.getById(savedBoard)
             dispatch({
                 type: actionType,
                 board: savedBoard

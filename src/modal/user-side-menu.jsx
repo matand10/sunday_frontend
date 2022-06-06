@@ -1,15 +1,25 @@
 import React from 'react'
 import { connect } from "react-redux";
+import { uploadService } from '../services/upload.service'
+import { onLogout, updateUser } from '../store/user/user.actions'
 import { FiUser } from 'react-icons/fi'
 import { BiLogOut } from 'react-icons/bi'
-import { onLogout } from '../store/user/user.actions'
 import { Link } from 'react-router-dom';
+import miniLogo from '../assets/img/app-logo/side-logo.png'
 
 export class _UserSideMenu extends React.Component {
 
     logout = () => {
         this.props.onLogout()
         window.location.href = '/'
+    }
+
+    uploadUserImage = async (ev) => {
+        const { user } = this.props
+        const cloudineryImage = await uploadService.uploadImg(ev)
+        user.userImg = cloudineryImage
+        console.log(user)
+        this.props.updateUser(user)
     }
 
 
@@ -19,7 +29,7 @@ export class _UserSideMenu extends React.Component {
             <div className="user-side-menu-container">
                 <div className="side-menu-avatar">
                     <div className="user-side-menu-logo">
-                        <img className="surface-item-image" src="https://cdn.monday.com/images/logos/monday_logo_icon.png" alt="Logo-img" />
+                        <img className="surface-item-image" src={miniLogo} alt="Logo-img" />
                     </div>
                     <h3>{user?.fullname || <Link to="/login">Login</Link>}</h3>
                 </div>
@@ -30,7 +40,11 @@ export class _UserSideMenu extends React.Component {
                     </div>
                     <div className="side-user-content-wrapper">
                         <ul className="side-menu-container-list clean-list">
-                            <li className="side-menu-list"><FiUser /><h4>My Profile</h4></li>
+                            <li className="side-menu-list"><FiUser /><h4 onChange={(ev) => this.uploadUserImage(ev)}>
+                                My Profile
+                                <input onChange={(ev) => this.uploadUserImage(ev)} type="file" />
+                            </h4>
+                            </li>
                             <li className="side-menu-list" onClick={this.logout}><BiLogOut /><h4>Logout</h4></li>
                         </ul>
                     </div>
@@ -47,7 +61,8 @@ function mapStateToProps(storeState) {
     }
 }
 const mapDispatchToProps = {
-    onLogout
+    onLogout,
+    updateUser
 }
 
 export const UserSideMenu = connect(mapStateToProps, mapDispatchToProps)(_UserSideMenu)

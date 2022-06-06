@@ -85,6 +85,7 @@ export function loadUser(userId) {
 }
 
 export function updateUser(user) {
+    console.log('user from update user: ', user);
     return dispatch => {
         userService.update(user)
             .then(savedUser => {

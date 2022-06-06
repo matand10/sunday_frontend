@@ -273,6 +273,7 @@ function makeBoard(user) {
                 }],
                 tasks: [
                     {
+                        assigned: [],
                         id: utilService.makeId(),
                         title: "Item 1",
                         activities: [],
@@ -303,6 +304,7 @@ function makeBoard(user) {
                         ]
                     },
                     {
+                        assigned: [],
                         id: utilService.makeId(),
                         title: "Item 2",
                         activities: [],
@@ -359,6 +361,7 @@ function makeBoard(user) {
                 }],
                 tasks: [
                     {
+                        assigned: [],
                         id: utilService.makeId(),
                         activities: [],
                         comments: [],
@@ -390,6 +393,7 @@ function makeBoard(user) {
                         ]
                     },
                     {
+                        assigned: [],
                         id: utilService.makeId(),
                         activities: [],
                         comments: [],
@@ -636,13 +640,14 @@ function makeBoard(user) {
 function documentActivities(column, previewColVal, taskTitle) {
     const user = userService.getLoggedinUser()
     let msg
-
+    console.log('previewColVal', previewColVal)
+    console.log('column.value.title', column.value)
     switch (column.type) {
         case 'person':
-            msg = `Added ${column.value[column.value.length - 1].fullname}`
+            msg = column.value[column.value.length - 1]
             break;
         case 'status':
-            msg = `Changed status from ${previewColVal.title || 'None'} to ${column.value.title}`
+            msg = { prevStat: { color: previewColVal.color || '#c4c4c4', title: previewColVal.title }, currStat: { color: column.value.color, title: column.value.title } }
             break
         case 'date':
             msg = `Changed date from ${utilService.getCurrTime(previewColVal)} to ${utilService.getCurrTime(column.value)}`
@@ -654,7 +659,7 @@ function documentActivities(column, previewColVal, taskTitle) {
             msg = `Changed timeline to ${utilService.getCurrTime(column.value.newRange.start)} - ${utilService.getCurrTime(column.value.newRange.end)}`
             break
         case 'priority':
-            msg = `Changed priority from ${previewColVal.title} to ${column.value.title}`
+            msg = { prevStat: { color: previewColVal.color || '#c4c4c4', title: previewColVal.title }, currStat: { color: column.value.color, title: column.value.title } }
             break
     }
 

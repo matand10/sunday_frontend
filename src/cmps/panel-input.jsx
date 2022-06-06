@@ -1,13 +1,13 @@
 import React from "react"
-import { uploadService } from '../services/upload.service'
 import { FaBold, FaItalic, FaUnderline, FaStrikethrough, FaPalette, FaTextHeight } from 'react-icons/fa';
+import { userService } from "../services/user.service";
 
 export class PanelInput extends React.Component {
 
     state = {
         update: {
             txt: '',
-            byUser: this.props.user.fullname,
+            byUser: userService.getLoggedinUser() || null,
             aboutTaskId: this.props.task.id
         },
     }
@@ -29,10 +29,6 @@ export class PanelInput extends React.Component {
         ev.stopPropagation();
     }
 
-    onUploadFile = async (ev) => {
-        await uploadService.uploadImg(ev)
-    }
-
     handleChange = ({ target }) => {
         const value = target.value
         this.setState((prevState) => ({ update: { ...prevState.update, txt: value } }))
@@ -42,7 +38,6 @@ export class PanelInput extends React.Component {
         const { txt } = this.state.update
         const { isInputClicked } = this.props
         let placeHolder = this.onUserGuide
-
         return <section>
             {!isInputClicked && <div className="new-post-placeholder-container">
                 <button className="new-post-placeholder" onClick={(ev) => this.onToggleInput(ev, true)}><span className="new-post-placeholder-span">Write an update...</span></button>

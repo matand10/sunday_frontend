@@ -15,7 +15,7 @@ export const MemberCol = ({ col, board, task, setInviteUserModal, idx, statusRef
         :
         <div onClick={() => setInviteUserModal(true)} className="flex-row-items">
             <div className="user-image-wrapper">
-                <Avatar sx={{ width: 28, height: 28 }}>G</Avatar>
+                <Avatar sx={{ width: 28, height: 28 }}></Avatar>
                 {inviteUserModal && <InviteToTaskModal updateTask={updateTask} group={group} setInviteUserModal={setInviteUserModal} specialUpdateTask={specialUpdateTask} colIdx={idx} statusRef={statusRef} board={board} task={task} />}
             </div>
         </div>
