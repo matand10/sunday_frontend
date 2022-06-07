@@ -93,6 +93,7 @@ function getColumns(columns) {
                 }
             case 'person':
                 return {
+                    id: col.id,
                     title: 'Person',
                     importance: col.importance,
                     value: [],
@@ -100,6 +101,7 @@ function getColumns(columns) {
                 }
             case 'date':
                 return {
+                    id: col.id,
                     title: 'Date',
                     importance: col.importance,
                     value: new Date(),
@@ -107,6 +109,7 @@ function getColumns(columns) {
                 }
             case 'text':
                 return {
+                    id: col.id,
                     importance: col.importance,
                     title: "Text",
                     type: "text",

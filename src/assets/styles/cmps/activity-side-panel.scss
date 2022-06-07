@@ -1,5 +1,5 @@
 .main-activity-container {
-    height: 78%;
+    height: 100%;
     overflow-y: auto;
 }
 
@@ -38,9 +38,12 @@
 
 .table-task-title {
     white-space: nowrap;
-    overflow: hidden;
+}
+
+.table-task-container {
+    width: 100px;
     text-overflow: ellipsis;
-    width: 10px;
+    overflow: hidden;
 }
 
 .table-status-row {
@@ -75,4 +78,14 @@
     width: 75%;
     gap: 5px;
     height: 100%;
+}
+
+.table-task-time {
+    white-space: nowrap;
+}
+
+.table-task-timer-td {
+    width: 20px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }

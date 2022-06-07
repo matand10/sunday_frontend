@@ -109,8 +109,6 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
         updateBoard(newBoard)
     }
 
-
-
     if (!board) return <h1>Loading...</h1>
     return <div className="board-header">
         <div className="board-header-main">
