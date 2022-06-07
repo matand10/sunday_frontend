@@ -52,28 +52,30 @@ export const TimelineCol = ({ task, group, updateTask, idx, specialUpdateTask })
 
     // const colInfo = task.columns[idx].value
 
-    return <section className="timeline">
-        <div onClick={() => setIsOpen(true)} className="timeline-bar-container" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
-            <div className="timeline-bar-wrapper">
-                <div className="timeline-bar" style={{ backgroundcolor: 'red', width: `${task.columns[idx].value.precent || 0}` + '%' }}></div>
-                <div className="days-indicate">
-                    {hover ? (task.columns[idx].value.daysToGo ? task.columns[idx].value.daysToGo + ' d' : 'Set Dates') : task.columns[idx].value.dateStr ? task.columns[idx].value.dateStr : '-'}
+    return <section className="flex-row-items timeline">
+        {/* <div className="timeline"> */}
+            <div onClick={() => setIsOpen(true)} className="timeline-bar-container" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+                <div className="timeline-bar-wrapper">
+                    <div className="timeline-bar" style={{ backgroundcolor: 'red', width: `${task.columns[idx].value.precent || 0}` + '%' }}></div>
+                    <div className="days-indicate">
+                        {hover ? (task.columns[idx].value.daysToGo ? task.columns[idx].value.daysToGo + ' d' : 'Set Dates') : task.columns[idx].value.dateStr ? task.columns[idx].value.dateStr : '-'}
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div ref={refOne} className="daterange-modal-container">
-            {isOpen &&
-                <DateRange
-                    onChange={item => setRange([item.selection])}
-                    editableDateInputs={true}
-                    moveRangeOnFirstSelection={false}
-                    ranges={range}
-                    months={2}
-                    direction="horizontal"
-                    className="calendarElement"
-                />}
-        </div>
+            <div ref={refOne} className="daterange-modal-container">
+                {isOpen &&
+                    <DateRange
+                        onChange={item => setRange([item.selection])}
+                        editableDateInputs={true}
+                        moveRangeOnFirstSelection={false}
+                        ranges={range}
+                        months={2}
+                        direction="horizontal"
+                        className="calendarElement"
+                    />}
+            </div>
+        {/* </div> */}
     </section>
 }
 
