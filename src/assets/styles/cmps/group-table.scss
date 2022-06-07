@@ -501,10 +501,13 @@
     border-radius: 50%;
     width: 15px;
     height: 15px;
-
+   
     &:hover {
         color: #1976d2;
         border: 1px solid #1976d2;
+    }
+    & span{
+        padding-bottom: 2px;
     }
 }
 

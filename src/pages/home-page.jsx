@@ -30,7 +30,7 @@ class _HomePage extends React.Component {
                                 <div className="homepage-head-content">
                                     <div className="head-paragraph-wrapper">
                                         <div className='head-paragraph-title'><h1>New platform for new way of working</h1></div>
-                                        <div className='head-paragraph-body'><h2>What would you like to manage with sunday.IL</h2></div>
+                                        <div className='head-paragraph-body'><h2>What would you like to manage with sunday.IL?</h2></div>
                                     </div>
                                     <div className="homepage-second-fold">
                                         <div></div>
