@@ -1,6 +1,6 @@
 .main-header {
     background-color: #ffffff;
-    position: fixed;
+    // position: fixed;
     top: 0;
     width: 100%;
 }
@@ -71,9 +71,11 @@
 
     & span {
         font-weight: 500;
+       
 
         &::after {
             content: ' →';
+            padding-left: 8px;
         }
     }
 }

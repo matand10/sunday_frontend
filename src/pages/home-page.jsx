@@ -15,7 +15,7 @@ class _HomePage extends React.Component {
 
     render() {
         return (
-            <section>
+            <section className="homepage-container">
                 <header>
                     <Header guestMode={this.guestMode} />
                 </header>
@@ -24,7 +24,6 @@ class _HomePage extends React.Component {
                         <div className="stars"></div>
                         <div className="stars2"></div>
                         <div className="stars3"></div>
-                        {/* <div></div> */}
                         <div className="homepage-head-container">
                             <div className="homepage-first-fold">
                                 <div className="homepage-head-content">
@@ -50,9 +49,6 @@ class _HomePage extends React.Component {
                     <section className="homepage-main-content"></section>
                     <section className="homepage-secondary-content"></section>
                 </main>
-                <footer>
-                    <section className="homepage-footer"></section>
-                </footer>
             </section >
         )
     }
