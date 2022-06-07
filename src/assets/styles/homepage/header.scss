@@ -73,6 +73,7 @@
         font-weight: 500;
 
         &::after {
+            padding-left: 8px;
             content: ' →';
         }
     }
