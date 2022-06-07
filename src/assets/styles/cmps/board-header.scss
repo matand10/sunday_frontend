@@ -5,7 +5,6 @@
     // background-color: #1976D2;
 }
 
-.board-header-main {}
 
 .board-header-top {
     display: flex;
@@ -69,7 +68,6 @@
     margin-inline-start: 10px;
 }
 
-.board-header-right {}
 
 .board-header-actions {
     display: flex;
@@ -123,10 +121,6 @@
     min-height: 19px;
     color: #676879;
 
-    & .ds-header-content {
-
-        &:hover {}
-    }
 }
 
 .board-header-actions-v2 {
@@ -160,7 +154,6 @@
     }
 }
 
-.board-subsets-toolbar {}
 
 .board-subsets-tabs {
     display: flex;
