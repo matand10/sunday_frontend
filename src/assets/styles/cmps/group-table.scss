@@ -214,9 +214,21 @@
     // padding-inline-end: 10px;
 }
 
-// .task-title-info {
-//     // width: 100%;
-// }
+.task-title-info-container {
+    white-space: nowrap;
+
+}
+
+.task-title-info {
+    // width: 250px;
+    height: 15px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.table-task-time {}
+
+.table-task-timer-td {}
 
 .task-column-rows {
     // width: 100%;
@@ -552,12 +564,13 @@
     border-radius: 50%;
     width: 15px;
     height: 15px;
-   
+
     &:hover {
         color: #1976d2;
         border: 1px solid #1976d2;
     }
-    & span{
+
+    & span {
         padding-bottom: 2px;
     }
 }

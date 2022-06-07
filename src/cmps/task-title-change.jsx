@@ -59,8 +59,10 @@ export class _TaskTitleChange extends React.Component {
                 :
                 <div className='flex space-between'>
                     <div className="task-title-cell">
-                        <div className="task-title-info">
-                            {task.title}
+                        <div className="task-title-info-container">
+                            <div className="task-title-info">
+                                {task.title}
+                            </div>
                         </div>
                         <div className="edit-button-container">
                             <button onClick={(event) => onUpdateTask(event, { boardId: board._id, groupId: group.id, task: task })} className="edit-button">Edit</button>

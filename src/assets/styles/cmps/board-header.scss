@@ -78,7 +78,7 @@
 
     & .panel-button {
         all: unset;
-        padding: 0px 3px;
+        padding: 4px 10px;
         cursor: pointer;
         height: 28px;
         font-weight: 400;
@@ -94,12 +94,13 @@
 
     &>*:not(:last-child) {
         margin-inline-end: 20px;
+        padding: 4px 10px;
     }
 }
 
 .panel-button.board-add {
     border: 1px solid $divider-backgroud-color;
-    padding-right: 5px;
+    padding-inline-end: 10px;
 }
 
 .ds-menu-side-panel-header {
@@ -107,6 +108,7 @@
     width: 28px;
     border-radius: 4px;
     cursor: pointer;
+    display: flex;
 
     &:hover {
         background-color: #dcdfec;
@@ -132,15 +134,17 @@
     & .panel-button-v2 {
         display: flex;
         align-items: center;
-        all: unset;
-        padding: 0px 3px;
+        justify-content: center;
+        gap: 5px;
+        padding: 3px 8px;
         cursor: pointer;
         height: 28px;
         min-width: 60px;
         font-weight: 400;
         font-size: 1.142rem;
         border-radius: 4px;
-        text-align: center;
+
+
 
         &:hover {
             background-color: #dcdfec;

@@ -32,7 +32,6 @@ export const TimelineCol = ({ task, group, updateTask, idx, specialUpdateTask })
         const today = new Date(Date.now())
         const precent = (today - start) / (target - start) * 100
         const daysToGo = (target - start) / (1000 * 60 * 60 * 24)
-        // task.columns[idx].value = { precent, daysToGo }
         let dateStr
         if (start.getMonth() === target.getMonth()) {
             dateStr = `${utilService.getShortMonth(start.getMonth())} ${start.getDate()}-${target.getDate()}`
@@ -50,32 +49,30 @@ export const TimelineCol = ({ task, group, updateTask, idx, specialUpdateTask })
         }
     }
 
-    // const colInfo = task.columns[idx].value
-
     return <section className="flex-row-items timeline">
-        {/* <div className="timeline"> */}
-            <div onClick={() => setIsOpen(true)} className="timeline-bar-container" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
-                <div className="timeline-bar-wrapper">
-                    <div className="timeline-bar" style={{ backgroundcolor: 'red', width: `${task.columns[idx].value.precent || 0}` + '%' }}></div>
-                    <div className="days-indicate">
-                        {hover ? (task.columns[idx].value.daysToGo ? task.columns[idx].value.daysToGo + ' d' : 'Set Dates') : task.columns[idx].value.dateStr ? task.columns[idx].value.dateStr : '-'}
-                    </div>
+        <div onClick={() => setIsOpen(true)} className="timeline-bar-container" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+            <div className="timeline-bar-wrapper">
+                <div className="timeline-bar" style={{ backgroundcolor: 'red', width: `${task.columns[idx].value.precent || 0}` + '%' }}></div>
+                <div className="days-indicate">
+                    {hover ? <div className="timeline-hover">{task.columns[idx].value.daysToGo ? task.columns[idx].value.daysToGo + ' d' : 'Set Dates'}</div>
+                        :
+                        <div>{task.columns[idx].value.dateStr ? task.columns[idx].value.dateStr : '-'}</div>}
                 </div>
             </div>
+        </div>
 
-            <div ref={refOne} className="daterange-modal-container">
-                {isOpen &&
-                    <DateRange
-                        onChange={item => setRange([item.selection])}
-                        editableDateInputs={true}
-                        moveRangeOnFirstSelection={false}
-                        ranges={range}
-                        months={2}
-                        direction="horizontal"
-                        className="calendarElement"
-                    />}
-            </div>
-        {/* </div> */}
+        <div ref={refOne} className="daterange-modal-container">
+            {isOpen &&
+                <DateRange
+                    onChange={item => setRange([item.selection])}
+                    editableDateInputs={true}
+                    moveRangeOnFirstSelection={false}
+                    ranges={range}
+                    months={2}
+                    direction="horizontal"
+                    className="calendarElement"
+                />}
+        </div>
     </section>
 }
 
