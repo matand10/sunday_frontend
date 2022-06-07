@@ -1,5 +1,7 @@
 import React from 'react';
 import { Avatar } from '@mui/material';
+import { FaCaretDown } from 'react-icons/fa'
+import { FaRegBell } from 'react-icons/fa'
 
 export const UpdateList = ({ update }) => {
 
@@ -15,6 +17,10 @@ export const UpdateList = ({ update }) => {
                         </div>
                     </div>
                     <div className="updates">
+                        <div className="update-message-action">
+                            <div className="update-arrow"> <FaRegBell /></div>
+                            <div className="update-arrow"> <FaCaretDown /></div>
+                        </div>
                     </div>
                 </div>
                 <div className="client-comment">
