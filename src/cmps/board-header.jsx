@@ -158,12 +158,12 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
         </div>
         <div className="board-subsets-toolbar">
             <div className="board-subsets-tabs">
-                <div className="board-subsets-item">
-                    <button className="board-subsets-item-button" onClick={() => setIsKanban(false)}><NavLink to={`/board/${board._id}`} className="main-table-nav"><span><BsTable /> Main Table</span></NavLink> </button>
+                <div className="board-subsets-item" onClick={() => setIsKanban(false)}>
+                    <button className="board-subsets-item-button" ><NavLink to={`/board/${board._id}`} className="main-table-nav"><span><BsTable /> Main Table</span></NavLink> </button>
                     <div className="board-subsets-item-line"></div>
                 </div>
-                <div className="board-kanban-item">
-                    <button className="board-kanban-item-button" onClick={() => setIsKanban(true)}><NavLink to={`/board/${board._id}/kanban`} className="kanban-nav"><span><FaTrello /> Kanban</span></NavLink></button>
+                <div className="board-kanban-item" onClick={() => setIsKanban(true)}>
+                    <button className="board-kanban-item-button" ><NavLink to={`/board/${board._id}/kanban`} className="kanban-nav"><span><FaTrello /> Kanban</span></NavLink></button>
                     <div className="board-kanban-item-line"></div>
                 </div>
             </div>

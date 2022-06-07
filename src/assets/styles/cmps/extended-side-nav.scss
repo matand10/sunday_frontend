@@ -135,6 +135,10 @@
 
 .home-control-button-span {
     font-weight: 500;
+    & img{
+        width: 25px;
+        margin-top: 5px;
+    }
 }
 
 .user-projects-main-container {

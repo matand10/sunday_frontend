@@ -3,6 +3,10 @@ import dotsMenu from '../assets/img/side-nav/ds-menu.svg'
 import { CreatBoard } from './create-board'
 import { BoardMenuActions } from '../modal/board-menu-actions'
 import { MdOutlineArrowForwardIos } from 'react-icons/md'
+import { IoIosSearch } from 'react-icons/io'
+import {AiOutlinePlus } from 'react-icons/ai'
+import {MdOutlineSpaceDashboard} from 'react-icons/md'
+import workspaceImg from '../assets/img/side-nav/surface-workspace-logo.png'
 
 
 export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDeleteBoard, updateBoard }) => {
@@ -61,17 +65,22 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
                 </div>
             </div>
             <div>
-
+                <div className="dialog-content">
+                    <div className="dialog-logo">
+                        <img src={workspaceImg} alt="workspace img" />
+                    </div>
+                    <span>Work management</span>
+                </div>
             </div>
             <div className="home-control-sub-header">
                 <div className="sub-header-button-container">
-                    <button className="home-control-button" onClick={() => setIsClick(!isClick)}><span className="home-control-button-span">Add</span></button>
+                    <button className="home-control-button" onClick={() => setIsClick(!isClick)}><span className="home-control-button-span"><AiOutlinePlus/> <span>Add</span></span></button>
                 </div>
                 <div>
                     {isClick && <CreatBoard setIsClick={setIsClick} isClick={isClick} onAddBoard={onAddBoard} />}
                 </div>
                 <div className="sub-header-button-container">
-                    <button className="home-control-button"><span className="home-control-button-span">Search</span></button>
+                    <button className="home-control-button"><span className="home-control-button-span"><IoIosSearch/> Search</span></button>
                 </div>
             </div>
             <div className="divider"></div>
@@ -86,7 +95,7 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
                                     </form>
                                 </div> :
                                     <button className="home-control-button">
-                                        <span className="home-control-button-span">{board.title}</span>
+                                        <span className="home-control-button-span"><MdOutlineSpaceDashboard/> {board.title}</span>
                                     </button>
                                 }
                                 <div className="ds-menu-button" onClick={(event) => {

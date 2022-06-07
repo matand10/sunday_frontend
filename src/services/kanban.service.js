@@ -35,8 +35,6 @@ function onDragCard(res, board, dragKanban) {
 
 function getTaskName(board, status) {
     let done = []
-    console.log(status);
-    console.log(board);
     board.groups.forEach(group => {
         const filter = group.tasks.filter(task => {
             return task.columns.some(col => col.value.type === status && col.id === 'col2')
@@ -55,7 +53,6 @@ function getTaskName(board, status) {
         })
     })
     return done
-
 }
 
 function getKanban(board) {
