@@ -129,9 +129,10 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
                                 InviteToTaskModal={InviteToTaskModal} updateTask={updateTask} inviteUserModal={inviteUserModal} toggleStatus={toggleStatus} isConfetti={isConfetti}/>
                         })
                         }
-                        <div style={{ width: '15px', height: '15px' }}></div>
-                        <div className="right-indicator-row"></div>
                     </div>
+                    <div className="right-finish-row"></div>
+                    <div className="right-indicator-row"></div>
+
                 </div>
                 <div className="add-colomn-column"></div>
             </div>

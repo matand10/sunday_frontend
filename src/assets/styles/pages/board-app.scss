@@ -1,6 +1,7 @@
 .task-main-container {
     background-color: $primary-background-color;
     display: flex;
+    width: 100vw;
 }
 
 .board-container-left {
@@ -17,10 +18,10 @@
 }
 
 .main-app {
-    overflow-y: auto;
+    overflow: hidden;
     height: 100%;
     width: 100%;
     // padding: 18px 0px 0px 18px;
     // margin: 18px 0px 0px 18px;
-    padding: 18px 0px 0px 18px;
+    padding: 18px 0px 0px 20px;
 }
