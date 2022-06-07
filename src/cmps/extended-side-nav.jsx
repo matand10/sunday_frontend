@@ -3,6 +3,7 @@ import dotsMenu from '../assets/img/side-nav/ds-menu.svg'
 import { CreatBoard } from './create-board'
 import { BoardMenuActions } from '../modal/board-menu-actions'
 import { MdOutlineArrowForwardIos } from 'react-icons/md'
+import workspaceImg from '../assets/img/side-nav/surface-workspace-logo.png'
 
 
 export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDeleteBoard, updateBoard }) => {
@@ -61,7 +62,12 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
                 </div>
             </div>
             <div>
-
+                <div className="dialog-content">
+                    <div className="dialog-logo">
+                        <img src={workspaceImg} alt="workspace img" />
+                    </div>
+                    <span>Work management</span>
+                </div>
             </div>
             <div className="home-control-sub-header">
                 <div className="sub-header-button-container">
