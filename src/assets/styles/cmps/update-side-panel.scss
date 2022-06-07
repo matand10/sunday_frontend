@@ -22,7 +22,7 @@
     align-items: center;
     flex-direction: column;
     width: 100%;
-    margin-bottom: 30px;
+    margin-top: 15px;
 }
 
 .testimonial-heading {
@@ -59,16 +59,17 @@
     flex-wrap: wrap;
     width: 100%;
 
+
     & .testimonial-box {
         width: 500px;
-        // box-shadow: 2px 2px 30px rgba($color: #000000, $alpha: 0.1);
+        height: 150px;
         background-color: #ffffff;
         border: 1px solid #e6e9ef;
         border-top: 2px solid #1976d2;
         border-radius: 8px;
-        padding: 20px;
-        margin: 15px;
+        padding: 10px 20px;
         color: #323338;
+        margin: 0 15px 0;
     }
 }
 
@@ -98,7 +99,6 @@
 .updates {
     display: flex;
     justify-content: center;
-    width: 100px;
 }
 
 .updates img {
@@ -110,6 +110,11 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+}
+
+.client-comment {
+    padding: 10px;
+    height: 70%;
 }
 
 .client-comment p {
@@ -136,4 +141,30 @@
 
 .new-post-side-panel {
     height: 170px;
+}
+
+.update-message-action {
+    display: flex;
+    float: right;
+}
+
+.update-arrow {
+    width: 22px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    padding: 3px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: .1s;
+
+    &:hover {
+        background-color: $button-hover;
+    }
+
+    &:first-child {
+        margin-inline-end: 5px;
+    }
 }
