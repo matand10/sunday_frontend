@@ -171,7 +171,6 @@ function getProgress(group) {
 }
 
 function groupColRemove(colIdx, board) {
-    console.log(board)
     let newBoard = { ...board }
     newBoard.columns.splice(colIdx, 1)
     board.groups.forEach((group, gIdx) => {

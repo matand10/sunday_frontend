@@ -18,7 +18,6 @@ export class _UserSideMenu extends React.Component {
         const { user } = this.props
         const cloudineryImage = await uploadService.uploadImg(ev)
         user.userImg = cloudineryImage
-        console.log(user)
         this.props.updateUser(user)
     }
 

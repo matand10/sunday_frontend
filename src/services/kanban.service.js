@@ -28,10 +28,6 @@ function onDragCard(res, board, dragKanban) {
     const taskIdx = board.groups[groupIdx].tasks.findIndex(task => task.id === card.taskId)
     const colIdx = board.groups[groupIdx].tasks[taskIdx].columns.findIndex(col => col.id === 'col2')
 
-    console.log(board.groups[groupIdx].tasks[taskIdx].columns);
-    console.log(taskIdx);
-    console.log(colIdx);
-    console.log(board.groups[groupIdx].tasks[taskIdx].columns[colIdx]);
     board.groups[groupIdx].tasks[taskIdx].columns[colIdx].value = utilService.getLabel(dragKanban[res.destination.droppableId].status)
 
     return { dragKanban, board }
