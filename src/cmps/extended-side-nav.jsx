@@ -6,6 +6,7 @@ import { MdOutlineArrowForwardIos } from 'react-icons/md'
 import { IoIosSearch } from 'react-icons/io'
 import {AiOutlinePlus } from 'react-icons/ai'
 import {MdOutlineSpaceDashboard} from 'react-icons/md'
+import workspaceImg from '../assets/img/side-nav/surface-workspace-logo.png'
 
 
 export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDeleteBoard, updateBoard }) => {
@@ -64,7 +65,12 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
                 </div>
             </div>
             <div>
-
+                <div className="dialog-content">
+                    <div className="dialog-logo">
+                        <img src={workspaceImg} alt="workspace img" />
+                    </div>
+                    <span>Work management</span>
+                </div>
             </div>
             <div className="home-control-sub-header">
                 <div className="sub-header-button-container">
