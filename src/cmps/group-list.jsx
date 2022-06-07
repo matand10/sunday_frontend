@@ -54,7 +54,6 @@ export const GroupList = ({ snapshot, provided, onDragEnd, onDragColEnd, updateT
             document.removeEventListener('contextmenu', handleContextMenu)
             setIsClickGroup(false)
             setShowMenu(false)
-            // setGroupIsClick({})
             setColActions(false)
             setIsAddCol(false)
             setIsTitleChange(false)
@@ -105,8 +104,7 @@ export const GroupList = ({ snapshot, provided, onDragEnd, onDragColEnd, updateT
     const changeColTitle = (ev, colIdx) => {
         ev.preventDefault()
         const newBoard = boardService.changeColTitle(colIdx, colTitle, board)
-
-        updateBoard(board)
+        updateBoard(newBoard)
         setIsTitleChange(false)
     }
 
@@ -115,11 +113,7 @@ export const GroupList = ({ snapshot, provided, onDragEnd, onDragColEnd, updateT
     }
 
     let columns = board.columns
-
     if (!board) return <h1>Loading...</h1>
-
-
-
     return <section ref={provided.innerRef}
         snapshot={snapshot}
         {...provided.draggableProps}
@@ -139,18 +133,14 @@ export const GroupList = ({ snapshot, provided, onDragEnd, onDragColEnd, updateT
                         <div onClick={() => onHeaderSort('title')} className="sort-header-menu hide-sort"><FaSort /></div>
                     </div>
                 </div>
-
                 <div className="flex coulmn-main-header-container">
                     <DragDropContext onDragEnd={onDragEnd}>
                         <Droppable droppableId="droppable" direction="horizontal" type="droppableCol">
                             {(provided) => (
-
                                 <div className="group-header-items" {...provided.droppableProps} ref={provided.innerRef}>
-
                                     {columns.map((col, idx) => {
                                         return <Draggable draggableId={col.id.toString()} key={col.id} index={idx}>
                                             {(provided, snapshot) => (
-
                                                 <div ref={provided.innerRef}
                                                     snapshot={snapshot}
                                                     {...provided.draggableProps}
@@ -185,9 +175,6 @@ export const GroupList = ({ snapshot, provided, onDragEnd, onDragColEnd, updateT
                             )}
                         </Droppable>
                     </DragDropContext>
-
-
-
                     <div className="add-colomn-column-button-container">
                         <button className="add-colomn-column-button" onClick={() => {
                             setIsAddCol(!isAddCol)
@@ -196,17 +183,14 @@ export const GroupList = ({ snapshot, provided, onDragEnd, onDragColEnd, updateT
                     </div>
                 </div>
             </div>
-
-            {/* <DragDropContext onDragEnd={onDragTaskEnd}> */}
             <Droppable droppableId={group.id} type='droppableTask'>
                 {(provided, snapshot) => (
                     <div ref={provided.innerRef}>
-                        {/* <div {...provided.droppableProps} ref={provided.innerRef}> */}
                         {group.tasks.map((task, idx) => {
                             return <Draggable draggableId={task.id.toString()} key={task.id} index={idx}>
                                 {(provided, snapshot) => (
                                     <TasksList provided={provided}
-                                        snapshot={snapshot} taskIdx={idx} boardId={boardId} task={task} /*menuRef={menuRef}*/ backgroundColor={group.style.color}
+                                        snapshot={snapshot} taskIdx={idx} boardId={boardId} task={task} backgroundColor={group.style.color}
                                         updateGroup={updateGroup} updates={updates} updateBoard={updateBoard} onHandleRightClick={onHandleRightClick} updateTask={updateTask} group={group} board={board} removeTask={removeTask} updateTaskDate={updateTaskDate} />
                                 )}
                             </Draggable>
@@ -215,8 +199,6 @@ export const GroupList = ({ snapshot, provided, onDragEnd, onDragColEnd, updateT
                     </div>
                 )}
             </Droppable>
-            {/* </DragDropContext> */}
-
             <MainGroupInput onAddTask={onAddTask} group={group} task={task} />
             <div className="columns-footer-component">
                 <div className="group-footer-container">
@@ -229,7 +211,6 @@ export const GroupList = ({ snapshot, provided, onDragEnd, onDragColEnd, updateT
                         })}
                     </div>
                     <div className="add-colomn-column-button-container">
-                        {/* <button className="add-colomn-column-button" onClick={() => onNewCol()}><span>+</span></button> */}
                     </div>
                 </div>
                 <div style={{ width: '15px', height: '15px' }}></div>
@@ -238,5 +219,4 @@ export const GroupList = ({ snapshot, provided, onDragEnd, onDragColEnd, updateT
 
         </div>
     </section>
-
 }

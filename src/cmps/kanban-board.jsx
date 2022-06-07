@@ -130,33 +130,33 @@ export const KanbanBoard = () => {
                                                     <div {...provided.dragHandleProps} className="drag-handle-status"><MdDragIndicator /></div>
                                                     <div className="kanban-status-title">{status.status} / {(!status.kanban?.length) ? '0' : status.kanban.length}</div>
                                                 </div>
-
-
                                                 <Droppable droppableId={idx.toString()} type='droppableCard' >
                                                     {(provided, snapshot) => (
-                                                        <div ref={provided.innerRef}>
+                                                        <div style={{ height: 95 + '%' }} ref={provided.innerRef}>
                                                             <div className="kanban-tasks-container">
-                                                                {status.kanban.map((item, idx) => {
-                                                                    return <Draggable draggableId={item.taskId.toString()} key={item.taskId.id} index={idx}>
-                                                                        {(provided, snapshot) => (
-                                                                            <div>
-                                                                                <KanbanList provided={provided}
-                                                                                    snapshot={snapshot} onChangeGroup={onChangeGroup} setGroupMenuOpen={setGroupMenuOpen} onOpenDetails={onOpenDetails} idx={idx} item={item} onUpdate={onUpdate} setUpdatedBoard={setUpdatedBoard} key={idx} kanban={kanban} status={status} onAddTask={onAddTask} board={board} updateTask={updateTask} />
-                                                                                {
-                                                                                    groupMenuOpen === item.taskId && <GroupKanbanMenu board={board} taskId={item.taskId} currGroupId={item.groupId} setUpdatedBoard={setUpdatedBoard}
-                                                                                        onUpdatTaskName={onUpdate} modalPos={modalPos} setGroupMenuOpen={setGroupMenuOpen} />
-                                                                                }
-                                                                                {/* {
+                                                                <div className="kanban-task-list">
+                                                                    {status.kanban.map((item, idx) => {
+                                                                        return <Draggable draggableId={item.taskId.toString()} key={item.taskId.id} index={idx}>
+                                                                            {(provided, snapshot) => (
+                                                                                <div>
+                                                                                    <KanbanList provided={provided}
+                                                                                        snapshot={snapshot} onChangeGroup={onChangeGroup} setGroupMenuOpen={setGroupMenuOpen} onOpenDetails={onOpenDetails} idx={idx} item={item} onUpdate={onUpdate} setUpdatedBoard={setUpdatedBoard} key={idx} kanban={kanban} status={status} onAddTask={onAddTask} board={board} updateTask={updateTask} />
+                                                                                    {
+                                                                                        groupMenuOpen === item.taskId && <GroupKanbanMenu board={board} taskId={item.taskId} currGroupId={item.groupId} setUpdatedBoard={setUpdatedBoard}
+                                                                                            onUpdatTaskName={onUpdate} modalPos={modalPos} setGroupMenuOpen={setGroupMenuOpen} />
+                                                                                    }
+                                                                                    {/* {
                                                                                     isDetailsOpen.taskId === item.taskId &&
                                                                                     <TaskDetails onChangeGroup={onChangeGroup} onOpenDetails={onOpenDetails} kanban={kanban[status]} updateStatus={updateStatus} board={board} item={item} updateTaskName={updateTaskName} onUpdatTaskName={onUpdate} modalPos={modalPos} setModalPos={setModalPos} />
                                                                                     // <TaskDetails board={board} taskName={item.taskName} taskId={item.taskId} status={status.title} statusColor={status.color} persons={item.persons} groupName={item.groupName} groupId={item.groupId} groupColor={item.groupColor} onOpenDetails={onOpenDetails} updateTaskName={updateTaskName} updateBoard={updateBoard} onUpdatTaskName={onUpdatTaskName} modalPos={modalPos} setModalPos={setModalPos} />
                                                                                 } */}
-                                                                            </div>
-                                                                        )}
-                                                                    </Draggable>
-                                                                })}
-                                                                {provided.placeholder}
-                                                                <div className="column-main-input-container kanban-main-input-container">
+                                                                                </div>
+                                                                            )}
+                                                                        </Draggable>
+                                                                    })}
+                                                                    {provided.placeholder}
+                                                                </div>
+                                                                <div className="column-main-input-container">
                                                                     {isEditNewTask !== status && <div className="kanban-add-pulse-component" onClick={() => setIsEditNewTask(status)}>
                                                                         <div className="kanban-add-pulse-component kanban-add-pulse-text">
                                                                             +Add Item
@@ -170,8 +170,6 @@ export const KanbanBoard = () => {
                                                                     }
                                                                 </div>
                                                             </div>
-
-
                                                         </div>
                                                     )}
                                                 </Droppable>

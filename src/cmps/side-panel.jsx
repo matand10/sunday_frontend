@@ -47,9 +47,8 @@ export class _SidePanel extends React.Component {
         this.setState((prevState) => ({ ...prevState, isInputClicked: value }))
     }
 
-
     render() {
-        const { statusRef, user, task, board } = this.props
+        const { statusRef, user, task } = this.props
         const { isModalOpen, isInputClicked, users, isUpdateOpen } = this.state
         const membersCol = task.columns.find(column => column.id === 'col1')
 
@@ -114,7 +113,11 @@ export class _SidePanel extends React.Component {
                                                     {activity.byMember.fullname}
                                                 </div>
                                             </td>
-                                            <td className="table-task-title">{activity.taskTitle}</td>
+                                            <td className="table-task-title">
+                                                <div className="table-task-container">
+                                                    {activity.taskTitle}
+                                                </div>
+                                            </td>
 
                                             {activity.type === 'status' || activity.type === 'priority' ?
                                                 <td>

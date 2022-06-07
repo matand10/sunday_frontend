@@ -5,6 +5,7 @@ import { taskService } from '../services/task.service'
 import { GroupKanbanMenu } from '../modal/kanban-group-modal'
 import { TaskDetails } from '../modal/kanban-task-details'
 import { groupService } from '../services/group.service'
+import { Avatar, AvatarGroup } from '@mui/material'
 
 
 export const KanbanList = ({ provided, snapshot, status, board, setUpdatedBoard, onUpdate, item, idx, onOpenDetails, setGroupMenuOpen }) => {
@@ -47,15 +48,20 @@ export const KanbanList = ({ provided, snapshot, status, board, setUpdatedBoard,
                     <h4 contentEditable suppressContentEditableWarning={true} onBlur={(event) => onChangeTaskTitle(event, item.taskId, item.groupId)} onClick={(event) => (event.stopPropagation())}>{item.taskName}</h4>
                 </div>
                 <div className="task-down-phase">
-                    <div className='task-person-content'>
-                        <div className='text-component'><FaRegUserCircle /> Persons</div>
-                        <div className="task-person-name">{item.persons.length ?
-                            <div className="task-person-item task-user-image-container">{item.persons.map((user, idx) => {
-                                return <div key={idx} className="user-image">
-                                    <img key={idx} style={{ left: `${20 * (idx) + 'px'}`, transform: `translateX(${-80 + '%'})` }} className="user-img-icon" src={user.imgUrl} alt="user image" />
-                                </div>
-                            })}
+                    <div className="task-person-content">
+                        <div className="text-component">
+                            <div className="flex align-items gap">
+                                <FaRegUserCircle />
+                                Members
                             </div>
+                        </div>
+                        <div className="task-person-name">{item.persons.length ?
+                            <AvatarGroup>
+                                <div className="task-user-image-container">{item.persons.map((user, idx) => {
+                                    return <Avatar style={{ marginLeft: -8 }} className="kanban-user-image" key={idx} alt={user.fullname} src={user.userImg} sx={{ width: 28, height: 28 }} />
+                                })}
+                                </div>
+                            </AvatarGroup>
                             :
                             <div className="task-person-item">
                                 <div className="user-image">
@@ -64,16 +70,20 @@ export const KanbanList = ({ provided, snapshot, status, board, setUpdatedBoard,
                             </div>}</div>
                     </div>
                     <div className="task-group-name">
-                        <div className='text-group-component'><FaRegCircle /> Group</div>
-                        <div className='group-color-container' onClick={(event) => toggleGroupMenu(event, item.taskId)}>
-                            <div className='color-group-component' style={{ backgroundColor: item.groupColor }}></div>
-                            <div className='group-cell-component'>{item.groupName}</div>
+                        <div className="text-group-component"><FaRegCircle /> Group</div>
+                        <div className="group-color-container" onClick={(event) => toggleGroupMenu(event, item.taskId)}>
+                            <div className="color-group-component" style={{ backgroundColor: item.groupColor }}></div>
+                            <div className="group-cell-component">
+                                <div className="group-cell-component-items">
+                                    {item.groupName}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
+
             </div>
-            
+
             {provided.placeholder}
 
         </section >

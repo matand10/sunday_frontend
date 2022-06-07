@@ -61,7 +61,6 @@ export const SideNav = () => {
                     <img onClick={() => toggleDialog(true)} src={productSwtich} alt="dots-logo" />
                 </div>
                 <div className="user-img">
-                    {/* <img className="user-logout-button" onClick={() => toggleUserMenu(true)} src={userImg} alt="workspace img" /> */}
                     <Avatar alt={user.fullname} src={user.userImg} sx={{ width: 33, height: 33 }} onClick={() => toggleUserMenu(true)} />
                 </div>
             </div>

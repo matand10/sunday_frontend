@@ -37,6 +37,7 @@ export const TasksApp = () => {
         dispatch(loadBoards(filterBy))
         socketService.on('newBoardUpdate', onBoardUpdate)
         socketService.emit('registerToBoardUpdates', boardId)
+        console.log(boards)
         return () => {
             socketService.off('newBoardUpdate', onBoardUpdate)
         }

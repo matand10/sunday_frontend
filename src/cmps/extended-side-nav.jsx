@@ -47,7 +47,6 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
         updateBoard(newBoard)
     }
 
-
     return <section className={`home-control-component${isNavOpen ? "" : '-closed'}`}>
         <div className="control-nav-expend">
             <span className="arrow" onClick={toggleNav}><MdOutlineArrowForwardIos /></span>

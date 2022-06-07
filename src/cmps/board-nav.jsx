@@ -16,16 +16,12 @@ const options = ['New Group Of Tasks', 'Import Tasks'];
 
 
 export const BoardNav = ({ onAddTask, onAddGroup, board }) => {
-
-
-
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
     const [selectedIndex, setSelectedIndex] = React.useState(1);
 
     const handleClick = () => {
         onAddTask(board)
-        console.info(`You clicked ${options[selectedIndex]}`);
     };
 
     const handleMenuItemClick = (event, index) => {
@@ -42,10 +38,7 @@ export const BoardNav = ({ onAddTask, onAddGroup, board }) => {
     };
 
     const handleClose = (event) => {
-        if (anchorRef.current && anchorRef.current.contains(event.target)) {
-            return;
-        }
-
+        if (anchorRef.current && anchorRef.current.contains(event.target)) return
         setOpen(false);
     };
 
