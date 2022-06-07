@@ -25,7 +25,7 @@
     // height: 100%;
     padding-inline-start: 5px;
     max-height: 100%;
-    overflow-y: auto;
+    // overflow-y: auto;
 
 
     &:hover {
@@ -49,8 +49,8 @@
 }
 
 .kanban-tasks-wrapper {
-    height: 100%;
-    overflow-y: hidden;
+    // height: 100%;
+    overflow-y: auto;
 }
 
 .kanban-status-title {
@@ -71,7 +71,7 @@
 }
 
 .kanban-task-list {
-    overflow-y: auto;
+    // overflow-y: auto;
     gap: 5px;
     display: flex;
     flex-direction: column;
