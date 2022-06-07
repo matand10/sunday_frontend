@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from "react-redux";
 import { uploadService } from '../services/upload.service'
 import { onLogout, updateUser } from '../store/user/user.actions'
-import { FiUser } from 'react-icons/fi'
+import { CgProfile } from 'react-icons/cg'
 import { BiLogOut } from 'react-icons/bi'
 import { Link } from 'react-router-dom';
 import miniLogo from '../assets/img/app-logo/side-logo.png'
@@ -39,10 +39,13 @@ export class _UserSideMenu extends React.Component {
                     </div>
                     <div className="side-user-content-wrapper">
                         <ul className="side-menu-container-list clean-list">
-                            <li className="side-menu-list"><FiUser /><h4 onChange={(ev) => this.uploadUserImage(ev)}>
-                                My Profile
-                                <input onChange={(ev) => this.uploadUserImage(ev)} type="file" />
-                            </h4>
+                            <li className="side-menu-list">
+                                <label className="upload-img">
+                                    <CgProfile /><h4>
+                                        Profile Img
+                                        <input className="upload-img-input" onChange={(ev) => this.uploadUserImage(ev)} type="file" />
+                                    </h4>
+                                </label>
                             </li>
                             <li className="side-menu-list" onClick={this.logout}><BiLogOut /><h4>Logout</h4></li>
                         </ul>
