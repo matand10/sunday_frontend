@@ -6,7 +6,6 @@ import { MdOutlineArrowForwardIos } from 'react-icons/md'
 
 
 export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDeleteBoard, updateBoard }) => {
-    const [showMenu, setShowMenu] = useState('')
     const [isNavOpen, setIsNavOpen] = useState(false)
     const [isClick, setIsClick] = useState(false)
     const [renameIsClick, setRenameIsClick] = useState('')
@@ -47,7 +46,6 @@ export const ExtendedSideNav = ({ boardChange, boards, onAddBoard, board, onDele
         newBoard.title = titleBoard
         updateBoard(newBoard)
     }
-
 
     return <section className={`home-control-component${isNavOpen ? "" : '-closed'}`}>
         <div className="control-nav-expend">

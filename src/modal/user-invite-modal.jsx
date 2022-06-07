@@ -15,7 +15,7 @@ export const InviteUserMenu = ({ users, updateBoard, setUnAssignedUsers, board, 
         setUnAssignedUsers(userService.getUnAssignedUsers(users, board))
     }, [filteredUsers])
 
-    const deleteUserFromInvite = (user) => {
+    const inviteToBoard = (user) => {
         inviteUserToBoard(user)
         const unAssignedUsers = userService.getUnAssignedUsers(users, board)
         setFilteredUsers(unAssignedUsers)
@@ -32,7 +32,7 @@ export const InviteUserMenu = ({ users, updateBoard, setUnAssignedUsers, board, 
             <section ref={menuRef} className="user-invite-menu">
                 <div className="user-invite-menu-container">
                     {filteredUsers.map((user, idx) => {
-                        return <div onClick={() => deleteUserFromInvite(user)} className="users-invitation-container" key={idx}>
+                        return <div onClick={() => inviteToBoard(user)} className="users-invitation-container" key={idx}>
                             <div className="user-img-invite"><Avatar key={idx} alt={user.fullname} src={user.userImg} sx={{ width: 28, height: 28 }} /></div>
                             <h4>{user.fullname}</h4>
                         </div>

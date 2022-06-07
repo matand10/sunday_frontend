@@ -21,22 +21,29 @@ class _HomePage extends React.Component {
                 </header>
                 <main>
                     <section className="sunday-first-homepage-header">
-                        <div></div>
-                        <div className="homepage-first-fold">
-                            <div className="head-paragraph-wrapper">
-                                <div className='head-paragraph-title'><h1>New platform for new way of working</h1></div>
-                                <div className='head-paragraph-body'><h2>What would you like to manage with sunday.IL</h2></div>
-                            </div>
-                            <div className="homepage-second-fold">
-                                <div></div>
-                                <div className="main-start-button-container">
-                                    <div className="signup-button-wrapper">
-                                        <button className="secondary-signup-button" onClick={this.guestMode}><span>Get Started</span></button>
-                                        <div className="secondary-paragraph-body">
-                                            <p>No credit card needed  ✦  Unlimited time on Free plan</p>
+                        <div className="stars"></div>
+                        <div className="stars2"></div>
+                        <div className="stars3"></div>
+                        {/* <div></div> */}
+                        <div className="homepage-head-container">
+                            <div className="homepage-first-fold">
+                                <div className="homepage-head-content">
+                                    <div className="head-paragraph-wrapper">
+                                        <div className='head-paragraph-title'><h1>New platform for new way of working</h1></div>
+                                        <div className='head-paragraph-body'><h2>What would you like to manage with sunday.IL</h2></div>
+                                    </div>
+                                    <div className="homepage-second-fold">
+                                        <div></div>
+                                        <div className="main-start-button-container">
+                                            <div className="signup-button-wrapper">
+                                                <button className="secondary-signup-button" onClick={this.guestMode}><span>Get Started</span></button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div className="project-image">
+                                <img src="https://res.cloudinary.com/dxpb15pfo/image/upload/v1654599031/%D7%9C%D7%9B%D7%99%D7%93%D7%94_r3xtwq.png" />
                             </div>
                         </div>
                     </section>

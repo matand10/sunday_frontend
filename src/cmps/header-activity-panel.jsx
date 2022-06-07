@@ -79,7 +79,7 @@ export class _SidePanel extends React.Component {
                                 <tbody>
                                     {board.activities.map((activity, idx) => {
                                         return <tr key={idx}>
-                                            <td>
+                                            <td className="table-task-timer-td">
                                                 <div className="table-task-time">
                                                     <BiTime />{moment(activity.createdAt).fromNow()}
                                                 </div>
@@ -90,7 +90,11 @@ export class _SidePanel extends React.Component {
                                                     {activity.byMember.fullname}
                                                 </div>
                                             </td>
-                                            <td className="table-task-title">{activity.taskTitle}</td>
+                                            <td className="table-task-title">
+                                                <div className="table-task-container">
+                                                    {activity.taskTitle}
+                                                </div>
+                                            </td>
 
                                             {activity.type === 'status' || activity.type === 'priority' ?
                                                 <td>

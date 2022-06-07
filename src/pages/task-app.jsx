@@ -15,9 +15,7 @@ import { Outlet } from 'react-router-dom'
 import { useEffectUpdate } from "../hooks/useEffectUpdate"
 import { groupService } from "../services/group.service"
 import loader from '../assets/img/loader/loader.gif'
-// import { showSuccessMsg } from '../services/event-bus.service'
-
-import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
+import { showSuccessMsg } from '../services/event-bus.service'
 import { kanbanService } from "../services/kanban.service"
 
 export const TasksApp = () => {
@@ -39,6 +37,7 @@ export const TasksApp = () => {
         dispatch(loadBoards(filterBy))
         socketService.on('newBoardUpdate', onBoardUpdate)
         socketService.emit('registerToBoardUpdates', boardId)
+        console.log(boards)
         return () => {
             socketService.off('newBoardUpdate', onBoardUpdate)
         }

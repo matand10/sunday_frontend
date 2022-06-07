@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { userService } from "../services/user.service"
-import useImg from '../assets/img/user-invite/userImg.png'
 import { TiDelete } from 'react-icons/ti'
 import { Avatar } from "@mui/material"
 
@@ -12,8 +11,20 @@ export const InviteToTaskModal = ({ specialUpdateTask, statusRef, task, board, c
     useEffect(() => {
         let unAssigned = userService.getAssignedToTask(users, task, board, colIdx)
         if (!unAssigned) unAssigned = userService.getAssignedUsers(users, board)
+        console.log('unAssigned', unAssigned);
+        // unAssigned = checkAssignment(unAssigned)
         setUnAssignedUsers(unAssigned)
     }, [])
+
+    const checkAssignment = (users) => {
+        const assignment = users.filter(user => {
+            const assignedUser = task.columns[colIdx].value.find(assignedUser => {
+                return assignedUser._id === user._id
+            })
+            return assignedUser._id !== user._id
+        })
+        return assignment
+    }
 
     const assignUserToTask = (user, userIdx) => {
         deleteUnassignedUser(userIdx)
@@ -39,6 +50,8 @@ export const InviteToTaskModal = ({ specialUpdateTask, statusRef, task, board, c
         newTask.columns[colIdx].value.splice(userIdx, 1)
         updateTask(newTask, group.id)
     }
+
+    // console.log('unAssignedUsers', unAssignedUsers);
 
     return <section className="invite-member-task-wrapper" ref={statusRef}>
         <div className="invite-member-task-container">
