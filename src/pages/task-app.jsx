@@ -15,7 +15,7 @@ import { Outlet } from 'react-router-dom'
 import { useEffectUpdate } from "../hooks/useEffectUpdate"
 import { groupService } from "../services/group.service"
 import loader from '../assets/img/loader/loader.gif'
-import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
+import { showSuccessMsg } from '../services/event-bus.service'
 import { kanbanService } from "../services/kanban.service"
 
 export const TasksApp = () => {
@@ -163,7 +163,7 @@ export const TasksApp = () => {
 
         <div className="board-container-right">
             <div className="main-app flex-column">
-                <BoardHeader user={user} setFrontFilter={setFrontFilter} setIsKanban={setIsKanban} updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
+                <BoardHeader setFrontFilter={setFrontFilter} user={user} setIsKanban={setIsKanban} updateBoard={updateBoard} users={users} onFilter={onFilter} onAddTask={onAddTask} onAddGroup={onAddGroup} board={board} />
                 <Outlet context={{ setKanban, kanban, board, onFilter, frontFilter, updates, updateBoard, removeTask, onAddTask, onRemoveGroup, updateTask, updateGroup, updateTaskDate }} />
             </div>
         </div>

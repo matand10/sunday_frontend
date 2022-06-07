@@ -1,5 +1,5 @@
 import { BoardNav } from "./board-nav";
-import { FaExclamationCircle, FaRegStar, FaSearch, FaRegUserCircle, FaFilter, FaSort, FaTrello } from 'react-icons/fa';
+import { FaExclamationCircle, FaRegStar, FaRegUserCircle, FaTrello } from 'react-icons/fa';
 import { BsPinAngle, BsTable } from 'react-icons/bs';
 import { FiFilter } from 'react-icons/fi';
 import { BiSort } from 'react-icons/bi';
@@ -7,10 +7,10 @@ import { IoIosSearch } from 'react-icons/io';
 import { DsMenu } from '../modal/ds-menu';
 import { SortMenu } from '../filters/sort-by';
 import dotsMenu from '../assets/img/side-nav/ds-menu.svg'
-import { useState, useRef, useEffect, useNavigate } from "react"
+import { useState, useRef, useEffect } from "react"
+import { useEffectUpdate } from '../hooks/useEffectUpdate'
 import React from "react"
-import { useDispatch, useSelector } from "react-redux";
-import { setFilter } from '../store/board/board.action'
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { InviteUserMenu } from '../modal/user-invite-modal'
 import { SidePanel } from '../cmps/header-activity-panel'
@@ -33,7 +33,6 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
     let menuRef = useRef()
     const firstFilterUseEffectRef = useRef()
     firstFilterUseEffectRef.current = true
-    // const dispatch = useDispatch()
 
     useEffect(() => {
         document.addEventListener("mousedown", eventListeners)
@@ -43,6 +42,11 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
             document.removeEventListener("mousedown", eventListeners)
         }
     }, [])
+
+    useEffectUpdate(() => {
+        const assignedToBoard = userService.getAssignedUsers(users, board)
+        setAssignedUsers(assignedToBoard)
+    }, [unAssignedUsers])
 
     const eventListeners = (ev) => {
         if (!menuRef.current?.contains(ev.target)) {
@@ -62,7 +66,6 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
         ev.preventDefault()
         const newBoard = { ...board }
         newBoard.title = titleBoard.title
-        console.log(newBoard)
         updateBoard(newBoard)
         setIsTitleBoardClick(!isTitleBoardClick)
     }
