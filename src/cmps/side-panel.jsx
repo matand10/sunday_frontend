@@ -69,7 +69,7 @@ export class _SidePanel extends React.Component {
                                         return <Avatar key={userIdx} alt={user.fullname} src={user.userImg} sx={{ width: 28, height: 28 }} />
                                     })}
                                 </AvatarGroup>
-                                <span>|</span>
+                                {membersCol.value.length > 0 && <span>|</span>}
                                 <div className="ds-menu-side-panel"><img src={dotsMenu} alt="dots-menu-logo" /></div>
                             </div>
                         </div>

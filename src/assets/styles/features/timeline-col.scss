@@ -43,16 +43,23 @@
     background-color: #0073ea;
     height: 100%;
     border-radius: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
 }
 
 .days-indicate {
     position: absolute;
-    transform: translateX(25%);
-    top: 18%;
+    transform: translateX(50%);
+    top: 2px;
     // right: 25%;
     color: #ffffff;
     font-size: 1.1rem;
+}
+
+.timeline-hover {
+    width: 30px;
+    position: absolute;
+    top: 2px;
+    transform: translateX(150%);
 }

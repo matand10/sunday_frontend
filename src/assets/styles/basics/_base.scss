@@ -15,12 +15,15 @@ html {
     line-height: 1;
     line-height: lh(14px);
     font-size: 13px;
+    height: 100%;
+    width: 100vw;
 }
 
 body {
     margin: 0;
     background-color: $primary-background-color;
     overflow: hidden;
+    width: 100%;
 
     @include for-normal-layout {
         &.sidebar-open {

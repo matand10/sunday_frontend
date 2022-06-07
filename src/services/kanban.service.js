@@ -28,10 +28,6 @@ function onDragCard(res, board, dragKanban) {
     const taskIdx = board.groups[groupIdx].tasks.findIndex(task => task.id === card.taskId)
     const colIdx = board.groups[groupIdx].tasks[taskIdx].columns.findIndex(col => col.id === 'col2')
 
-    console.log(board.groups[groupIdx].tasks[taskIdx].columns);
-    console.log(taskIdx);
-    console.log(colIdx);
-    console.log(board.groups[groupIdx].tasks[taskIdx].columns[colIdx]);
     board.groups[groupIdx].tasks[taskIdx].columns[colIdx].value = utilService.getLabel(dragKanban[res.destination.droppableId].status)
 
     return { dragKanban, board }
@@ -41,7 +37,7 @@ function getTaskName(board, status) {
     let done = []
     board.groups.forEach(group => {
         const filter = group.tasks.filter(task => {
-            return task.columns.some(col => col.value.title === status)
+            return task.columns.some(col => col.value.type === status && col.id === 'col2')
         })
         filter.forEach(specific => {
             done.push({
@@ -57,7 +53,6 @@ function getTaskName(board, status) {
         })
     })
     return done
-
 }
 
 function getKanban(board) {
@@ -81,7 +76,7 @@ function getKanban(board) {
     },
     {
         id: 'empty',
-        kanban: getTaskName(board, ''),
+        kanban: getTaskName(board, 'Empty'),
         status: 'Empty',
         color: '#c4c4c4'
     }

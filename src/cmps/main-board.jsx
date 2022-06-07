@@ -15,7 +15,6 @@ export const MainBoard = () => {
     if (!board.groups) return <h1>Loading...</h1>
 
     const onDragEnd = (res) => {
-        console.log(res.type);
         if (!res.destination) return
         let newBoard
         if (res.type === 'droppableGroup') newBoard = boardService.onDragGroup(res, board)

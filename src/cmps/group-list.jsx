@@ -203,12 +203,15 @@ export const GroupList = ({ snapshot, provided, onDragEnd, onDragColEnd, updateT
             <div className="columns-footer-component">
                 <div className="group-footer-container">
                     <div className="group-footer-items">
-                        {columns && columns.map((col, idx) => {
-                            if (col.type === 'status') return <div key={idx} className="column-footer">
-                                <ProgressBar group={group} colIdx={idx} />
-                            </div>
-                            else return <div key={idx}></div>
-                        })}
+                        <div></div>
+                        <div className='flex'>
+                            {columns && columns.map((col, idx) => {
+                                if (col.type === 'status') return <div key={idx} className="column-footer">
+                                    <ProgressBar group={group} colIdx={idx} />
+                                </div>
+                                else return <div key={idx} className="column-footer"></div>
+                            })}
+                        </div>
                     </div>
                     <div className="add-colomn-column-button-container">
                     </div>

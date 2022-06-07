@@ -1,12 +1,13 @@
 .task-main-container {
     background-color: $primary-background-color;
     display: flex;
+    width: 100vw;
 }
 
 .board-container-left {
     background-color: $nav-background-color;
     min-height: 100%;
-    z-index: 5000;
+    z-index: 1600;
     display: flex;
 }
 
@@ -17,10 +18,10 @@
 }
 
 .main-app {
-    overflow-y: auto;
+    overflow: hidden;
     height: 100%;
     width: 100%;
     // padding: 18px 0px 0px 18px;
     // margin: 18px 0px 0px 18px;
-    padding: 18px 0px 0px 18px;
+    padding: 18px 0px 0px 20px;
 }

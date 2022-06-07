@@ -7,7 +7,6 @@
     border-radius: 7px;
     box-shadow: 1px 1px 5px rgba($color: #000000, $alpha: 0.2);
     width: 264px;
-    // height: 355px;
     padding: 8px;
 }
 
@@ -27,4 +26,9 @@
     &:hover {
         background-color: #dcdfec;
     }
+}
+
+.ds-icon {
+    display: flex;
+    align-items: center;
 }

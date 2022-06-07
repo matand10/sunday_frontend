@@ -11,7 +11,6 @@ export const InviteToTaskModal = ({ specialUpdateTask, statusRef, task, board, c
     useEffect(() => {
         let unAssigned = userService.getAssignedToTask(users, task, board, colIdx)
         if (!unAssigned) unAssigned = userService.getAssignedUsers(users, board)
-        console.log('unAssigned', unAssigned);
         // unAssigned = checkAssignment(unAssigned)
         setUnAssignedUsers(unAssigned)
     }, [])
@@ -51,7 +50,6 @@ export const InviteToTaskModal = ({ specialUpdateTask, statusRef, task, board, c
         updateTask(newTask, group.id)
     }
 
-    // console.log('unAssignedUsers', unAssignedUsers);
 
     return <section className="invite-member-task-wrapper" ref={statusRef}>
         <div className="invite-member-task-container">

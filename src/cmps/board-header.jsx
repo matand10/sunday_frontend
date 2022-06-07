@@ -151,8 +151,8 @@ export const BoardHeader = ({ board, users, onAddTask, updateBoard, onAddGroup, 
                 </div>
             </div>
             <div className="ds-header-component">
-                <div className="ds-header-content">
-                    <span contentEditable={true} suppressContentEditableWarning={true} onBlur={(ev) => changeBoardDescription(ev)}>{board.description || 'Add board description'}</span>
+                <div className="ds-header-content" contentEditable={true} suppressContentEditableWarning={true} onBlur={(ev) => changeBoardDescription(ev)}>
+                    {board.description || 'Add board description'}
                 </div>
             </div>
         </div>

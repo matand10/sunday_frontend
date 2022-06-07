@@ -132,7 +132,7 @@ export const KanbanBoard = () => {
                                                 </div>
                                                 <Droppable droppableId={idx.toString()} type='droppableCard' >
                                                     {(provided, snapshot) => (
-                                                        <div style={{ height: 95 + '%' }} ref={provided.innerRef}>
+                                                        <div className="kanban-tasks-wrapper" ref={provided.innerRef}>
                                                             <div className="kanban-tasks-container">
                                                                 <div className="kanban-task-list">
                                                                     {status.kanban.map((item, idx) => {
