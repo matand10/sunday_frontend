@@ -17,6 +17,8 @@ import { groupService } from "../services/group.service"
 import loader from '../assets/img/loader/loader.gif'
 import { showSuccessMsg } from '../services/event-bus.service'
 import { kanbanService } from "../services/kanban.service"
+import { GiphyCol } from '../cmps/giphy-col'
+
 
 export const TasksApp = () => {
     const [board, setBoard] = useState(null)

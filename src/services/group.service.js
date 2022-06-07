@@ -2,6 +2,7 @@ import { storageService } from './async-storage.service'
 import { utilService } from './util.service'
 import { boardService } from './board.service'
 import { taskService } from './task.service'
+import { gifService } from './gif.service'
 
 
 const STORAGE_KEY = 'group_db'
@@ -128,6 +129,13 @@ function _getColumn(value) {
                 title: 'Priority',
                 value: utilService.getPriority(''),
                 type: 'priority'
+            }
+        case 'gif':
+            return {
+                id: utilService.makeId(),
+                title: 'Gif',
+                value: [],
+                type: 'gif'
             }
     }
 }

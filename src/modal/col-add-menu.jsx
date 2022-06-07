@@ -2,6 +2,7 @@ import { AiOutlineUserAdd } from "react-icons/ai";
 import { BiTask } from "react-icons/bi";
 import { MdDateRange, MdPriorityHigh } from "react-icons/md";
 import { RiTimeLine } from "react-icons/ri";
+import { GiFinch } from "react-icons/gi";
 import React from "react"
 
 export const ColAddMenu = ({ menuRef, onNewCol }) => {
@@ -28,6 +29,10 @@ export const ColAddMenu = ({ menuRef, onNewCol }) => {
                 <div className="task-content-wrapper" onClick={() => onNewCol('priority')}>
                     <div className="task-icon"><MdPriorityHigh /></div>
                     <div className="task-title">Priority</div>
+                </div>
+                <div className="task-content-wrapper" onClick={() => onNewCol('gif')}>
+                    <div className="task-icon"><GiFinch /></div>
+                    <div className="task-title">Gifs</div>
                 </div>
             </div>
         </div>
