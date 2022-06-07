@@ -39,9 +39,11 @@ function onDragCard(res, board, dragKanban) {
 
 function getTaskName(board, status) {
     let done = []
+    console.log(status);
+    console.log(board);
     board.groups.forEach(group => {
         const filter = group.tasks.filter(task => {
-            return task.columns.some(col => col.value.title === status)
+            return task.columns.some(col => col.value.type === status && col.id === 'col2')
         })
         filter.forEach(specific => {
             done.push({
@@ -81,7 +83,7 @@ function getKanban(board) {
     },
     {
         id: 'empty',
-        kanban: getTaskName(board, ''),
+        kanban: getTaskName(board, 'Empty'),
         status: 'Empty',
         color: '#c4c4c4'
     }
