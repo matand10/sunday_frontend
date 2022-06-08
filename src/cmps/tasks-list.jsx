@@ -149,6 +149,7 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
 
 
 function DynamicCmp({ col, board, task, group, toggleStatus, setIsGifModal, isGifModal, idx, colIdx, setInviteUserModal, inviteUserModal, InviteToTaskModal, specialUpdateTask, statusRef, updateTask, isConfetti }) {
+    console.log(col);
     switch (col.type) {
         case 'person':
             return <MemberCol col={col} idx={idx} colIdx={colIdx} board={board} group={group} task={task} setInviteUserModal={setInviteUserModal} inviteUserModal={inviteUserModal}
