@@ -5,7 +5,7 @@ import { boardService } from '../services/board.service'
 export const StatusModal = ({ statusActive, setStatusActive, statusRef, modalPos, specialUpdateTask }) => {
 
     const onChangeStatus = (value) => {
-        specialUpdateTask(value, statusActive.colIdx, 'status')
+        specialUpdateTask(value, statusActive.colIdx)
         setStatusActive(false)
     }
 

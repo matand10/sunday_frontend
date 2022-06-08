@@ -13,7 +13,6 @@ import { groupService } from '../services/group.service';
 import { InviteToTaskModal } from '../modal/invite-to-task-menu';
 import { TaskTitleChange } from './task-title-change';
 import { is } from 'date-fns/locale';
-import { GifModal } from '../modal/gif-modal';
 
 
 import { MemberCol } from '../cmps/member-col'
@@ -143,7 +142,7 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
             </div>
         </div >
         {statusActive.value && <StatusModal setStatusActive={setStatusActive} updateGroup={updateGroup} onUpdateGroupBar={onUpdateGroupBar} specialUpdateTask={specialUpdateTask} statusActive={statusActive} statusRef={statusRef} modalPos={modalPos} />}
-        {isGifModal && <GifModal isGifModal={isGifModal} setIsGifModal={setIsGifModal} specialUpdateTask={specialUpdateTask} statusActive={statusActive} statusRef={statusRef} modalPos={modalPos} />}
+        {/* {isGifModal && <GifModal isGifModal={isGifModal} setIsGifModal={setIsGifModal} specialUpdateTask={specialUpdateTask} statusActive={statusActive} statusRef={statusRef} modalPos={modalPos} />} */}
         {modal.boardId && <SidePanel board={board} updateGroup={updateGroup} updateBoard={updateBoard} group={group} task={task} taskIdx={taskIdx} statusRef={statusRef} modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}
         {provided.placeholder}
     </section >
