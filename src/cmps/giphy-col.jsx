@@ -2,34 +2,15 @@ import React, { useEffect, useRef, useState } from "react"
 import { gifService } from "../services/gif.service"
 
 
-export const GiphyCol = ({ col, idx, updateTask, specialUpdateTask }) => {
+export const GiphyCol = ({ col, idx, updateTask, specialUpdateTask, setIsGifModal, isGifModal, toggleGif }) => {
 
-    const menuRef = useRef()
-
-    useEffect(() => {
-        document.addEventListener("mousedown", eventListener)
-        return () => {
-            document.removeEventListener("mousedown", eventListener)
-        }
-    }, [])
-
-    const eventListener = (ev) => {
-        if (!menuRef.current?.contains(ev.target)) {
-            // setEditText(false)
-        }
-    }
 
     const onAddGif = (ev, gif) => {
         ev.preventDefault()
         specialUpdateTask(gif, idx)
     }
 
-    const onRemoveGif = (gifId) => {
-
-    }
-
-
-    return <div className="flex-row-items">
-        Hello from gif
+    return <div className="flex-row-items" onClick={(ev) => toggleGif(ev, true, idx, gifService.getGifs())}>
+        {col.value.url && <img className="gif" src={col.value.url} />}
     </div>
 }

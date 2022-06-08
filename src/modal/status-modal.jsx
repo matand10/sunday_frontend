@@ -13,6 +13,9 @@ export const StatusModal = ({ statusActive, setStatusActive, statusRef, modalPos
     return <section className="main-status-modal" style={{ left: modalPos.x - 75, top: modalPos.y + 15 }} ref={statusRef}>
         <div className="status-modal-container">
             {labels.map(label => {
+                if (label.type === 'gif') return <div key={label.id} className="status-label-cell" >
+                    <img src={label.url} onClick={() => onChangeStatus(label)} />
+                </div>
                 return <div onClick={() => onChangeStatus(label)} key={label.id} className="status-label-cell" style={{ backgroundColor: label.color }}>{label.title}</div>
             })}
         </div>

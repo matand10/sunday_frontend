@@ -13,6 +13,7 @@ import { groupService } from '../services/group.service';
 import { InviteToTaskModal } from '../modal/invite-to-task-menu';
 import { TaskTitleChange } from './task-title-change';
 import { is } from 'date-fns/locale';
+import { GifModal } from '../modal/gif-modal';
 
 
 import { MemberCol } from '../cmps/member-col'
@@ -26,6 +27,7 @@ import { GiphyCol } from '../cmps/giphy-col'
 
 
 
+
 export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, updates, taskIdx, onUpdateGroupBar, task, backgroundColor, onHandleRightClick, menuRef, updateTask, group, board, removeTask }) => {
     const [modal, setModal] = useState({})
     const [arrowTask, setArrowTask] = useState({})
@@ -35,6 +37,7 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
     const [inviteUserModal, setInviteUserModal] = useState(false)
     const [modalData, setModalData] = useState(null)
     const [isConfetti, setIsConfetti] = useState(false)
+    const [isGifModal, setIsGifModal] = useState(false)
 
 
 
@@ -62,6 +65,7 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
             setArrowTask({})
             setInviteUserModal(false)
             setUpdateIsClick({})
+            setIsGifModal(false)
         }
     }
 
@@ -127,7 +131,7 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
                     <div className="task-row-items">
                         {columns.map((col, idx) => {
                             return <DynamicCmp key={idx} col={col} idx={idx} task={task} group={group} board={board} setInviteUserModal={setInviteUserModal} statusRef={statusRef} specialUpdateTask={specialUpdateTask}
-                                InviteToTaskModal={InviteToTaskModal} updateTask={updateTask} inviteUserModal={inviteUserModal} toggleStatus={toggleStatus} isConfetti={isConfetti} />
+                                InviteToTaskModal={InviteToTaskModal} isGifModal={isGifModal} setIsGifModal={setIsGifModal} updateTask={updateTask} inviteUserModal={inviteUserModal} toggleStatus={toggleStatus} isConfetti={isConfetti} />
                         })
                         }
                     </div>
@@ -139,6 +143,7 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
             </div>
         </div >
         {statusActive.value && <StatusModal setStatusActive={setStatusActive} updateGroup={updateGroup} onUpdateGroupBar={onUpdateGroupBar} specialUpdateTask={specialUpdateTask} statusActive={statusActive} statusRef={statusRef} modalPos={modalPos} />}
+        {isGifModal && <GifModal isGifModal={isGifModal} setIsGifModal={setIsGifModal} specialUpdateTask={specialUpdateTask} statusActive={statusActive} statusRef={statusRef} modalPos={modalPos} />}
         {modal.boardId && <SidePanel board={board} updateGroup={updateGroup} updateBoard={updateBoard} group={group} task={task} taskIdx={taskIdx} statusRef={statusRef} modal={modal} onCloseModal={onCloseModal} onOpenModal={onOpenModal} />}
         {provided.placeholder}
     </section >
@@ -146,7 +151,7 @@ export const TasksList = ({ snapshot, provided, updateBoard, updateGroup, update
 
 
 
-function DynamicCmp({ col, board, task, group, toggleStatus, idx, colIdx, setInviteUserModal, inviteUserModal, InviteToTaskModal, specialUpdateTask, statusRef, updateTask, isConfetti }) {
+function DynamicCmp({ col, board, task, group, toggleStatus, setIsGifModal, isGifModal, idx, colIdx, setInviteUserModal, inviteUserModal, InviteToTaskModal, specialUpdateTask, statusRef, updateTask, isConfetti }) {
     switch (col.type) {
         case 'person':
             return <MemberCol col={col} idx={idx} colIdx={colIdx} board={board} group={group} task={task} setInviteUserModal={setInviteUserModal} inviteUserModal={inviteUserModal}
@@ -162,6 +167,6 @@ function DynamicCmp({ col, board, task, group, toggleStatus, idx, colIdx, setInv
         case 'priority':
             return <PriorityCol col={col} idx={idx} toggleStatus={toggleStatus} />
         case 'gif':
-            return <GiphyCol col={col} idx={idx} updateTask={updateTask} specialUpdateTask={specialUpdateTask} />
+            return <GiphyCol col={col} idx={idx} toggleGif={toggleStatus} setIsGifModal={setIsGifModal} isGifModal={isGifModal} updateTask={updateTask} specialUpdateTask={specialUpdateTask} />
     }
 }
