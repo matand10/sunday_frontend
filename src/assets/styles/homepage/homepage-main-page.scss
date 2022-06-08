@@ -5,7 +5,7 @@
             rgb(15, 16, 72) 100%);
     // padding-top: 64px;
     overflow: hidden;
-    height:100%;
+    height: 100%;
 }
 
 
@@ -576,15 +576,17 @@
     }
 }
 
-.homepage-container{
+.homepage-container {
     display: flex;
     flex-direction: column;
     height: 100vh;
 }
+
 .homepage-head-container {
     display: flex;
     margin: 30px;
     padding: 20px;
+    height: 100vh;
 
     // gap:20px;
     & .project-image {
@@ -592,7 +594,7 @@
         margin-top: 110px;
 
         & img {
-            margin-right: 60px;
+            margin-right: 80px;
             width: 750px;
             border-radius: 8px;
             z-index: 6000px;
@@ -616,6 +618,7 @@
 
 .head-paragraph-wrapper {
     display: flex;
+    flex-direction: column;
     align-items: left;
     justify-content: center;
     flex-direction: column;
@@ -626,7 +629,7 @@
     max-width: 800px;
     // margin-bottom: 16px;
     // text-align: left;
-    margin-left: 40px;
+    // margin-left: 40px;
 
     & h1 {
         margin-right: 40px;
@@ -635,7 +638,7 @@
         font-weight: 400;
         font-size: 80px;
         margin-bottom: 25px;
-        margin-top:10px;
+        margin-top: 10px;
     }
 }
 
@@ -646,16 +649,16 @@
     & h2 {
         font-size: 24px;
         line-height: 40px;
-        margin-left: 45px;
-        margin-top:20px;
+        // margin-left: 45px;
+        // margin-top: 10px;
 
     }
 }
 
 .homepage-second-fold {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     flex-direction: column;
     text-align: center;
     height: 200px;
@@ -675,9 +678,10 @@
     color: #ffffff;
     line-height: 17px;
     transition: .1s;
-    margin-right: 700px;
-    margin-bottom: 110px;
-    margin-top:50px;
+    // margin-right: 900px;
+    // margin-bottom: 110px;
+    margin-top: 10px;
+    align-self: flex-start;
 
     &:hover {
         background-color: #5a5ad5;
@@ -686,9 +690,114 @@
 
 .secondary-paragraph-body {
     margin-top: 30px;
-    margin-left:40px;
+    margin-left: 40px;
 
     &>:first-child {
         margin-inline-end: 20px;
+    }
+}
+
+@media(max-width:1700px) {
+    .homepage-head-container {
+        display: flex;
+        margin: 30px;
+        padding: 20px;
+
+        & .project-image {
+            width:50%;
+            margin-top: 110px;
+
+            & img {
+                // margin-right: 60px;
+                width: 550px;
+            }
+        }
+
+        & .homepage-first-fold {
+            width: 50%;
+        }
+
+    }
+
+    .head-paragraph-body{
+        & h2{
+            margin-left:0;
+        }
+    }
+
+    .secondary-signup-button {
+        // margin-left: 186px;
+    }
+}
+
+@media(max-width:1600px) {
+    .homepage-head-container {
+        display: flex;
+        margin: 0px;
+        padding: 0px;
+
+        & .homepage-first-fold {
+            width: 50%;
+        }
+
+        & .project-image {
+            width: 50%;
+            margin-top: 110px;
+
+        }
+    }
+    .head-paragraph-title{
+font-size: 40px;
+    }
+
+    .secondary-signup-button {
+        // margin-left: 350px;
+    }
+}
+
+@media(max-width:1280px) {
+    .homepage-head-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 30px;
+        padding: 20px;
+        height: 100vh;
+
+        & .project-image {
+            width: 1500px;
+            margin-top: 0px;
+            text-align: center;
+        }
+    }
+
+    .head-paragraph-wrapper {
+        display:flex;
+        flex-direction:column;
+        align-items: center;
+        justify-content:center;
+    }
+
+    .head-paragraph-title {
+        text-align: center;
+        margin-top: 0px;
+        width: 1000px;
+    }
+    .head-paragraph-body{
+        text-align:center;
+        & h2{
+            margin-left:0;
+        }
+    }
+
+    .head-paragraph-body {
+        text-align: center;
+    }
+    .secondary-signup-button {
+    //   margin-left: 700px;
+    }
+    body{
+        overflow-y:auto;
     }
 }
