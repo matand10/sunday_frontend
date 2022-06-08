@@ -129,6 +129,13 @@ function getColumns(columns) {
                     value: utilService.getPriority(''),
                     type: 'priority'
                 }
+            case 'gif':
+                return {
+                    id: utilService.makeId(),
+                    title: 'Gif',
+                    value: {},
+                    type: 'gif'
+                }
         }
     })
 }

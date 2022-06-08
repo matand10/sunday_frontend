@@ -134,7 +134,7 @@ function _getColumn(value) {
             return {
                 id: utilService.makeId(),
                 title: 'Gif',
-                value: [],
+                value: {},
                 type: 'gif'
             }
     }
