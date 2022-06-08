@@ -3,4 +3,11 @@
     height: 35px;
     object-fit: cover;
     border: 0;
+    position: relative;
+
+    &:hover {
+        position: absolute;
+        height: auto;
+        z-index: 1;
+    }
 }
