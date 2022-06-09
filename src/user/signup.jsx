@@ -14,7 +14,8 @@ class _Signup extends React.Component {
             username: '',
             password: '',
             fullname: '',
-            boardsIds: []
+            boardsIds: [],
+            userImg: ''
         }
     }
 
