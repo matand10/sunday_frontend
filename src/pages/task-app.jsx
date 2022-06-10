@@ -37,8 +37,8 @@ export const TasksApp = () => {
     useEffect(() => {
         dispatch(loadUsers())
         dispatch(loadBoards(filterBy))
-        socketService.on('newBoardUpdate', onBoardUpdate)
         socketService.emit('registerToBoardUpdates', boardId)
+        socketService.on('newBoardUpdate', onBoardUpdate)
         return () => {
             socketService.off('newBoardUpdate', onBoardUpdate)
         }
