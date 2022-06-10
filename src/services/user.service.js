@@ -22,15 +22,21 @@ export const userService = {
     getAssignedUsers,
     getUnAssignedUsers,
     getAssignedToTask,
-    getAssign
+    getAssign,
+    isUsernameTaken
 }
 
 window.userService = userService
 
 
-function getUsers() {
+async function getUsers() {
     // return storageService.query('user')
-    return httpService.get(`user`)
+    return await httpService.get(`user`)
+}
+
+async function isUsernameTaken(username) {
+    const users = await getUsers()
+    return users.some(user => user.username === username)
 }
 
 function onUserUpdate(user) {
@@ -76,6 +82,7 @@ async function login(userCred) {
 }
 async function signup(userCred) {
     try {
+        console.log('service', userCred);
         const user = await httpService.post('auth/signup', userCred)
         // socketService.login(user._id)
         return saveLocalUser(user)

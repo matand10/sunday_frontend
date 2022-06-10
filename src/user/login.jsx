@@ -4,8 +4,9 @@ import { Header } from "../cmps/header"
 import { FcGoogle } from 'react-icons/fc';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
-import { onLogin } from '../store/user/user.actions';
-
+import { onLogin, onSignup } from '../store/user/user.actions';
+import GoogleLogin from 'react-google-login';
+import { userService } from '../services/user.service';
 
 class _Login extends React.Component {
     state = {
@@ -27,6 +28,19 @@ class _Login extends React.Component {
         let user = await this.props.onLogin(credential)
         this.setState({ credential: { username: '', password: '' } })
         if (user) window.location.href = '/board'
+        else alert('Wrong userName or password')
+    }
+
+    responseGoogle = async ({ profileObj }) => {
+        const credential = {
+            username: profileObj.email,
+            password: profileObj.googleId,
+            userImg: profileObj.imageUrl,
+            fullname: profileObj.name
+        }
+        if (await userService.isUsernameTaken(credential.username)) await this.props.onLogin(credential)
+        else await this.props.onSignup(credential)
+        window.location.href = '/board'
     }
 
 
@@ -63,10 +77,22 @@ class _Login extends React.Component {
                     </div>
 
                     <div className="social-login-component">
-                        <button className="social-login-provider">
+                        {/* <button className="social-login-provider">
                             <span className="google-link"><FcGoogle /></span>
                             <span className="google-link">Google</span>
-                        </button>
+                        </button> */}
+
+                        <GoogleLogin
+                            clientId="441307066903-7ibrus13bi8m1qo7pr6t4mlhbjpait6m.apps.googleusercontent.com"
+                            buttonText="Login"
+                            onSuccess={this.responseGoogle}
+                            onFailure={this.responseGoogle}
+                            cookiePolicy={'single_host_origin'}
+                            scope="profile"
+                        />
+                        {/* document.getElementById('googleButton') */}
+
+
                     </div>
                     <div className="suggest-signup-wrapper">
                         <span className="suggest-signup-prefix">Don't have an account yet?</span>
@@ -78,6 +104,7 @@ class _Login extends React.Component {
     }
 }
 
+
 const mapStateToProps = (storeState) => {
     return {
         user: storeState.userModule.user,
@@ -86,6 +113,7 @@ const mapStateToProps = (storeState) => {
 
 const mapDispatchToProps = {
     onLogin,
+    onSignup
 }
 
 

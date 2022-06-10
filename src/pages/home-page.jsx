@@ -42,7 +42,7 @@ class _HomePage extends React.Component {
                                 </div>
                             </div>
                             <div className="project-image">
-                                <img src="https://res.cloudinary.com/dxpb15pfo/image/upload/v1654599031/%D7%9C%D7%9B%D7%99%D7%93%D7%94_r3xtwq.png" />
+                                <img src="https://res.cloudinary.com/dxpb15pfo/image/upload/v1654673544/homepageImg_qcmmfo.png" />
                             </div>
                         </div>
                     </section>
