@@ -34,6 +34,7 @@ export function removeBoard(boardId) {
     }
 }
 
+
 export function saveBoard(board) {
     return async dispatch => {
         try {

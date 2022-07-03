@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from "react-redux";
-import { Header } from "../cmps/header"
+import { Header } from "../cmps/homepage/header"
 import { FcGoogle } from 'react-icons/fc';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { Link } from 'react-router-dom';

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import sunday from '../assets/img/app-logo/Sunday.png'
+import sunday from '../../assets/img/app-logo/Sunday.png'
 
 
 
