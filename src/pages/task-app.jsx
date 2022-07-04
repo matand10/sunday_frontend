@@ -54,7 +54,6 @@ export const TasksApp = () => {
     }, [frontFilter])
 
     const loadBoard = async () => {
-        console.log('render')
         const newBoards = await boardService.query(filterBy)
         let currBoard
         if (newBoards.length === 0) onAddBoard()

@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from "react-redux";
 import { Header } from "../cmps/header"
-import { FcGoogle } from 'react-icons/fc';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { onLogin, onSignup } from '../store/user/user.actions';
@@ -31,12 +30,12 @@ class _Login extends React.Component {
         else alert('Wrong userName or password')
     }
 
-    responseGoogle = async ({ profileObj }) => {
+    responseGoogle = async (response) => {
         const credential = {
-            username: profileObj.email,
-            password: profileObj.googleId,
-            userImg: profileObj.imageUrl,
-            fullname: profileObj.name
+            username: response.profileObj.email,
+            password: response.profileObj.googleId,
+            userImg: response.profileObj.imageUrl,
+            fullname: response.profileObj.name
         }
         if (await userService.isUsernameTaken(credential.username)) await this.props.onLogin(credential)
         else await this.props.onSignup(credential)
@@ -77,11 +76,6 @@ class _Login extends React.Component {
                     </div>
 
                     <div className="social-login-component">
-                        {/* <button className="social-login-provider">
-                            <span className="google-link"><FcGoogle /></span>
-                            <span className="google-link">Google</span>
-                        </button> */}
-
                         <GoogleLogin
                             clientId="441307066903-7ibrus13bi8m1qo7pr6t4mlhbjpait6m.apps.googleusercontent.com"
                             buttonText="Login"
@@ -90,8 +84,6 @@ class _Login extends React.Component {
                             cookiePolicy={'single_host_origin'}
                             scope="profile"
                         />
-                        {/* document.getElementById('googleButton') */}
-
 
                     </div>
                     <div className="suggest-signup-wrapper">
