@@ -3,7 +3,7 @@ export const Main = ({ guestMode }) => {
 
     return (
         <main className="homepage-main-content">
-            <div className="stars"></div>
+            
             <div className="left-component">
                 <h1>New platform for new way of working</h1>
                 <h2>What would you like to manage with sunday.IL?</h2>

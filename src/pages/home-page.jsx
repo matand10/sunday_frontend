@@ -18,6 +18,9 @@ class _HomePage extends React.Component {
         return (
             <section className="homepage-container">
                 <Header guestMode={this.guestMode} />
+                <div className="stars"></div>
+                <div className="stars2"></div>
+                <div className="stars3"></div>
                 <Main guestMode={this.guestMode} />
             </section>
         )

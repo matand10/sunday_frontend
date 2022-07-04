@@ -69,6 +69,7 @@
     }
 
     .right-component {
+        margin-bottom: 50px;
 
         & img {
             width: 70%;
@@ -80,9 +81,9 @@
         text-align: center;
     }
 
-    body {
-        overflow-y: auto;
-    }
+    // body {
+    //     overflow-y: auto;
+    // }
 }
 
 @media (max-width: 640px) {
