@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { FcGoogle } from 'react-icons/fc';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import signup1 from '../assets/img/signup/signup1.png'
 import signup2 from '../assets/img/signup/signup2.png'
 import signup3 from '../assets/img/signup/signup3.png'
@@ -26,12 +26,11 @@ class _Signup extends React.Component {
     }
 
 
-    signup = (ev) => {
+    signup = async (ev) => {
         ev.preventDefault()
         const { credential } = this.state
-        this.props.onSignup(credential)
-        this.setState({ credential: { password: '', username: '', fullname: '' } })
-        window.location.href = '/login'
+        const user = await this.props.onSignup(credential)
+        if (user) window.location.href = '/board'
     }
 
 

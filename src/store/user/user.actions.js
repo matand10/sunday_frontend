@@ -52,6 +52,7 @@ export function onSignup(credentials) {
                 type: 'SET_USER',
                 user
             })
+            return user
         } catch (err) {
             console.log('Cannot signup', err)
         }

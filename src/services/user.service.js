@@ -80,9 +80,9 @@ async function login(userCred) {
         console.log(err)
     }
 }
+
 async function signup(userCred) {
     try {
-        console.log('service', userCred);
         const user = await httpService.post('auth/signup', userCred)
         // socketService.login(user._id)
         return saveLocalUser(user)

@@ -1,6 +1,11 @@
 import React from 'react'
 import { connect } from "react-redux";
+<<<<<<< HEAD
 import { Header } from "../cmps/header"
+=======
+import { Header } from "../cmps/homepage/header"
+import { FcGoogle } from 'react-icons/fc';
+>>>>>>> 87fd6cb06a19988b9a24dad04187e7d967080e4d
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { onLogin, onSignup } from '../store/user/user.actions';
