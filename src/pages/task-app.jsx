@@ -17,7 +17,6 @@ import { groupService } from "../services/group.service"
 import loader from '../assets/img/loader/loader.gif'
 import { showSuccessMsg } from '../services/event-bus.service'
 import { kanbanService } from "../services/kanban.service"
-import { botService } from "../services/bot.service"
 
 
 export const TasksApp = () => {
@@ -39,7 +38,6 @@ export const TasksApp = () => {
         dispatch(loadBoards(filterBy))
         socketService.emit('registerToBoardUpdates', boardId)
         socketService.on('newBoardUpdate', onBoardUpdate)
-        // botService.initBot()
         return () => {
             socketService.off('newBoardUpdate', onBoardUpdate)
         }
