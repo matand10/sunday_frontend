@@ -30,6 +30,8 @@ To deploy this project run
 
 - Drag and Drop
 - Kanban interface
+- Sockets
+- PWA
 - Chat Bot
 
 
@@ -42,6 +44,6 @@ To deploy this project run
 
 ## Tech Stack
 
-**Client:** React, Redux, SASS, Landbot
+**Client:** React, Redux, SASS, PWA, Landbot
 
-**Server:** Node, Express, Socket.IO
+**Server:** Node, Express, Socket.IO, MongoDB
