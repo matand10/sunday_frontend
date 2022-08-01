@@ -1,5 +1,5 @@
 
-![Logo](https://res.cloudinary.com/dxpb15pfo/image/upload/v1659367021/Sunday_j9rira.png)
+![Logo](https://res.cloudinary.com/dxpb15pfo/image/upload/v1659367021/Sunday_j9rira.png)https://sundaycoding.herokuapp.com/
 
 
 # Sunday
@@ -12,11 +12,7 @@ My name is Matan, I'm 24 years old I am a full-stack developer. I have an high s
 responsible, management capabilities and capable to work with several
 factors simultaneously.
 
-## Tech Stack
 
-**Client:** React, Redux, SASS, Landbot
-
-**Server:** Node, Express, Socket.IO
 
 ## Deployment
 
@@ -42,3 +38,10 @@ To deploy this project run
 - [@matand10](https://github.com/matand10)
 - [@coyael](https://github.com/coyael)
 - [@TamirGeron](https://github.com/TamirGeron)
+
+
+## Tech Stack
+
+**Client:** React, Redux, SASS, Landbot
+
+**Server:** Node, Express, Socket.IO
