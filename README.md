@@ -12,7 +12,11 @@ My name is Matan, I'm 24 years old I am a full-stack developer. I have an high s
 responsible, management capabilities and capable to work with several
 factors simultaneously.
 
+## Tech Stack
 
+**Client:** React, Redux, SASS, Landbot
+
+**Server:** Node, Express, Socket.IO
 
 ## Deployment
 
